@@ -27,15 +27,16 @@ public class Tuto2 extends AreaGame {
 
     public void switchArea() {
         player.strengthen();
-        this.getCurrentArea().unregisterActor(player);
+        player.leaveArea(getCurrentArea(), new DiscreteCoordinates(2, 10));
+
         if (this.getCurrentArea().getTitle().equals("zelda/Ferme")) {
-            setCurrentArea("zelda/Village", true);
+            setCurrentArea("zelda/Village", false);
             player = new GhostPlayer(this.getCurrentArea(), Orientation.DOWN, new DiscreteCoordinates(5, 15), "ghost.1");
         } else {
-            setCurrentArea("zelda/Ferme", true);
+            setCurrentArea("zelda/Ferme", false);
         }
-        this.getCurrentArea().registerActor(player);
-        this.getCurrentArea().setViewCandidate(player);
+        player.enterArea(getCurrentArea(), new DiscreteCoordinates(2, 10));
+
     }
 
     @Override
@@ -45,13 +46,12 @@ public class Tuto2 extends AreaGame {
         if (super.begin(window, fileSystem)) {
             createArea(new Village());
             createArea(new Ferme());
-            setCurrentArea("zelda/Ferme", true);
+            setCurrentArea("zelda/Ferme", false);
 
             // Actors
             player = new GhostPlayer(getCurrentArea(), Orientation.DOWN, new DiscreteCoordinates(2, 10), "ghost.1");
 
-            this.getCurrentArea().registerActor(player);
-            this.getCurrentArea().setViewCandidate(player);
+            player.enterArea(getCurrentArea(), new DiscreteCoordinates(2, 10));
             return true;
         }
         return false;
