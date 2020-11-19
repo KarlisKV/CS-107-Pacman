@@ -41,7 +41,6 @@ class Tuto2Cell extends Cell {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
-
     }
 
     public Tuto2Behavior.Tuto2CellType getType() {

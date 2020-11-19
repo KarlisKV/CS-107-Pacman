@@ -37,19 +37,12 @@ public class Tuto2Behavior extends AreaBehavior {
         }
 
         static Tuto2CellType toType(int type) {
-            if (type == WALL.type) {
-                return WALL;
-            } else if (type == IMPASSABLE.type) {
-                return IMPASSABLE;
-            } else if (type == INTERACT.type) {
-                return INTERACT;
-            } else if (type == DOOR.type) {
-                return DOOR;
-            } else if (type == WALKABLE.type) {
-                return WALKABLE;
-            } else {
-                return NULL;
+            for (Tuto2CellType cellType : Tuto2CellType.values()) {
+                if (type == cellType.type) {
+                    return cellType;
+                }
             }
+            return NULL;
         }
     }
 

@@ -8,6 +8,7 @@
 package ch.epfl.cs107.play.game.tutos.area;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.tutos.Tuto2;
 import ch.epfl.cs107.play.game.tutos.Tuto2Behavior;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
@@ -24,7 +25,7 @@ abstract public class Tuto2Area extends Area {
 
     @Override
     public float getCameraScaleFactor() {
-        return 10.f;
+        return Tuto2.SCALE_FACTOR;
     }
 
     @Override
