@@ -24,91 +24,83 @@ import java.util.Collections;
 import java.util.List;
 
 public class GhostPlayer extends MovableAreaEntity {
-    private final TextGraphics hpText;
+    private final TextGraphics message;
     private final Sprite sprite;
     private float hp;
+    private final int ANIMATION_DURATION = 8;
 
     public GhostPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) {
         super(owner, orientation, coordinates);
-        this.sprite = new Sprite(spriteName, 1, 1.f, this);
-        hp = 10;
+        message = new TextGraphics(Integer.toString((int) hp), 0.4f, Color.BLUE);
+        message.setParent(this);
+        message.setAnchor(new Vector(-0.3f, 0.1f));
+        sprite = new Sprite(spriteName, 1.f, 1.f, this);
 
-        hpText = new TextGraphics(Integer.toString((int) hp), 0.4f, Color.BLUE);
-        hpText.setParent(this);
-        this.hpText.setAnchor(new Vector(-0.3f, 0.1f));
+        resetMotion();
     }
 
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
-        hpText.draw(canvas);
+        message.draw(canvas);
     }
 
     @Override
     public void update(float deltaTime) {
-        Keyboard keyboard = getOwnerArea().getKeyboard();
-        Button key = keyboard.get(Keyboard.UP);
-        if (key.isDown()) {
-            this.moveUp();
-            this.orientate(Orientation.UP);
-        }
-        key = keyboard.get(Keyboard.DOWN);
-        if (key.isDown()) {
-            this.moveDown();
-            this.orientate(Orientation.DOWN);
-        }
-        key = keyboard.get(Keyboard.LEFT);
-        if (key.isDown()) {
-            this.moveLeft();
-            this.orientate(Orientation.LEFT);
-        }
-        key = keyboard.get(Keyboard.RIGHT);
-        if (key.isDown()) {
-            this.moveRight();
-            this.orientate(Orientation.RIGHT);
-        }
-
-        if (!isWeak()) {
+        if (hp > 0) {
             hp -= deltaTime;
+            message.setText(Integer.toString((int) hp));
         }
-        this.hpText.setText(Integer.toString((int) hp));
+        if (hp < 0) {
+            hp = 0.f;
+        }
+        Keyboard keyboard = getOwnerArea().getKeyboard();
+        moveOrientate(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+        moveOrientate(Orientation.UP, keyboard.get(Keyboard.UP));
+        moveOrientate(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+        moveOrientate(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+
         super.update(deltaTime);
+
+    }
+
+    /**
+     * Orientate or Move this player in the given orientation if the given button is down
+     *
+     * @param orientation (Orientation): given orientation, not null
+     * @param b           (Button): button corresponding to the given orientation, not null
+     */
+    private void moveOrientate(Orientation orientation, Button b) {
+
+        if (b.isDown()) {
+            if (getOrientation() == orientation) {
+                move(ANIMATION_DURATION);
+            } else {
+                orientate(orientation);
+            }
+        }
     }
 
     public boolean isWeak() {
-        return hp <= 0;
+        return hp <= 0.f;
     }
 
     public void strengthen() {
         hp = 10;
     }
 
-    public void moveUp() {
-        setCurrentPosition(getPosition().add(0.f, 0.1f));
-    }
-
-    public void moveDown() {
-        setCurrentPosition(getPosition().add(0.f, -0.1f));
-    }
-
-    public void moveLeft() {
-        setCurrentPosition(getPosition().add(-0.1f, 0.f));
-    }
-
-    public void moveRight() {
-        setCurrentPosition(getPosition().add(0.1f, 0.f));
-    }
-
     public void enterArea(Area area, DiscreteCoordinates position) {
         area.registerActor(this);
         area.setViewCandidate(this);
+        setOwnerArea(area);
         setCurrentPosition(position.toVector());
-        this.resetMotion();
+
+        resetMotion();
 
     }
 
-    public void leaveArea(Area area, DiscreteCoordinates position) {
-        area.unregisterActor(this);
+    public void leaveArea() {
+        getOwnerArea().unregisterActor(this);
     }
 
     @Override
@@ -118,12 +110,12 @@ public class GhostPlayer extends MovableAreaEntity {
 
     @Override
     public boolean takeCellSpace() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCellInteractable() {
-        return false;
+        return true;
     }
 
     @Override

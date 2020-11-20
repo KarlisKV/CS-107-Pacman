@@ -11,7 +11,7 @@ import ch.epfl.cs107.play.game.areagame.Cell;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 
-class Tuto2Cell extends Cell {
+public class Tuto2Cell extends Cell {
     private final Tuto2Behavior.Tuto2CellType type;
 
     public Tuto2Cell(int x, int y, Tuto2Behavior.Tuto2CellType type) {
@@ -21,17 +21,17 @@ class Tuto2Cell extends Cell {
 
     @Override
     protected boolean canLeave(Interactable entity) {
-        return false;
+        return true;
     }
 
     @Override
     protected boolean canEnter(Interactable entity) {
-        return false;
+        return type.isWalkable;
     }
 
     @Override
     public boolean isCellInteractable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -46,6 +46,7 @@ class Tuto2Cell extends Cell {
     public Tuto2Behavior.Tuto2CellType getType() {
         return type;
     }
+
 
     // Autres méthodes
 }

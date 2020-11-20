@@ -17,11 +17,11 @@ public class Village extends Tuto2Area {
     protected void createArea() {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
-
     }
 
     @Override
     public String getTitle() {
         return "zelda/Village";
     }
+
 }

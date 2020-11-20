@@ -18,40 +18,44 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public class Tuto2 extends AreaGame {
+    public final static float CAMERA_SCALE_FACTOR = 13.f;
+    public final static float STEP = 0.05f;
+    private final String[] areas = {"zelda/Ferme", "zelda/Village"};
+    private final DiscreteCoordinates[] startingPositions = {new DiscreteCoordinates(2, 10),
+                                                             new DiscreteCoordinates(5, 15)};
     private GhostPlayer player;
-    public static final float SCALE_FACTOR = 13.f;
+    private int areaIndex;
 
-    private void createArea(Area area) {
-        addArea(area);
+    /**
+     * Add all the areas
+     */
+    private void createAreas() {
+        addArea(new Ferme());
+        addArea(new Village());
     }
 
+
     public void switchArea() {
+        player.leaveArea();
+
+        areaIndex = (areaIndex == 0) ? 1 : 0;
+
+        Area currentArea = setCurrentArea(areas[areaIndex], false);
+        player.enterArea(currentArea, startingPositions[areaIndex]);
+
         player.strengthen();
-        player.leaveArea(getCurrentArea(), new DiscreteCoordinates(2, 10));
-
-        if (this.getCurrentArea().getTitle().equals("zelda/Ferme")) {
-            setCurrentArea("zelda/Village", false);
-            player = new GhostPlayer(this.getCurrentArea(), Orientation.DOWN, new DiscreteCoordinates(5, 15), "ghost.1");
-        } else {
-            setCurrentArea("zelda/Ferme", false);
-        }
-        player.enterArea(getCurrentArea(), new DiscreteCoordinates(2, 10));
-
     }
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
-        // traitement spécifiques à Tuto1
 
         if (super.begin(window, fileSystem)) {
-            createArea(new Village());
-            createArea(new Ferme());
-            setCurrentArea("zelda/Ferme", false);
-
-            // Actors
-            player = new GhostPlayer(getCurrentArea(), Orientation.DOWN, new DiscreteCoordinates(2, 10), "ghost.1");
-
-            player.enterArea(getCurrentArea(), new DiscreteCoordinates(2, 10));
+            createAreas();
+            areaIndex = 0;
+            Area area = setCurrentArea(areas[areaIndex], true);
+            player = new GhostPlayer(area, Orientation.DOWN, startingPositions[areaIndex], "ghost.1");
+            area.registerActor(player);
+            area.setViewCandidate(player);
             return true;
         }
         return false;
@@ -59,15 +63,14 @@ public class Tuto2 extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
         if (player.isWeak()) {
             switchArea();
         }
+        super.update(deltaTime);
     }
 
     @Override
     public void end() {
-        super.end();
     }
 
 

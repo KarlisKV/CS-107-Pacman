@@ -14,9 +14,12 @@ public class Tuto2Behavior extends AreaBehavior {
 
     public Tuto2Behavior(Window window, String name) {
         super(window, name);
-        for (int i = 0; i < getWidth(); ++i) {
-            for (int j = 0; j < getHeight(); ++j) {
-                setCell(i, j, new Tuto2Cell(i, j, Tuto2CellType.toType(getRGB(getHeight() - 1 - j, i))));
+        int height = getHeight();
+        int width = getWidth();
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                Tuto2CellType color = Tuto2CellType.toType(getRGB(height - 1 - y, x));
+                setCell(x, y, new Tuto2Cell(x, y, color));
             }
         }
     }
@@ -42,9 +45,8 @@ public class Tuto2Behavior extends AreaBehavior {
                     return cellType;
                 }
             }
+            System.out.println(type);
             return NULL;
         }
     }
-
-
 }

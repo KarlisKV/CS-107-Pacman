@@ -25,7 +25,7 @@ abstract public class Tuto2Area extends Area {
 
     @Override
     public float getCameraScaleFactor() {
-        return Tuto2.SCALE_FACTOR;
+        return Tuto2.CAMERA_SCALE_FACTOR;
     }
 
     @Override
