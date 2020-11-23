@@ -324,7 +324,7 @@ public abstract class Area implements Playable {
 		// Update expected viewport center
 		if (viewCandidate != null) {
 
-			computeCamera.setPos(viewCandidate.getPosition(), viewCenter, getWidth(), getHeight());
+			computeCamera.updatePos(viewCandidate.getPosition(), viewCenter, getWidth(), getHeight());
 			viewCenter = computeCamera.getPos();
 
 		} else { // Set default view to center
