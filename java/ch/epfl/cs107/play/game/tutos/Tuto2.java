@@ -63,6 +63,7 @@ public class Tuto2 extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
+
         if (player.isWeak()) {
             switchArea();
         }

@@ -9,7 +9,9 @@ package ch.epfl.cs107.play.game.areagame;
 
 import ch.epfl.cs107.play.math.Vector;
 
-public class ComputeCamera {
+import java.util.Random;
+
+public class Camera {
     // Speed of smooth camera
     private static final float CAMERA_CATCHUP_SPEED = 0.07f;
     // How precise will the camera position itself if the player is no moving
@@ -18,13 +20,16 @@ public class ComputeCamera {
     private static final float PLAYER_TP_TRIGGER = 0.5f;
     // Trigger for edge detection
     private static final float EDGE_CONTROL_TRIGGER = 0.1f;
-
     private static final int MIN = 0;
     private static final int MAX = 1;
-
+    private final Random rand = new Random();
     private final float cameraScaleFactor;
     private final boolean smoothFollow;
     private final boolean doEdgeControl;
+    private int shakeDuration = 20;    // nbr of frames
+    private float shakeIntensity = 0.2f;
+    private int shakenFrames;
+    private boolean shakeCamera = false;
     private Vector playerPosXY;
     private Vector tempPlayerPosXY;
     private Vector cameraPosXY;
@@ -38,7 +43,7 @@ public class ComputeCamera {
      * @param smoothFollow      if true, the camera with follow the player smoothly
      * @param doEdgeControl     if true, the camera will stop moving in the axis where there is the area edge
      */
-    public ComputeCamera(float cameraScaleFactor, boolean smoothFollow, boolean doEdgeControl) {
+    public Camera(float cameraScaleFactor, boolean smoothFollow, boolean doEdgeControl) {
         this.cameraScaleFactor = cameraScaleFactor;
         this.smoothFollow = smoothFollow;
         this.doEdgeControl = doEdgeControl;
@@ -75,13 +80,32 @@ public class ComputeCamera {
             float initY = setInitialPos(playerPosXY.getY(), minMaxPosY);
 
             return new Vector(initX, initY);
-
         } else {
             float newX = updatePos(playerPosXY.getX(), cameraPosXY.getX(), minMaxPosX);
             float newY = updatePos(playerPosXY.getY(), cameraPosXY.getY(), minMaxPosY);
 
             return new Vector(newX, newY);
         }
+    }
+
+    /**
+     * Method to start camera shake with default values.
+     */
+    public void shake() {
+        shakeCamera = true;
+        shakenFrames = 0;
+    }
+
+    /**
+     * Method to start camera shake.
+     *
+     * @param intensity the intensity of the shake
+     * @param duration  the duration of the shake in frames
+     */
+    public void shake(float intensity, int duration) {
+        shake();
+        shakeIntensity = intensity;
+        shakeDuration = duration;
     }
 
     /**
@@ -151,18 +175,23 @@ public class ComputeCamera {
 
         if (smoothFollow) {
             float modifier = computeModifier(playerPos, cameraPos);
-            if (modifier != 0.0f) {
-                if (isOutOfInterval(modifier + cameraPos, minMaxPos)) {
 
-                    // Set camera to min max positions if very close to edge
-                    for (float pos : minMaxPos) {
-                        if (Math.abs(pos - (modifier + cameraPos)) < EDGE_CONTROL_TRIGGER) {
-                            return pos;
-                        }
+            if (shakeCamera && shakenFrames < shakeDuration) {
+                modifier += getRandomShakeModifier();
+                ++shakenFrames;
+            } else if (shakenFrames == shakeDuration) {
+                shakeCamera = false;
+            }
+
+            if (modifier != 0.0f && isOutOfInterval(modifier + cameraPos, minMaxPos)) {
+                // Set camera to min max positions if very close to edge
+                for (float pos : minMaxPos) {
+                    if (Math.abs(pos - (modifier + cameraPos)) < EDGE_CONTROL_TRIGGER) {
+                        return pos;
                     }
-                    // Make the camera not move
-                    modifier = 0.0f;
                 }
+                // Make the camera not move
+                modifier = 0.0f;
             }
             return cameraPos + modifier;
 
@@ -206,5 +235,13 @@ public class ComputeCamera {
      */
     private boolean isOutOfInterval(float toCompare, float[] minMaxValues) {
         return (toCompare < minMaxValues[MIN]) || (toCompare > minMaxValues[MAX]);
+    }
+
+    private float getRandomShakeModifier() {
+
+        final float min = -shakeIntensity;
+        final float max = shakeIntensity;
+
+        return min + rand.nextFloat() * (max - min);
     }
 }

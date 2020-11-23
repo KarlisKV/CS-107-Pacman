@@ -44,7 +44,8 @@ public abstract class Area implements Playable {
 	/// - start indicate if area already begins, paused indicate if we display the pause menu
 	private boolean started;
 
-	private final ComputeCamera computeCamera = new ComputeCamera(getCameraScaleFactor(), true, true);
+	private final Camera camera = new Camera(getCameraScaleFactor(), true, false);
+	private int count = 0;
 
 	/** @return (float): camera scale factor, assume it is the same in x and y direction */
 	public abstract float getCameraScaleFactor();
@@ -324,8 +325,13 @@ public abstract class Area implements Playable {
 		// Update expected viewport center
 		if (viewCandidate != null) {
 
-			computeCamera.updatePos(viewCandidate.getPosition(), viewCenter, getWidth(), getHeight());
-			viewCenter = computeCamera.getPos();
+			++count;
+			if (count % 300 == 0) {
+				shakeCamera();
+			}
+
+			camera.updatePos(viewCandidate.getPosition(), viewCenter, getWidth(), getHeight());
+			viewCenter = camera.getPos();
 
 		} else { // Set default view to center
 			viewCenter = new Vector(getWidth() / (float) 2, getHeight() / (float) 2);
@@ -333,6 +339,10 @@ public abstract class Area implements Playable {
 		// Compute new viewport
 		Transform viewTransform = Transform.I.scaled(getCameraScaleFactor()).translated(viewCenter);
 		window.setRelativeTransform(viewTransform);
+	}
+
+	public void shakeCamera() {
+		camera.shake();
 	}
 
 	/**
