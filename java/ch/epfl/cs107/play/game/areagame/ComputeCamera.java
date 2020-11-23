@@ -10,9 +10,13 @@ package ch.epfl.cs107.play.game.areagame;
 import ch.epfl.cs107.play.math.Vector;
 
 public class ComputeCamera {
+    // Speed of smooth camera
     private static final float CAMERA_CATCHUP_SPEED = 0.07f;
+    // How precise will the camera position itself if the player is no moving
     private static final float SPOT_PRECISION = 0.001f;
-    private static final float PLAYER_TP_TRIGGER = 1.0f;
+    // Trigger for player difference position
+    private static final float PLAYER_TP_TRIGGER = 0.5f;
+    // Trigger for edge detection
     private static final float EDGE_CONTROL_TRIGGER = 0.1f;
 
     private static final int MIN = 0;
@@ -156,6 +160,7 @@ public class ComputeCamera {
                             return pos;
                         }
                     }
+                    // Make the camera not move
                     modifier = 0.0f;
                 }
             }
@@ -185,7 +190,7 @@ public class ComputeCamera {
         // adjust the coordinate
         if (cameraPos != playerPos && difference > SPOT_PRECISION) {
             if (playerPos < cameraPos) {
-                modifiedPos = -CAMERA_CATCHUP_SPEED * difference;
+                modifiedPos = -(CAMERA_CATCHUP_SPEED * difference);
             } else {
                 modifiedPos = CAMERA_CATCHUP_SPEED * difference;
             }
@@ -197,7 +202,7 @@ public class ComputeCamera {
     /**
      * @param toCompare    the value on the interval
      * @param minMaxValues the min and max values
-     * @return if toCompare if out of bounds
+     * @return if toCompare is out of bounds
      */
     private boolean isOutOfInterval(float toCompare, float[] minMaxValues) {
         return (toCompare < minMaxValues[MIN]) || (toCompare > minMaxValues[MAX]);
