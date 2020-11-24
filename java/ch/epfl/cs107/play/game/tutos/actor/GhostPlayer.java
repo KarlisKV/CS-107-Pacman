@@ -7,14 +7,17 @@
 
 package ch.epfl.cs107.play.game.tutos.actor;
 
+import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
+import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -26,8 +29,10 @@ import java.util.List;
 public class GhostPlayer extends MovableAreaEntity {
     private final TextGraphics message;
     private final Sprite sprite;
+    private final SoundAcoustics soundAcoustics;
     private float hp;
     private final int ANIMATION_DURATION = 12;
+    private int count = 0;
 
     public GhostPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) {
         super(owner, orientation, coordinates);
@@ -35,6 +40,7 @@ public class GhostPlayer extends MovableAreaEntity {
         message.setParent(this);
         message.setAnchor(new Vector(-0.3f, 0.1f));
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
+        soundAcoustics = new SoundAcoustics(ResourcePath.getSounds("sadPiano1"), 1.f, true, false , true, false);
 
         resetMotion();
     }
@@ -62,6 +68,15 @@ public class GhostPlayer extends MovableAreaEntity {
 
         super.update(deltaTime);
 
+    }
+
+    @Override
+    public void bip(Audio audio) {
+        if (count == 0) {
+            soundAcoustics.shouldBeStarted();
+            soundAcoustics.bip(audio);
+            ++count;
+        }
     }
 
     /**
