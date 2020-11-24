@@ -8,6 +8,8 @@
 package ch.epfl.cs107.play.game.tutos;
 
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
 
 public class Tuto2Behavior extends AreaBehavior {
@@ -48,5 +50,45 @@ public class Tuto2Behavior extends AreaBehavior {
             System.out.println(type);
             return NULL;
         }
+    }
+
+    public class Tuto2Cell extends AreaBehavior.Cell {
+        private final Tuto2Behavior.Tuto2CellType type;
+
+        public Tuto2Cell(int x, int y, Tuto2Behavior.Tuto2CellType type) {
+            super(x, y);
+            this.type = type;
+        }
+
+        @Override
+        protected boolean canLeave(Interactable entity) {
+            return true;
+        }
+
+        @Override
+        protected boolean canEnter(Interactable entity) {
+            return type.isWalkable;
+        }
+
+        @Override
+        public boolean isCellInteractable() {
+            return true;
+        }
+
+        @Override
+        public boolean isViewInteractable() {
+            return false;
+        }
+
+        @Override
+        public void acceptInteraction(AreaInteractionVisitor v) {
+        }
+
+        public Tuto2Behavior.Tuto2CellType getType() {
+            return type;
+        }
+
+
+        // Autres méthodes
     }
 }
