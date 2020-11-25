@@ -13,8 +13,6 @@
 .DS_Store
 out
 gen
-.classpath
-.project
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -109,19 +107,6 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/intellij
 .gitignore
 bin/
-java/ch/epfl/cs107/play/Play.java
-java/ch/epfl/cs107/play/game/Game.java
-java/ch/epfl/cs107/play/game/Playable.java
-java/ch/epfl/cs107/play/game/Updatable.java
-java/ch/epfl/cs107/play/game/actor/
-java/ch/epfl/cs107/play/game/areagame/
-java/ch/epfl/cs107/play/game/rpg/
-java/ch/epfl/cs107/play/game/superpacman/
-java/ch/epfl/cs107/play/game/tutos/
-java/ch/epfl/cs107/play/io/
-java/ch/epfl/cs107/play/math/
-java/ch/epfl/cs107/play/recorder/
-java/ch/epfl/cs107/play/signal/
-java/ch/epfl/cs107/play/window/
-records/
-res/
+.classpath
+.project
+java/ch/epfl/cs107/play/game/tutos/area/Camera.java

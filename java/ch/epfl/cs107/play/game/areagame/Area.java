@@ -276,9 +276,13 @@ public abstract class Area implements Playable {
 		for (Interactor interactor : interactors) {
 			if (interactor.wantsCellInteraction()) {
 				areaBehavior.cellInteractionOf(interactor);
+				// demander à la grille associée (AreaBehavior)
+				//de mettre en place les interactions de contact
 			}
 			if (interactor.wantsViewInteraction()) {
 				areaBehavior.viewInteractionOf(interactor);
+				// demander à la grille associée e de mettre en place
+				// les interactions distantes
 			}
 		}
 
