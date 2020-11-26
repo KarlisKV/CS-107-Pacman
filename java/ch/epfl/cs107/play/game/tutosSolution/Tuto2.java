@@ -14,7 +14,6 @@ public class Tuto2 extends AreaGame {
 	public final static float CAMERA_SCALE_FACTOR = 13.f;
 	public final static float STEP = 0.05f;
 
-
 	private GhostPlayer player;
 	private final String[] areas = {"zelda/Ferme", "zelda/Village"};
 	private final DiscreteCoordinates[] startingPositions = {new DiscreteCoordinates(2,10), 

@@ -1,48 +1,42 @@
 /*
  *	Author:      Leonard Cseres
- *	Date:        14.11.20
- *	Time:        19:23
+ *	Date:        25.11.20
+ *	Time:        16:41
  */
 
 
-package ch.epfl.cs107.play.game.tutos;
+package ch.epfl.cs107.play.game.superpacman;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.tutos.actor.GhostPlayer;
-import ch.epfl.cs107.play.game.tutos.area.tuto2.Mine;
-import ch.epfl.cs107.play.game.tutos.area.tuto2.Village;
+import ch.epfl.cs107.play.game.rpg.RPG;
+import ch.epfl.cs107.play.game.rpg.actor.Player;
+import ch.epfl.cs107.play.game.tutosSolution.actor.GhostPlayer;
+import ch.epfl.cs107.play.game.tutosSolution.area.tuto2.Ferme;
+import ch.epfl.cs107.play.game.tutosSolution.area.tuto2.Village;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
-public class Tuto2 extends AreaGame {
-    public final static float CAMERA_SCALE_FACTOR = 18.f;
-    private final String[] areas = {"mine/MineTest", "zelda/Village"};
-    private final DiscreteCoordinates[] startingPositions = {new DiscreteCoordinates(3, 29),
+public class SuperPacman extends RPG {
+    public static final float CAMERA_SCALE_FACTOR = 15.f;
+    private final String[] areas = {"zelda/Ferme", "zelda/Village"};
+    private final DiscreteCoordinates[] startingPositions = {new DiscreteCoordinates(2, 10),
                                                              new DiscreteCoordinates(5, 15)};
     private GhostPlayer player;
     private int areaIndex;
 
-    /**
-     * Add all the areas
-     */
+
     private void createAreas() {
-        addArea(new Mine());
+
+        addArea(new Ferme());
         addArea(new Village());
+
     }
 
-
-    public void switchArea() {
-        player.leaveArea();
-
-        areaIndex = (areaIndex == 0) ? 1 : 0;
-
-        Area currentArea = setCurrentArea(areas[areaIndex], false);
-        player.enterArea(currentArea, startingPositions[areaIndex]);
-
-        player.strengthen();
+    @Override
+    protected void initPlayer(Player player) {
+        super.initPlayer(player);
     }
 
     @Override
@@ -50,7 +44,7 @@ public class Tuto2 extends AreaGame {
 
         if (super.begin(window, fileSystem)) {
             createAreas();
-            areaIndex = 1;
+            areaIndex = 0;
             Area area = setCurrentArea(areas[areaIndex], true);
             player = new GhostPlayer(area, Orientation.DOWN, startingPositions[areaIndex], "ghost.1");
             area.registerActor(player);
@@ -63,19 +57,16 @@ public class Tuto2 extends AreaGame {
     @Override
     public void update(float deltaTime) {
 
-        if (player.isWeak()) {
-            switchArea();
-        }
         super.update(deltaTime);
+
     }
 
     @Override
     public void end() {
     }
 
-
     @Override
     public String getTitle() {
-        return "Tuto2";
+        return "Super Pac-mac";
     }
 }

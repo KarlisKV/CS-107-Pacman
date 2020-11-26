@@ -17,111 +17,117 @@ import java.util.Collections;
 import java.util.List;
 
 public class GhostPlayer extends MovableAreaEntity {
-	private float hp;
-	private TextGraphics message;
-	private Sprite sprite;
-	/// Animation duration in frame number
+    /// Animation duration in frame number
     private final static int ANIMATION_DURATION = 8;
-	/**
-	 * Demo actor
-	 * 
-	 */
-	public GhostPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) {
-		super(owner, orientation, coordinates);
-		this.hp = 10;
-		message = new TextGraphics(Integer.toString((int)hp), 0.4f, Color.BLUE);
-		message.setParent(this);
-		message.setAnchor(new Vector(-0.3f, 0.1f));
-		sprite = new Sprite(spriteName, 1.f, 1.f,this);
+    private final TextGraphics message;
+    private final Sprite sprite;
+    private float hp;
 
-		resetMotion();
-	}
-	 
-	 @Override
-	    public void update(float deltaTime) {
-		 if (hp > 0) {
-				hp -=deltaTime;
-				message.setText(Integer.toString((int)hp));
-			}
-			if (hp < 0) hp = 0.f;
-			Keyboard keyboard= getOwnerArea().getKeyboard();
-	        moveOrientate(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-	        moveOrientate(Orientation.UP, keyboard.get(Keyboard.UP));
-	        moveOrientate(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-	        moveOrientate(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
-	            
-	        super.update(deltaTime);
-	       
-	    }
+    /**
+     * Demo actor
+     */
+    public GhostPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) {
+        super(owner, orientation, coordinates);
+        this.hp = 10;
+        message = new TextGraphics(Integer.toString((int) hp), 0.4f, Color.BLUE);
+        message.setParent(this);
+        message.setAnchor(new Vector(-0.3f, 0.1f));
+        sprite = new Sprite(spriteName, 1.f, 1.f, this);
 
-	    /**
-	     * Orientate or Move this player in the given orientation if the given button is down
-	     * @param orientation (Orientation): given orientation, not null
-	     * @param b (Button): button corresponding to the given orientation, not null
-	     */
-	    private void moveOrientate(Orientation orientation, Button b){
-	    
-	        if(b.isDown()) {
-	            if(getOrientation() == orientation) move(ANIMATION_DURATION);
-	            else orientate(orientation);
-	        }
-	    }
-	    /**
-	     * Leave an area by unregister this player
-	     */
-	    public void leaveArea(){
-	        getOwnerArea().unregisterActor(this);
-	    }
+        resetMotion();
+    }
 
-	    /**
-	     *
-	     * @param area (Area): initial area, not null
-	     * @param position (DiscreteCoordinates): initial position, not null
-	     */
-	    public void enterArea(Area area, DiscreteCoordinates position){
-	        area.registerActor(this);
-	        area.setViewCandidate(this);
-	        setOwnerArea(area);
-	        setCurrentPosition(position.toVector());
-	        resetMotion();
-	    }
-    
-	@Override
-	public void draw(Canvas canvas) {
-		sprite.draw(canvas);	
-		message.draw(canvas);
-	}
+    @Override
+    public void update(float deltaTime) {
+        if (hp > 0) {
+            hp -= deltaTime;
+            message.setText(Integer.toString((int) hp));
+        }
+        if (hp < 0) {
+            hp = 0.f;
+        }
+        Keyboard keyboard = getOwnerArea().getKeyboard();
+        moveOrientate(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+        moveOrientate(Orientation.UP, keyboard.get(Keyboard.UP));
+        moveOrientate(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+        moveOrientate(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
 
-	public boolean isWeak() {
-		return (hp <= 0.f);
-	}
+        super.update(deltaTime);
 
-	public void strengthen() {
-		hp = 10;
-	}
+    }
 
-	///Ghost implements Interactable
+    /**
+     * Orientate or Move this player in the given orientation if the given button is down
+     * @param orientation (Orientation): given orientation, not null
+     * @param b           (Button): button corresponding to the given orientation, not null
+     */
+    private void moveOrientate(Orientation orientation, Button b) {
 
-	@Override
-	public boolean takeCellSpace() {
-		return true;
-	}
+        if (b.isDown()) {
+            if (getOrientation() == orientation) {
+                move(ANIMATION_DURATION);
+            } else {
+                orientate(orientation);
+            }
+        }
+    }
 
-	@Override
-	public boolean isCellInteractable() {
-		return true;
-	}
+    /**
+     * Leave an area by unregister this player
+     */
+    public void leaveArea() {
+        getOwnerArea().unregisterActor(this);
+    }
 
-	@Override
-	public boolean isViewInteractable() {
-		return true;
-	}
-	@Override
-	public List<DiscreteCoordinates> getCurrentCells() {
-		return Collections.singletonList(getCurrentMainCellCoordinates());
-	}
+    /**
+     * @param area     (Area): initial area, not null
+     * @param position (DiscreteCoordinates): initial position, not null
+     */
+    public void enterArea(Area area, DiscreteCoordinates position) {
+        area.registerActor(this);
+        area.setViewCandidate(this);
+        setOwnerArea(area);
+        setCurrentPosition(position.toVector());
+        resetMotion();
+    }
 
-	@Override
-	public void acceptInteraction(AreaInteractionVisitor v) {
-	}
+    @Override
+    public void draw(Canvas canvas) {
+        sprite.draw(canvas);
+        message.draw(canvas);
+    }
+
+    public boolean isWeak() {
+        return (hp <= 0.f);
+    }
+
+    public void strengthen() {
+        hp = 10;
+    }
+
+    ///Ghost implements Interactable
+
+    @Override
+    public boolean takeCellSpace() {
+        return true;
+    }
+
+    @Override
+    public boolean isCellInteractable() {
+        return true;
+    }
+
+    @Override
+    public boolean isViewInteractable() {
+        return true;
+    }
+
+    @Override
+    public List<DiscreteCoordinates> getCurrentCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates());
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v) {
+    }
 }

@@ -107,6 +107,4 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/intellij
 .gitignore
 bin/
-.classpath
-.project
 java/ch/epfl/cs107/play/game/tutos/area/Camera.java

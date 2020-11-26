@@ -38,7 +38,6 @@ public class Camera {
 
     /**
      * Constructor for class.
-     *
      * @param cameraScaleFactor get the camera scale factor
      * @param smoothFollow      if true, the camera with follow the player smoothly
      * @param doEdgeControl     if true, the camera will stop moving in the axis where there is the area edge
@@ -52,7 +51,6 @@ public class Camera {
 
     /**
      * Method to update the instantiated class with the current attributes.
-     *
      * @param playerPos  the current player position
      * @param cameraPos  the current camera position
      * @param areaWidth  the area width
@@ -71,7 +69,6 @@ public class Camera {
 
     /**
      * Method tho compute the new camera position.
-     *
      * @return the new camera position
      */
     public Vector getPos() {
@@ -98,7 +95,6 @@ public class Camera {
 
     /**
      * Method to start camera shake.
-     *
      * @param intensity the intensity of the shake
      * @param duration  the duration of the shake in frames
      */
@@ -110,7 +106,6 @@ public class Camera {
 
     /**
      * Method to detect if player has changed area.
-     *
      * @return true if the difference of the player's last update coordinates and current coordinates is larger than
      * the tp trigger
      */
@@ -121,7 +116,6 @@ public class Camera {
 
     /**
      * Method to check if camera is in initial position.
-     *
      * @return true if camera is at (0, 0)
      */
     private boolean isCameraInInitPos() {
@@ -130,7 +124,6 @@ public class Camera {
 
     /**
      * Method to set minX, maxX, minY, maxY for the camera if doEdgeControl.
-     *
      * @param areaSize the area size (width or height)
      * @return array with axis min and max positions
      */
@@ -145,7 +138,6 @@ public class Camera {
 
     /**
      * Method to find initial position for the camera if the camera's initial position is invalid (with doEdgeControl).
-     *
      * @param playerPos the player position
      * @param minMaxPos the min and max camera positions
      * @return the new valid position for the camera
@@ -165,7 +157,6 @@ public class Camera {
 
     /**
      * Method to update camera current coordinate to new coordinate.
-     *
      * @param playerPos the current player position
      * @param cameraPos the current camera position
      * @param minMaxPos the min and max position for the camera
@@ -206,7 +197,6 @@ public class Camera {
 
     /**
      * Method to compute how much the camera moves, the bigger the difference, the faster it moves and same vice-versa.
-     *
      * @param playerPos the current player position
      * @param cameraPos the current camera position
      * @return modifier depending on the difference and CAMERA_CATCHUP_SPEED
