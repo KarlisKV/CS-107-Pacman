@@ -7,6 +7,8 @@
 
 package ch.epfl.cs107.play.game.tutos.actor;
 
+import ch.epfl.cs107.play.game.actor.ImageGraphics;
+import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
@@ -15,7 +17,9 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.math.Circle;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Button;
@@ -30,17 +34,26 @@ public class GhostPlayer extends MovableAreaEntity {
     private final TextGraphics message;
     private final Sprite sprite;
     private final SoundAcoustics soundAcoustics;
-    private float hp;
     private final int ANIMATION_DURATION = 12;
+    public static ShapeGraphics shapeGraphics;
+    private final ShapeGraphics shadow;
+    private final ImageGraphics glow;
+    private float hp = 10;
     private int count = 0;
 
     public GhostPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) {
         super(owner, orientation, coordinates);
-        message = new TextGraphics(Integer.toString((int) hp), 0.4f, Color.BLUE);
+        message = new TextGraphics(Integer.toString((int) hp), 0.4f, Color.BLACK);
         message.setParent(this);
         message.setAnchor(new Vector(-0.3f, 0.1f));
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
-        soundAcoustics = new SoundAcoustics(ResourcePath.getSounds("sadPiano1"), 1.f, true, false , true, false);
+        soundAcoustics = new SoundAcoustics(ResourcePath.getSounds("sadPiano1"), 1.f, true, false, true, false);
+        shapeGraphics = new ShapeGraphics(new Circle(250.f, new Vector(10.f, 10.f)), Color.BLACK, Color.BLACK, 0.f, 0.f,
+                                          10000.f);
+        shadow = new ShapeGraphics(new Circle(250.f, new Vector(10.f, 10.f)), Color.BLACK, Color.BLACK, 0.f, 0.4f,
+                                   10000.f);
+        glow = new ImageGraphics(ResourcePath.getSprite("Test"), 30.f, 30.f, new RegionOfInterest(0, 0, 2000, 2000), new Vector(-14.5f, -14.5f), 0.8f, -1.f);
+        glow.setParent(this);
 
         resetMotion();
     }
@@ -49,6 +62,8 @@ public class GhostPlayer extends MovableAreaEntity {
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
         message.draw(canvas);
+        shapeGraphics.draw(canvas);
+        glow.draw(canvas);
     }
 
     @Override
@@ -81,7 +96,6 @@ public class GhostPlayer extends MovableAreaEntity {
 
     /**
      * Orientate or Move this player in the given orientation if the given button is down
-     *
      * @param orientation (Orientation): given orientation, not null
      * @param b           (Button): button corresponding to the given orientation, not null
      */

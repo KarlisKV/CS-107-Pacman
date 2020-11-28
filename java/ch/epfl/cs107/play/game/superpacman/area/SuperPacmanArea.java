@@ -8,11 +8,7 @@
 package ch.epfl.cs107.play.game.superpacman.area;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.Background;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
@@ -32,20 +28,11 @@ public abstract class SuperPacmanArea extends Area {
         return false;
     }
 
-    protected void createArea() {
-        registerActor(new Background(new Level0()));
-        registerActor(new Background(new Level1()));
-        registerActor(new Background(new Level2()));
-
-    }
+    protected abstract void createArea();
 
     @Override
     public float getCameraScaleFactor() {
         return SuperPacman.CAMERA_SCALE_FACTOR;
     }
 
-    @Override
-    public String getTitle() {
-        return null;
-    }
 }

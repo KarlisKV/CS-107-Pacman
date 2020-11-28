@@ -24,6 +24,9 @@ public class Tuto2 extends AreaGame {
                                                              new DiscreteCoordinates(5, 15)};
     private GhostPlayer player;
     private int areaIndex;
+    private boolean isAreaSwitched = false;
+    private boolean readyToSwitch = false;
+    private float alpha = 0.f;
 
     /**
      * Add all the areas
@@ -43,6 +46,9 @@ public class Tuto2 extends AreaGame {
         player.enterArea(currentArea, startingPositions[areaIndex]);
 
         player.strengthen();
+        isAreaSwitched = false;
+        readyToSwitch = false;
+
     }
 
     @Override
@@ -63,10 +69,39 @@ public class Tuto2 extends AreaGame {
     @Override
     public void update(float deltaTime) {
 
-        if (player.isWeak()) {
+        if (isAreaSwitched) {
+            fadeOut();
+        } else {
+             fadeIn();
+        }
+        if (readyToSwitch) {
             switchArea();
         }
+        if (player.isWeak()) {
+            isAreaSwitched = true;
+        }
         super.update(deltaTime);
+    }
+
+    private void fadeOut() {
+        if (alpha < 1.f) {
+            alpha += 0.05f;
+            GhostPlayer.shapeGraphics.setAlpha(alpha);
+        } else {
+            readyToSwitch = true;
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void fadeIn() {
+        if (alpha > 0.f) {
+            alpha -= 0.05f;
+            GhostPlayer.shapeGraphics.setAlpha(alpha);
+        }
     }
 
     @Override

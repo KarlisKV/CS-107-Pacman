@@ -16,8 +16,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanBehavior extends AreaBehavior {
-    private int cellX = 0;
-    private int cellY = 0;
 
     /**
      * Default SuperPacmanBehavior Constructor
@@ -26,11 +24,13 @@ public class SuperPacmanBehavior extends AreaBehavior {
      */
     public SuperPacmanBehavior(Window window, String name) {
         super(window, name);
-        do {
-            SuperPacmanBehavior.SuperPacmanCellType color =
-                    SuperPacmanBehavior.SuperPacmanCellType.toType(getRGB(getHeight() - 1 - cellY, cellX));
-            setCell(cellX, cellY, new SuperPacmanBehavior.SuperPacmanCell(cellX, cellY, color));
-        } while (canIterateCells());
+        for (int y = 0; y < getHeight(); ++y) {
+            for (int x = 0; x < getWidth(); ++x) {
+                SuperPacmanBehavior.SuperPacmanCellType color =
+                        SuperPacmanBehavior.SuperPacmanCellType.toType(getRGB(getHeight() - 1 - y, x));
+                setCell(x, y, new SuperPacmanBehavior.SuperPacmanCell(x, y, color));
+            }
+        }
     }
 
     /**
@@ -38,33 +38,16 @@ public class SuperPacmanBehavior extends AreaBehavior {
      * @param area the area to register the actors
      */
     protected void registerActors(Area area) {
-        do {
-            if (compareCellToType(cellX, cellY, SuperPacmanCellType.WALL)) {
-                Wall wall = new Wall(area, new DiscreteCoordinates(cellX, cellY), neighborhood(cellX, cellY));
-                area.registerActor(wall);
+        for (int y = 0; y < getHeight(); ++y) {
+            for (int x = 0; x < getWidth(); ++x) {
+                if (compareCellToType(x, y, SuperPacmanCellType.WALL)) {
+                    Wall wall = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y));
+                    area.registerActor(wall);
+                }
             }
-        } while (canIterateCells());
+        }
     }
 
-    /**
-     * Method to iterate over all of the cells.
-     * @return false if loop is finished
-     */
-    private boolean canIterateCells() {
-        if (cellY < getHeight()) {
-            if (cellX < getWidth()) {
-                ++cellX;
-            } else {
-                cellX = 0;
-                ++cellY;
-            }
-        } else {
-            cellX = 0;
-            cellY = 0;
-            return false;
-        }
-        return true;
-    }
 
     /**
      * Method to find if neighborhood cells are walls.
@@ -75,10 +58,11 @@ public class SuperPacmanBehavior extends AreaBehavior {
     private boolean[][] neighborhood(int x, int y) {
         boolean[][] neighbors = new boolean[3][3];
 
-        for (int j = y - 1; j <= y + 1 && j <= 0 && j < getHeight(); ++j) {
-            for (int i = x - 1; i <= x + 1 && i <= 0; ++i) {
-                if (compareCellToType(i, j, SuperPacmanCellType.WALL)) {
-                    neighbors[i][j] = true;
+        for (int tabY = -1; tabY < 2; ++tabY) {
+            for (int tabX = -1; tabX < 2; ++tabX) {
+                if (((x + tabX) >= 0) && ((x + tabX) < getWidth()) && ((y + tabY) >= 0) && ((y + tabY) < getHeight()) &&
+                        compareCellToType(x + tabX, y + tabY, SuperPacmanCellType.WALL)) {
+                    neighbors[tabX + 1][-tabY + 1] = true;
                 }
             }
         }
@@ -150,7 +134,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            return takeCellSpace();
+            return !hasNonTraversableContent();
         }
 
 

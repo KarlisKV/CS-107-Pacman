@@ -1,12 +1,14 @@
 package ch.epfl.cs107.play.game.areagame;
 
+
 import ch.epfl.cs107.play.game.Playable;
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
+import ch.epfl.cs107.play.game.superpacman.area.camera.Camera;
+import ch.epfl.cs107.play.game.superpacman.area.camera.ParallaxCamera;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Mouse;
@@ -16,7 +18,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * Area is a "Part" of the AreaGame. An Area is made of a Behavior, and a List of Actors
@@ -28,7 +29,8 @@ public abstract class Area implements Playable {
 	private FileSystem fileSystem;
 	// Camera Parameter
 	private Actor viewCandidate;
-	private Vector viewCenter;
+	private Camera camera;
+	private int count = 0;
 	/// List of Actors inside the area
 	private List<Actor> actors;
 	/// List of Actors we want to register/unregistered from the area for next update iteration
@@ -44,8 +46,14 @@ public abstract class Area implements Playable {
 	/// - start indicate if area already begins, paused indicate if we display the pause menu
 	private boolean started;
 
-	private final Camera camera = new Camera(getCameraScaleFactor(), true, false);
-	private int count = 0;
+	// TODO: add javadoc
+	public Window getWindow() {
+		return window;
+	}
+
+	public Camera getCamera() {
+		return camera;
+	}
 
 	/** @return (float): camera scale factor, assume it is the same in x and y direction */
 	public abstract float getCameraScaleFactor();
@@ -164,7 +172,7 @@ public abstract class Area implements Playable {
 	}
 
 	/** @return the Window Keyboard for inputs */
-	public final Keyboard getKeyboard () {
+	public final Keyboard getKeyboard() {
 		return window.getKeyboard();
 	}
 
@@ -247,7 +255,7 @@ public abstract class Area implements Playable {
 		unregisteredActors = new LinkedList<>();
 		interactablesToEnter = new HashMap<>();
 		interactablesToLeave = new HashMap<>();
-		viewCenter = Vector.ZERO;
+//		viewCenter = Vector.ZERO;
 		started = true;
 		return true;
 	}
@@ -263,9 +271,14 @@ public abstract class Area implements Playable {
 	}
 
 	@Override
-	public void update(float deltaTime) {    	
-		purgeRegistration();
+	public void update(float deltaTime) {
 
+		if (areaBehavior != null && count == 0) {
+			camera = new ParallaxCamera(this, 5, true);
+			++count;
+		}
+
+		purgeRegistration();
 
 		// Update actors
 		for (Actor actor : actors) {
@@ -287,7 +300,8 @@ public abstract class Area implements Playable {
 		}
 
 		// Update camera location
-		updateCamera();
+		camera.updatePos(viewCandidate.getPosition());
+		camera.update(deltaTime);
 
 		// Draw actors and play sounds
 		for (Actor actor : actors) {
@@ -323,31 +337,6 @@ public abstract class Area implements Playable {
 		interactablesToEnter.clear();
 	}
 
-
-	private void updateCamera() {
-
-		// Update expected viewport center
-		if (viewCandidate != null) {
-
-			++count;
-			if (count % 300 == 0) {
-				shakeCamera();
-			}
-
-			camera.updatePos(viewCandidate.getPosition(), viewCenter, getWidth(), getHeight());
-			viewCenter = camera.getPos();
-
-		} else { // Set default view to center
-			viewCenter = new Vector(getWidth() / (float) 2, getHeight() / (float) 2);
-		}
-		// Compute new viewport
-		Transform viewTransform = Transform.I.scaled(getCameraScaleFactor()).translated(viewCenter);
-		window.setRelativeTransform(viewTransform);
-	}
-
-	public void shakeCamera() {
-		camera.shake();
-	}
 
 	/**
 	 * Suspend method: Can be overridden, called before resume other
