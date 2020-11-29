@@ -18,20 +18,24 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Glow implements Graphics {
     private final Positionable parent;
     private final GlowColors color;
+    private final float size;
+    private final float intensity;
 
-    protected Glow(Positionable parent, GlowColors color) {
+    protected Glow(Positionable parent, GlowColors color, float size, float intensity) {
         this.parent = parent;
         this.color = color;
+        this.size = size;
+        this.intensity = intensity;
     }
 
     @Override
     public void draw(Canvas canvas) {
         ImageGraphics glow = new ImageGraphics(ResourcePath.getSprite(color.pathToColor),
-                                               4.f,
-                                               4.f,
+                                               size,
+                                               size,
                                                new RegionOfInterest(0, 0, 195, 195),
                                                new Vector(-1.5f, -1.5f),
-                                               0.5f,
+                                               intensity,
                                                100.f);
         glow.setParent(parent);
         glow.draw(canvas);

@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -25,7 +26,6 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private static final String FONT = "emulogic";
     private static final int LIFE = 0;
     private static final int NO_LIFE = LIFE_SPRITE_SIZE;
-
     private final int currentHp;
     private final int maxHp;
     private final int score;
@@ -42,8 +42,9 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
         float height = canvas.getScaledHeight();
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
-
-        for (int i = 0; i < maxHp; ++i) {
+        // TODO: Temporary fix, find better solution
+        if (SuperPacman.CAMERA_SCALE_FACTOR < 55) {
+            for (int i = 0; i < maxHp; ++i) {
             int x = i < currentHp ? LIFE : NO_LIFE;
 
             ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
@@ -62,8 +63,10 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                                                   0.0f,
                                                   false,
                                                   false,
-                                                  anchor.add(new Vector(width / 3f, height - (1 + EDGE_PADDING))));
-        scoreText.setFontName(FONT);
-        scoreText.draw(canvas);
+                                                  anchor.add(new Vector(width / 3, height - (1 + EDGE_PADDING))));
+
+            scoreText.setFontName(FONT);
+            scoreText.draw(canvas);
+        }
     }
 }

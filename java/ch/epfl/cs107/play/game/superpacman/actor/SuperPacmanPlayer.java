@@ -26,22 +26,27 @@ import java.util.Collections;
 import java.util.List;
 
 public class SuperPacmanPlayer extends Player {
-
-    /// Animation duration in frame number
+    // Animation duration in frame number
     private static final int ANIMATION_DURATION = 10;
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int SPRITE_SIZE = 14;
     private final Sprite[][] sprites;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final Animation[] animations;
-    //    private static final int MAX_HP = 5;
+    private static final int MAX_HP = 5;
 //    private int currentHp = 3;
 //    private int score = 0;
-//    private ImageGraphics glow;
-    private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(3, 5, 69);
-    private final Glow glow = new Glow(this, Glow.GlowColors.YELLOW);
+    private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(3, MAX_HP, 69);
+    private final Glow glow = new Glow(this, Glow.GlowColors.YELLOW, 4.0f, 0.6f);
     private Orientation desiredOrientation = DEFAULT_ORIENTATION;
     private int currentOrientation;
+
+    // TODO: Temporary fix, find better solution
+    public Arcade getArcade() {
+        return arcade;
+    }
+
+    private Arcade arcade = new Arcade();
 
     public SuperPacmanPlayer(Area owner, DiscreteCoordinates coordinates) {
         super(owner, DEFAULT_ORIENTATION, coordinates);
@@ -62,7 +67,6 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public void update(float deltaTime) {
-
         Keyboard keyboard = getOwnerArea().getKeyboard();
         setDesiredOrientation(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
         setDesiredOrientation(Orientation.UP, keyboard.get(Keyboard.UP));
@@ -116,6 +120,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public void draw(Canvas canvas) {
+        arcade.draw(canvas);
         gui.draw(canvas);
         glow.draw(canvas);
         animations[currentOrientation].draw(canvas);

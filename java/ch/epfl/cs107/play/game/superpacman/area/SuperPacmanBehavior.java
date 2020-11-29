@@ -137,7 +137,6 @@ public class SuperPacmanBehavior extends AreaBehavior {
             return !hasNonTraversableContent();
         }
 
-
         @Override
         public boolean isCellInteractable() {
             return true;

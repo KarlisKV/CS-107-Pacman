@@ -18,12 +18,12 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacman extends RPG {
-    public static final float CAMERA_SCALE_FACTOR = 25.f;
+    public static float CAMERA_SCALE_FACTOR = 170.f;
     private final String[] areas = {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
     private SuperPacmanPlayer player;
     private int areaIndex;
-    private int count = 0;
-
+    private float progress = 0.0f;
+    private boolean start = false;
 
     private void createAreas() {
         addArea(new Level0());
@@ -52,12 +52,33 @@ public class SuperPacman extends RPG {
 
     @Override
     public void update(float deltaTime) {
-        ++count;
-        if (count % 200 == 0) {
-//            getCurrentArea().getCamera().shake();
+        // TODO: Temporary fix, find better solution
+        if (!start ) {
+            progress += 0.005f;
+            if (progress <= 1) {
+                player.getArcade().setAlpha(BezierBlend(progress));
+            } else {
+                progress = 0;
+                start = true;
+            }
+        } else {
+            progress += 0.01f;
         }
+        if (CAMERA_SCALE_FACTOR > 30.0f && start && progress <= 1) {
+            float newProgress = BezierBlend(progress);
+            CAMERA_SCALE_FACTOR = 30 + (140 * (1 - newProgress));
+        }
+
+
+//        if (progress % 200 == 0) {
+//            getCurrentArea().getCamera().shake();
+//        }
         super.update(deltaTime);
 
+    }
+
+    float BezierBlend(float x) {
+        return x < 0.5 ? 8 * x * x * x * x : (float) (1 - Math.pow(-2 * x + 2, 4) / 2);
     }
 
     @Override
