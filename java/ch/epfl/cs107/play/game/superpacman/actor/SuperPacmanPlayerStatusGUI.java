@@ -45,25 +45,26 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
         // TODO: Temporary fix, find better solution
         if (SuperPacman.CAMERA_SCALE_FACTOR < 55) {
             for (int i = 0; i < maxHp; ++i) {
-            int x = i < currentHp ? LIFE : NO_LIFE;
+                int x = i < currentHp ? LIFE : NO_LIFE;
 
-            ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
-                                                   1.f,
-                                                   1.f,
-                                                   new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE, LIFE_SPRITE_SIZE),
-                                                   anchor.add(new Vector(HP_SPACING * i + EDGE_PADDING, EDGE_PADDING)),
-                                                   1,
-                                                   DEPTH);
-            life.draw(canvas);
-        }
-        TextGraphics scoreText = new TextGraphics("Score: " + score,
-                                                  1.0f,
-                                                  Color.YELLOW,
-                                                  Color.BLACK,
-                                                  0.0f,
-                                                  false,
-                                                  false,
-                                                  anchor.add(new Vector(width / 3, height - (1 + EDGE_PADDING))));
+                ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
+                                                       1.f,
+                                                       1.f,
+                                                       new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE, LIFE_SPRITE_SIZE),
+                                                       anchor.add(new Vector(HP_SPACING * i + EDGE_PADDING,
+                                                                             EDGE_PADDING)),
+                                                       1,
+                                                       DEPTH);
+                life.draw(canvas);
+            }
+            TextGraphics scoreText = new TextGraphics("Score: " + score,
+                                                      1.0f,
+                                                      Color.YELLOW,
+                                                      Color.BLACK,
+                                                      0.0f,
+                                                      false,
+                                                      false,
+                                                      anchor.add(new Vector(width / 3, height - (1 + EDGE_PADDING))));
 
             scoreText.setFontName(FONT);
             scoreText.draw(canvas);
