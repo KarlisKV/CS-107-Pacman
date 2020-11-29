@@ -6,7 +6,7 @@ import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.superpacman.area.camera.Camera;
-import ch.epfl.cs107.play.game.superpacman.area.camera.ParallaxCamera;
+import ch.epfl.cs107.play.game.superpacman.area.camera.SmoothLimited;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
@@ -46,11 +46,16 @@ public abstract class Area implements Playable {
 	/// - start indicate if area already begins, paused indicate if we display the pause menu
 	private boolean started;
 
-	// TODO: add javadoc
+	/**
+	 * @return (Window): get the current window
+	 */
 	public Window getWindow() {
 		return window;
 	}
 
+	/**
+	 * @return (Camera): get the area's Camera public methods
+	 */
 	public Camera getCamera() {
 		return camera;
 	}
@@ -274,7 +279,7 @@ public abstract class Area implements Playable {
 	public void update(float deltaTime) {
 
 		if (areaBehavior != null && count == 0) {
-			camera = new ParallaxCamera(this, 5, true);
+			camera = new SmoothLimited(this, true, true, 4);
 			++count;
 		}
 

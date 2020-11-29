@@ -10,7 +10,7 @@ package ch.epfl.cs107.play.game.superpacman.area.camera;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.math.Vector;
 
-public class SmoothCamera extends Camera {
+public class SmoothFollow extends Camera {
 
     // How precise will the camera position itself if the player is no moving
     private static final float SPOT_PRECISION = 0.001f;
@@ -24,11 +24,12 @@ public class SmoothCamera extends Camera {
     /**
      * Constructor for SmoothCamera.
      * @param area          current area
+     * @param tpCamera      teleport camera to player if he teleports (changes area...)
      * @param doEdgeControl if true, the camera will stop moving in the axis where there is the area edge
      * @param smoothStop    smooth acceleration/deceleration
      */
-    public SmoothCamera(Area area, boolean doEdgeControl, boolean smoothStop) {
-        super(area, doEdgeControl);
+    public SmoothFollow(Area area, boolean tpCamera, boolean doEdgeControl, boolean smoothStop) {
+        super(area, tpCamera, doEdgeControl);
         this.smoothStop = smoothStop;
     }
 

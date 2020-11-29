@@ -18,7 +18,7 @@ import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacman extends RPG {
-    public static final float CAMERA_SCALE_FACTOR = 30.f;
+    public static final float CAMERA_SCALE_FACTOR = 25.f;
     private final String[] areas = {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
     private SuperPacmanPlayer player;
     private int areaIndex;
@@ -54,7 +54,7 @@ public class SuperPacman extends RPG {
     public void update(float deltaTime) {
         ++count;
         if (count % 200 == 0) {
-            getCurrentArea().getCamera().shake();
+//            getCurrentArea().getCamera().shake();
         }
         super.update(deltaTime);
 

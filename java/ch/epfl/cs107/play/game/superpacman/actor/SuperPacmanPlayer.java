@@ -8,12 +8,14 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.Animation;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
+import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Button;
@@ -26,17 +28,30 @@ import java.util.List;
 public class SuperPacmanPlayer extends Player {
 
     /// Animation duration in frame number
-    private final static int ANIMATION_DURATION = 10;
+    private static final int ANIMATION_DURATION = 10;
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
-    private final Sprite sprite;
+    private static final int SPRITE_SIZE = 14;
+    private final Sprite[][] sprites;
+    private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
+    private final Animation[] animations;
     private Orientation desiredOrientation = DEFAULT_ORIENTATION;
-    private SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
-
+    private int currentOrientation;
+//    private static final int MAX_HP = 5;
+//    private int currentHp = 3;
+//    private int score = 0;
+//    private ImageGraphics glow;
+    private SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(3, 5, 69);
+    private Glow glow = new Glow(this, Glow.GlowColors.YELLOW);
 
     public SuperPacmanPlayer(Area owner, DiscreteCoordinates coordinates) {
         super(owner, DEFAULT_ORIENTATION, coordinates);
-        sprite = new Sprite("superpacman/bonus", 1.f, 1.f, this);
+        sprites = RPGSprite.extractSprites("superpacman/pacmanSmall", 4, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE,
+                                           new Orientation[]{Orientation.DOWN, Orientation.LEFT, Orientation.UP,
+                                                             Orientation.RIGHT});
+        // TODO: fix animation speed - too fast
+        animations = Animation.createAnimations(ANIMATION_DURATION / 2, sprites);
         resetMotion();
+
     }
 
     @Override
@@ -48,15 +63,34 @@ public class SuperPacmanPlayer extends Player {
         setDesiredOrientation(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
         setDesiredOrientation(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
 
-        List<DiscreteCoordinates> jumpedCell = Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector()));
+        List<DiscreteCoordinates> jumpedCell =
+                Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector()));
 
+        animationUpdate(deltaTime);
         if (!isDisplacementOccurs() && getOwnerArea().canEnterAreaCells(this, jumpedCell)) {
             orientate(desiredOrientation);
+            // TODO: Refactor animation code to make it more readable...
+            switch (desiredOrientation) {
+                case DOWN:
+                    currentOrientation = 2;
+                    break;
+                case LEFT:
+                    currentOrientation = 3;
+                    break;
+                case UP:
+                    currentOrientation = 0;
+                    break;
+                case RIGHT:
+                    currentOrientation = 1;
+                    break;
+                default:
+                    currentOrientation = 0;
+                    break;
+            }
         }
-        if (!isDisplacementOccurs()){
+        if (!isDisplacementOccurs()) {
             move(ANIMATION_DURATION);
         }
-
         super.update(deltaTime);
     }
 
@@ -66,9 +100,19 @@ public class SuperPacmanPlayer extends Player {
         }
     }
 
+    private void animationUpdate(float deltaTime) {
+        if (isDisplacementOccurs()) {
+            animations[currentOrientation].update(deltaTime);
+        } else {
+            animations[currentOrientation].reset();
+        }
+    }
+
     @Override
     public void draw(Canvas canvas) {
-        sprite.draw(canvas);
+        gui.draw(canvas);
+        glow.draw(canvas);
+        animations[currentOrientation].draw(canvas);
     }
 
     @Override
@@ -113,7 +157,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
-        ((SuperPacmanInteractionVisitor)v).interactWith(this);
+        ((SuperPacmanInteractionVisitor) v).interactWith(this);
     }
 
     private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor {

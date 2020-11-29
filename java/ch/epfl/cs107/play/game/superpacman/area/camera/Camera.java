@@ -20,10 +20,10 @@ public abstract class Camera implements Updatable {
     protected static final int MAX = 1;
     // Trigger for player difference position
     private static final float PLAYER_TP_TRIGGER = 5.0f;
-    private static final boolean TP_CAMERA = true;
     protected final Vector CENTER_COORDINATES;
     private final Random rand = new Random();
     private final Area area;
+    private boolean tpCamera = true;
     private Vector playerPosXY;
     private int shakeDuration = 8;    // nbr of frames
     private float shakeIntensity = 1.5f;
@@ -37,10 +37,12 @@ public abstract class Camera implements Updatable {
     /**
      * Constructor for class.
      * @param area          current area
+     * @param tpCamera      teleport camera to player if he teleports (changes area...)
      * @param doEdgeControl if true, the camera will stop moving in the axis where there is the area edge
      */
-    public Camera(Area area, boolean doEdgeControl) {
+    public Camera(Area area, boolean tpCamera, boolean doEdgeControl) {
         this.area = area;
+        this.tpCamera = tpCamera;
         playerPosXY = Vector.ZERO;
         tempPlayerPosXY = Vector.ZERO;
         CENTER_COORDINATES = new Vector(area.getWidth() / (float) 2, area.getHeight() / (float) 2);
@@ -148,7 +150,7 @@ public abstract class Camera implements Updatable {
      * @return the new camera position
      */
     private Vector getPos() {
-        if (isPlayerTeleported() && TP_CAMERA) {
+        if (isPlayerTeleported() && tpCamera) {
             float initX = setInitialPos(playerPosXY.getX(), minMaxPosX);
             float initY = setInitialPos(playerPosXY.getY(), minMaxPosY);
 
@@ -211,7 +213,9 @@ public abstract class Camera implements Updatable {
      * @param minMaxPos the min and max position for the camera
      * @return new coordinate
      */
-    protected abstract float updateCamera(float playerPos, float cameraPos, float[] minMaxPos);
+    protected float updateCamera(float playerPos, float cameraPos, float[] minMaxPos) {
+        return cameraPos;
+    }
 
     /**
      * @param toCompare    the value on the interval

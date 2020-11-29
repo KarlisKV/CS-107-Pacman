@@ -9,16 +9,17 @@ package ch.epfl.cs107.play.game.superpacman.area.camera;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 
-public class ParallaxCamera extends SmoothCamera {
+public class SmoothLimited extends SmoothFollow {
 
     /**
      * Constructor for ParallaxCamera.
      * @param area            current area
+     * @param tpCamera        teleport camera to player if he teleports (changes area...)
      * @param maxDisplacement the max displacement of the camera from the center
      * @param smoothStop      smooth acceleration/deceleration
      */
-    public ParallaxCamera(Area area, float maxDisplacement, boolean smoothStop) {
-        super(area, false, smoothStop);
+    public SmoothLimited(Area area, boolean tpCamera, boolean smoothStop, float maxDisplacement) {
+        super(area, tpCamera, false, smoothStop);
 
         setCameraPosXY(CENTER_COORDINATES);
         setMinMaxPosX(
