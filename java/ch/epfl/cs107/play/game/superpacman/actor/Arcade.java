@@ -7,7 +7,7 @@
 
 package ch.epfl.cs107.play.game.superpacman.actor;
 
-import ch.epfl.cs107.play.game.actor.Graphics;
+import ch.epfl.cs107.play.game.actor.Entity;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
@@ -18,7 +18,12 @@ import ch.epfl.cs107.play.window.Canvas;
 
 import java.awt.*;
 
-public class Arcade implements Graphics {
+public class Arcade extends Entity {
+
+    public Arcade() {
+        // TODO: Temporary fix, find better solution
+        super(new Vector(0,0));
+    }
 
     public void setAlpha(float alpha) {
         this.alpha = alpha;

@@ -41,13 +41,6 @@ public class SuperPacmanPlayer extends Player {
     private Orientation desiredOrientation = DEFAULT_ORIENTATION;
     private int currentOrientation;
 
-    // TODO: Temporary fix, find better solution
-    public Arcade getArcade() {
-        return arcade;
-    }
-
-    private Arcade arcade = new Arcade();
-
     public SuperPacmanPlayer(Area owner, DiscreteCoordinates coordinates) {
         super(owner, DEFAULT_ORIENTATION, coordinates);
         sprites = RPGSprite.extractSprites("superpacman/pacmanSmall",
@@ -120,7 +113,6 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public void draw(Canvas canvas) {
-        arcade.draw(canvas);
         gui.draw(canvas);
         glow.draw(canvas);
         animations[currentOrientation].draw(canvas);

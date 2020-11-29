@@ -10,6 +10,7 @@ package ch.epfl.cs107.play.game.superpacman;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.rpg.RPG;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
+import ch.epfl.cs107.play.game.superpacman.actor.Arcade;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
@@ -24,6 +25,7 @@ public class SuperPacman extends RPG {
     private int areaIndex;
     private float progress = 0.0f;
     private boolean start = false;
+    private Arcade arcade;
 
     private void createAreas() {
         addArea(new Level0());
@@ -45,6 +47,8 @@ public class SuperPacman extends RPG {
             Area area = setCurrentArea(areas[areaIndex], true);
             player = new SuperPacmanPlayer(area, Level0.PLAYER_SPAWN_POSITION);
             initPlayer(player);
+            arcade = new Arcade();
+            area.registerActor(arcade);
             return true;
         }
         return false;
@@ -56,7 +60,7 @@ public class SuperPacman extends RPG {
         if (!start ) {
             progress += 0.005f;
             if (progress <= 1) {
-                player.getArcade().setAlpha(BezierBlend(progress));
+                arcade.setAlpha(BezierBlend(progress));
             } else {
                 progress = 0;
                 start = true;

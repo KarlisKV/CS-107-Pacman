@@ -278,11 +278,6 @@ public abstract class Area implements Playable {
 	@Override
 	public void update(float deltaTime) {
 
-		if (areaBehavior != null && count == 0) {
-			camera = new SmoothLimited(this, true, true, 4);
-			++count;
-		}
-
 		purgeRegistration();
 
 		// Update actors
@@ -305,6 +300,9 @@ public abstract class Area implements Playable {
 		}
 
 		// Update camera location
+		if (camera == null) {
+			camera = new SmoothLimited(this, true, true, 4);
+		}
 		camera.updatePos(viewCandidate.getPosition());
 		camera.update(deltaTime);
 
