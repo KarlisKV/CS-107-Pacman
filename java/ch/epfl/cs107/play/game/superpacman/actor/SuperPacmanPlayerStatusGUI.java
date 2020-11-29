@@ -18,17 +18,21 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.awt.*;
 
 public class SuperPacmanPlayerStatusGUI implements Graphics {
-    private static final float DEPTH = 2000.f;
+    private static final float DEPTH = 2000.0f;
     private static final float HP_SPACING = 1.25f;
-    private final int currentHp;
-    private final int MAX_HP;
-    private final int score;
-    private ImageGraphics life;
-    private TextGraphics scoreText;
+    private static final float EDGE_PADDING = 0.375f;
+    private static final int LIFE_SPRITE_SIZE = 14;
+    private static final String FONT = "emulogic";
+    private static final int LIFE = 0;
+    private static final int NO_LIFE = LIFE_SPRITE_SIZE;
 
-    protected SuperPacmanPlayerStatusGUI(int currentHp, int MAX_HP, int score) {
+    private final int currentHp;
+    private final int maxHp;
+    private final int score;
+
+    protected SuperPacmanPlayerStatusGUI(int currentHp, int maxHp, int score) {
         this.currentHp = currentHp;
-        this.MAX_HP = MAX_HP;
+        this.maxHp = maxHp;
         this.score = score;
     }
 
@@ -39,20 +43,27 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
 
-        int m = 0;
-        for (int i = 0; i < MAX_HP; ++i) {
-            if (i < currentHp) {
-                m = 0;
-            } else {
-                m = 14;
-            }
-            life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"), 1.f, 1.f,
-                                     new RegionOfInterest(m, 0, 14, 14),
-                                     anchor.add(new Vector(HP_SPACING * i + 0.375f, 0.375f)), 1, DEPTH);
+        for (int i = 0; i < maxHp; ++i) {
+            int x = i < currentHp ? LIFE : NO_LIFE;
+
+            ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
+                                                   1.f,
+                                                   1.f,
+                                                   new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE, LIFE_SPRITE_SIZE),
+                                                   anchor.add(new Vector(HP_SPACING * i + EDGE_PADDING, EDGE_PADDING)),
+                                                   1,
+                                                   DEPTH);
             life.draw(canvas);
         }
-        scoreText = new TextGraphics("Score: " + score, 1.0f, Color.YELLOW, Color.BLACK, 0.0f, false, false, anchor.add(new Vector(width / 3f, height - 1.375f)));
-        scoreText.setFontName("emulogic");
+        TextGraphics scoreText = new TextGraphics("Score: " + score,
+                                                  1.0f,
+                                                  Color.YELLOW,
+                                                  Color.BLACK,
+                                                  0.0f,
+                                                  false,
+                                                  false,
+                                                  anchor.add(new Vector(width / 3f, height - (1 + EDGE_PADDING))));
+        scoreText.setFontName(FONT);
         scoreText.draw(canvas);
     }
 }

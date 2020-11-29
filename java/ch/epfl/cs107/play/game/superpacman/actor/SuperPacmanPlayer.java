@@ -34,18 +34,24 @@ public class SuperPacmanPlayer extends Player {
     private final Sprite[][] sprites;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final Animation[] animations;
-    private Orientation desiredOrientation = DEFAULT_ORIENTATION;
-    private int currentOrientation;
-//    private static final int MAX_HP = 5;
+    //    private static final int MAX_HP = 5;
 //    private int currentHp = 3;
 //    private int score = 0;
 //    private ImageGraphics glow;
-    private SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(3, 5, 69);
-    private Glow glow = new Glow(this, Glow.GlowColors.YELLOW);
+    private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(3, 5, 69);
+    private final Glow glow = new Glow(this, Glow.GlowColors.YELLOW);
+    private Orientation desiredOrientation = DEFAULT_ORIENTATION;
+    private int currentOrientation;
 
     public SuperPacmanPlayer(Area owner, DiscreteCoordinates coordinates) {
         super(owner, DEFAULT_ORIENTATION, coordinates);
-        sprites = RPGSprite.extractSprites("superpacman/pacmanSmall", 4, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE,
+        sprites = RPGSprite.extractSprites("superpacman/pacmanSmall",
+                                           4,
+                                           1,
+                                           1,
+                                           this,
+                                           SPRITE_SIZE,
+                                           SPRITE_SIZE,
                                            new Orientation[]{Orientation.DOWN, Orientation.LEFT, Orientation.UP,
                                                              Orientation.RIGHT});
         // TODO: fix animation speed - too fast

@@ -26,9 +26,13 @@ public class Glow implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
-        ImageGraphics glow = new ImageGraphics(ResourcePath.getSprite(color.pathToColor), 4.f, 4.f,
+        ImageGraphics glow = new ImageGraphics(ResourcePath.getSprite(color.pathToColor),
+                                               4.f,
+                                               4.f,
                                                new RegionOfInterest(0, 0, 195, 195),
-                                               new Vector(-1.5f, -1.5f), 0.5f, 100.f);
+                                               new Vector(-1.5f, -1.5f),
+                                               0.5f,
+                                               100.f);
         glow.setParent(parent);
         glow.draw(canvas);
     }
