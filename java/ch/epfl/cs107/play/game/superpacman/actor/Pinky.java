@@ -14,7 +14,7 @@ public class Pinky extends Ghost {
     private static final String SPRITE_NAME = "superpacman/ghost.pinky";
     private static final int SPRITE_SIZE = 16;
     private static final int MIN_AFRAID_DISTANCE = 5;
-    private static final int MAX_RANDOM_ATTEMPT = 200;
+    private static final int MAX_RANDOM_ATTEMPT = 2000000000;
     private int count;
 
     public Pinky(Area area, DiscreteCoordinates position) {
@@ -23,23 +23,24 @@ public class Pinky extends Ghost {
 
     @Override
     protected DiscreteCoordinates getTargetWhileFrightened() {
-        return null;
-    }
-
-    @Override
-    protected DiscreteCoordinates getTargetWhilePlayerInVew() {
-        if (isFrightened()) {
+        if (isPlayerInView()) {
             if (isStateUpdate()) {
                 count = 0;
             }
             ++count;
             if (count < MAX_RANDOM_ATTEMPT) {
+                // Get away from player
                 return getRandomValidElement(
                         getCellsFromRange(getCurrentMainCellCoordinates(), MIN_AFRAID_DISTANCE, true));
             } else {
                 return null;
             }
         }
+        return getTargetDefault();
+    }
+
+    @Override
+    protected DiscreteCoordinates getTargetWhilePlayerInVew() {
         return getLastPlayerPosition();
     }
 

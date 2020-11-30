@@ -38,11 +38,11 @@ public class SuperPacmanPlayer extends Player {
     private final Sprite[][] sprites;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final Animation[] animations;
+    private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
+    private final Glow glow;
     private int currentHp = 5;
     private int score = 0;
-    private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
     private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP, score);
-    private final Glow glow;
     private Orientation desiredOrientation = null;
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
 
@@ -56,34 +56,6 @@ public class SuperPacmanPlayer extends Player {
         glow = new Glow(this, sprites[0][0], Glow.GlowColors.YELLOW, 5.0f, 0.5f);
         resetMotion();
 
-    }
-    private void reset() {
-        if (currentHp > 0) {
-            --currentHp;
-        }
-        resetMotion();
-        // TODO: find better method
-        DiscreteCoordinates intiPos = PLAYER_SPAWN_POSITION;
-        switch (getOwnerArea().getTitle()) {
-            case "superpacman/level0":
-                intiPos = Level0.PLAYER_SPAWN_POSITION;
-                break;
-            case "superpacman/level1":
-                intiPos = Level1.PLAYER_SPAWN_POSITION;
-                break;
-            case "superpacman/level2":
-                intiPos = Level2.PLAYER_SPAWN_POSITION;
-                break;
-            default:
-                intiPos = PLAYER_SPAWN_POSITION;
-        }
-        getOwnerArea().unregisterActor(this);
-        getOwnerArea().leaveAreaCells(this, getCurrentCells());
-        getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
-        setCurrentPosition(intiPos.toVector());
-        getOwnerArea().registerActor(this);
-        desiredOrientation = null;
-        currentOrientation = DEFAULT_ORIENTATION;
     }
 
     @Override
@@ -124,6 +96,33 @@ public class SuperPacmanPlayer extends Player {
         } else {
             animations[currentOrientation.ordinal()].reset();
         }
+    }
+
+    private void reset() {
+        if (currentHp > 0) {
+            --currentHp;
+        }
+        resetMotion();
+        // TODO: find better method
+        DiscreteCoordinates intiPos = PLAYER_SPAWN_POSITION;
+        switch (getOwnerArea().getTitle()) {
+            case "superpacman/level0":
+                intiPos = Level0.PLAYER_SPAWN_POSITION;
+                break;
+            case "superpacman/level1":
+                intiPos = Level1.PLAYER_SPAWN_POSITION;
+                break;
+            case "superpacman/level2":
+                intiPos = Level2.PLAYER_SPAWN_POSITION;
+                break;
+            default:
+                intiPos = PLAYER_SPAWN_POSITION;
+        }
+        getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        getOwnerArea().leaveAreaCells(this, getLeftCells());
+        setCurrentPosition(intiPos.toVector());
+        desiredOrientation = null;
+        currentOrientation = DEFAULT_ORIENTATION;
     }
 
     @Override
@@ -189,11 +188,12 @@ public class SuperPacmanPlayer extends Player {
         @Override
         public void interactWith(Ghost ghost) {
             if (ghost.isFrightened()) {
-                ghost.reset();
                 score += Ghost.GHOST_SCORE;
+                ghost.setEaten();
+
             } else {
                 reset();
-                Ghost.setRestartAll(true);
+                ghost.restart();
             }
         }
     }

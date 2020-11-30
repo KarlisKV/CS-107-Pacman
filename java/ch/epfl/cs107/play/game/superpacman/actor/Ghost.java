@@ -17,18 +17,21 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RandomGenerator;
 import ch.epfl.cs107.play.window.Canvas;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
 
 public abstract class Ghost extends MovableAreaEntity implements Interactor {
-    protected static final int GHOST_SCORE = 500;
+    protected static final int GHOST_SCORE = 200;
+    protected static final float RESTART_TIME = 3;
+    protected static final float EATEN_TIME = 2;
     private static final int ANIMATION_DURATION = 12;
     private static final int BACK_TO_HOME_ANIMATION_DURATION = 6;
     private static final float FRIGHTENED_TIME = 30;
-    private static final float RESTART_TIME = 1;
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int NORMAL_GLOW = 0;
     private static final int FRIGHTENED_GLOW = 1;
-    private static boolean restartAll = false;
 
     private final Animation[] normalAnimation;
     private final Animation frightenedAnimation;
@@ -36,23 +39,30 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     private final DiscreteCoordinates homePosition;
     private final Glow[] glows = new Glow[2];
-
     private final GhostInteractionHandler ghostHandler;
-    private float restartCount = RESTART_TIME;
-    private boolean hasRestarted = false;
+
+    private boolean restart = false;
+    private boolean paused = false;
+    private float pauseTime = 0;
+    private float timer = 0;
+
     private int movementDuration = ANIMATION_DURATION;
     private DiscreteCoordinates lastPlayerPosition;
     private DiscreteCoordinates scatterPosition;
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
-    private float frightenedCount = FRIGHTENED_TIME;
-    private boolean frightened = false;
-    private boolean chase;
-    private boolean backToHome = false;
+
+    private float frightenedTime = FRIGHTENED_TIME;
+    private boolean frightened = true;
+    private boolean chase = false;
+
     private boolean playerInView = false;
+    private boolean isEaten = false;
+
     private Queue<Orientation> path = null;
     private DiscreteCoordinates targetPos = null;
-    private Path graphicPath = null;
     private boolean stateUpdate = false;
+    private boolean hasRestarted = false;
+    private boolean timerIsFinished = false;
 
     /**
      * Default MovableAreaEntity constructor
@@ -87,122 +97,134 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     }
 
-    public static void setRestartAll(boolean restartAll) {
-        Ghost.restartAll = restartAll;
-    }
-
-    public DiscreteCoordinates getTargetPos() {
-        return targetPos;
-    }
-
-    public void setTargetPos(DiscreteCoordinates targetPos) {
-        this.targetPos = targetPos;
-    }
-
-    public Queue<Orientation> getPath() {
-        return path;
-    }
-
-    public void setPath(Queue<Orientation> path) {
-        this.path = path;
-    }
-
-    public boolean isStateUpdate() {
-        return stateUpdate;
-    }
-
-    public DiscreteCoordinates getLastPlayerPosition() {
-        return lastPlayerPosition;
-    }
-
     protected boolean isPlayerInView() {
         return playerInView;
     }
 
-    public void setPlayerInView(boolean playerInView) {
+    protected void setPlayerInView(boolean playerInView) {
         stateUpdate = playerInView != this.playerInView;
         this.playerInView = playerInView;
+    }
+
+    protected void setEaten() {
+        isEaten = true;
+        path = null;
+        pause(Ghost.EATEN_TIME);
+        sendHome();
+    }
+
+    protected void pause(float time) {
+        paused = true;
+        pauseTime = time;
+    }
+
+    protected boolean isStateUpdate() {
+        return stateUpdate;
+    }
+
+    protected DiscreteCoordinates getLastPlayerPosition() {
+        return lastPlayerPosition;
     }
 
     protected boolean isFrightened() {
         return frightened;
     }
 
-    public void setFrightened(boolean frightened) {
+    protected void setFrightened(boolean frightened) {
         stateUpdate = frightened != this.frightened;
         this.frightened = frightened;
     }
 
-    public void setBackToHome(boolean backToHome) {
-        path = null;
-        this.backToHome = backToHome;
-    }
-
     @Override
     public void update(float deltaTime) {
-        updateAnimation(deltaTime);
+        updateTimer(deltaTime);
 
-        if (restartAll) {
-            restartCount -= deltaTime;
+        if (restart) {
             if (!hasRestarted) {
                 restart();
-            } else if (restartCount <= 0) {
-                restartCount = RESTART_TIME;
+            }
+            if (timerIsFinished) {
                 hasRestarted = false;
-                restartAll = false;
+                restart = false;
             }
         }
 
-        if (!isDisplacementOccurs()) {
-            currentOrientation = getNextOrientation();
-            orientate(currentOrientation);
-        }
-
-        if (frightened) {
-            if (frightenedCount == FRIGHTENED_TIME) {
-                orientate(currentOrientation.opposite());
+        if (!paused) {
+            updateAnimation(deltaTime);
+            if (!isDisplacementOccurs()) {
+                currentOrientation = getNextOrientation();
+                orientate(currentOrientation);
             }
-            frightenedCount -= deltaTime;
-            if (frightenedCount <= 0) {
-                frightenedCount = FRIGHTENED_TIME;
-                setFrightened(false);
+
+            if (frightened) {
+                if (frightenedTime == FRIGHTENED_TIME) {
+                    orientate(currentOrientation.opposite());
+                }
+                frightenedTime -= deltaTime;
+                if (frightenedTime <= 0) {
+                    frightenedTime = FRIGHTENED_TIME;
+                    setFrightened(false);
+                }
+            }
+            if (isEaten && reachedDestination(homePosition)) {
+                currentOrientation = DEFAULT_ORIENTATION;
+                movementDuration = ANIMATION_DURATION;
+                isEaten = false;
+            }
+
+            if (!isDisplacementOccurs()) {
+                move(movementDuration);
             }
         }
-        if (backToHome && reachedDestination(homePosition)) {
-            currentOrientation = DEFAULT_ORIENTATION;
-            movementDuration = ANIMATION_DURATION;
-            setBackToHome(false);
-        }
 
-        if (!isDisplacementOccurs()) {
-            move(movementDuration);
-        }
-
+        // Rest
         setPlayerInView(false);
         super.update(deltaTime);
     }
 
-    private Orientation getNextOrientation() {
-        if (backToHome) {
-            return moveToTarget(homePosition);
-        } else if (playerInView) {
-            return moveToTarget(getTargetWhilePlayerInVew());
-        } else if (frightened) {
-            return moveToTarget(getTargetWhileFrightened());
-        } else if (chase) {
-            return moveToTarget(getTargetWhileChaseMode());
+    private void updateTimer(float deltaTime) {
+        if (pauseTime != 0) {
+            timer = pauseTime;
+            pauseTime = 0;
+        }
+        if (timer >= 1) {
+            timerIsFinished = false;
+            timer -= deltaTime;
         } else {
-            return moveToTarget(getTargetDefault());
+            timerIsFinished = true;
+            paused = false;
         }
     }
 
-    abstract protected DiscreteCoordinates getTargetWhileFrightened();
+    private void updateAnimation(float deltaTime) {
+        normalAnimation[currentOrientation.ordinal()].update(deltaTime);
+        frightenedAnimation.update(deltaTime);
+    }
 
-    abstract protected DiscreteCoordinates getTargetWhilePlayerInVew();
+    private Orientation getNextOrientation() {
+        if (isEaten) {
+            return moveToTarget(homePosition);
+        }
+        if (frightened) {
+            return moveToTarget(getTargetWhileFrightened());
+        }
+        if (playerInView) {
+            return moveToTarget(getTargetWhilePlayerInVew());
+        }
+        if (chase) {
+            return moveToTarget(getTargetWhileChaseMode());
+        }
 
-    abstract protected DiscreteCoordinates getTargetWhileChaseMode();
+        return moveToTarget(getTargetDefault());
+    }
 
-    abstract protected DiscreteCoordinates getTargetDefault();
+    protected abstract DiscreteCoordinates getTargetWhileFrightened();
+
+    protected abstract DiscreteCoordinates getTargetWhilePlayerInVew();
+
+    protected abstract DiscreteCoordinates getTargetWhileChaseMode();
+
+    protected abstract DiscreteCoordinates getTargetDefault();
 
 
     protected Orientation getRandomOrientation() {
@@ -269,42 +291,50 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         return discreteCoordinates.get(randomInt);
     }
 
-    protected void reset() {
-        setBackToHome(true);
+    private void sendHome() {
         movementDuration = BACK_TO_HOME_ANIMATION_DURATION;
         setFrightened(false);
-        frightenedCount = FRIGHTENED_TIME;
+        frightenedTime = FRIGHTENED_TIME;
+    }
+
+    private void resetAnimations() {
+        for (Animation animation : normalAnimation) {
+            animation.reset();
+        }
+        for (Animation animation : backToHomeAnimation) {
+            animation.reset();
+        }
+        frightenedAnimation.reset();
     }
 
     protected void restart() {
-        // TODO: fix bug only 1 ghost teleporting to home
-        System.out.println("restart");
+        pause(RESTART_TIME);
         resetMotion();
+        resetAnimations();
         path = null;
         targetPos = null;
-        backToHome = false;
+        isEaten = false;
         lastPlayerPosition = null;
         setFrightened(false);
+        setPlayerInView(false);
         movementDuration = ANIMATION_DURATION;
-        frightenedCount = FRIGHTENED_TIME;
-        getOwnerArea().unregisterActor(this);
-        getOwnerArea().leaveAreaCells(this, getCurrentCells());
-        getOwnerArea().enterAreaCells(this, Collections.singletonList(homePosition));
+        frightenedTime = FRIGHTENED_TIME;
+        getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        getOwnerArea().leaveAreaCells(this, getLeftCells());
         setCurrentPosition(homePosition.toVector());
-        getOwnerArea().registerActor(this);
         hasRestarted = true;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        if (path != null) {
-            graphicPath = new Path(this.getPosition(), new LinkedList<>(path));
-            graphicPath.draw(canvas);
-        }
+//        if (path != null) {
+//            Path graphicPath = new Path(this.getPosition(), new LinkedList<>(path));
+//            graphicPath.draw(canvas);
+//        }
         if (frightened) {
             frightenedAnimation.draw(canvas);
             glows[FRIGHTENED_GLOW].draw(canvas);
-        } else if (backToHome) {
+        } else if (isEaten) {
             backToHomeAnimation[currentOrientation.ordinal()].draw(canvas);
         } else {
             normalAnimation[currentOrientation.ordinal()].draw(canvas);
@@ -312,10 +342,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         }
     }
 
-    private void updateAnimation(float deltaTime) {
-        normalAnimation[currentOrientation.ordinal()].update(deltaTime);
-        frightenedAnimation.update(deltaTime);
-    }
+
 
     protected List<DiscreteCoordinates> getCellsFromRange(DiscreteCoordinates initPos, int range, boolean onlyEdge) {
         List<DiscreteCoordinates> cellsInView = new ArrayList<>();
@@ -367,7 +394,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean isCellInteractable() {
-        return !backToHome && !restartAll;
+        return !isEaten && !paused && !restart;
     }
 
     @Override

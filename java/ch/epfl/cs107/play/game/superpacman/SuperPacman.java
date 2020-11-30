@@ -71,9 +71,9 @@ public class SuperPacman extends RPG {
         } else {
             progress += 0.01f;
         }
-        if (CAMERA_SCALE_FACTOR > 30.0f && start && progress <= 1) {
+        if (CAMERA_SCALE_FACTOR > 25.0f && start && progress <= 1) {
             float newProgress = BezierBlend(progress);
-            CAMERA_SCALE_FACTOR = 30 + (140 * (1 - newProgress));
+            CAMERA_SCALE_FACTOR = 25 + (145 * (1 - newProgress));
         }
 
 
