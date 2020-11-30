@@ -13,10 +13,19 @@ import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 
 public interface SuperPacmanInteractionVisitor extends RPGInteractionVisitor {
 
+    /**
+     * Default interaction between something and the player
+     * @param player (SuperPacmanPlayer)
+     */
     default void interactWith(SuperPacmanPlayer player) {
-        // TODO: later modify with actions with player interacts
+        // by default empty
     }
 
+    /**
+     * Default interaction between something and a Ghost
+     * @param ghost (Ghost)
+     */
     default void interactWith(Ghost ghost) {
+        // by default empty
     }
 }

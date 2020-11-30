@@ -7,12 +7,14 @@
 
 package ch.epfl.cs107.play.game.superpacman.actor;
 
+import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.Animation;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
@@ -22,6 +24,7 @@ import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -38,6 +41,8 @@ public class SuperPacmanPlayer extends Player {
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final Animation[] animation;
     private final Animation deathAnimation;
+    private final SoundAcoustics sirenSound;
+    private final SoundAcoustics deathSound;
     private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
     private final Glow glow;
     private int currentHp = 5;
@@ -48,31 +53,63 @@ public class SuperPacmanPlayer extends Player {
     private boolean canPlayerMove = false;
     private boolean isDead = false;
     private float timer = 3;
+    private boolean soundHasStarted = false;
 
+    /**
+     * Constructor for SuperPacmanPlayer
+     * @param owner       (Area): Owner Area, not null
+     * @param coordinates (Coordinates): Initial position, not null
+     */
     public SuperPacmanPlayer(Area owner, DiscreteCoordinates coordinates) {
         super(owner, DEFAULT_ORIENTATION, coordinates);
         PLAYER_SPAWN_POSITION = coordinates;
+
+        // ANIMATIONS
+        // Normal animation
         Sprite[][] sprites =
                 RPGSprite.extractSprites("superpacman/pacmanSmall", 4, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE,
                                          new Orientation[]{Orientation.DOWN, Orientation.LEFT, Orientation.UP,
                                                            Orientation.RIGHT});
         animation = Animation.createAnimations(ANIMATION_DURATION / 2 + 2, sprites);
-        glow = new Glow(this, sprites[0][0], Glow.GlowColors.YELLOW, 5.0f, 0.5f);
-
+        // Death animation
         Sprite[] deadSprites =
                 RPGSprite.extractSprites("superpacman/deadPacman", 12, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE);
-        deathAnimation = new Animation(ANIMATION_DURATION / 2, deadSprites, false);
-        resetMotion();
+        deathAnimation = new Animation(ANIMATION_DURATION - 1, deadSprites, false);
 
+        // GLOW
+        glow = new Glow(this, sprites[0][0], Glow.GlowColors.YELLOW, 5.0f, 0.5f);
+
+        // SOUNDS
+        sirenSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/siren_1"), 1.f, false, false, true, false);
+        deathSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/death_1"), 1.f, false, false, false, true);
+        resetMotion();
     }
+
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
 
     public void setCanPlayerMove(boolean canPlayerMove) {
         this.canPlayerMove = canPlayerMove;
     }
 
     @Override
+    public void bip(Audio audio) {
+        // TODO: find better way
+        sirenSound.shouldBeStarted();
+        if (isDead && soundHasStarted) {
+            SoundAcoustics.stopAllSounds(audio);
+            deathSound.shouldBeStarted();
+            deathSound.bip(audio);
+            soundHasStarted = false;
+        } else if (canPlayerMove && !soundHasStarted) {
+            sirenSound.bip(audio);
+            soundHasStarted = true;
+        }
+
+    }
+
+    @Override
     public void update(float deltaTime) {
-        gui.update(currentHp, MAX_HP, score);
+        gui.update(currentHp, score);
         updateAnimation(deltaTime);
 
         if (isDead) {
@@ -110,12 +147,10 @@ public class SuperPacmanPlayer extends Player {
         super.update(deltaTime);
     }
 
-    private void setDesiredOrientation(Orientation orientation, Button b) {
-        if (b.isDown()) {
-            desiredOrientation = orientation;
-        }
-    }
-
+    /**
+     * Method to update the animations
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     private void updateAnimation(float deltaTime) {
         if (isDisplacementOccurs()) {
             animation[currentOrientation.ordinal()].update(deltaTime);
@@ -129,13 +164,18 @@ public class SuperPacmanPlayer extends Player {
         }
     }
 
+    /**
+     * Restart SuperPacmanPlayer, resetting all attributes to initial values, and loosing 1 life
+     */
     private void reset() {
         if (currentHp > 0) {
             --currentHp;
         }
+        desiredOrientation = null;
+        currentOrientation = DEFAULT_ORIENTATION;
         glow.reset();
-        // TODO: find better method
-        DiscreteCoordinates intiPos = PLAYER_SPAWN_POSITION;
+        // TODO: find better way of achieving this
+        DiscreteCoordinates intiPos;
         switch (getOwnerArea().getTitle()) {
             case "superpacman/level0":
                 intiPos = Level0.PLAYER_SPAWN_POSITION;
@@ -149,11 +189,22 @@ public class SuperPacmanPlayer extends Player {
             default:
                 intiPos = PLAYER_SPAWN_POSITION;
         }
+        // TODO: interaction not working (when player dies, and goes to the cell where he died, he dies again...)
         getOwnerArea().leaveAreaCells(this, getEnteredCells());
         getOwnerArea().leaveAreaCells(this, getLeftCells());
         setCurrentPosition(intiPos.toVector());
-        desiredOrientation = null;
-        currentOrientation = DEFAULT_ORIENTATION;
+
+    }
+
+    /**
+     * Method to set the desiered orientation if the key is pressed down
+     * @param orientation the Orientation linked with the key
+     * @param key         keyboard key
+     */
+    private void setDesiredOrientation(Orientation orientation, Button key) {
+        if (key.isDown()) {
+            desiredOrientation = orientation;
+        }
     }
 
     @Override
@@ -171,26 +222,6 @@ public class SuperPacmanPlayer extends Player {
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
-    }
-
-    @Override
-    public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return null;
-    }
-
-    @Override
-    public boolean wantsCellInteraction() {
-        return !isDead;
-    }
-
-    @Override
-    public boolean wantsViewInteraction() {
-        return false;
-    }
-
-    @Override
-    public void interactWith(Interactable other) {
-        other.acceptInteraction(playerHandler);
     }
 
     @Override
@@ -213,6 +244,29 @@ public class SuperPacmanPlayer extends Player {
         ((SuperPacmanInteractionVisitor) v).interactWith(this);
     }
 
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return null;
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return !isDead;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return false;
+    }
+
+    @Override
+    public void interactWith(Interactable other) {
+        other.acceptInteraction(playerHandler);
+    }
+
+    /**
+     * Interaction handler class for SuperPacmanPlayer
+     */
     private class SuperPacmanPlayerHandler implements SuperPacmanInteractionVisitor {
 
         @Override
@@ -228,7 +282,7 @@ public class SuperPacmanPlayer extends Player {
 
             } else {
                 isDead = true;
-                ghost.restart();
+                ghost.reset();
             }
         }
     }

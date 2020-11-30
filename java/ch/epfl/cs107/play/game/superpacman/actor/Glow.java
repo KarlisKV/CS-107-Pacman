@@ -50,8 +50,8 @@ public class Glow implements Graphics {
                                                size,
                                                size,
                                                new RegionOfInterest(0, 0, 195, 195),
-                                               new Vector(-size/2 + sprite.getWidth() / 2,
-                                                          -size/2 + sprite.getHeight() / 2),
+                                               new Vector(-size / 2 + sprite.getWidth() / 2,
+                                                          -size / 2 + sprite.getHeight() / 2),
                                                currentAlpha,
                                                100.f);
         glow.setParent(parent);

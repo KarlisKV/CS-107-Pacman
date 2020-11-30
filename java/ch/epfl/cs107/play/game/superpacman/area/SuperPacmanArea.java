@@ -16,6 +16,11 @@ public abstract class SuperPacmanArea extends Area {
     private SuperPacmanAreaBehavior behavior;
 
     @Override
+    public float getCameraScaleFactor() {
+        return SuperPacman.CAMERA_SCALE_FACTOR;
+    }
+
+    @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             // Set the behavior map
@@ -28,11 +33,8 @@ public abstract class SuperPacmanArea extends Area {
         return false;
     }
 
+    /**
+     * Abstract method to create and add actors to area
+     */
     protected abstract void createArea();
-
-    @Override
-    public float getCameraScaleFactor() {
-        return SuperPacman.CAMERA_SCALE_FACTOR;
-    }
-
 }

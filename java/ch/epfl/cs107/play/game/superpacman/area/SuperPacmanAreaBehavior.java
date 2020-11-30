@@ -30,6 +30,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
     public SuperPacmanAreaBehavior(Window window, String name) {
         super(window, name);
         areaGraph = new AreaGraph();
+        // TODO: check how to prevent double loop repetition
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
                 SuperPacmanAreaBehavior.SuperPacmanCellType color =
@@ -47,6 +48,22 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         }
     }
 
+    /**
+     * Method to check if cell type matches.
+     * @param x        coordinate of the cell
+     * @param y        coordinate of the cell
+     * @param cellType the type of the cell wanted
+     * @return true if the current cell matches cellType
+     */
+    private boolean cellEqualsToType(int x, int y, SuperPacmanCellType cellType) {
+        return ((SuperPacmanCell) getCell(x, y)).type == cellType;
+    }
+
+    /* ------------------------- Specific methods for constructing areaGraph -------------------------
+     * Take parameters x and y of current iteration and compares the WALL edges
+     * Return (boolean)
+     */
+    // TODO: check if there is better encapsulation
     private boolean hasLeftEdge(int x, int y) {
         return x > 0 && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL);
     }
@@ -90,7 +107,6 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         }
     }
 
-
     /**
      * Method to find if neighborhood cells are walls.
      * @param x coordinate of the cell
@@ -109,17 +125,6 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
             }
         }
         return neighbors;
-    }
-
-    /**
-     * Method to check if cell type matches.
-     * @param x        coordinate of the cell
-     * @param y        coordinate of the cell
-     * @param cellType the type of the cell wanted
-     * @return true if the current cell matches cellType
-     */
-    private boolean cellEqualsToType(int x, int y, SuperPacmanCellType cellType) {
-        return ((SuperPacmanCell) getCell(x, y)).type == cellType;
     }
 
     public enum SuperPacmanCellType {

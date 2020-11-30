@@ -54,6 +54,8 @@ public abstract class Camera implements Updatable {
         }
     }
 
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
+
     public void setMinMaxPosX(float[] minMaxPosX) {
         this.minMaxPosX = minMaxPosX;
     }
@@ -72,6 +74,20 @@ public abstract class Camera implements Updatable {
 
     public void setCameraPosXY(Vector cameraPosXY) {
         this.cameraPosXY = cameraPosXY;
+    }
+
+    /**
+     * Method to set minX, maxX, minY, maxY for the camera if doEdgeControl.
+     * @param areaSize the area size (width or height)
+     * @return array with axis min and max positions
+     */
+    private float[] setMinMaxPos(float areaSize) {
+
+        float[] minMaxCameraPos = new float[2];
+        minMaxCameraPos[MIN] = (area.getCameraScaleFactor() / 2);
+        minMaxCameraPos[MAX] = (areaSize - (area.getCameraScaleFactor() / 2));
+
+        return minMaxCameraPos;
     }
 
     /**
@@ -100,25 +116,6 @@ public abstract class Camera implements Updatable {
     }
 
     /**
-     * Method to start camera shake with default values.
-     */
-    public void shake() {
-        shakeCamera = true;
-        shakenFrames = 0;
-    }
-
-    /**
-     * Method to start camera shake.
-     * @param intensity the intensity of the shake
-     * @param duration  the duration of the shake in frames
-     */
-    public void shake(float intensity, int duration) {
-        shakeIntensity = intensity;
-        shakeDuration = duration;
-        shake();
-    }
-
-    /**
      * Method to perform camera shake.
      */
     private void shakeCamera() {
@@ -130,19 +127,6 @@ public abstract class Camera implements Updatable {
         } else if (shakenFrames == shakeDuration) {
             shakeCamera = false;
         }
-    }
-
-    /**
-     * Abstract method to get what Vector will be modified
-     * @return the Vector to modify
-     */
-    protected abstract Vector getShakeModifier();
-
-    private float getRandomShakeModifier() {
-        final float min = -shakeIntensity;
-        final float max = shakeIntensity;
-
-        return min + rand.nextFloat() * (max - min);
     }
 
     /**
@@ -164,6 +148,19 @@ public abstract class Camera implements Updatable {
     }
 
     /**
+     * Abstract method to get what Vector will be modified
+     * @return the Vector to modify
+     */
+    protected abstract Vector getShakeModifier();
+
+    private float getRandomShakeModifier() {
+        final float min = -shakeIntensity;
+        final float max = shakeIntensity;
+
+        return min + rand.nextFloat() * (max - min);
+    }
+
+    /**
      * Method to detect if player has changed area.
      * @return true if the difference of the player's last update coordinates and current coordinates is larger than
      * the tp trigger
@@ -171,20 +168,6 @@ public abstract class Camera implements Updatable {
     private boolean isPlayerTeleported() {
         return (Math.abs(tempPlayerPosXY.getX() - playerPosXY.getX()) > PLAYER_TP_TRIGGER && Math.abs(
                 tempPlayerPosXY.getY() - playerPosXY.getY()) > PLAYER_TP_TRIGGER);
-    }
-
-    /**
-     * Method to set minX, maxX, minY, maxY for the camera if doEdgeControl.
-     * @param areaSize the area size (width or height)
-     * @return array with axis min and max positions
-     */
-    private float[] setMinMaxPos(float areaSize) {
-
-        float[] minMaxCameraPos = new float[2];
-        minMaxCameraPos[MIN] = (area.getCameraScaleFactor() / 2);
-        minMaxCameraPos[MAX] = (areaSize - (area.getCameraScaleFactor() / 2));
-
-        return minMaxCameraPos;
     }
 
     /**
@@ -224,5 +207,24 @@ public abstract class Camera implements Updatable {
      */
     protected boolean isOutOfInterval(float toCompare, float[] minMaxValues) {
         return (toCompare < minMaxValues[MIN]) || (toCompare > minMaxValues[MAX]);
+    }
+
+    /**
+     * Method to start camera shake.
+     * @param intensity the intensity of the shake
+     * @param duration  the duration of the shake in frames
+     */
+    public void shake(float intensity, int duration) {
+        shakeIntensity = intensity;
+        shakeDuration = duration;
+        shake();
+    }
+
+    /**
+     * Method to start camera shake with default values.
+     */
+    public void shake() {
+        shakeCamera = true;
+        shakenFrames = 0;
     }
 }

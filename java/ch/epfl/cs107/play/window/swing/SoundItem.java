@@ -1,6 +1,9 @@
 package ch.epfl.cs107.play.window.swing;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 
 /**
  * Play a single sound
@@ -26,7 +29,7 @@ public final class SoundItem implements LineListener {
 
     /**
      * Default Sound Item constructor
-     * @param loop (boolean): indicate if the item restart on self-ending
+     * @param loop (boolean): indicate if the item reset on self-ending
      * @param volume (float): 0.0f no sound, 1.0f full audio
      * @param fadeIn (boolean): indicate if the song fade in until reaching its max volume
      * @param randomFirstStart (boolean): indicate if the first start is random in the sound
@@ -108,7 +111,7 @@ public final class SoundItem implements LineListener {
     @Override
     public void update(LineEvent event) {
         if (event.getType() == LineEvent.Type.STOP) {
-            // On self ending : if loop : stop and restart the clip
+            // On self ending : if loop : stop and reset the clip
             if (loop && !finish) {
                 audioClip.close();
                 start();

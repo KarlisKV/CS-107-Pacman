@@ -34,6 +34,11 @@ public class SmoothFollow extends Camera {
     }
 
     @Override
+    protected Vector getShakeModifier() {
+        return getCameraPosXY();
+    }
+
+    @Override
     protected float updateCamera(float playerPos, float cameraPos, float[] minMaxPos) {
         if (smoothStop) {
             if (playerPos < minMaxPos[MIN]) {
@@ -94,11 +99,6 @@ public class SmoothFollow extends Camera {
             }
         }
         return cameraPos + modifier;
-    }
-
-    @Override
-    protected Vector getShakeModifier() {
-        return getCameraPosXY();
     }
 
 }

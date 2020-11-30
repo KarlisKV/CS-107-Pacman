@@ -23,16 +23,16 @@ public class Follow extends Camera {
     }
 
     @Override
+    protected Vector getShakeModifier() {
+        return getPlayerPosXY();
+    }
+
+    @Override
     protected float updateCamera(float playerPos, float cameraPos, float[] minMaxPos) {
         float pos = playerPos;
         if (isOutOfInterval(pos, minMaxPos)) {
             pos = cameraPos;
         }
         return pos;
-    }
-
-    @Override
-    protected Vector getShakeModifier() {
-        return getPlayerPosXY();
     }
 }

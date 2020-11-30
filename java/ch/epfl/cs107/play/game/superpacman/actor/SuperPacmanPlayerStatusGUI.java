@@ -27,18 +27,28 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private static final int LIFE = 0;
     private static final int NO_LIFE = LIFE_SPRITE_SIZE;
     private int currentHp;
-    private int maxHp;
+    private final int maxHp;
     private int score;
 
+    /**
+     * Consructor for SuperPacmanPlayerStatusGUI
+     * @param currentHp (int): the SuperPacmanPlayer's initial health
+     * @param maxHp     (int): the SuperPacmanPlayer's max health
+     * @param score     (int): the SuperPacmanPlayer's initial score
+     */
     protected SuperPacmanPlayerStatusGUI(int currentHp, int maxHp, int score) {
         this.currentHp = currentHp;
         this.maxHp = maxHp;
         this.score = score;
     }
 
-    protected void update(int currentHp, int maxHp, int score) {
+    /**
+     * Method to update GUI with new values
+     * @param currentHp the SuperPacmanPlayer's current health
+     * @param score     the SuperPacmanPlayer's current health
+     */
+    protected void update(int currentHp, int score) {
         this.currentHp = currentHp;
-        this.maxHp = maxHp;
         this.score = score;
     }
 

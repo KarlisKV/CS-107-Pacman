@@ -20,18 +20,28 @@ import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacman extends RPG {
     public static float CAMERA_SCALE_FACTOR = 170.f;
-    private static final Arcade arcade = new Arcade();
+    private static Arcade arcade;
     private final String[] areas = {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
     private SuperPacmanPlayer player;
     private int areaIndex;
     private float progress = 0.0f;
     private boolean start = false;
 
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
     // TODO: Temporary fix, find better solution
     public static Arcade getArcade() {
         return arcade;
     }
 
+    @Override
+    public String getTitle() {
+        return "Super Pac-mac";
+    }
+
+
+    /**
+     * Method to add Areas to the AreaGame
+     */
     private void createAreas() {
         addArea(new Level0());
         addArea(new Level1());
@@ -52,6 +62,8 @@ public class SuperPacman extends RPG {
             Area area = setCurrentArea(areas[areaIndex], true);
             player = new SuperPacmanPlayer(area, Level0.PLAYER_SPAWN_POSITION);
             initPlayer(player);
+            arcade = new Arcade();
+            area.registerActor(arcade);
             return true;
         }
         return false;
@@ -81,7 +93,6 @@ public class SuperPacman extends RPG {
 
 
         super.update(deltaTime);
-
     }
 
     private float BezierBlend(float x) {
@@ -92,8 +103,5 @@ public class SuperPacman extends RPG {
     public void end() {
     }
 
-    @Override
-    public String getTitle() {
-        return "Super Pac-mac";
-    }
+
 }
