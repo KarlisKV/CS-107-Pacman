@@ -17,12 +17,14 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Glow implements Graphics {
     private final Positionable parent;
+    private final ImageGraphics sprite;
     private final GlowColors color;
     private final float size;
     private final float intensity;
 
-    protected Glow(Positionable parent, GlowColors color, float size, float intensity) {
+    protected Glow(Positionable parent, ImageGraphics sprite, GlowColors color, float size, float intensity) {
         this.parent = parent;
+        this.sprite = sprite;
         this.color = color;
         this.size = size;
         this.intensity = intensity;
@@ -30,11 +32,13 @@ public class Glow implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
+
         ImageGraphics glow = new ImageGraphics(ResourcePath.getSprite(color.pathToColor),
                                                size,
                                                size,
                                                new RegionOfInterest(0, 0, 195, 195),
-                                               new Vector(-1.5f, -1.5f),
+                                               new Vector(-size/2 + sprite.getWidth() / 2,
+                                                          -size/2 + sprite.getHeight() / 2),
                                                intensity,
                                                100.f);
         glow.setParent(parent);
@@ -42,7 +46,12 @@ public class Glow implements Graphics {
     }
 
     protected enum GlowColors {
-        YELLOW("superpacman/glowYellow");
+        TEST("superpacman/glowTest"),
+        YELLOW("superpacman/glowYellow"),
+        RED("superpacman/glowRed"),
+        BLUE("superpacman/glowBlue"),
+        LIGHT_BLUE("superpacman/glowLightBlue"),
+        PINK("superpacman/glowPink");
 
         final String pathToColor;
 

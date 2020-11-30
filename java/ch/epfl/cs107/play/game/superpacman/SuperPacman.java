@@ -77,14 +77,11 @@ public class SuperPacman extends RPG {
         }
 
 
-//        if (progress % 200 == 0) {
-//            getCurrentArea().getCamera().shake();
-//        }
         super.update(deltaTime);
 
     }
 
-    float BezierBlend(float x) {
+    private float BezierBlend(float x) {
         return x < 0.5 ? 8 * x * x * x * x : (float) (1 - Math.pow(-2 * x + 2, 4) / 2);
     }
 

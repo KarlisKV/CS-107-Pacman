@@ -9,28 +9,58 @@ package ch.epfl.cs107.play.game.superpacman.area;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
+import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.actor.Blinky;
+import ch.epfl.cs107.play.game.superpacman.actor.Inky;
+import ch.epfl.cs107.play.game.superpacman.actor.Pinky;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
-public class SuperPacmanBehavior extends AreaBehavior {
+public class SuperPacmanAreaBehavior extends AreaBehavior {
+    public static AreaGraph areaGraph;
 
     /**
      * Default SuperPacmanBehavior Constructor
      * @param window (Window), not null
      * @param name   (String): Name of the Behavior, not null
      */
-    public SuperPacmanBehavior(Window window, String name) {
+    public SuperPacmanAreaBehavior(Window window, String name) {
         super(window, name);
+        areaGraph = new AreaGraph();
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
-                SuperPacmanBehavior.SuperPacmanCellType color =
-                        SuperPacmanBehavior.SuperPacmanCellType.toType(getRGB(getHeight() - 1 - y, x));
-                setCell(x, y, new SuperPacmanBehavior.SuperPacmanCell(x, y, color));
+                SuperPacmanAreaBehavior.SuperPacmanCellType color =
+                        SuperPacmanAreaBehavior.SuperPacmanCellType.toType(getRGB(getHeight() - 1 - y, x));
+                setCell(x, y, new SuperPacmanAreaBehavior.SuperPacmanCell(x, y, color));
             }
         }
+        for (int y = 0; y < getHeight(); ++y) {
+            for (int x = 0; x < getWidth(); ++x) {
+                if (!cellEqualsToType(x, y, SuperPacmanCellType.WALL)) {
+                    areaGraph.addNode(new DiscreteCoordinates(x, y), hasLeftEdge(x, y), hasUpEdge(x, y),
+                                      hasRightEdge(x, y), hasDownEdge(x, y));
+                }
+            }
+        }
+    }
+
+    private boolean hasLeftEdge(int x, int y) {
+        return x > 0 && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL);
+    }
+
+    private boolean hasUpEdge(int x, int y) {
+        return y < getHeight() - 1 && !cellEqualsToType(x, y + 1, SuperPacmanCellType.WALL);
+    }
+
+    private boolean hasRightEdge(int x, int y) {
+        return x < getWidth() - 1 && !cellEqualsToType(x + 1, y, SuperPacmanCellType.WALL);
+    }
+
+    private boolean hasDownEdge(int x, int y) {
+        return y > 0 && !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL);
     }
 
     /**
@@ -40,9 +70,21 @@ public class SuperPacmanBehavior extends AreaBehavior {
     protected void registerActors(Area area) {
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
-                if (compareCellToType(x, y, SuperPacmanCellType.WALL)) {
+                if (cellEqualsToType(x, y, SuperPacmanCellType.WALL)) {
                     Wall wall = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y));
                     area.registerActor(wall);
+                }
+                if (cellEqualsToType(x, y, SuperPacmanCellType.FREE_WITH_BLINKY)) {
+                    Blinky blinky = new Blinky(area, new DiscreteCoordinates(x, y));
+                    area.registerActor(blinky);
+                }
+                if (cellEqualsToType(x, y, SuperPacmanCellType.FREE_WITH_INKY)) {
+                    Inky inky = new Inky(area, new DiscreteCoordinates(x, y));
+                    area.registerActor(inky);
+                }
+                if (cellEqualsToType(x, y, SuperPacmanCellType.FREE_WITH_PINKY)) {
+                    Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
+                    area.registerActor(pinky);
                 }
             }
         }
@@ -61,7 +103,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
         for (int tabY = -1; tabY < 2; ++tabY) {
             for (int tabX = -1; tabX < 2; ++tabX) {
                 if (((x + tabX) >= 0) && ((x + tabX) < getWidth()) && ((y + tabY) >= 0) && ((y + tabY) < getHeight()) &&
-                        compareCellToType(x + tabX, y + tabY, SuperPacmanCellType.WALL)) {
+                        cellEqualsToType(x + tabX, y + tabY, SuperPacmanCellType.WALL)) {
                     neighbors[tabX + 1][-tabY + 1] = true;
                 }
             }
@@ -76,7 +118,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
      * @param cellType the type of the cell wanted
      * @return true if the current cell matches cellType
      */
-    private boolean compareCellToType(int x, int y, SuperPacmanCellType cellType) {
+    private boolean cellEqualsToType(int x, int y, SuperPacmanCellType cellType) {
         return ((SuperPacmanCell) getCell(x, y)).type == cellType;
     }
 
@@ -97,8 +139,9 @@ public class SuperPacmanBehavior extends AreaBehavior {
             this.type = type;
         }
 
-        public static SuperPacmanBehavior.SuperPacmanCellType toType(int type) {
-            for (SuperPacmanBehavior.SuperPacmanCellType ict : SuperPacmanBehavior.SuperPacmanCellType.values()) {
+        public static SuperPacmanAreaBehavior.SuperPacmanCellType toType(int type) {
+            for (SuperPacmanAreaBehavior.SuperPacmanCellType ict : SuperPacmanAreaBehavior.SuperPacmanCellType
+                    .values()) {
                 if (ict.type == type) {
                     return ict;
                 }
@@ -114,7 +157,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
      */
     public class SuperPacmanCell extends AreaBehavior.Cell {
         /// Type of the cell following the enum
-        private final SuperPacmanBehavior.SuperPacmanCellType type;
+        private final SuperPacmanAreaBehavior.SuperPacmanCellType type;
 
         /**
          * Default SuperPacmanCell Constructor
@@ -122,7 +165,7 @@ public class SuperPacmanBehavior extends AreaBehavior {
          * @param y    (int): y coordinate of the cell
          * @param type (EnigmeCellType), not null
          */
-        public SuperPacmanCell(int x, int y, SuperPacmanBehavior.SuperPacmanCellType type) {
+        public SuperPacmanCell(int x, int y, SuperPacmanAreaBehavior.SuperPacmanCellType type) {
             super(x, y);
             this.type = type;
         }
