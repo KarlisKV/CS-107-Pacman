@@ -35,9 +35,9 @@ public class SuperPacmanPlayer extends Player {
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int SPRITE_SIZE = 14;
     private static final int MAX_HP = 5;
-    private final Sprite[][] sprites;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
-    private final Animation[] animations;
+    private final Animation[] animation;
+    private final Animation deathAnimation;
     private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
     private final Glow glow;
     private int currentHp = 5;
@@ -45,17 +45,29 @@ public class SuperPacmanPlayer extends Player {
     private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP, score);
     private Orientation desiredOrientation = null;
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
+    private boolean canPlayerMove = false;
+    private boolean isDead = false;
+    private float timer = 3;
 
     public SuperPacmanPlayer(Area owner, DiscreteCoordinates coordinates) {
         super(owner, DEFAULT_ORIENTATION, coordinates);
         PLAYER_SPAWN_POSITION = coordinates;
-        sprites = RPGSprite.extractSprites("superpacman/pacmanSmall", 4, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE,
-                                           new Orientation[]{Orientation.DOWN, Orientation.LEFT, Orientation.UP,
-                                                             Orientation.RIGHT});
-        animations = Animation.createAnimations(ANIMATION_DURATION / 2 + 2, sprites);
+        Sprite[][] sprites =
+                RPGSprite.extractSprites("superpacman/pacmanSmall", 4, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE,
+                                         new Orientation[]{Orientation.DOWN, Orientation.LEFT, Orientation.UP,
+                                                           Orientation.RIGHT});
+        animation = Animation.createAnimations(ANIMATION_DURATION / 2 + 2, sprites);
         glow = new Glow(this, sprites[0][0], Glow.GlowColors.YELLOW, 5.0f, 0.5f);
+
+        Sprite[] deadSprites =
+                RPGSprite.extractSprites("superpacman/deadPacman", 12, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE);
+        deathAnimation = new Animation(ANIMATION_DURATION / 2, deadSprites, false);
         resetMotion();
 
+    }
+
+    public void setCanPlayerMove(boolean canPlayerMove) {
+        this.canPlayerMove = canPlayerMove;
     }
 
     @Override
@@ -63,13 +75,27 @@ public class SuperPacmanPlayer extends Player {
         gui.update(currentHp, MAX_HP, score);
         updateAnimation(deltaTime);
 
-        Keyboard keyboard = getOwnerArea().getKeyboard();
-        setDesiredOrientation(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        setDesiredOrientation(Orientation.UP, keyboard.get(Keyboard.UP));
-        setDesiredOrientation(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-        setDesiredOrientation(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        if (isDead) {
+            glow.fadeOut(0.02f);
+            resetMotion();
+            canPlayerMove = false;
+            timer -= deltaTime;
+            if (timer <= 0) {
+                reset();
+                isDead = false;
+                canPlayerMove = true;
+                timer = 3;
+            }
+        }
+        if (canPlayerMove) {
+            Keyboard keyboard = getOwnerArea().getKeyboard();
+            setDesiredOrientation(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
+            setDesiredOrientation(Orientation.UP, keyboard.get(Keyboard.UP));
+            setDesiredOrientation(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
+            setDesiredOrientation(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        }
 
-        if (desiredOrientation != null) {
+        if (desiredOrientation != null && !isDead) {
             List<DiscreteCoordinates> jumpedCell =
                     Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector()));
 
@@ -92,9 +118,14 @@ public class SuperPacmanPlayer extends Player {
 
     private void updateAnimation(float deltaTime) {
         if (isDisplacementOccurs()) {
-            animations[currentOrientation.ordinal()].update(deltaTime);
+            animation[currentOrientation.ordinal()].update(deltaTime);
         } else {
-            animations[currentOrientation.ordinal()].reset();
+            animation[currentOrientation.ordinal()].reset();
+        }
+        if (isDead) {
+            deathAnimation.update(deltaTime);
+        } else {
+            deathAnimation.reset();
         }
     }
 
@@ -102,7 +133,7 @@ public class SuperPacmanPlayer extends Player {
         if (currentHp > 0) {
             --currentHp;
         }
-        resetMotion();
+        glow.reset();
         // TODO: find better method
         DiscreteCoordinates intiPos = PLAYER_SPAWN_POSITION;
         switch (getOwnerArea().getTitle()) {
@@ -130,7 +161,11 @@ public class SuperPacmanPlayer extends Player {
         SuperPacman.getArcade().draw(canvas);
         gui.draw(canvas);
         glow.draw(canvas);
-        animations[currentOrientation.ordinal()].draw(canvas);
+        if (!isDead) {
+            animation[currentOrientation.ordinal()].draw(canvas);
+        } else {
+            deathAnimation.draw(canvas);
+        }
     }
 
     @Override
@@ -145,7 +180,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public boolean wantsCellInteraction() {
-        return true;
+        return !isDead;
     }
 
     @Override
@@ -170,7 +205,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public boolean isViewInteractable() {
-        return true;
+        return !isDead;
     }
 
     @Override
@@ -192,7 +227,7 @@ public class SuperPacmanPlayer extends Player {
                 ghost.setEaten();
 
             } else {
-                reset();
+                isDead = true;
                 ghost.restart();
             }
         }

@@ -20,14 +20,27 @@ public class Glow implements Graphics {
     private final ImageGraphics sprite;
     private final GlowColors color;
     private final float size;
-    private final float intensity;
+    private final float alpha;
+    private float currentAlpha;
 
-    protected Glow(Positionable parent, ImageGraphics sprite, GlowColors color, float size, float intensity) {
+    protected Glow(Positionable parent, ImageGraphics sprite, GlowColors color, float size, float alpha) {
         this.parent = parent;
         this.sprite = sprite;
         this.color = color;
         this.size = size;
-        this.intensity = intensity;
+        this.alpha = alpha;
+        currentAlpha = alpha;
+    }
+
+    protected void fadeOut(float speed) {
+        if (currentAlpha > 0) {
+            currentAlpha -= currentAlpha * speed;
+        }
+        currentAlpha = currentAlpha < 0 ? 0 : currentAlpha;
+    }
+
+    protected void reset() {
+        currentAlpha = alpha;
     }
 
     @Override
@@ -39,7 +52,7 @@ public class Glow implements Graphics {
                                                new RegionOfInterest(0, 0, 195, 195),
                                                new Vector(-size/2 + sprite.getWidth() / 2,
                                                           -size/2 + sprite.getHeight() / 2),
-                                               intensity,
+                                               currentAlpha,
                                                100.f);
         glow.setParent(parent);
         glow.draw(canvas);

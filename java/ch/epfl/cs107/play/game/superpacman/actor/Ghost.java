@@ -379,7 +379,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean wantsViewInteraction() {
-        return true;
+        return !isEaten && !paused && !restart;
     }
 
     @Override
