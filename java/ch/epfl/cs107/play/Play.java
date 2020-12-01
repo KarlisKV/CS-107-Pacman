@@ -36,7 +36,7 @@ public class Play {
 //		final AreaGame game = new Tuto2();
 
 		// Use Swing display
-		final Window window = new SwingWindow(game.getTitle(), fileSystem, 550, 550);
+		final Window window = new SwingWindow(game.getTitle(), fileSystem, 790, 790);
 		window.registerFonts(ResourcePath.FONTS);
 		
 		Recorder recorder = new Recorder(window);

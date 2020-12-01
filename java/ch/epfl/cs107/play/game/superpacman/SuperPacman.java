@@ -16,19 +16,27 @@ import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
+import ch.epfl.cs107.play.math.transitions.Transition;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacman extends RPG {
-    public static float CAMERA_SCALE_FACTOR = 170.f;
-    private static Arcade arcade;
-    private final String[] areas = {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
-    private SuperPacmanPlayer player;
+    public static final float INIT_CAMERA_SCALE_FACTOR = 120.0f;
+    public static final float FIN_CAMERA_SCALE_FACTOR = 37.0f;
+    public static float currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR;
+    private final String[] areas =
+            {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
+    private final Transition transition = new EaseInOutCubic(0.01f);
+    private static final Arcade arcade = new Arcade(false, true);
+
+    // TODO: find better alternative
+    public static SuperPacmanPlayer player;
     private int areaIndex;
-    private float progress = 0.0f;
-    private boolean start = false;
+    private boolean startGame = false;
+    private float timer = 0;
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
-    // TODO: Temporary fix, find better solution
     public static Arcade getArcade() {
         return arcade;
     }
@@ -38,14 +46,9 @@ public class SuperPacman extends RPG {
         return "Super Pac-mac";
     }
 
-
-    /**
-     * Method to add Areas to the AreaGame
-     */
-    private void createAreas() {
-        addArea(new Level0());
-        addArea(new Level1());
-        addArea(new Level2());
+    public void setStartGame(boolean startGame) {
+        this.startGame = startGame;
+        arcade.fadeTitle();
     }
 
     @Override
@@ -55,48 +58,58 @@ public class SuperPacman extends RPG {
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
-
         if (super.begin(window, fileSystem)) {
             createAreas();
             areaIndex = 0;
             Area area = setCurrentArea(areas[areaIndex], true);
             player = new SuperPacmanPlayer(area, Level0.PLAYER_SPAWN_POSITION);
             initPlayer(player);
-            arcade = new Arcade();
-            area.registerActor(arcade);
+            getCurrentArea().registerActor(arcade);
+
             return true;
         }
         return false;
     }
 
+    /**
+     * Method to add Areas to the AreaGame
+     */
+    private void createAreas() {
+//        addArea(new MainMenu());
+        addArea(new Level0());
+        addArea(new Level1());
+        addArea(new Level2());
+    }
+
     @Override
     public void update(float deltaTime) {
-        // TODO: Temporary fix, find better solution
-        if (!start) {
-            progress += 0.005f;
-            if (progress <= 1) {
-                arcade.setAlpha(BezierBlend(progress));
-            } else {
-                progress = 0;
-                start = true;
+        if (!startGame) {
+            Keyboard keyboard = getCurrentArea().getKeyboard();
+            if (keyboard.get(Keyboard.SPACE).isDown()) {
+                setStartGame(true);
             }
         } else {
-            progress += 0.01f;
+            updateGame(deltaTime);
         }
-
-        if (CAMERA_SCALE_FACTOR > 25.0f && start && progress <= 1) {
-            float newProgress = BezierBlend(progress);
-            CAMERA_SCALE_FACTOR = 25 + (145 * (1 - newProgress));
-        } else if (start) {
-            player.setCanPlayerMove(true);
-        }
-
 
         super.update(deltaTime);
     }
 
-    private float BezierBlend(float x) {
-        return x < 0.5 ? 8 * x * x * x * x : (float) (1 - Math.pow(-2 * x + 2, 4) / 2);
+    private void updateGame(float deltaTime) {
+        // TODO: find better alfternative
+        timer += deltaTime;
+        if (timer > 2) {
+            if (!arcade.isArcadeTurnedOn()) {
+                arcade.setArcadeTurnedOn(true);
+            }
+            if (timer > 3 && currentCameraScaleFactor > FIN_CAMERA_SCALE_FACTOR && !transition.isFinished()) {
+                float newProgress = transition.getProgress();
+                currentCameraScaleFactor = FIN_CAMERA_SCALE_FACTOR +
+                        ((INIT_CAMERA_SCALE_FACTOR - FIN_CAMERA_SCALE_FACTOR) * (1 - newProgress));
+            } else if (transition.isFinished() && !player.canUserMove()) {
+                player.setCanUserMove(true);
+            }
+        }
     }
 
     @Override

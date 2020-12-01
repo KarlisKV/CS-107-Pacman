@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Wall extends AreaEntity {
-	private static final String WALL_NAME = "superpacman/wallBlueRound";
+	private static final String WALL_NAME = "superpacman/wallBlueRoundDark";
 
 	Sprite sprite;
 

@@ -1,0 +1,14 @@
+
+-------------------------------------
+                BUGS
+-------------------------------------
+- Fix sound issues -> figure out how to loop, and reduce lag
+
+-------------------------------------
+         NEW FEATURES TO ADD
+-------------------------------------
+- Arrange code + add javaDoc
+- Add menus
+- Add local 2 player
+- Variation may size
+- limited vision (black ghost??)

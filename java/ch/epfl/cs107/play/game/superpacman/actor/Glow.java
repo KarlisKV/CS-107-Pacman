@@ -64,7 +64,9 @@ public class Glow implements Graphics {
         RED("superpacman/glowRed"),
         BLUE("superpacman/glowBlue"),
         LIGHT_BLUE("superpacman/glowLightBlue"),
-        PINK("superpacman/glowPink");
+        PINK("superpacman/glowPink"),
+        LIGHT_PINK("superpacman/glowLightPink"),
+        WHITE("superpacman/glowWhite");
 
         final String pathToColor;
 

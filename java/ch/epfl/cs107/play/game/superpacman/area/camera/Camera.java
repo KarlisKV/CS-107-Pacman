@@ -26,7 +26,7 @@ public abstract class Camera implements Updatable {
     private boolean tpCamera = true;
     private Vector playerPosXY;
     private int shakeDuration = 8;    // nbr of frames
-    private float shakeIntensity = 1.5f;
+    private float shakeIntensity = 2.0f;
     private int shakenFrames;
     private boolean shakeCamera = false;
     private Vector tempPlayerPosXY;

@@ -7,6 +7,7 @@
 
 package ch.epfl.cs107.play.game.superpacman.area.levels;
 
+import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
@@ -15,6 +16,7 @@ public class Level2 extends SuperPacmanArea {
 
     @Override
     protected void createArea() {
+        registerActor(SuperPacman.getArcade());
     }
 
     @Override

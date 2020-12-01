@@ -301,7 +301,7 @@ public abstract class Area implements Playable {
 
 		// Update camera location
 		if (camera == null) {
-			camera = new SmoothLimited(this, false, true, 4);
+			camera = new SmoothLimited(this, false, true, 7);
 		}
 		camera.updatePos(viewCandidate.getPosition());
 		camera.update(deltaTime);

@@ -12,10 +12,7 @@ import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.superpacman.actor.Blinky;
-import ch.epfl.cs107.play.game.superpacman.actor.Inky;
-import ch.epfl.cs107.play.game.superpacman.actor.Pinky;
-import ch.epfl.cs107.play.game.superpacman.actor.Wall;
+import ch.epfl.cs107.play.game.superpacman.actor.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
@@ -85,23 +82,45 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      * @param area the area to register the actors
      */
     protected void registerActors(Area area) {
+        SuperPacmanArea.clearGhosts();
+
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
-                if (cellEqualsToType(x, y, SuperPacmanCellType.WALL)) {
-                    Wall wall = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y));
-                    area.registerActor(wall);
-                }
-                if (cellEqualsToType(x, y, SuperPacmanCellType.FREE_WITH_BLINKY)) {
-                    Blinky blinky = new Blinky(area, new DiscreteCoordinates(x, y));
-                    area.registerActor(blinky);
-                }
-                if (cellEqualsToType(x, y, SuperPacmanCellType.FREE_WITH_INKY)) {
-                    Inky inky = new Inky(area, new DiscreteCoordinates(x, y));
-                    area.registerActor(inky);
-                }
-                if (cellEqualsToType(x, y, SuperPacmanCellType.FREE_WITH_PINKY)) {
-                    Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
-                    area.registerActor(pinky);
+                // TODO: Check how to control depth
+                switch (((SuperPacmanCell) getCell(x, y)).type) {
+                    case WALL:
+                        Wall wall = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y));
+                        area.registerActor(wall);
+                        break;
+                    case FREE_WITH_BONUS:
+                        PowerPellet powerPellet = new PowerPellet(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(powerPellet);
+                        break;
+                    case FREE_WITH_CHERRY:
+                        Cherry cherry = new Cherry(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(cherry);
+                        break;
+                    case FREE_WITH_DIAMOND:
+                        Pellet pellet = new Pellet(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(pellet);
+                        break;
+                    case FREE_WITH_BLINKY:
+                        Blinky blinky = new Blinky(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(blinky);
+                        SuperPacmanArea.addGhost(blinky);
+                        break;
+                    case FREE_WITH_INKY:
+                        Inky inky = new Inky(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(inky);
+                        SuperPacmanArea.addGhost(inky);
+                        break;
+                    case FREE_WITH_PINKY:
+                        Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(pinky);
+                        SuperPacmanArea.addGhost(pinky);
+                        break;
+                    default:
+                        // do nothing
                 }
             }
         }

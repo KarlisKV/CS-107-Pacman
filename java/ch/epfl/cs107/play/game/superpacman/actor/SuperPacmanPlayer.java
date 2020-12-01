@@ -18,7 +18,7 @@ import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
-import ch.epfl.cs107.play.game.superpacman.SuperPacman;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
@@ -42,19 +42,23 @@ public class SuperPacmanPlayer extends Player {
     private final Animation[] animation;
     private final Animation deathAnimation;
     private final SoundAcoustics sirenSound;
+    private final SoundAcoustics powerPelletSound;
     private final SoundAcoustics deathSound;
+    private final SoundAcoustics munchSound;
+    private final SoundAcoustics eatFruitSound;
+    private final SoundAcoustics eatGhostSound;
     private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
     private final Glow glow;
+    private Keyboard keyboard;
+    private Audio audio;
     private int currentHp = 5;
+    private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP);
     private int score = 0;
-    private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP, score);
     private Orientation desiredOrientation = null;
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
-    private boolean canPlayerMove = false;
+    private boolean canUserMove = false;
     private boolean isDead = false;
     private float timer = 3;
-    private boolean soundHasStarted = false;
-
     /**
      * Constructor for SuperPacmanPlayer
      * @param owner       (Area): Owner Area, not null
@@ -81,30 +85,49 @@ public class SuperPacmanPlayer extends Player {
 
         // SOUNDS
         sirenSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/siren_1"), 1.f, false, false, true, false);
+        sirenSound.shouldBeStarted();
+        powerPelletSound =
+                new SoundAcoustics(ResourcePath.getSounds("superpacman/power_pellet"), 1.f, false, false, true, true);
+
         deathSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/death_1"), 1.f, false, false, false, true);
+        munchSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/munch_1"), 1.f, false, false, false, false);
+        eatFruitSound =
+                new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_fruit"), 1.f, false, false, false, false);
+        eatGhostSound =
+                new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_ghost"), 1.f, false, false, false, false);
         resetMotion();
+    }
+
+    public Keyboard getKeyboard() {
+        return keyboard;
     }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
-    public void setCanPlayerMove(boolean canPlayerMove) {
-        this.canPlayerMove = canPlayerMove;
+    public boolean canUserMove() {
+        return canUserMove;
+    }
+
+    public void setCanUserMove(boolean canUserMove) {
+        this.canUserMove = canUserMove;
+    }
+
+    public void updateScore(int score) {
+        this.score += score;
     }
 
     @Override
     public void bip(Audio audio) {
         // TODO: find better way
-        sirenSound.shouldBeStarted();
-        if (isDead && soundHasStarted) {
-            SoundAcoustics.stopAllSounds(audio);
-            deathSound.shouldBeStarted();
-            deathSound.bip(audio);
-            soundHasStarted = false;
-        } else if (canPlayerMove && !soundHasStarted) {
+        this.audio = audio;
+        if (canUserMove) {
             sirenSound.bip(audio);
-            soundHasStarted = true;
         }
-
+        deathSound.bip(audio);
+        munchSound.bip(audio);
+        eatFruitSound.bip(audio);
+        eatGhostSound.bip(audio);
+        powerPelletSound.bip(audio);
     }
 
     @Override
@@ -115,17 +138,15 @@ public class SuperPacmanPlayer extends Player {
         if (isDead) {
             glow.fadeOut(0.02f);
             resetMotion();
-            canPlayerMove = false;
+            canUserMove = false;
             timer -= deltaTime;
             if (timer <= 0) {
                 reset();
-                isDead = false;
-                canPlayerMove = true;
                 timer = 3;
             }
         }
-        if (canPlayerMove) {
-            Keyboard keyboard = getOwnerArea().getKeyboard();
+        if (canUserMove) {
+            keyboard = getOwnerArea().getKeyboard();
             setDesiredOrientation(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
             setDesiredOrientation(Orientation.UP, keyboard.get(Keyboard.UP));
             setDesiredOrientation(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
@@ -171,6 +192,8 @@ public class SuperPacmanPlayer extends Player {
         if (currentHp > 0) {
             --currentHp;
         }
+        setDead(false);
+        canUserMove = true;
         desiredOrientation = null;
         currentOrientation = DEFAULT_ORIENTATION;
         glow.reset();
@@ -189,11 +212,20 @@ public class SuperPacmanPlayer extends Player {
             default:
                 intiPos = PLAYER_SPAWN_POSITION;
         }
-        // TODO: interaction not working (when player dies, and goes to the cell where he died, he dies again...)
         getOwnerArea().leaveAreaCells(this, getEnteredCells());
-        getOwnerArea().leaveAreaCells(this, getLeftCells());
+        getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
         setCurrentPosition(intiPos.toVector());
 
+    }
+
+    private void setDead(boolean isDead) {
+        this.isDead = isDead;
+        if (isDead) {
+            SoundAcoustics.stopAllSounds(audio);
+            deathSound.shouldBeStarted();
+        } else {
+            sirenSound.shouldBeStarted();
+        }
     }
 
     /**
@@ -209,7 +241,6 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public void draw(Canvas canvas) {
-        SuperPacman.getArcade().draw(canvas);
         gui.draw(canvas);
         glow.draw(canvas);
         if (!isDead) {
@@ -277,13 +308,41 @@ public class SuperPacmanPlayer extends Player {
         @Override
         public void interactWith(Ghost ghost) {
             if (ghost.isFrightened()) {
+                getOwnerArea().getCamera().shake();
+                eatGhostSound.shouldBeStarted();
                 score += Ghost.GHOST_SCORE;
                 ghost.setEaten();
 
             } else {
-                isDead = true;
-                ghost.reset();
+                setDead(true);
+                for (Ghost ghostInstance : SuperPacmanArea.getGhosts()) {
+                    ghostInstance.reset();
+                }
             }
         }
+
+        @Override
+        public void interactWith(Cherry cherry) {
+            eatFruitSound.shouldBeStarted();
+            cherry.collect();
+            updateScore(cherry.getPoints());
+        }
+
+        @Override
+        public void interactWith(Pellet pellet) {
+            munchSound.shouldBeStarted();
+            pellet.collect();
+            updateScore(pellet.getPoints());
+        }
+
+        @Override
+        public void interactWith(PowerPellet powerPellet) {
+            powerPelletSound.shouldBeStarted();
+            powerPellet.collect();
+            for (Ghost ghostInstance : SuperPacmanArea.getGhosts()) {
+                ghostInstance.setFrightened(true);
+            }
+        }
+
     }
 }

@@ -21,25 +21,26 @@ import java.awt.*;
 public class SuperPacmanPlayerStatusGUI implements Graphics {
     private static final float DEPTH = 2000.0f;
     private static final float HP_SPACING = 1.25f;
-    private static final float EDGE_PADDING = 0.375f;
+    private static final float EDGE_PADDING = 9.0f;
+    private static final float LIFE_SIZE = 1.0f;
+    private static final float TEXT_PADDING = 1.5f;
     private static final int LIFE_SPRITE_SIZE = 14;
     private static final String FONT = "emulogic";
+    private static final float FONT_SIZE = 1.0f;
     private static final int LIFE = 0;
     private static final int NO_LIFE = LIFE_SPRITE_SIZE;
-    private int currentHp;
     private final int maxHp;
-    private int score;
+    private int currentHp;
+    private int score = 0;
 
     /**
      * Consructor for SuperPacmanPlayerStatusGUI
      * @param currentHp (int): the SuperPacmanPlayer's initial health
      * @param maxHp     (int): the SuperPacmanPlayer's max health
-     * @param score     (int): the SuperPacmanPlayer's initial score
      */
-    protected SuperPacmanPlayerStatusGUI(int currentHp, int maxHp, int score) {
+    protected SuperPacmanPlayerStatusGUI(int currentHp, int maxHp) {
         this.currentHp = currentHp;
         this.maxHp = maxHp;
-        this.score = score;
     }
 
     /**
@@ -59,21 +60,25 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
         // TODO: Temporary fix, find better solution
-        if (SuperPacman.CAMERA_SCALE_FACTOR < 55) {
+        if (SuperPacman.currentCameraScaleFactor < 55) {
             for (int i = 0; i < maxHp; ++i) {
                 int x = i < currentHp ? LIFE : NO_LIFE;
 
-                ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"), 1.f, 1.f,
+                float xPos = width / 2 + (HP_SPACING * i) -
+                        (((LIFE_SIZE * maxHp) / 2.f) + (HP_SPACING * ((maxHp / 2.f) - 2)));
+                float yPos = height - (EDGE_PADDING) - TEXT_PADDING;
+
+                ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
+                                                       LIFE_SIZE, LIFE_SIZE,
                                                        new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE, LIFE_SPRITE_SIZE),
-                                                       anchor.add(
-                                                               new Vector(HP_SPACING * i + EDGE_PADDING, EDGE_PADDING)),
-                                                       1, DEPTH);
+                                                       anchor.add(new Vector(xPos, yPos)), 1, DEPTH);
                 life.draw(canvas);
             }
+            String textToDisplay = "Score: " + score;
             TextGraphics scoreText =
-                    new TextGraphics("Score: " + score, 1.0f, Color.YELLOW, Color.BLACK, 0.0f, false, false,
-                                     anchor.add(new Vector(width / 3, height - (1 + EDGE_PADDING))));
-
+                    new TextGraphics(textToDisplay, FONT_SIZE, Color.YELLOW, Color.BLACK, 0.0f, false, false,
+                                     anchor.add(new Vector(width / 2 - (textToDisplay.length() * FONT_SIZE / 2),
+                                                           height - (EDGE_PADDING))));
             scoreText.setFontName(FONT);
             scoreText.draw(canvas);
         }
