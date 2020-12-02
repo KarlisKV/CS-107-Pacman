@@ -1,17 +1,19 @@
 package ch.epfl.cs107.play.game.areagame;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ch.epfl.cs107.play.game.Game;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * AreaGame: concept of Game displayed in a (MxN) Grid called Area
  */
 abstract public class AreaGame implements Game {
+
+	// STATE ENUM
 
 	// Context objects
 	private Window window;
@@ -20,6 +22,8 @@ abstract public class AreaGame implements Game {
 	private Map<String, Area> areas;
 	/// The current area the game is in
 	private Area currentArea;
+
+
 
 	/**
 	 * Add an Area to the AreaGame list
@@ -95,7 +99,10 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void update(float deltaTime) {
+		// TODO: with if condition
 		currentArea.update(deltaTime);
+
+
 	}
 
 	@Override

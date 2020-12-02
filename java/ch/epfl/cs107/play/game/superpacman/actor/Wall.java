@@ -156,6 +156,7 @@ public class Wall extends AreaEntity {
 				sprite = new RPGSprite(WALL_NAME, 1, 1, this, new RegionOfInterest(0, 14*64, 64, 64));
 			}
 		}
+		sprite.setDepth(-15000);
 	}
 
 	@Override

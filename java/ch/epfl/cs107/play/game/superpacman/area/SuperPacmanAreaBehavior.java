@@ -16,8 +16,12 @@ import ch.epfl.cs107.play.game.superpacman.actor.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SuperPacmanAreaBehavior extends AreaBehavior {
     public static AreaGraph areaGraph;
+    private final List<Ghost> ghosts = new ArrayList<>();   // list of ghosts
 
     /**
      * Default SuperPacmanBehavior Constructor
@@ -27,7 +31,6 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
     public SuperPacmanAreaBehavior(Window window, String name) {
         super(window, name);
         areaGraph = new AreaGraph();
-        // TODO: check how to prevent double loop repetition
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
                 SuperPacmanAreaBehavior.SuperPacmanCellType color =
@@ -60,7 +63,6 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      * Take parameters x and y of current iteration and compares the WALL edges
      * Return (boolean)
      */
-    // TODO: check if there is better encapsulation
     private boolean hasLeftEdge(int x, int y) {
         return x > 0 && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL);
     }
@@ -82,11 +84,9 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      * @param area the area to register the actors
      */
     protected void registerActors(Area area) {
-        SuperPacmanArea.clearGhosts();
 
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
-                // TODO: Check how to control depth
                 switch (((SuperPacmanCell) getCell(x, y)).type) {
                     case WALL:
                         Wall wall = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y));
@@ -107,22 +107,35 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                     case FREE_WITH_BLINKY:
                         Blinky blinky = new Blinky(area, new DiscreteCoordinates(x, y));
                         area.registerActor(blinky);
-                        SuperPacmanArea.addGhost(blinky);
+                        ghosts.add(blinky);
                         break;
                     case FREE_WITH_INKY:
                         Inky inky = new Inky(area, new DiscreteCoordinates(x, y));
                         area.registerActor(inky);
-                        SuperPacmanArea.addGhost(inky);
+                        ghosts.add(inky);
                         break;
                     case FREE_WITH_PINKY:
                         Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
                         area.registerActor(pinky);
-                        SuperPacmanArea.addGhost(pinky);
+                        ghosts.add(pinky);
                         break;
                     default:
                         // do nothing
                 }
             }
+        }
+    }
+
+    // TODO: add javadoc
+    public void scareGhosts() {
+        for (Ghost ghost : ghosts) {
+            ghost.setFrightened(true);
+        }
+    }
+
+    public void resetGhosts() {
+        for (Ghost ghost : ghosts) {
+            ghost.reset();
         }
     }
 

@@ -30,6 +30,7 @@ public class PowerPellet extends CollectableAreaEntity {
     public PowerPellet(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/powerPellet", 1, 1, this);
+        sprite.setDepth(-1000);
         glow = new Glow(this, sprite, Glow.GlowColors.LIGHT_PINK, 4.0f, 0.5f);
 
     }

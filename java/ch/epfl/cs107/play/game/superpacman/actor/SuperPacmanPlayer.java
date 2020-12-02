@@ -14,7 +14,6 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
@@ -33,24 +32,25 @@ import java.util.Collections;
 import java.util.List;
 
 public class SuperPacmanPlayer extends Player {
+    protected static final SoundAcoustics SIREN_SOUND = SuperPacmanSound.SIREN.sound;
     // Animation duration in frame number
-    private static final int ANIMATION_DURATION = 10;
+    private static final int ANIMATION_DURATION = 4; // base 10
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int SPRITE_SIZE = 14;
     private static final int MAX_HP = 5;
+    private static final SoundAcoustics POWER_PELLET_SOUND = SuperPacmanSound.POWER_PELLET.sound;
+    private static final SoundAcoustics DEATH_SOUND = SuperPacmanSound.PACMAN_DEATH.sound;
+    private static final SoundAcoustics MUNCH_SOUND = SuperPacmanSound.MUNCH.sound;
+    private static final SoundAcoustics EAT_FRUIT = SuperPacmanSound.EAT_FRUIT.sound;
+    private static final SoundAcoustics EAT_GHOST_SOUND = SuperPacmanSound.EAT_FRUIT.sound;
+    private static int comboCount = 0;
+    private static boolean stopAllAudio = false;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final Animation[] animation;
     private final Animation deathAnimation;
-    private final SoundAcoustics sirenSound;
-    private final SoundAcoustics powerPelletSound;
-    private final SoundAcoustics deathSound;
-    private final SoundAcoustics munchSound;
-    private final SoundAcoustics eatFruitSound;
-    private final SoundAcoustics eatGhostSound;
     private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
     private final Glow glow;
     private Keyboard keyboard;
-    private Audio audio;
     private int currentHp = 5;
     private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP);
     private int score = 0;
@@ -74,35 +74,43 @@ public class SuperPacmanPlayer extends Player {
                 RPGSprite.extractSprites("superpacman/pacmanSmall", 4, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE,
                                          new Orientation[]{Orientation.DOWN, Orientation.LEFT, Orientation.UP,
                                                            Orientation.RIGHT});
+        for (Sprite[] spriteFrames : sprites) {
+            for (Sprite sprite : spriteFrames) {
+                sprite.setDepth(600);
+            }
+        }
         animation = Animation.createAnimations(ANIMATION_DURATION / 2 + 2, sprites);
         // Death animation
         Sprite[] deadSprites =
                 RPGSprite.extractSprites("superpacman/deadPacman", 12, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE);
+        for (Sprite sprite : deadSprites) {
+            sprite.setDepth(50);
+        }
+
         deathAnimation = new Animation(ANIMATION_DURATION - 1, deadSprites, false);
 
         // GLOW
         glow = new Glow(this, sprites[0][0], Glow.GlowColors.YELLOW, 5.0f, 0.5f);
 
         // SOUNDS
-        sirenSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/siren_1"), 1.f, false, false, true, false);
-        sirenSound.shouldBeStarted();
-        powerPelletSound =
-                new SoundAcoustics(ResourcePath.getSounds("superpacman/power_pellet"), 1.f, false, false, true, true);
+        SIREN_SOUND.shouldBeStarted();
 
-        deathSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/death_1"), 1.f, false, false, false, true);
-        munchSound = new SoundAcoustics(ResourcePath.getSounds("superpacman/munch_1"), 1.f, false, false, false, false);
-        eatFruitSound =
-                new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_fruit"), 1.f, false, false, false, false);
-        eatGhostSound =
-                new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_ghost"), 1.f, false, false, false, false);
         resetMotion();
     }
 
-    public Keyboard getKeyboard() {
-        return keyboard;
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    protected static void setStopAllAudio() {
+        SuperPacmanPlayer.stopAllAudio = true;
     }
 
-    /* ----------------------------------- ACCESSORS ----------------------------------- */
+    public static int getComboCount() {
+        return comboCount;
+    }
+
+    public static void resetComboCount() {
+        SuperPacmanPlayer.comboCount = 0;
+    }
 
     public boolean canUserMove() {
         return canUserMove;
@@ -112,22 +120,24 @@ public class SuperPacmanPlayer extends Player {
         this.canUserMove = canUserMove;
     }
 
-    public void updateScore(int score) {
+    protected void updateScore(int score) {
         this.score += score;
     }
 
     @Override
     public void bip(Audio audio) {
-        // TODO: find better way
-        this.audio = audio;
-        if (canUserMove) {
-            sirenSound.bip(audio);
+        if (stopAllAudio) {
+            SoundAcoustics.stopAllSounds(audio);
+            stopAllAudio = false;
         }
-        deathSound.bip(audio);
-        munchSound.bip(audio);
-        eatFruitSound.bip(audio);
-        eatGhostSound.bip(audio);
-        powerPelletSound.bip(audio);
+        if (canUserMove) {
+            SIREN_SOUND.bip(audio);
+            MUNCH_SOUND.bip(audio);
+            EAT_FRUIT.bip(audio);
+            DEATH_SOUND.bip(audio);
+            EAT_GHOST_SOUND.bip(audio);
+            POWER_PELLET_SOUND.bip(audio);
+        }
     }
 
     @Override
@@ -198,7 +208,9 @@ public class SuperPacmanPlayer extends Player {
         currentOrientation = DEFAULT_ORIENTATION;
         glow.reset();
         // TODO: find better way of achieving this
+        // create getter in area
         DiscreteCoordinates intiPos;
+
         switch (getOwnerArea().getTitle()) {
             case "superpacman/level0":
                 intiPos = Level0.PLAYER_SPAWN_POSITION;
@@ -218,16 +230,6 @@ public class SuperPacmanPlayer extends Player {
 
     }
 
-    private void setDead(boolean isDead) {
-        this.isDead = isDead;
-        if (isDead) {
-            SoundAcoustics.stopAllSounds(audio);
-            deathSound.shouldBeStarted();
-        } else {
-            sirenSound.shouldBeStarted();
-        }
-    }
-
     /**
      * Method to set the desiered orientation if the key is pressed down
      * @param orientation the Orientation linked with the key
@@ -238,6 +240,18 @@ public class SuperPacmanPlayer extends Player {
             desiredOrientation = orientation;
         }
     }
+
+    private void setDead(boolean isDead) {
+        this.isDead = isDead;
+        if (isDead) {
+            stopAllAudio = true;
+            DEATH_SOUND.shouldBeStarted();
+        } else {
+            System.out.println("Siren ON");
+            SIREN_SOUND.shouldBeStarted();
+        }
+    }
+
 
     @Override
     public void draw(Canvas canvas) {
@@ -309,39 +323,40 @@ public class SuperPacmanPlayer extends Player {
         public void interactWith(Ghost ghost) {
             if (ghost.isFrightened()) {
                 getOwnerArea().getCamera().shake();
-                eatGhostSound.shouldBeStarted();
-                score += Ghost.GHOST_SCORE;
+                EAT_GHOST_SOUND.shouldBeStarted();
                 ghost.setEaten();
+                if (comboCount < 4) {
+                    ++comboCount;
+                } else {
+                    comboCount = 1;
+                }
+                score += Ghost.GHOST_BASE_SCORE * comboCount;
 
             } else {
                 setDead(true);
-                for (Ghost ghostInstance : SuperPacmanArea.getGhosts()) {
-                    ghostInstance.reset();
-                }
+                ((SuperPacmanArea) getOwnerArea()).resetGhosts();
             }
         }
 
         @Override
         public void interactWith(Cherry cherry) {
-            eatFruitSound.shouldBeStarted();
+            EAT_FRUIT.shouldBeStarted();
             cherry.collect();
             updateScore(cherry.getPoints());
         }
 
         @Override
         public void interactWith(Pellet pellet) {
-            munchSound.shouldBeStarted();
+            MUNCH_SOUND.shouldBeStarted();
             pellet.collect();
             updateScore(pellet.getPoints());
         }
 
         @Override
         public void interactWith(PowerPellet powerPellet) {
-            powerPelletSound.shouldBeStarted();
+            POWER_PELLET_SOUND.shouldBeStarted();
             powerPellet.collect();
-            for (Ghost ghostInstance : SuperPacmanArea.getGhosts()) {
-                ghostInstance.setFrightened(true);
-            }
+            ((SuperPacmanArea) getOwnerArea()).scareGhost();
         }
 
     }

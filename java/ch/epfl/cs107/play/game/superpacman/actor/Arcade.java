@@ -13,7 +13,6 @@ import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
-import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.math.Circle;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Transform;
@@ -23,34 +22,35 @@ import ch.epfl.cs107.play.math.transitions.Transition;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
+import ch.epfl.cs107.play.window.Window;
 
 import java.awt.*;
 
-// TODO: check if implementation is good
 public class Arcade implements Actor {
-    private static final float DEPTH = 15000.0f;
+    private static final float DEPTH = 1000;
     private static final String TITLE_PATH = "superpacman/pacmanTitleMenu";
-    private final SoundAcoustics gameStartSound;
+    private static final SoundAcoustics GAME_START_SOUND = SuperPacmanSound.GAME_START.sound;
+    private static float xScaledInit;
+    private static float yScaledInit;
+    private static boolean areInitPosSaved = false;
     private final Transition transitionOverlay = new EaseInOutCubic(0.02f);
     private final Transition transitionTitle = new EaseInOutCubic(0.02f);
     private final boolean doFadeIn;
+    private final boolean playIntroMusic;
     String arcadePathName;
-    private float xScaledInit;
-    private float yScaledInit;
-    private boolean areInitPosSaved = false;
     private boolean isArcadeTurnedOn;
     private boolean showTitle = true;
     private boolean fadeTitle = false;
+    private final Window window;
 
     /**
      * Default Arcade Constructor, initialising the sound
      */
-    public Arcade(boolean isArcadeTurnedOn, boolean doFadeIn) {
+    public Arcade(Window window, boolean isArcadeTurnedOn, boolean playIntroMusic, boolean doFadeIn) {
+        this.window = window;
+        this.playIntroMusic = playIntroMusic;
         setArcadeTurnedOn(isArcadeTurnedOn);
         this.doFadeIn = doFadeIn;
-
-        gameStartSound =
-                new SoundAcoustics(ResourcePath.getSounds("superpacman/game_start"), 1.f, false, false, false, false);
     }
 
     public void fadeTitle() {
@@ -65,7 +65,9 @@ public class Arcade implements Actor {
     public void setArcadeTurnedOn(boolean isArcadeTurnedOn) {
         this.isArcadeTurnedOn = isArcadeTurnedOn;
         if (isArcadeTurnedOn) {
-            gameStartSound.shouldBeStarted();
+            if (playIntroMusic) {
+                GAME_START_SOUND.shouldBeStarted();
+            }
             showTitle = false;
             arcadePathName = "superpacman/pacmanArcadeOn";
         } else {
@@ -75,7 +77,7 @@ public class Arcade implements Actor {
 
     @Override
     public void bip(Audio audio) {
-        gameStartSound.bip(audio);
+        GAME_START_SOUND.bip(audio);
     }
 
     @Override
@@ -91,14 +93,9 @@ public class Arcade implements Actor {
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
 
-        ImageGraphics arcade = new ImageGraphics(ResourcePath.getBackgrounds(arcadePathName),
-                                                 xScaledInit,
-                                                 yScaledInit,
-                                                 new RegionOfInterest(0, 0, 1100, 1100),
-                                                 anchor.add(new Vector((width / 2) - (xScaledInit / 2),
-                                                                       (height / 2) - (yScaledInit / 2))),
-                                                 1.0f,
-                                                 DEPTH);
+        ImageGraphics arcade = new ImageGraphics(ResourcePath.getBackgrounds(arcadePathName), xScaledInit, yScaledInit,
+                                                 new RegionOfInterest(0, 0, 1100, 1100), anchor.add(
+                new Vector((width / 2) - (xScaledInit / 2), (height / 2) - (yScaledInit / 2))), 1.0f, DEPTH);
         arcade.draw(canvas);
 
         float alphaOverlay = 0.0f;
@@ -108,7 +105,7 @@ public class Arcade implements Actor {
         // TODO: Check if better solution exists
         ShapeGraphics overlay =
                 new ShapeGraphics(new Circle(300, new Vector(xScaledInit, yScaledInit)), Color.BLACK, Color.BLACK, 0.0f,
-                                  alphaOverlay, DEPTH + 5000);
+                                  alphaOverlay, DEPTH);
 
         overlay.draw(canvas);
         if (showTitle) {
@@ -119,14 +116,10 @@ public class Arcade implements Actor {
                 alphaTitle = 0.0f;
                 showTitle = false;
             }
-            ImageGraphics title = new ImageGraphics(ResourcePath.getBackgrounds(TITLE_PATH),
-                                                    xScaledInit,
-                                                    yScaledInit,
-                                                    new RegionOfInterest(0, 0, 1100, 1100),
-                                                    anchor.add(new Vector((width / 2) - (xScaledInit / 2),
-                                                                          (height / 2) - (yScaledInit / 2))),
-                                                    alphaTitle,
-                                                    DEPTH + 500);
+            ImageGraphics title = new ImageGraphics(ResourcePath.getBackgrounds(TITLE_PATH), xScaledInit, yScaledInit,
+                                                    new RegionOfInterest(0, 0, 1100, 1100), anchor.add(
+                    new Vector((width / 2) - (xScaledInit / 2), (height / 2) - (yScaledInit / 2))), alphaTitle,
+                                                    DEPTH);
             title.draw(canvas);
         }
         if (isArcadeTurnedOn) {
@@ -137,23 +130,24 @@ public class Arcade implements Actor {
                 joystick[i] = new ImageGraphics(ResourcePath.getSprite("superpacman/joystickArcade"), 3, 3,
                                                 new RegionOfInterest(0, 28 * i, 28, 28), anchor.add(
                         new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), 1.0f,
-                                                DEPTH + 1500);
+                                                DEPTH + 1);
             }
 
             ImageGraphics joystickDefault =
                     new ImageGraphics(ResourcePath.getSprite("superpacman/joystickArcadeDefault"), 3, 3,
                                       new RegionOfInterest(0, 0, 28, 28), anchor.add(
                             new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), 1.0f,
-                                      DEPTH + 1000);
+                                      DEPTH + 1);
 
-            if (SuperPacman.player.getKeyboard() != null) {
-                if (SuperPacman.player.getKeyboard().get(Keyboard.UP).isDown()) {
+            // Set joystick orientation
+            if (window.getKeyboard() != null) {
+                if (window.getKeyboard().get(Keyboard.UP).isDown()) {
                     joystick[Orientation.UP.ordinal()].draw(canvas);
-                } else if (SuperPacman.player.getKeyboard().get(Keyboard.RIGHT).isDown()) {
+                } else if (window.getKeyboard().get(Keyboard.RIGHT).isDown()) {
                     joystick[Orientation.RIGHT.ordinal()].draw(canvas);
-                } else if (SuperPacman.player.getKeyboard().get(Keyboard.LEFT).isDown()) {
+                } else if (window.getKeyboard().get(Keyboard.LEFT).isDown()) {
                     joystick[Orientation.LEFT.ordinal()].draw(canvas);
-                } else if (SuperPacman.player.getKeyboard().get(Keyboard.DOWN).isDown()) {
+                } else if (window.getKeyboard().get(Keyboard.DOWN).isDown()) {
                     joystick[Orientation.DOWN.ordinal()].draw(canvas);
                 } else {
                     joystickDefault.draw(canvas);

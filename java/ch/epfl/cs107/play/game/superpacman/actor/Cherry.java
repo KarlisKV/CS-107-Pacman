@@ -30,6 +30,7 @@ public class Cherry extends CollectableAreaEntity {
     public Cherry(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/cake", 1, 1, this);
+        sprite.setDepth(-1000);
     }
 
     @Override

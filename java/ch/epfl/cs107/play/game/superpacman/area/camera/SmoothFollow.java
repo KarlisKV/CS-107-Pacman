@@ -17,7 +17,7 @@ public class SmoothFollow extends Camera {
     // Trigger for edge detection
     private static final float EDGE_CONTROL_TRIGGER = 0.01f;
     // Speed of smooth camera
-    private static final float CAMERA_CATCHUP_SPEED = 0.1f;
+    private static final float CAMERA_CATCHUP_SPEED = 0.05f;
     private final boolean smoothStop;
     private boolean checkBounds = false;
 

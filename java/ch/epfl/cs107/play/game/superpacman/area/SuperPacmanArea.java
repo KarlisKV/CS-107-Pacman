@@ -18,6 +18,7 @@ import java.util.List;
 
 public abstract class SuperPacmanArea extends Area {
     private static List<Ghost> ghosts = new ArrayList<>();
+
     private SuperPacmanAreaBehavior behavior;
 
     // TODO: find better way...
@@ -31,6 +32,14 @@ public abstract class SuperPacmanArea extends Area {
 
     public static void clearGhosts() {
         ghosts.clear();
+    }
+
+    public void scareGhost() {
+        behavior.scareGhosts();
+    }
+
+    public void resetGhosts() {
+        behavior.resetGhosts();
     }
 
     @Override

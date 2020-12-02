@@ -28,18 +28,14 @@ public class SuperPacman extends RPG {
     private final String[] areas =
             {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
     private final Transition transition = new EaseInOutCubic(0.01f);
-    private static final Arcade arcade = new Arcade(false, true);
+    private Arcade arcade;
 
-    // TODO: find better alternative
-    public static SuperPacmanPlayer player;
     private int areaIndex;
     private boolean startGame = false;
     private float timer = 0;
+    private SuperPacmanPlayer player;
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
-    public static Arcade getArcade() {
-        return arcade;
-    }
 
     @Override
     public String getTitle() {
@@ -64,6 +60,7 @@ public class SuperPacman extends RPG {
             Area area = setCurrentArea(areas[areaIndex], true);
             player = new SuperPacmanPlayer(area, Level0.PLAYER_SPAWN_POSITION);
             initPlayer(player);
+            arcade = new Arcade(window, false, true, true);
             getCurrentArea().registerActor(arcade);
 
             return true;
@@ -75,7 +72,6 @@ public class SuperPacman extends RPG {
      * Method to add Areas to the AreaGame
      */
     private void createAreas() {
-//        addArea(new MainMenu());
         addArea(new Level0());
         addArea(new Level1());
         addArea(new Level2());

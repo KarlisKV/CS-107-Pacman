@@ -31,6 +31,7 @@ public class Pellet extends CollectableAreaEntity {
     public Pellet(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/pellet", 1, 1, this);
+        sprite.setDepth(-1000);
         glow = new Glow(this, sprite, Glow.GlowColors.LIGHT_PINK, 1.5f, 0.2f);
     }
 
