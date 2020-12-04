@@ -16,49 +16,56 @@ import ch.epfl.cs107.play.window.swing.SwingWindow;
  */
 public class Play {
 
-	/** One second in nano second */
+    /**
+     * One second in nano second
+     */
     private static final float ONE_SEC = 1E9f;
+    private static int currentFps = 0;
 
-	/**
-	 * Main entry point.
-	 * @param args (Array of String): ignored
-	 */
-	public static void main(String[] args) {
+    public static int getCurrentFps() {
+        return currentFps;
+    }
 
-		// Define cascading file system
-		final FileSystem fileSystem = new ResourceFileSystem(DefaultFileSystem.INSTANCE);
+    /**
+     * Main entry point.
+     * @param args (Array of String): ignored
+     */
+    public static void main(String[] args) {
+
+        // Define cascading file system
+        final FileSystem fileSystem = new ResourceFileSystem(DefaultFileSystem.INSTANCE);
 
         // Create a demo game :
-		// (it is expected that at the beginning, the provided file does not compile)
-       
+        // (it is expected that at the beginning, the provided file does not compile)
+
         final Game game = new SuperPacman();
 
 //		final AreaGame game = new Tuto2();
 
-		// Use Swing display
-		final Window window = new SwingWindow(game.getTitle(), fileSystem, 790, 790);
-		window.registerFonts(ResourcePath.FONTS);
-		
-		Recorder recorder = new Recorder(window);
-		RecordReplayer replayer = new RecordReplayer(window);
-		try {
+        // Use Swing display
+        final Window window = new SwingWindow(game.getTitle(), fileSystem, 790, 790);
+        window.registerFonts(ResourcePath.FONTS);
 
-			if (game.begin(window, fileSystem)) {
-				//recorder.start();
-				//replayer.start("record1.xml");
+        Recorder recorder = new Recorder(window);
+        RecordReplayer replayer = new RecordReplayer(window);
+        try {
 
-				// Use system clock to keep track of time progression
+            if (game.begin(window, fileSystem)) {
+                //recorder.start();
+                //replayer.start("record1.xml");
+
+                // Use system clock to keep track of time progression
                 long currentTime = System.nanoTime();
-				long lastTime;
-				final float frameDuration = ONE_SEC / game.getFrameRate();
+                long lastTime;
+                final float frameDuration = ONE_SEC / game.getFrameRate();
 
-				// Run until the user try to close the window
-				while (!window.isCloseRequested()) {
+                // Run until the user try to close the window
+                while (!window.isCloseRequested()) {
 
-					// Compute time interval
+                    // Compute time interval
                     lastTime = currentTime;
                     currentTime = System.nanoTime();
-					float deltaTime = (currentTime - lastTime);
+                    float deltaTime = (currentTime - lastTime);
 
                     try {
                         int timeDiff = Math.max(0, (int) (frameDuration - deltaTime));
@@ -70,6 +77,12 @@ public class Play {
                     currentTime = System.nanoTime();
                     deltaTime = (currentTime - lastTime) / ONE_SEC;
 
+                    // update current fps
+                    int newFps = Math.round(ONE_SEC / (System.nanoTime() - lastTime));
+                    if (Math.abs(newFps - currentFps) > 2) {
+                        currentFps = newFps;
+                    }
+
                     // Let the game do its stuff
                     game.update(deltaTime);
 
@@ -77,15 +90,15 @@ public class Play {
                     window.update();
                     //recorder.update();
                     //replayer.update();
-				}
-			}
-			//recorder.stop("record1.xml");
-			game.end();
+                }
+            }
+            //recorder.stop("record1.xml");
+            game.end();
 
-		} finally {
-			// Release resources
-			window.dispose();
-		}
-	}
+        } finally {
+            // Release resources
+            window.dispose();
+        }
+    }
 
 }

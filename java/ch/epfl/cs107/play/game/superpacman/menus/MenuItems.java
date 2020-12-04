@@ -27,6 +27,12 @@ public final class MenuItems implements Graphics, Acoustics {
     private static boolean startGame = false;
     private static boolean exit = false;
     private static boolean soundDeactivated = false;
+
+    public static boolean isShowFps() {
+        return showFps;
+    }
+
+    private static boolean showFps = false;
     private final EnumMap<MenuState, Menu> menus = new EnumMap<>(MenuState.class);
     private final Keyboard keyboard;
     private MenuState currentState = MenuState.MAIN_MENU_PAGE;
@@ -98,8 +104,9 @@ public final class MenuItems implements Graphics, Acoustics {
                     menu.updateSubSelection();
                     soundDeactivated = !menu.isToggleLogic();
                     break;
-                case GRAPHICS:
+                case FPS:
                     menu.updateSubSelection();
+                    showFps = menu.isToggleLogic();
                     break;
                 case DIFFICULTY:
                     menu.updateSubSelection();

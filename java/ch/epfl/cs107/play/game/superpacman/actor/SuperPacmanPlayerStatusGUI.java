@@ -7,11 +7,13 @@
 
 package ch.epfl.cs107.play.game.superpacman.actor;
 
+import ch.epfl.cs107.play.Play;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -82,6 +84,17 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
             scoreText.setFontName(FONT);
             scoreText.setDepth(DEPTH);
             scoreText.draw(canvas);
+        }
+
+        if (MenuItems.isShowFps()) {
+            String fps = "Fps: " + Play.getCurrentFps();
+            TextGraphics fpsText =
+                    new TextGraphics(fps, 1.5f, Color.WHITE, Color.WHITE, 0.0f, false, false,
+                                     anchor.add(new Vector(TEXT_PADDING,
+                                                           TEXT_PADDING)));
+            fpsText.setFontName(FONT);
+            fpsText.setDepth(DEPTH + 10000);
+            fpsText.draw(canvas);
         }
     }
 }
