@@ -18,6 +18,7 @@ import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Cherry;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Key;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.PowerPellet;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;

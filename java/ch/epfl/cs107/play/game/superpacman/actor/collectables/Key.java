@@ -1,10 +1,3 @@
-/*
- *	Author:      Leonard Cseres
- *	Date:        01.12.20
- *	Time:        04:29
- */
-
-
 package ch.epfl.cs107.play.game.superpacman.actor.collectables;
 
 import ch.epfl.cs107.play.game.areagame.Area;
@@ -18,7 +11,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.Collections;
 import java.util.List;
 
-public class Cherry extends CollectableAreaEntity {
+public class Key extends CollectableAreaEntity {
     private static final int POINTS = 200;
     private final Sprite sprite;
 
@@ -27,10 +20,9 @@ public class Cherry extends CollectableAreaEntity {
      * @param area        (Area): Owner area. Not null
      * @param position    (Coordinate): Initial position of the entity. Not null
      */
-    public Cherry(Area area, DiscreteCoordinates position) {
+    public Key(Area area, DiscreteCoordinates position) {
         super(area, position);
-        // temporary path name for "Cherry Sprite", to create new classes for every
-        sprite = new Sprite("superpacman/cake", 1, 1, this);
+        sprite = new Sprite("superpacman/key", 1, 1, this);
         sprite.setDepth(-1000);
     }
 

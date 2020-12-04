@@ -3,21 +3,17 @@
                 BUGS
 -------------------------------------
 - Fix superPacmanSound issues -> reduce lag
-- Fix siren not playing when firengten mode end before ghost got home
-- Fix going home sound still on while change area
-- Fix double siren when player is dead
+- Fix siren not playing when frighten mode end before ghost got home
 - Fix scoreCombo to not update when new combo
 - Fix fps counter size
 
 -------------------------------------
-         NEW FEATURES TO ADD
+          NEW IDEAS TO ADD
 -------------------------------------
 - Arrange code + add javaDoc
-- Simplify static methods with Logic class
 - Add loading screens
-- Add add transitions
-- Add debug mode
-- Add local 2 player
+- Add launch game screen fade transition
+- Add debug mode (ex: pressing shift while launching game, sets player speed to fast, opens all door, when lives = 0, notion happens)
 - Add leaderboard
 - Add timer
 - Variation maze size
