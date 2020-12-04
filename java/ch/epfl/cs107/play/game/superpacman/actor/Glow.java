@@ -23,7 +23,7 @@ public class Glow implements Graphics {
     private final float alpha;
     private float currentAlpha;
 
-    protected Glow(Positionable parent, ImageGraphics sprite, GlowColors color, float size, float alpha) {
+    public Glow(Positionable parent, ImageGraphics sprite, GlowColors color, float size, float alpha) {
         this.parent = parent;
         this.sprite = sprite;
         this.color = color;
@@ -57,13 +57,14 @@ public class Glow implements Graphics {
         glow.draw(canvas);
     }
 
-    protected enum GlowColors {
+    public enum GlowColors {
         TEST("superpacman/glowTest"),
         YELLOW("superpacman/glowYellow"),
         RED("superpacman/glowRed"),
         BLUE("superpacman/glowBlue"),
         LIGHT_BLUE("superpacman/glowLightBlue"),
         PINK("superpacman/glowPink"),
+        ORANGE("superpacman/glowOrange"),
         LIGHT_PINK("superpacman/glowLightPink"),
         WHITE("superpacman/glowWhite");
 

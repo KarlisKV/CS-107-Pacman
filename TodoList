@@ -2,13 +2,38 @@
 -------------------------------------
                 BUGS
 -------------------------------------
-- Fix superPacmanSound issues -> figure out how to loop, and reduce lag
+- Fix superPacmanSound issues -> reduce lag
+- Fix siren not playing when firengten mode end before ghost got home
+- Fix going home sound still on while change area
+- Fix double siren when player is dead
+- Fix scoreCombo to not update when new combo
 
 -------------------------------------
          NEW FEATURES TO ADD
 -------------------------------------
 - Arrange code + add javaDoc
-- Add menus
+- Simplify static methods with Logic class
+- Add loading screens
+- Add add transitions
+- Add debug mode
 - Add local 2 player
-- Variation may size
+- Variation maze size
+- Auto-Maze generation
 - limited vision (black ghost??)
+
+-------------------------------------
+                INFO
+-------------------------------------
+Depths:
+    - Glow: -5'000
+    - Wall: -2'000
+    - Collectables: -1'000
+    - Ghosts: 200
+    - Player: 600
+    - PlayerDeath: 50
+    - Combos: 800
+    - Foreground: 1000
+    - Arcade: 10'000
+    - Arcade Joystick: 10'050
+    - Menu Title: 10'250
+    - Menu Black Overlay: 10'500

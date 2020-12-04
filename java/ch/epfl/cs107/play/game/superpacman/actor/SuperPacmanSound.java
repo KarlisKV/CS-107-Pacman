@@ -11,9 +11,12 @@ public enum SuperPacmanSound {
     PACMAN_DEATH(new SoundAcoustics(ResourcePath.getSounds("superpacman/death_1"), 1.f, false, false, false, true)),
     MUNCH(new SoundAcoustics(ResourcePath.getSounds("superpacman/munch_1"), 1.f, false, false, false, false)),
     EAT_FRUIT(new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_fruit"), 1.f, false, false, false, false)),
-    EAT_GHOST(new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_ghost"), 1.f, false, false, false, false));
+    EAT_GHOST(new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_ghost"), 1.f, false, false, false, false)),
+    MENU_SELECT(new SoundAcoustics(ResourcePath.getSounds("superpacman/menu/select_007"), 1.f, false, false, false, true)),
+    MENU_ENTER(new SoundAcoustics(ResourcePath.getSounds("superpacman/menu/select_005"), 1.f, false, false, false, true)),
+    MENU_EXIT(new SoundAcoustics(ResourcePath.getSounds("superpacman/menu/close_004"), 1.f, false, false, false, true));
 
-    final SoundAcoustics sound;
+    public final SoundAcoustics sound;
 
     SuperPacmanSound(SoundAcoustics sound) {
         this.sound = sound;

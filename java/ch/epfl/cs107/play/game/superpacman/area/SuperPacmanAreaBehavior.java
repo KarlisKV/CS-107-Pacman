@@ -13,15 +13,16 @@ import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.*;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Cherry;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.PowerPellet;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SuperPacmanAreaBehavior extends AreaBehavior {
     public static AreaGraph areaGraph;
-    private final List<Ghost> ghosts = new ArrayList<>();   // list of ghosts
+    public static SuperPacmanDifficulty initDifficulty = SuperPacmanDifficulty.NORMAL;
+    private final GhostsBehavior ghostsBehavior = new GhostsBehavior(initDifficulty);
 
     /**
      * Default SuperPacmanBehavior Constructor
@@ -40,7 +41,8 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         }
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
-                if (!cellEqualsToType(x, y, SuperPacmanCellType.WALL)) {
+                if (!cellEqualsToType(x, y, SuperPacmanCellType.WALL) &&
+                        !cellEqualsToType(x, y, SuperPacmanCellType.NONE)) {
                     areaGraph.addNode(new DiscreteCoordinates(x, y), hasLeftEdge(x, y), hasUpEdge(x, y),
                                       hasRightEdge(x, y), hasDownEdge(x, y));
                 }
@@ -64,19 +66,31 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      * Return (boolean)
      */
     private boolean hasLeftEdge(int x, int y) {
-        return x > 0 && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL);
+        return x > 0 && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x - 1, y, SuperPacmanCellType.NONE);
     }
 
     private boolean hasUpEdge(int x, int y) {
-        return y < getHeight() - 1 && !cellEqualsToType(x, y + 1, SuperPacmanCellType.WALL);
+        return y < getHeight() - 1 && !cellEqualsToType(x, y + 1, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x, y + 1, SuperPacmanCellType.NONE);
     }
 
     private boolean hasRightEdge(int x, int y) {
-        return x < getWidth() - 1 && !cellEqualsToType(x + 1, y, SuperPacmanCellType.WALL);
+        return x < getWidth() - 1 && !cellEqualsToType(x + 1, y, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x + 1, y, SuperPacmanCellType.NONE);
     }
 
     private boolean hasDownEdge(int x, int y) {
-        return y > 0 && !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL);
+        return y > 0 && !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x, y - 1, SuperPacmanCellType.NONE);
+    }
+
+    public static void setInitDifficulty(SuperPacmanDifficulty initDifficulty) {
+        SuperPacmanAreaBehavior.initDifficulty = initDifficulty;
+    }
+
+    protected GhostsBehavior getGhostsManagement() {
+        return ghostsBehavior;
     }
 
     /**
@@ -105,37 +119,29 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                         area.registerActor(pellet);
                         break;
                     case FREE_WITH_BLINKY:
-                        Blinky blinky = new Blinky(area, new DiscreteCoordinates(x, y));
+                        Ghost blinky = new Blinky(area, new DiscreteCoordinates(x, y));
                         area.registerActor(blinky);
-                        ghosts.add(blinky);
+                        ghostsBehavior.addGhost(blinky);
                         break;
                     case FREE_WITH_INKY:
-                        Inky inky = new Inky(area, new DiscreteCoordinates(x, y));
+                        Ghost inky = new Inky(area, new DiscreteCoordinates(x, y));
                         area.registerActor(inky);
-                        ghosts.add(inky);
+                        ghostsBehavior.addGhost(inky);
                         break;
                     case FREE_WITH_PINKY:
-                        Pinky pinky = new Pinky(area, new DiscreteCoordinates(x, y));
+                        Ghost pinky = new Pinky(area, new DiscreteCoordinates(x, y));
                         area.registerActor(pinky);
-                        ghosts.add(pinky);
+                        ghostsBehavior.addGhost(pinky);
+                        break;
+                    case FREE_WITH_CLYDE:
+                        Ghost clyde = new Clyde(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(clyde);
+                        ghostsBehavior.addGhost(clyde);
                         break;
                     default:
                         // do nothing
                 }
             }
-        }
-    }
-
-    // TODO: add javadoc
-    public void scareGhosts() {
-        for (Ghost ghost : ghosts) {
-            ghost.setFrightened(true);
-        }
-    }
-
-    public void resetGhosts() {
-        for (Ghost ghost : ghosts) {
-            ghost.reset();
         }
     }
 
@@ -159,13 +165,14 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         return neighbors;
     }
 
-    public enum SuperPacmanCellType {
+    private enum SuperPacmanCellType {
         NONE(0), // never used as real content
         WALL(-16777216), //black
         FREE_WITH_DIAMOND(-1), //white
         FREE_WITH_BLINKY(-65536), //red
         FREE_WITH_PINKY(-157237), //pink
         FREE_WITH_INKY(-16724737), //cyan
+        FREE_WITH_CLYDE(-24526), //orange
         FREE_WITH_CHERRY(-36752), //light red
         FREE_WITH_BONUS(-16478723), //light blue
         FREE_EMPTY(-6118750); // sort of gray

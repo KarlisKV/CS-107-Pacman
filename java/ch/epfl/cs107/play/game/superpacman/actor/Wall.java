@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Wall extends AreaEntity {
-	private static final String WALL_NAME = "superpacman/wallBlueRoundDark";
+	private static final String WALL_NAME = "superpacman/wallBlueRoundDarkFilled";
 
 	Sprite sprite;
 
@@ -156,7 +156,7 @@ public class Wall extends AreaEntity {
 				sprite = new RPGSprite(WALL_NAME, 1, 1, this, new RegionOfInterest(0, 14*64, 64, 64));
 			}
 		}
-		sprite.setDepth(-15000);
+		sprite.setDepth(-2000);
 	}
 
 	@Override

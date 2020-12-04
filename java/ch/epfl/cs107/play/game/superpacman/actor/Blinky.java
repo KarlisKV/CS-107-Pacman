@@ -13,9 +13,10 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class Blinky extends Ghost {
     private static final String SPRITE_NAME = "superpacman/ghost.blinky";
     private static final int SPRITE_SIZE = 16;
+    private static final int FIELD_OF_VIEW = 5;
 
-    public Blinky(Area area, DiscreteCoordinates position) {
-        super(area, position, SPRITE_NAME, SPRITE_SIZE, Glow.GlowColors.RED);
+    public Blinky(Area area, DiscreteCoordinates homePosition) {
+        super(area, homePosition, homePosition, SPRITE_NAME, SPRITE_SIZE, Glow.GlowColors.RED, FIELD_OF_VIEW);
     }
 
     @Override

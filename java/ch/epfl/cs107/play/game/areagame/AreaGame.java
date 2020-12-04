@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.areagame;
 
 import ch.epfl.cs107.play.game.Game;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
@@ -13,8 +14,6 @@ import java.util.Map;
  */
 abstract public class AreaGame implements Game {
 
-	// STATE ENUM
-
 	// Context objects
 	private Window window;
 	private FileSystem fileSystem;
@@ -23,7 +22,8 @@ abstract public class AreaGame implements Game {
 	/// The current area the game is in
 	private Area currentArea;
 
-
+	// Menu for the game
+	private MenuItems menuItems;
 
 	/**
 	 * Add an Area to the AreaGame list
@@ -91,6 +91,7 @@ abstract public class AreaGame implements Game {
 		// Keep context
 		this.window = window;
 		this.fileSystem = fileSystem;
+		menuItems = new MenuItems(window);
 
 		areas = new HashMap<>();
 		return true;
@@ -99,10 +100,17 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void update(float deltaTime) {
-		// TODO: with if condition
-		currentArea.update(deltaTime);
-
-
+		if (MenuItems.isExit()) {
+			end();
+		} else {
+			currentArea.update(deltaTime);
+			if (!MenuItems.isStartGame()) {
+				menuItems.draw(window);
+				if (!MenuItems.isSoundDeactivated()) {
+					menuItems.bip(window);
+				}
+			}
+		}
 	}
 
 	@Override

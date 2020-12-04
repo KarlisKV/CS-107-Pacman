@@ -19,7 +19,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.awt.*;
 
 public class SuperPacmanPlayerStatusGUI implements Graphics {
-    private static final float DEPTH = 2000.0f;
+    private static final float DEPTH = 5000.0f;
     private static final float HP_SPACING = 1.25f;
     private static final float EDGE_PADDING = 9.0f;
     private static final float LIFE_SIZE = 1.0f;
@@ -80,6 +80,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                                      anchor.add(new Vector(width / 2 - (textToDisplay.length() * FONT_SIZE / 2),
                                                            height - (EDGE_PADDING))));
             scoreText.setFontName(FONT);
+            scoreText.setDepth(DEPTH);
             scoreText.draw(canvas);
         }
     }

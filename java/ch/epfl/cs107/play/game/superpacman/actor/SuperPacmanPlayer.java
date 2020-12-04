@@ -17,10 +17,10 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Cherry;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.PowerPellet;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Audio;
@@ -33,12 +33,12 @@ import java.util.List;
 
 public class SuperPacmanPlayer extends Player {
     protected static final SoundAcoustics SIREN_SOUND = SuperPacmanSound.SIREN.sound;
+    protected static final SoundAcoustics POWER_PELLET_SOUND = SuperPacmanSound.POWER_PELLET.sound;
     // Animation duration in frame number
-    private static final int ANIMATION_DURATION = 4; // base 10
+    private static final int ANIMATION_DURATION = 10; // base 10
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int SPRITE_SIZE = 14;
     private static final int MAX_HP = 5;
-    private static final SoundAcoustics POWER_PELLET_SOUND = SuperPacmanSound.POWER_PELLET.sound;
     private static final SoundAcoustics DEATH_SOUND = SuperPacmanSound.PACMAN_DEATH.sound;
     private static final SoundAcoustics MUNCH_SOUND = SuperPacmanSound.MUNCH.sound;
     private static final SoundAcoustics EAT_FRUIT = SuperPacmanSound.EAT_FRUIT.sound;
@@ -59,6 +59,7 @@ public class SuperPacmanPlayer extends Player {
     private boolean canUserMove = false;
     private boolean isDead = false;
     private float timer = 3;
+
     /**
      * Constructor for SuperPacmanPlayer
      * @param owner       (Area): Owner Area, not null
@@ -90,7 +91,7 @@ public class SuperPacmanPlayer extends Player {
         deathAnimation = new Animation(ANIMATION_DURATION - 1, deadSprites, false);
 
         // GLOW
-        glow = new Glow(this, sprites[0][0], Glow.GlowColors.YELLOW, 5.0f, 0.5f);
+        glow = new Glow(this, sprites[0][0], Glow.GlowColors.YELLOW, 4.0f, 0.8f);
 
         // SOUNDS
         SIREN_SOUND.shouldBeStarted();
@@ -98,11 +99,11 @@ public class SuperPacmanPlayer extends Player {
         resetMotion();
     }
 
-    /* ----------------------------------- ACCESSORS ----------------------------------- */
-
-    protected static void setStopAllAudio() {
-        SuperPacmanPlayer.stopAllAudio = true;
+    public static boolean isStopAllAudio() {
+        return stopAllAudio;
     }
+
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
 
     public static int getComboCount() {
         return comboCount;
@@ -144,6 +145,8 @@ public class SuperPacmanPlayer extends Player {
     public void update(float deltaTime) {
         gui.update(currentHp, score);
         updateAnimation(deltaTime);
+        // TODO: check if this is good idea
+        ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().update(deltaTime);
 
         if (isDead) {
             glow.fadeOut(0.02f);
@@ -152,6 +155,7 @@ public class SuperPacmanPlayer extends Player {
             timer -= deltaTime;
             if (timer <= 0) {
                 reset();
+                setDead(false);
                 timer = 3;
             }
         }
@@ -202,32 +206,27 @@ public class SuperPacmanPlayer extends Player {
         if (currentHp > 0) {
             --currentHp;
         }
-        setDead(false);
         canUserMove = true;
         desiredOrientation = null;
         currentOrientation = DEFAULT_ORIENTATION;
         glow.reset();
-        // TODO: find better way of achieving this
-        // create getter in area
-        DiscreteCoordinates intiPos;
-
-        switch (getOwnerArea().getTitle()) {
-            case "superpacman/level0":
-                intiPos = Level0.PLAYER_SPAWN_POSITION;
-                break;
-            case "superpacman/level1":
-                intiPos = Level1.PLAYER_SPAWN_POSITION;
-                break;
-            case "superpacman/level2":
-                intiPos = Level2.PLAYER_SPAWN_POSITION;
-                break;
-            default:
-                intiPos = PLAYER_SPAWN_POSITION;
-        }
+        DiscreteCoordinates intiPos = ((SuperPacmanArea) getOwnerArea()).getPlayerSpawnPosition();
         getOwnerArea().leaveAreaCells(this, getEnteredCells());
         getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
         setCurrentPosition(intiPos.toVector());
 
+    }
+
+    private void setDead(boolean isDead) {
+        this.isDead = isDead;
+        if (isDead) {
+            setStopAllAudio();
+            DEATH_SOUND.shouldBeStarted();
+        } else {
+            if (!stopAllAudio) {
+                SIREN_SOUND.shouldBeStarted();
+            }
+        }
     }
 
     /**
@@ -241,17 +240,9 @@ public class SuperPacmanPlayer extends Player {
         }
     }
 
-    private void setDead(boolean isDead) {
-        this.isDead = isDead;
-        if (isDead) {
-            stopAllAudio = true;
-            DEATH_SOUND.shouldBeStarted();
-        } else {
-            System.out.println("Siren ON");
-            SIREN_SOUND.shouldBeStarted();
-        }
+    protected static void setStopAllAudio() {
+        SuperPacmanPlayer.stopAllAudio = true;
     }
-
 
     @Override
     public void draw(Canvas canvas) {
@@ -262,6 +253,12 @@ public class SuperPacmanPlayer extends Player {
         } else {
             deathAnimation.draw(canvas);
         }
+    }
+
+    private void setPlayerPosition(DiscreteCoordinates destination) {
+        getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        getOwnerArea().enterAreaCells(this, Collections.singletonList(destination));
+        setCurrentPosition(destination.toVector());
     }
 
     @Override
@@ -316,7 +313,15 @@ public class SuperPacmanPlayer extends Player {
 
         @Override
         public void interactWith(Door door) {
-            setIsPassingADoor(door);
+            if (getOwnerArea().getTitle().equals(door.getDestination())) {
+                setPlayerPosition(door.getOtherSideCoordinates());
+            } else {
+                if (!stopAllAudio) {
+                    SIREN_SOUND.shouldBeStarted();
+                }
+                setStopAllAudio();
+                setIsPassingADoor(door);
+            }
         }
 
         @Override
@@ -328,13 +333,14 @@ public class SuperPacmanPlayer extends Player {
                 if (comboCount < 4) {
                     ++comboCount;
                 } else {
-                    comboCount = 1;
+                    comboCount = 4;
                 }
+
                 score += Ghost.GHOST_BASE_SCORE * comboCount;
 
             } else {
                 setDead(true);
-                ((SuperPacmanArea) getOwnerArea()).resetGhosts();
+                ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().resetGhosts();
             }
         }
 
@@ -347,7 +353,7 @@ public class SuperPacmanPlayer extends Player {
 
         @Override
         public void interactWith(Pellet pellet) {
-            MUNCH_SOUND.shouldBeStarted();
+//            MUNCH_SOUND.shouldBeStarted();
             pellet.collect();
             updateScore(pellet.getPoints());
         }
@@ -356,7 +362,7 @@ public class SuperPacmanPlayer extends Player {
         public void interactWith(PowerPellet powerPellet) {
             POWER_PELLET_SOUND.shouldBeStarted();
             powerPellet.collect();
-            ((SuperPacmanArea) getOwnerArea()).scareGhost();
+            ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().frightenGhosts();
         }
 
     }

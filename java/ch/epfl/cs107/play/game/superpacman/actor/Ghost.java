@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
@@ -30,9 +31,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     protected static final int GHOST_BASE_SCORE = 200;
     private static final float RESET_TIME = 4;
     private static final float EATEN_TIME = 2;
-    private static final int ANIMATION_DURATION = 18; // base 12
     private static final int BACK_TO_HOME_ANIMATION_DURATION = 5;
-    private static final float FRIGHTENED_TIME = 10;
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int NORMAL_GLOW = 0;
     private static final int FRIGHTENED_GLOW = 1;
@@ -41,10 +40,11 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     private static final String[] SCORE_COMBOS_PATHNAMES =
             {"superpacman/score200", "superpacman/score400", "superpacman/score800", "superpacman/score1600"};
     private static final SoundAcoustics RETREATING_SOUND = SuperPacmanSound.RETREATING.sound;
-
+    private static final float GHOST_DEPTH = 200;
+    private static final float SCORE_DEPTH = 800;
+    private final int fieldOfView;
     // Visuals & Sound
     private final Animation[] normalAnimation;
-    private final Animation frightenedAnimation;
     private final Animation transitionAnimation;
     private final Animation[] backToHomeAnimation;
     private final Sprite[] scores;
@@ -54,7 +54,12 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     // Ghost key attributes
     private final DiscreteCoordinates homePosition;
     private final boolean chase = false;
-    private Audio audio;
+    private final Animation frightenedAnimation;
+    // Difficulty parameters
+    private int animationDuration = 16;
+    private float frightenTime = 10;
+    private float stateUpdateTime = 2;
+
     private boolean reset = false;
     private boolean paused = false;
     private float pauseTime = 0;
@@ -62,90 +67,122 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     private boolean timerIsFinished = false;
     // Movement
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
-    private int movementDuration = ANIMATION_DURATION;
+    private int movementDuration = animationDuration;
     private DiscreteCoordinates scatterPosition;
     private boolean isFrightened = false;
-    private float frightenedTime = FRIGHTENED_TIME;
+    private float frightenedTimeCounter = 0;
     private boolean playerInView = false;
     private boolean isEaten = false;
-    private boolean stateUpdate = false;
+    private boolean stateUpdate = true;
+    private float stateCount = 0;
     private boolean hasReset = false;
     private boolean blink = false;
     private float blinkCount = 0;
     // Orientation pathing
     private Queue<Orientation> path = null;
     private DiscreteCoordinates targetPos = null;
-    private DiscreteCoordinates lastPlayerPosition;
+    private DiscreteCoordinates lastPlayerPosition = null;
+    private Orientation lastPlayerOrientation = null;
 
     /**
      * Constructor for Ghost
-     * @param area       (Area): Owner area. Not null
-     * @param position   (Coordinate): Initial position of the entity. Not null
-     * @param spriteName (String): The name of the Ghost sprite
-     * @param spriteSize (int): The size of the Ghost sprite
-     * @param glowColor  (Glow.GlowColors): The glow color for the Ghost sprite
+     * @param area            (Area): Owner area. Not null
+     * @param homePosition    (Coordinate): Initial position of the entity. Not null
+     * @param scatterPosition (Coorinate): The target position while in scatter mode
+     * @param spriteName      (String): The name of the Ghost sprite
+     * @param spriteSize      (int): The size of the Ghost sprite
+     * @param glowColor       (Glow.GlowColors): The glow color for the Ghost sprite
      */
-    public Ghost(Area area, DiscreteCoordinates position, String spriteName, int spriteSize,
-                 Glow.GlowColors glowColor) {
-        super(area, DEFAULT_ORIENTATION, position);
+    public Ghost(Area area, DiscreteCoordinates homePosition, DiscreteCoordinates scatterPosition, String spriteName,
+                 int spriteSize, Glow.GlowColors glowColor, int fieldOfView) {
+        super(area, DEFAULT_ORIENTATION, homePosition);
         ghostHandler = new GhostInteractionHandler();
-        homePosition = position;
-        scatterPosition = position;
+        this.homePosition = homePosition;
+        this.scatterPosition = scatterPosition;
+        this.fieldOfView = fieldOfView;
 
         scores = new Sprite[4];
         for (int i = 0; i < scores.length; ++i) {
             scores[i] = new Sprite(SCORE_COMBOS_PATHNAMES[i], 1.5f, 1.5f, this);
             scores[i].setAnchor(new Vector(0, 1.0f));
-            scores[i].setDepth(1000);
+            scores[i].setDepth(SCORE_DEPTH);
         }
 
-
-        // ANIMATIONS
         // Frighted Animation
-        Sprite[] frightenedSprites =
-                RPGSprite.extractSprites("superpacman/ghost.afraid", 2, 1, 1, this, 16, 16);
-        for (Sprite frightenedSprite : frightenedSprites) {
-            frightenedSprite.setDepth(200);
-        }
-        frightenedAnimation = new Animation(ANIMATION_DURATION / 2, frightenedSprites);
+        Sprite[] frightenedSprites = createGhostAnimation("superpacman/ghost.afraid");
+        frightenedAnimation = new Animation(animationDuration / 2, frightenedSprites);
+
         // Frighted transition Animation
-        Sprite[] transitionSprites =
-                RPGSprite.extractSprites("superpacman/ghost.afraid.transition", 2, 1, 1, this, 16, 16);
-        for (Sprite transitionSprite : transitionSprites) {
-            transitionSprite.setDepth(200);
-        }
-        transitionAnimation = new Animation(ANIMATION_DURATION / 2, transitionSprites);
+        Sprite[] transitionSprites = createGhostAnimation("superpacman/ghost.afraid.transition");
+        transitionAnimation = new Animation(animationDuration / 2, transitionSprites);
+
 
         // Normal Animation
-        Sprite[][] sprites = RPGSprite.extractSprites(spriteName, 2, 1, 1, this, spriteSize, spriteSize,
-                                                      new Orientation[]{Orientation.UP, Orientation.RIGHT,
-                                                                        Orientation.DOWN, Orientation.LEFT});
-        for (Sprite[] spriteFrames : sprites) {
-            for (Sprite sprite : spriteFrames) {
-                sprite.setDepth(200);
-            }
-        }
-        normalAnimation = Animation.createAnimations(ANIMATION_DURATION / 2, sprites);
+        Sprite[][] sprites = createOrientedGhostAnimation(spriteName);
+        normalAnimation = Animation.createAnimations(animationDuration / 2, sprites);
 
         // BackToHome Animation
-        Sprite[][] eyesSprites = RPGSprite.extractSprites("superpacman/ghost.eyes", 1, 1, 1, this, 16, 16,
-                                                          new Orientation[]{Orientation.UP, Orientation.RIGHT,
-                                                                            Orientation.DOWN, Orientation.LEFT});
-        for (Sprite[] eyeSpriteFrames : eyesSprites) {
-            for (Sprite eyeSprite : eyeSpriteFrames) {
-                eyeSprite.setDepth(200);
-            }
-        }
+        Sprite[][] eyesSprites = createOrientedGhostAnimation("superpacman/ghost.eyes");
         backToHomeAnimation = Animation.createAnimations(0, eyesSprites);
 
         // GLOW
-        glows[NORMAL_GLOW] = new Glow(this, sprites[0][0], glowColor, 5.0f, 0.6f);
-        glows[FRIGHTENED_GLOW] = new Glow(this, sprites[0][0], Glow.GlowColors.BLUE, 5.0f, 0.6f);
-        glows[TRANSITION_GLOW] = new Glow(this, sprites[0][0], Glow.GlowColors.WHITE, 5.0f, 0.6f);
+        glows[NORMAL_GLOW] = new Glow(this, sprites[0][0], glowColor, 4.0f, 0.9f);
+        glows[FRIGHTENED_GLOW] = new Glow(this, sprites[0][0], Glow.GlowColors.BLUE, 4.0f, 0.9f);
+        glows[TRANSITION_GLOW] = new Glow(this, sprites[0][0], Glow.GlowColors.WHITE, 4.0f, 0.9f);
     }
 
+    public Sprite[] createGhostAnimation(String pathname) {
+        Sprite[] sprites =
+                RPGSprite.extractSprites(pathname, 2, 1, 1, this, 16, 16);
+        for (Sprite sprite : sprites) {
+            sprite.setDepth(GHOST_DEPTH);
+        }
+        return sprites;
+    }
+
+    public Sprite[][] createOrientedGhostAnimation(String pathname) {
+        Sprite[][] sprites =
+                RPGSprite.extractSprites(pathname, 2, 1, 1, this, 16, 16,
+                                         new Orientation[]{Orientation.UP, Orientation.RIGHT,
+                                                           Orientation.DOWN, Orientation.LEFT});
+        for (Sprite[] spriteFrames : sprites) {
+            for (Sprite sprite : spriteFrames) {
+                sprite.setDepth(GHOST_DEPTH);
+            }
+        }
+        return sprites;
+    }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    protected boolean isEaten() {
+        return isEaten;
+    }
+
+    protected void setEaten(boolean isEaten) {
+        // state check
+        stateUpdate = true;
+        this.isEaten = isEaten;
+    }
+
+    protected void setAnimationDuration(int animationDuration) {
+        this.animationDuration = animationDuration;
+        if (!isEaten) {
+            movementDuration = animationDuration;
+        }
+    }
+
+    protected boolean reachedHome() {
+        return homePosition.equals(getCurrentMainCellCoordinates());
+    }
+
+    protected void setFrightenTime(float frightenTime) {
+        this.frightenTime = frightenTime;
+    }
+
+    protected void setStateUpdateTime(float stateUpdateTime) {
+        this.stateUpdateTime = stateUpdateTime;
+    }
 
     protected DiscreteCoordinates getScatterPosition() {
         return scatterPosition;
@@ -155,22 +192,22 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         this.scatterPosition = scatterPosition;
     }
 
+    protected DiscreteCoordinates getLastPlayerPosition() {
+        return lastPlayerPosition;
+    }
+
+    protected Orientation getLastPlayerOrientation() {
+        return lastPlayerOrientation;
+    }
+
     protected boolean isPlayerInView() {
         return playerInView;
     }
 
     protected void setPlayerInView(boolean playerInView) {
-        // state check
-        stateUpdate = playerInView != this.playerInView;
+        // update the state
+        stateUpdate = true;
         this.playerInView = playerInView;
-    }
-
-    protected boolean isStateUpdate() {
-        return stateUpdate;
-    }
-
-    protected DiscreteCoordinates getLastPlayerPosition() {
-        return lastPlayerPosition;
     }
 
     public boolean isFrightened() {
@@ -179,13 +216,13 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     public void setFrightened(boolean frightened) {
         if (!isEaten) {
-            // state check
-            stateUpdate = frightened != this.isFrightened;
+            // update the state
+            stateUpdate = true;
             this.isFrightened = frightened;
             if (frightened) {
                 blink = false;
                 blinkCount = 0;
-                frightenedTime = FRIGHTENED_TIME;
+                frightenedTimeCounter = 0;
                 currentOrientation = currentOrientation.opposite();
             }
         }
@@ -195,13 +232,15 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      * Method to set the ghost as Eaten, sending him back to homePosition
      */
     protected void setEaten() {
+        // state check
+        stateUpdate = true;
         RETREATING_SOUND.shouldBeStarted();
         pause(EATEN_TIME);
         setFrightened(false);
         blink = false;
         path = null;
         movementDuration = BACK_TO_HOME_ANIMATION_DURATION;
-        frightenedTime = FRIGHTENED_TIME;
+        frightenedTimeCounter = 0;
         isEaten = true;
     }
 
@@ -216,7 +255,6 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     @Override
     public void bip(Audio audio) {
-        this.audio = audio;
         if (!paused) {
             RETREATING_SOUND.bip(audio);
         }
@@ -224,7 +262,8 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     @Override
     public void update(float deltaTime) {
-        updateTimer(deltaTime);
+
+        updatePauseTimer(deltaTime);
 
         if (reset) {
             if (!hasReset) {
@@ -239,31 +278,38 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         if (!paused) {
             updateAnimation(deltaTime);
             if (!isDisplacementOccurs()) {
-                currentOrientation = getNextOrientation();
+                if (getNextOrientation() != null) {
+                    currentOrientation = getNextOrientation();
+                } else {
+                    currentOrientation = getRandomValidOrientation();
+                }
                 orientate(currentOrientation);
             }
 
             if (isFrightened) {
-                frightenedTime -= deltaTime;
-                if (frightenedTime <= 0) {
-                    frightenedTime = FRIGHTENED_TIME;
+                frightenedTimeCounter += deltaTime;
+                if (frightenedTimeCounter >= frightenTime) {
+                    frightenedTimeCounter = 0;
                     setFrightened(false);
                     SuperPacmanPlayer.resetComboCount();
+                    if (!SuperPacmanPlayer.isStopAllAudio()) {
+//                        SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
+                    }
                     SuperPacmanPlayer.setStopAllAudio();
-                    System.out.println("Siren NO MORE SCARED");
-                    SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
                     blink = false;
                 } else {
-                    if (frightenedTime <= 3) {
+                    if (frightenedTimeCounter >= frightenTime - 3) {
                         toggleBlink(deltaTime);
                     }
                 }
             }
-            if (isEaten && reachedDestination(homePosition)) {
+            if (isEaten && reachedHome()) {
                 currentOrientation = DEFAULT_ORIENTATION;
-                movementDuration = ANIMATION_DURATION;
+                movementDuration = animationDuration;
                 isEaten = false;
-                SuperPacmanPlayer.setStopAllAudio();
+//                SuperPacmanPlayer.setStopAllAudio();
+                // TODO: Bug, if ghosts are not anymore scare while one of then is travelling home, siren sound will
+                //  stop
             }
 
             if (!isDisplacementOccurs()) {
@@ -271,7 +317,14 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
             }
         }
 
-        // Rest
+        // Rest and update state if needed
+        stateCount += deltaTime;
+        if (stateCount >= stateUpdateTime) {
+            stateCount = 0;
+            stateUpdate = true;
+        } else {
+            stateUpdate = false;
+        }
         setPlayerInView(false);
         super.update(deltaTime);
     }
@@ -280,8 +333,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      * Method to start, stop, and check if timer is finished
      * @param deltaTime elapsed time since last update, in seconds, non-negative
      */
-    // TODO: make own class from method...
-    private void updateTimer(float deltaTime) {
+    private void updatePauseTimer(float deltaTime) {
         if (pauseTime != 0) {
             timer = pauseTime;
             pauseTime = 0;
@@ -310,11 +362,9 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         setPlayerInView(false);
         blink = false;
         blinkCount = 0;
-        movementDuration = ANIMATION_DURATION;
-        frightenedTime = FRIGHTENED_TIME;
-        getOwnerArea().leaveAreaCells(this, getEnteredCells());
-        getOwnerArea().enterAreaCells(this, Collections.singletonList(homePosition));
-        setCurrentPosition(homePosition.toVector());
+        movementDuration = animationDuration;
+        frightenedTimeCounter = 0;
+        setGhostPosition(homePosition);
         hasReset = true;
     }
 
@@ -333,20 +383,24 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      * @return Orientation from path.poll()
      */
     private Orientation getNextOrientation() {
-        if (isEaten) {
-            return moveToTarget(homePosition);
-        }
-        if (isFrightened) {
-            return moveToTarget(getTargetWhileFrightened());
-        }
-        if (playerInView) {
-            return moveToTarget(getTargetWhilePlayerInVew());
-        }
-        if (chase) {
-            return moveToTarget(getTargetWhileChaseMode());
+        if (reachedDestination(targetPos) || isStateUpdate()) {
+            if (isEaten) {
+                return moveToTarget(homePosition);
+            }
+            if (isFrightened) {
+                return moveToTarget(getTargetWhileFrightened());
+            }
+            if (playerInView) {
+                return moveToTarget(getTargetWhilePlayerInVew());
+            }
+            if (chase) {
+                return moveToTarget(getTargetWhileChaseMode());
+            } else {
+                return moveToTarget(getTargetDefault());
+            }
         }
 
-        return moveToTarget(getTargetDefault());
+        return moveToTarget(targetPos);
     }
 
     public void toggleBlink(float deltaTime) {
@@ -380,6 +434,10 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         transitionAnimation.reset();
     }
 
+    protected boolean isStateUpdate() {
+        return stateUpdate;
+    }
+
     /**
      * Method to move Ghost towards the target position
      * @param targetPos target position of path
@@ -387,7 +445,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      */
     private Orientation moveToTarget(DiscreteCoordinates targetPos) {
         if (!invalidPath(targetPos)) {
-            if (path == null || path.isEmpty() || stateUpdate || reachedDestination(this.targetPos)) {
+            if (path == null || path.isEmpty()) {
                 this.targetPos = targetPos;
                 path = SuperPacmanAreaBehavior.areaGraph.shortestPath(getCurrentMainCellCoordinates(), targetPos);
             }
@@ -398,7 +456,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
                 path = null;
             }
         }
-        return getRandomOrientation();
+        return getRandomValidOrientation();
     }
 
     /**
@@ -414,30 +472,21 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     protected abstract DiscreteCoordinates getTargetDefault();
 
     /**
-     * Method to check if path to targetPos is invalid
-     * @param targetPos target position of path
-     * @return (true) if the path is invalid
-     */
-    private boolean invalidPath(DiscreteCoordinates targetPos) {
-        return SuperPacmanAreaBehavior.areaGraph.shortestPath(getCurrentMainCellCoordinates(), targetPos) == null ||
-                targetPos == null;
-    }
-
-    /**
      * Method to check if the desired next Orientation is legal
      * @param orientation the next Orientation
      * @return (true) if the move is legal
      */
     private boolean isMoveLegal(Orientation orientation) {
-        return (getPossibleOrientations().contains(orientation));
+        return (getValidOrientations().contains(orientation));
     }
 
     /**
-     * Method to get a random Orientation from the possible orientations
-     * @return a random possible Orientation
+     * Method to get a random Orientation from the valid orientations
+     * @return a random valid Orientation
      */
-    private Orientation getRandomOrientation() {
-        List<Orientation> possibleOrientations = getPossibleOrientations();
+    private Orientation getRandomValidOrientation() {
+        List<Orientation> possibleOrientations = getValidOrientations();
+        // Handle dead end situation
         if (possibleOrientations.isEmpty()) {
             return currentOrientation.opposite();
         }
@@ -446,13 +495,13 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     }
 
     /**
-     * Method to get all possible Orientation in the current cell
+     * Method to get all valid Orientation in the current cell
      * The rules inclue:
      * - no moving backwards, except if dead end
      * - no moving into walls
-     * @return a List with all possible orientations
+     * @return a List with all valid orientations
      */
-    private List<Orientation> getPossibleOrientations() {
+    private List<Orientation> getValidOrientations() {
         List<Orientation> possibleOrientations = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
             // Check if ghost can move in any directions
@@ -474,13 +523,26 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      * @param discreteCoordinates the List of coordinates
      * @return a random DiscreteCoordinates from the List
      */
-    protected DiscreteCoordinates getRandomValidElement(List<DiscreteCoordinates> discreteCoordinates) {
+    protected DiscreteCoordinates getRandomValidPosition(List<DiscreteCoordinates> discreteCoordinates) {
         int randomInt;
+        final int TIMEOUT = 200;
+        int count = 0;
         do {
+            ++count;
             randomInt = RandomGenerator.getInstance().nextInt(discreteCoordinates.size());
-        } while (invalidPath(discreteCoordinates.get(randomInt)));
+        } while (invalidPath(discreteCoordinates.get(randomInt)) && count < TIMEOUT);
 
         return discreteCoordinates.get(randomInt);
+    }
+
+    /**
+     * Method to check if path to targetPos is invalid
+     * @param targetPos target position of path
+     * @return (true) if the path is invalid
+     */
+    protected boolean invalidPath(DiscreteCoordinates targetPos) {
+        return SuperPacmanAreaBehavior.areaGraph.shortestPath(getCurrentMainCellCoordinates(), targetPos) == null ||
+                targetPos == null;
     }
 
     @Override
@@ -506,6 +568,12 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
             normalAnimation[currentOrientation.ordinal()].draw(canvas);
             glows[NORMAL_GLOW].draw(canvas);
         }
+    }
+
+    private void setGhostPosition(DiscreteCoordinates destination) {
+        getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        getOwnerArea().enterAreaCells(this, Collections.singletonList(destination));
+        setCurrentPosition(destination.toVector());
     }
 
     @Override
@@ -535,7 +603,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return getCellsFromRange(getCurrentMainCellCoordinates(), 5, false);
+        return getCellsFromRange(getCurrentMainCellCoordinates(), fieldOfView, false);
     }
 
     /**
@@ -586,7 +654,17 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         @Override
         public void interactWith(SuperPacmanPlayer player) {
             lastPlayerPosition = player.getCurrentCells().get(0);
-            setPlayerInView(true);
+            lastPlayerOrientation = player.getOrientation();
+            if (!playerInView) {
+                setPlayerInView(true);
+            }
+        }
+
+        @Override
+        public void interactWith(Door door) {
+            if (getOwnerArea().getTitle().equals(door.getDestination())) {
+                setGhostPosition(door.getOtherSideCoordinates());
+            }
         }
     }
 }

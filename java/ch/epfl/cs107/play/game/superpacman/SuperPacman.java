@@ -15,10 +15,11 @@ import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
+import ch.epfl.cs107.play.game.superpacman.area.levels.Level3;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
 import ch.epfl.cs107.play.math.transitions.Transition;
-import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacman extends RPG {
@@ -31,7 +32,6 @@ public class SuperPacman extends RPG {
     private Arcade arcade;
 
     private int areaIndex;
-    private boolean startGame = false;
     private float timer = 0;
     private SuperPacmanPlayer player;
 
@@ -40,11 +40,6 @@ public class SuperPacman extends RPG {
     @Override
     public String getTitle() {
         return "Super Pac-mac";
-    }
-
-    public void setStartGame(boolean startGame) {
-        this.startGame = startGame;
-        arcade.fadeTitle();
     }
 
     @Override
@@ -60,6 +55,7 @@ public class SuperPacman extends RPG {
             Area area = setCurrentArea(areas[areaIndex], true);
             player = new SuperPacmanPlayer(area, Level0.PLAYER_SPAWN_POSITION);
             initPlayer(player);
+
             arcade = new Arcade(window, false, true, true);
             getCurrentArea().registerActor(arcade);
 
@@ -75,16 +71,12 @@ public class SuperPacman extends RPG {
         addArea(new Level0());
         addArea(new Level1());
         addArea(new Level2());
+        addArea(new Level3());
     }
 
     @Override
     public void update(float deltaTime) {
-        if (!startGame) {
-            Keyboard keyboard = getCurrentArea().getKeyboard();
-            if (keyboard.get(Keyboard.SPACE).isDown()) {
-                setStartGame(true);
-            }
-        } else {
+        if (MenuItems.isStartGame()) {
             updateGame(deltaTime);
         }
 
@@ -92,7 +84,6 @@ public class SuperPacman extends RPG {
     }
 
     private void updateGame(float deltaTime) {
-        // TODO: find better alfternative
         timer += deltaTime;
         if (timer > 2) {
             if (!arcade.isArcadeTurnedOn()) {
@@ -110,6 +101,8 @@ public class SuperPacman extends RPG {
 
     @Override
     public void end() {
+        // TODO: Figure out how to end game
+        getWindow().dispose();
     }
 
 

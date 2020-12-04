@@ -13,18 +13,19 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 public class Inky extends Ghost {
     private static final String SPRITE_NAME = "superpacman/ghost.inky";
     private static final int SPRITE_SIZE = 16;
+    private static final int FIELD_OF_VIEW = 5;
     private static final int MAX_DISTANCE_WHEN_SCARED = 5;
     private static final int MAX_DISTANCE_WHEN_NOT_SCARED = 10;
     private static final DiscreteCoordinates SCATTER_POS = new DiscreteCoordinates(24, 24);
 
-    public Inky(Area area, DiscreteCoordinates position) {
-        super(area, position, SPRITE_NAME, SPRITE_SIZE, Glow.GlowColors.LIGHT_BLUE);
+    public Inky(Area area, DiscreteCoordinates homePosition) {
+        super(area, homePosition, homePosition, SPRITE_NAME, SPRITE_SIZE, Glow.GlowColors.LIGHT_BLUE, FIELD_OF_VIEW);
         setScatterPosition(SCATTER_POS);
     }
 
     @Override
     protected DiscreteCoordinates getTargetWhileFrightened() {
-        return getRandomValidElement(
+        return getRandomValidPosition(
                 getCellsFromRange(getScatterPosition(), MAX_DISTANCE_WHEN_SCARED, false));
     }
 
@@ -40,7 +41,7 @@ public class Inky extends Ghost {
 
     @Override
     protected DiscreteCoordinates getTargetDefault() {
-        return getRandomValidElement(
+        return getRandomValidPosition(
                 getCellsFromRange(getScatterPosition(), MAX_DISTANCE_WHEN_NOT_SCARED, false));
     }
 

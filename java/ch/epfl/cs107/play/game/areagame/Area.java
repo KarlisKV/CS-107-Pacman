@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.superpacman.area.camera.Camera;
 import ch.epfl.cs107.play.game.superpacman.area.camera.SmoothLimited;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
@@ -301,14 +302,16 @@ public abstract class Area implements Playable {
 
 		// Update camera location
 		if (camera == null) {
-			camera = new SmoothLimited(this, false, true, 7);
+			camera = new SmoothLimited(this, false, true, 8);
 		}
 		camera.updatePos(viewCandidate.getPosition());
 		camera.update(deltaTime);
 
 		// Draw actors and play sounds
 		for (Actor actor : actors) {
-			actor.bip(window);
+			if (!MenuItems.isSoundDeactivated()) {
+				actor.bip(window);
+			}
 			actor.draw(window);
 		}
 	}
