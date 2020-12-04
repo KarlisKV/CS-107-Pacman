@@ -13,6 +13,8 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
 public abstract class CollectableAreaEntity extends MovableAreaEntity {
+    private static final int DEFAULT_POINTS = 0;
+    protected static final int DEPTH_COLLECTABLES = -1000;
 
     /**
      * Default MovableAreaEntity constructor
@@ -45,7 +47,7 @@ public abstract class CollectableAreaEntity extends MovableAreaEntity {
     }
 
     public int getPoints() {
-        return 0;
+        return DEFAULT_POINTS;
     }
 
     public void collect() {

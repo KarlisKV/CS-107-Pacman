@@ -21,18 +21,18 @@ import java.util.List;
 
 public class Pellet extends CollectableAreaEntity {
     private static final int POINTS = 10;
-    private Sprite sprite;
     private final Glow glow;
+    private final Sprite sprite;
 
     /**
      * Default MovableAreaEntity constructor
-     * @param area        (Area): Owner area. Not null
-     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param area     (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the entity. Not null
      */
     public Pellet(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/pellet", 1, 1, this);
-        sprite.setDepth(-1000);
+        sprite.setDepth(DEPTH_COLLECTABLES);
         glow = new Glow(this, sprite, Glow.GlowColors.LIGHT_PINK, 1.5f, 0.2f);
     }
 
@@ -41,14 +41,15 @@ public class Pellet extends CollectableAreaEntity {
         sprite.draw(canvas);
         glow.draw(canvas);
     }
-    @Override
-    public int getPoints() {
-        return POINTS;
-    }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((SuperPacmanInteractionVisitor) v).interactWith(this);
+    }
+
+    @Override
+    public int getPoints() {
+        return POINTS;
     }
 
     @Override

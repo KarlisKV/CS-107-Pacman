@@ -56,6 +56,20 @@ public abstract class Camera implements Updatable {
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
+    /**
+     * Method to set minX, maxX, minY, maxY for the camera if doEdgeControl.
+     * @param areaSize the area size (width or height)
+     * @return array with axis min and max positions
+     */
+    private float[] setMinMaxPos(float areaSize) {
+
+        float[] minMaxCameraPos = new float[2];
+        minMaxCameraPos[MIN] = (area.getCameraScaleFactor() / 2);
+        minMaxCameraPos[MAX] = (areaSize - (area.getCameraScaleFactor() / 2));
+
+        return minMaxCameraPos;
+    }
+
     public void setMinMaxPosX(float[] minMaxPosX) {
         this.minMaxPosX = minMaxPosX;
     }
@@ -74,20 +88,6 @@ public abstract class Camera implements Updatable {
 
     public void setCameraPosXY(Vector cameraPosXY) {
         this.cameraPosXY = cameraPosXY;
-    }
-
-    /**
-     * Method to set minX, maxX, minY, maxY for the camera if doEdgeControl.
-     * @param areaSize the area size (width or height)
-     * @return array with axis min and max positions
-     */
-    private float[] setMinMaxPos(float areaSize) {
-
-        float[] minMaxCameraPos = new float[2];
-        minMaxCameraPos[MIN] = (area.getCameraScaleFactor() / 2);
-        minMaxCameraPos[MAX] = (areaSize - (area.getCameraScaleFactor() / 2));
-
-        return minMaxCameraPos;
     }
 
     /**

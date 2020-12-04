@@ -9,37 +9,41 @@ package ch.epfl.cs107.play.game.superpacman.menus;
 
 import ch.epfl.cs107.play.game.actor.Acoustics;
 import ch.epfl.cs107.play.game.actor.Graphics;
+import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
+import ch.epfl.cs107.play.math.Circle;
+import ch.epfl.cs107.play.math.Vector;
+import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
+import ch.epfl.cs107.play.math.transitions.Transition;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
+import java.awt.*;
 import java.util.EnumMap;
 import java.util.Map;
 
 public final class MenuItems implements Graphics, Acoustics {
     private static final SoundAcoustics ENTER_SOUND = SuperPacmanSound.MENU_ENTER.sound;
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
+    private static final float OVERLAY_DEPTH = Menu.DEPTH + 500;
     private static boolean startGame = false;
+    private static boolean debugMode = false;
     private static boolean exit = false;
     private static boolean soundDeactivated = false;
-
-    public static boolean isShowFps() {
-        return showFps;
-    }
-
     private static boolean showFps = false;
+    private final Transition transitionOverlay = new EaseInOutCubic(0.01f);
     private final EnumMap<MenuState, Menu> menus = new EnumMap<>(MenuState.class);
     private final Keyboard keyboard;
     private MenuState currentState = MenuState.MAIN_MENU_PAGE;
     private boolean updateState = true;
-
     public MenuItems(Window window) {
         keyboard = window.getKeyboard();
+
         Menu mainMenu = new MainMenu(window);
         menus.put(MenuState.MAIN_MENU_PAGE, mainMenu);
         Menu options = new Options(window);
@@ -48,6 +52,14 @@ public final class MenuItems implements Graphics, Acoustics {
         menus.put(MenuState.HELP_PAGE, help);
         Menu credits = new Credits(window);
         menus.put(MenuState.CREDITS_PAGE, credits);
+    }
+
+    public static boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public static boolean isShowFps() {
+        return showFps;
     }
 
     public static boolean isSoundDeactivated() {
@@ -64,6 +76,11 @@ public final class MenuItems implements Graphics, Acoustics {
 
     @Override
     public void draw(Canvas canvas) {
+        if (!debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.CTRL).isDown() &&
+                keyboard.get(Keyboard.ALT).isDown()) {
+            System.out.println("Debug mode enabled");
+            debugMode = true;
+        }
         for (Map.Entry<MenuState, Menu> menuStateMenuEntry : menus.entrySet()) {
             if (menuStateMenuEntry.getKey().equals(currentState)) {
                 menuStateMenuEntry.getValue().draw(canvas);
@@ -71,6 +88,18 @@ public final class MenuItems implements Graphics, Acoustics {
             }
         }
         updateState = true;
+
+        float alphaOverlay = 0.0f;
+        if (!transitionOverlay.isFinished()) {
+            alphaOverlay = 1 - transitionOverlay.getProgress();
+        }
+
+        // DRAW BLACK OVERLAY
+        ShapeGraphics overlay =
+                new ShapeGraphics(new Circle(300, new Vector(canvas.getScaledWidth(), canvas.getScaledHeight())),
+                                  Color.BLACK, Color.BLACK, 0.0f,
+                                  alphaOverlay, OVERLAY_DEPTH + 500);
+        overlay.draw(canvas);
     }
 
     private void selectOption(Menu menu) {
@@ -110,7 +139,8 @@ public final class MenuItems implements Graphics, Acoustics {
                     break;
                 case DIFFICULTY:
                     menu.updateSubSelection();
-                    SuperPacmanDifficulty difficulty = SuperPacmanDifficulty.getDifficulty(menu.getCurrentSubSelection());
+                    SuperPacmanDifficulty difficulty =
+                            SuperPacmanDifficulty.getDifficulty(menu.getCurrentSubSelection());
                     SuperPacmanAreaBehavior.setInitDifficulty(difficulty);
                     break;
                 default:

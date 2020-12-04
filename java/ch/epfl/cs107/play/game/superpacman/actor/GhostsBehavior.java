@@ -8,6 +8,7 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
 import ch.epfl.cs107.play.game.Updatable;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class GhostsBehavior implements Updatable {
             setGhostDifficulty();
             isDifficultSet = true;
         }
-        if (difficulty.increaseDifficultyOverTime && updateTimer) {
+        if (difficulty.increaseDifficultyOverTime && updateTimer && !MenuItems.isDebugMode()) {
             updateTimer(deltaTime);
             // Set more difficult
         }
@@ -47,11 +48,9 @@ public class GhostsBehavior implements Updatable {
             for (Ghost ghost : ghosts) {
                 if (ghost.isEaten() && ghost.reachedHome()) {
                     SuperPacmanPlayer.setStopAllAudio();
-                    System.out.println("is home");
                 }
             }
             if (areGhostsNotFrightened()) {
-                System.out.println("not anymore scared");
                 SuperPacmanPlayer.resetComboCount();
                 if (!SuperPacmanPlayer.isStopAllAudio()) {
                     SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
@@ -67,20 +66,28 @@ public class GhostsBehavior implements Updatable {
     public void setGhostDifficulty() {
         updateTimer = false;
         for (Ghost ghost : ghosts) {
-            int animationDuration = difficulty.ghostAnimationDuration + (ANIMATION_DURATION_DECREASE * increaseCount);
-            if (animationDuration >= difficulty.minGhostAnimationDuration) {
-                ghost.setAnimationDuration(animationDuration);
-                updateTimer = true;
-            }
-            float frightenTime = difficulty.ghostFrightenTime + (FRIGHTEN_TIME_DECREASE * increaseCount);
-            if (frightenTime >= difficulty.minGhostFrightenTime) {
-                ghost.setFrightenTime(frightenTime);
-                updateTimer = true;
-            }
-            float stateUpdateTime = difficulty.ghostStateUpdateTime + (STATE_UPDATE_TIME_DECREASE * increaseCount);
-            if (stateUpdateTime >= difficulty.minGhostStateUpdateTime) {
-                ghost.setStateUpdateTime(stateUpdateTime);
-                updateTimer = true;
+            if (!MenuItems.isDebugMode()) {
+                int animationDuration =
+                        difficulty.ghostAnimationDuration + (ANIMATION_DURATION_DECREASE * increaseCount);
+                if (animationDuration >= difficulty.minGhostAnimationDuration) {
+                    ghost.setAnimationDuration(animationDuration);
+                    updateTimer = true;
+                }
+                float frightenTime = difficulty.ghostFrightenTime + (FRIGHTEN_TIME_DECREASE * increaseCount);
+                if (frightenTime >= difficulty.minGhostFrightenTime) {
+                    ghost.setFrightenTime(frightenTime);
+                    updateTimer = true;
+                }
+                float stateUpdateTime = difficulty.ghostStateUpdateTime + (STATE_UPDATE_TIME_DECREASE * increaseCount);
+                if (stateUpdateTime >= difficulty.minGhostStateUpdateTime) {
+                    ghost.setStateUpdateTime(stateUpdateTime);
+                    updateTimer = true;
+                }
+            } else {
+                // Options for debug mode
+                ghost.setAnimationDuration(20);
+                ghost.setFrightenTime(15);
+                ghost.setStateUpdateTime(1.5f);
             }
         }
     }

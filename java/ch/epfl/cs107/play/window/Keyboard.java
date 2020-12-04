@@ -6,6 +6,9 @@ package ch.epfl.cs107.play.window;
 public interface Keyboard {
     int TAB = 9;
     int ENTER = 10;
+    int SHIFT = 16;
+    int CTRL = 17;
+    int ALT = 18;
     int SPACE = 32;
     int UP = 38;
     int DOWN = 40;

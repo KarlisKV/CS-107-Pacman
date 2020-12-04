@@ -10,7 +10,6 @@ package ch.epfl.cs107.play.game.superpacman.area.levels;
 import ch.epfl.cs107.play.game.areagame.actor.Foreground;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
-import ch.epfl.cs107.play.game.superpacman.actor.Arcade;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
@@ -30,7 +29,6 @@ public class Level3 extends SuperPacmanArea {
 
     @Override
     protected void createArea() {
-        registerActor(new Arcade(getWindow(), true, false, false));
         registerActor(new Foreground(this));
         registerActor(new Door("superpacman/level3", DOOR_TOP_RIGHT.left(), Logic.TRUE, this, Orientation.RIGHT,
                                DOOR_TOP_LEFT));

@@ -24,14 +24,14 @@ public class Cherry extends CollectableAreaEntity {
 
     /**
      * Default MovableAreaEntity constructor
-     * @param area        (Area): Owner area. Not null
-     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param area     (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the entity. Not null
      */
     public Cherry(Area area, DiscreteCoordinates position) {
         super(area, position);
         // temporary path name for "Cherry Sprite", to create new classes for every
         sprite = new Sprite("superpacman/cake", 1, 1, this);
-        sprite.setDepth(-1000);
+        sprite.setDepth(DEPTH_COLLECTABLES);
     }
 
     @Override

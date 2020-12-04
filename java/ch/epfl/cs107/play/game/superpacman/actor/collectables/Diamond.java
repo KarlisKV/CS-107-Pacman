@@ -20,30 +20,32 @@ import java.util.List;
 
 public class Diamond extends CollectableAreaEntity {
     private static final int POINTS = 10;
-    private Sprite sprite;
+    private final Sprite sprite;
+
     /**
      * Default MovableAreaEntity constructor
-     * @param area        (Area): Owner area. Not null
-     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param area     (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the entity. Not null
      */
     public Diamond(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/diamond", 1, 1, this);
-        sprite.setDepth(-1000);
+        sprite.setDepth(DEPTH_COLLECTABLES);
     }
 
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
     }
-    @Override
-    public int getPoints() {
-        return POINTS;
-    }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((SuperPacmanInteractionVisitor) v).interactWith(this);
+    }
+
+    @Override
+    public int getPoints() {
+        return POINTS;
     }
 
     @Override

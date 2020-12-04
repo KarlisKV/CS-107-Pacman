@@ -23,6 +23,7 @@ import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.PowerPellet;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Button;
@@ -33,34 +34,39 @@ import java.util.Collections;
 import java.util.List;
 
 public class SuperPacmanPlayer extends Player {
+    // Sounds
     protected static final SoundAcoustics SIREN_SOUND = SuperPacmanSound.SIREN.sound;
     protected static final SoundAcoustics POWER_PELLET_SOUND = SuperPacmanSound.POWER_PELLET.sound;
-    // Animation duration in frame number
-    private static final int ANIMATION_DURATION = 10; // base 10
-    private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
-    private static final int SPRITE_SIZE = 14;
-    private static final int MAX_HP = 5;
     private static final SoundAcoustics DEATH_SOUND = SuperPacmanSound.PACMAN_DEATH.sound;
     private static final SoundAcoustics MUNCH_SOUND = SuperPacmanSound.MUNCH.sound;
-    private static final SoundAcoustics EAT_FRUIT = SuperPacmanSound.EAT_FRUIT.sound;
+    private static final SoundAcoustics EAT_FRUIT_SOUND = SuperPacmanSound.EAT_FRUIT.sound;
     private static final SoundAcoustics EAT_GHOST_SOUND = SuperPacmanSound.EAT_FRUIT.sound;
-    private static final SoundAcoustics EAT_KEY = SuperPacmanSound.EAT_KEY.sound;
-    private static int comboCount = 0;
+    private static final SoundAcoustics COLLECT_KEY_SOUND = SuperPacmanSound.COLLECT_KEY.sound;
     private static boolean stopAllAudio = false;
-    private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
+
+    // Animation duration in frame number
+    private static final int ANIMATION_DURATION = 10; // base 10
+    private static final int DEBUG_ANIMATION_DURATION = 4;
+    private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
+    private static final int SPRITE_SIZE = 14;
+    private static int comboCount = 0;
+    private static final int MAX_HP = 5;
+    private int currentHp = 5;
+    private int score = 0;
     private final Animation[] animation;
     private final Animation deathAnimation;
-    private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
-    private final Glow glow;
-    private Keyboard keyboard;
-    private int currentHp = 5;
+
+    private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP);
-    private int score = 0;
+    private final Glow glow;
+
+    private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
     private Orientation desiredOrientation = null;
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
     private boolean canUserMove = false;
     private boolean isDead = false;
     private float timer = 3;
+    private boolean collision = false;
 
     /**
      * Constructor for SuperPacmanPlayer
@@ -136,11 +142,11 @@ public class SuperPacmanPlayer extends Player {
         if (canUserMove) {
             SIREN_SOUND.bip(audio);
             MUNCH_SOUND.bip(audio);
-            EAT_FRUIT.bip(audio);
+            EAT_FRUIT_SOUND.bip(audio);
             DEATH_SOUND.bip(audio);
             EAT_GHOST_SOUND.bip(audio);
             POWER_PELLET_SOUND.bip(audio);
-            EAT_KEY.bip(audio);
+            COLLECT_KEY_SOUND.bip(audio);
         }
     }
 
@@ -162,7 +168,7 @@ public class SuperPacmanPlayer extends Player {
             }
         }
         if (canUserMove) {
-            keyboard = getOwnerArea().getKeyboard();
+            Keyboard keyboard = getOwnerArea().getKeyboard();
             setDesiredOrientation(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
             setDesiredOrientation(Orientation.UP, keyboard.get(Keyboard.UP));
             setDesiredOrientation(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
@@ -176,9 +182,14 @@ public class SuperPacmanPlayer extends Player {
             if (!isDisplacementOccurs() && getOwnerArea().canEnterAreaCells(this, jumpedCell)) {
                 orientate(desiredOrientation);
                 currentOrientation = desiredOrientation;
+                collision = false;
             }
             if (!isDisplacementOccurs()) {
-                move(ANIMATION_DURATION);
+                if (!MenuItems.isDebugMode()) {
+                    move(ANIMATION_DURATION);
+                } else {
+                    move(DEBUG_ANIMATION_DURATION);
+                }
             }
         }
         super.update(deltaTime);
@@ -290,7 +301,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return null;
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(currentOrientation.toVector()));
     }
 
     @Override
@@ -300,7 +311,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public boolean wantsViewInteraction() {
-        return false;
+        return true;
     }
 
     @Override
@@ -329,7 +340,7 @@ public class SuperPacmanPlayer extends Player {
         @Override
         public void interactWith(Ghost ghost) {
             if (ghost.isFrightened()) {
-                getOwnerArea().getCamera().shake();
+                getOwnerArea().getCamera().shake(4, 8);
                 EAT_GHOST_SOUND.shouldBeStarted();
                 ghost.setEaten();
                 if (comboCount < 4) {
@@ -349,14 +360,14 @@ public class SuperPacmanPlayer extends Player {
         //added 12/04 Karlis
         @Override
         public void interactWith(Key key) {
-            EAT_KEY.shouldBeStarted();
+            COLLECT_KEY_SOUND.shouldBeStarted();
             key.collect();
             updateScore(key.getPoints());
         }
 
         @Override
         public void interactWith(Cherry cherry) {
-            EAT_FRUIT.shouldBeStarted();
+            EAT_FRUIT_SOUND.shouldBeStarted();
             cherry.collect();
             updateScore(cherry.getPoints());
         }
@@ -376,5 +387,16 @@ public class SuperPacmanPlayer extends Player {
             ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().frightenGhosts();
         }
 
+        @Override
+        public void interactWith(Wall wall) {
+            if (!collision) {
+                try {
+                    getOwnerArea().getCamera().shake(0.3f, 5);
+                } catch (Exception e) {
+
+                }
+            }
+            collision = true;
+        }
     }
 }

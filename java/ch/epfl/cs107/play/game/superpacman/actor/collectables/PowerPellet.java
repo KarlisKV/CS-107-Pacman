@@ -20,18 +20,18 @@ import java.util.Collections;
 import java.util.List;
 
 public class PowerPellet extends CollectableAreaEntity {
-    private Sprite sprite;
     private final Glow glow;
+    private final Sprite sprite;
 
     /**
      * Default MovableAreaEntity constructor
-     * @param area        (Area): Owner area. Not null
-     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param area     (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the entity. Not null
      */
     public PowerPellet(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/powerPellet", 1, 1, this);
-        sprite.setDepth(-1000);
+        sprite.setDepth(DEPTH_COLLECTABLES);
         glow = new Glow(this, sprite, Glow.GlowColors.LIGHT_PINK, 4.0f, 0.5f);
 
     }
@@ -41,6 +41,7 @@ public class PowerPellet extends CollectableAreaEntity {
         sprite.draw(canvas);
         glow.draw(canvas);
     }
+
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((SuperPacmanInteractionVisitor) v).interactWith(this);

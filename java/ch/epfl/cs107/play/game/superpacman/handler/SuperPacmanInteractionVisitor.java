@@ -10,6 +10,7 @@ package ch.epfl.cs107.play.game.superpacman.handler;
 import ch.epfl.cs107.play.game.rpg.handler.RPGInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
+import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.*;
 
 public interface SuperPacmanInteractionVisitor extends RPGInteractionVisitor {
@@ -75,6 +76,14 @@ public interface SuperPacmanInteractionVisitor extends RPGInteractionVisitor {
      * @param powerPellet (PowerPellet)
      */
     default void interactWith(PowerPellet powerPellet) {
+        // by default empty
+    }
+
+    /**
+     * Default interaction between something and a Wall
+     * @param wall (Wall)
+     */
+    default void interactWith(Wall wall) {
         // by default empty
     }
 }

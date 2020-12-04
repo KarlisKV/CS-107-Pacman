@@ -185,6 +185,8 @@ public abstract class Menu implements Graphics, Acoustics {
 
         anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
         updateCurrentSelection();
+
+
     }
 
     protected void updateCurrentSelection() {
@@ -215,8 +217,10 @@ public abstract class Menu implements Graphics, Acoustics {
     private void resetSubCount() {
         if (!subOptionSectionList.isEmpty() && !subOptionList.isEmpty() && currentSelection != null &&
                 subOptionSectionList.containsKey(currentSelection) && subOptionList.containsKey(currentSelection)) {
+
             SubOption target = subOptionSectionList.get(currentSelection);
             SubOption[] subOptions = subOptionList.get(currentSelection).toArray(new SubOption[0]);
+
             boolean exit = false;
             for (int i = 0; i < subOptions.length && !exit; ++i) {
                 if (target.equals(subOptions[i])) {

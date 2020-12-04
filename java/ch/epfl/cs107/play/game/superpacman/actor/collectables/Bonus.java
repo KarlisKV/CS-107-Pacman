@@ -36,7 +36,7 @@ public class Bonus extends CollectableAreaEntity {
         Sprite[] sprites =
                 RPGSprite.extractSprites("superpacman/coin", SPRITE_FRAMES, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE);
         for (Sprite sprite : sprites) {
-            sprite.setDepth(-1000);
+            sprite.setDepth(DEPTH_COLLECTABLES);
         }
         animation = new Animation(ANIMATION_DURATION, sprites);
     }

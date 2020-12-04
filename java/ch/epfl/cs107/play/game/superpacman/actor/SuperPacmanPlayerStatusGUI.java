@@ -88,12 +88,23 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
         if (MenuItems.isShowFps()) {
             String fps = "Fps: " + Play.getCurrentFps();
             TextGraphics fpsText =
-                    new TextGraphics(fps, 1.5f, Color.WHITE, Color.WHITE, 0.0f, false, false,
-                                     anchor.add(new Vector(TEXT_PADDING,
-                                                           TEXT_PADDING)));
+                    new TextGraphics(fps, height / (1.5f * 35), Color.WHITE, Color.WHITE, 0.0f, false, false,
+                                     anchor.add(new Vector(height / (TEXT_PADDING * 35),
+                                                           height / (TEXT_PADDING * 35))));
             fpsText.setFontName(FONT);
             fpsText.setDepth(DEPTH + 10000);
             fpsText.draw(canvas);
+        }
+
+        if (MenuItems.isDebugMode()) {
+            String textToDisplay = "Debug Mode";
+            TextGraphics debugText =
+                    new TextGraphics(textToDisplay, height / (1.5f * 35), Color.ORANGE, Color.ORANGE, 0.0f, false, false,
+                                     anchor.add(new Vector(width - (2 * (height / (TEXT_PADDING * 7))) - (height / (TEXT_PADDING * 35)),
+                                                           height / (TEXT_PADDING * 35))));
+            debugText.setFontName(FONT);
+            debugText.setDepth(DEPTH + 10000);
+            debugText.draw(canvas);
         }
     }
 }

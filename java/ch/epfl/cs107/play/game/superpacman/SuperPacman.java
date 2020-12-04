@@ -56,9 +56,7 @@ public class SuperPacman extends RPG {
             player = new SuperPacmanPlayer(area, Level0.PLAYER_SPAWN_POSITION);
             initPlayer(player);
 
-            arcade = new Arcade(window, false, true, true);
-            getCurrentArea().registerActor(arcade);
-
+            arcade = new Arcade(window);
             return true;
         }
         return false;
@@ -76,11 +74,15 @@ public class SuperPacman extends RPG {
 
     @Override
     public void update(float deltaTime) {
+
         if (MenuItems.isStartGame()) {
             updateGame(deltaTime);
         }
 
         super.update(deltaTime);
+        // update arcade
+        arcade.draw(getWindow());
+        arcade.bip(getWindow());
     }
 
     private void updateGame(float deltaTime) {
@@ -102,6 +104,5 @@ public class SuperPacman extends RPG {
     @Override
     public void end() {
     }
-
 
 }
