@@ -23,6 +23,7 @@ public class GhostsBehavior implements Updatable {
     private int increaseCount = 0;
     private float timer = 0;
     private boolean updateTimer = true;
+    private boolean requestToFrighten = false;
 
     public GhostsBehavior(SuperPacmanDifficulty difficulty) {
         this.difficulty = difficulty;
@@ -42,15 +43,24 @@ public class GhostsBehavior implements Updatable {
             updateTimer(deltaTime);
             // Set more difficult
         }
-        for (Ghost ghost : ghosts) {
-            if (ghost.isEaten() && ghost.reachedHome()) {
-//                ghost.setEaten(false);
-                SuperPacmanPlayer.setStopAllAudio();
-                if (!areGhostsFrightened()) {
-                    SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
+        if (requestToFrighten) {
+            for (Ghost ghost : ghosts) {
+                if (ghost.isEaten() && ghost.reachedHome()) {
+                    SuperPacmanPlayer.setStopAllAudio();
+                    System.out.println("is home");
                 }
             }
+            if (areGhostsNotFrightened()) {
+                System.out.println("not anymore scared");
+                SuperPacmanPlayer.resetComboCount();
+                if (!SuperPacmanPlayer.isStopAllAudio()) {
+                    SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
+                }
+                SuperPacmanPlayer.setStopAllAudio();
+                requestToFrighten = false;
+            }
         }
+
 
     }
 
@@ -84,20 +94,22 @@ public class GhostsBehavior implements Updatable {
         }
     }
 
-    private boolean areGhostsFrightened() {
+    private boolean areGhostsNotFrightened() {
         int count = 0;
         for (Ghost ghost : ghosts) {
-            if (ghost.isFrightened()) {
+            if (!ghost.isFrightened()) {
                 ++count;
             }
         }
-        return count > 2;
+        return count == ghosts.size();
     }
 
     public void frightenGhosts() {
         for (Ghost ghost : ghosts) {
             ghost.setFrightened(true);
         }
+        requestToFrighten = true;
+
     }
 
     public void resetGhosts() {

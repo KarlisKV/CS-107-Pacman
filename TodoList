@@ -7,6 +7,7 @@
 - Fix going home sound still on while change area
 - Fix double siren when player is dead
 - Fix scoreCombo to not update when new combo
+- Fix fps counter size
 
 -------------------------------------
          NEW FEATURES TO ADD
@@ -17,6 +18,8 @@
 - Add add transitions
 - Add debug mode
 - Add local 2 player
+- Add leaderboard
+- Add timer
 - Variation maze size
 - Auto-Maze generation
 - limited vision (black ghost??)

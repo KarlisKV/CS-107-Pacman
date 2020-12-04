@@ -21,10 +21,7 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Canvas;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public abstract class Ghost extends MovableAreaEntity implements Interactor {
     // Default attributes
@@ -291,11 +288,6 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
                 if (frightenedTimeCounter >= frightenTime) {
                     frightenedTimeCounter = 0;
                     setFrightened(false);
-                    SuperPacmanPlayer.resetComboCount();
-                    if (!SuperPacmanPlayer.isStopAllAudio()) {
-//                        SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
-                    }
-                    SuperPacmanPlayer.setStopAllAudio();
                     blink = false;
                 } else {
                     if (frightenedTimeCounter >= frightenTime - 3) {
@@ -307,9 +299,6 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
                 currentOrientation = DEFAULT_ORIENTATION;
                 movementDuration = animationDuration;
                 isEaten = false;
-//                SuperPacmanPlayer.setStopAllAudio();
-                // TODO: Bug, if ghosts are not anymore scare while one of then is travelling home, siren sound will
-                //  stop
             }
 
             if (!isDisplacementOccurs()) {
@@ -547,10 +536,10 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     @Override
     public void draw(Canvas canvas) {
-//        if (path != null) {
-//            Path graphicPath = new Path(this.getPosition(), new LinkedList<>(path));
-//            graphicPath.draw(canvas);
-//        }
+        if (path != null) {
+            Path graphicPath = new Path(this.getPosition(), new LinkedList<>(path));
+            graphicPath.draw(canvas);
+        }
         if (isFrightened) {
             if (!blink) {
                 frightenedAnimation.draw(canvas);

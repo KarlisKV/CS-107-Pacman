@@ -7,7 +7,7 @@ public enum Option {
     QUIT("Quit"),
     CREDITS("Credits"),
     SOUND("Sound"),
-    GRAPHICS("Graphics"),
+    FPS("Show fps"),
     DIFFICULTY("Difficulty"),
     BACK("Back");
 

@@ -353,13 +353,14 @@ public class SuperPacmanPlayer extends Player {
 
         @Override
         public void interactWith(Pellet pellet) {
-//            MUNCH_SOUND.shouldBeStarted();
+            MUNCH_SOUND.shouldBeStarted();
             pellet.collect();
             updateScore(pellet.getPoints());
         }
 
         @Override
         public void interactWith(PowerPellet powerPellet) {
+            setStopAllAudio();
             POWER_PELLET_SOUND.shouldBeStarted();
             powerPellet.collect();
             ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().frightenGhosts();

@@ -26,7 +26,7 @@ public class Options extends Menu {
     @Override
     public void setupOptionList() {
         getOptionList().add(Option.SOUND);
-        getOptionList().add(Option.GRAPHICS);
+        getOptionList().add(Option.FPS);
         getOptionList().add(Option.DIFFICULTY);
         getOptionList().add(Option.BACK);
     }
@@ -34,7 +34,7 @@ public class Options extends Menu {
     @Override
     public void setupSubOptionList() {
         getSubOptionList().put(Option.SOUND, new ArrayList<>(Arrays.asList(SubOption.TOGGLE_ON, SubOption.TOGGLE_OFF)));
-        getSubOptionList().put(Option.GRAPHICS, new ArrayList<>(Arrays.asList(SubOption.TOGGLE_ON, SubOption.TOGGLE_OFF)));
+        getSubOptionList().put(Option.FPS, new ArrayList<>(Arrays.asList(SubOption.TOGGLE_OFF, SubOption.TOGGLE_ON)));
         getSubOptionList().put(Option.DIFFICULTY, new ArrayList<>(Arrays.asList(SubOption.DIFFICULTY_NORMAL, SubOption.DIFFICULTY_HARD, SubOption.DIFFICULTY_IMPOSSIBLE, SubOption.DIFFICULTY_EASY)));
     }
 
@@ -60,7 +60,7 @@ public class Options extends Menu {
         int paddingCount = 0;
         // Graphics options text
         ++paddingCount;
-        TextGraphics graphics = updateText(Option.GRAPHICS.text + ": " + getSubOptionText(Option.GRAPHICS), BODY_FONT_SIZE, 0,
+        TextGraphics graphics = updateText(Option.FPS.text + ": " + getSubOptionText(Option.FPS), BODY_FONT_SIZE, 0,
                                        yTextOffSet + TEXT_PADDING * paddingCount + HEADER_PADDING);
         graphics.draw(canvas);
 

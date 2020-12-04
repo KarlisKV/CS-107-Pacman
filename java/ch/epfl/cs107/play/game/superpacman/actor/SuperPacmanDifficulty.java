@@ -5,7 +5,7 @@ import ch.epfl.cs107.play.game.superpacman.menus.SubOption;
 public enum SuperPacmanDifficulty {
     EASY(SubOption.DIFFICULTY_EASY, false, 20, 20, 15, 15, 4,
          5),
-    NORMAL(SubOption.DIFFICULTY_NORMAL, true, 16, 12, 10, 10, 3,
+    NORMAL(SubOption.DIFFICULTY_NORMAL, true, 16, 12, 10, 10, 0,
            3),
     HARD(SubOption.DIFFICULTY_HARD, true, 14, 10, 8, 6, 2.5f,
          1.5f),
