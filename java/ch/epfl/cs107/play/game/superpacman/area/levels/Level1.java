@@ -28,6 +28,7 @@ public class Level1 extends SuperPacmanArea {
         registerActor(new Arcade(getWindow(), true, false, false));
         registerActor(new Door("superpacman/level2", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE,
                                this, Orientation.DOWN, new DiscreteCoordinates(14, 0), new DiscreteCoordinates(15, 0)));
+
     }
 
     @Override

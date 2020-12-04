@@ -43,6 +43,7 @@ public class SuperPacmanPlayer extends Player {
     private static final SoundAcoustics MUNCH_SOUND = SuperPacmanSound.MUNCH.sound;
     private static final SoundAcoustics EAT_FRUIT = SuperPacmanSound.EAT_FRUIT.sound;
     private static final SoundAcoustics EAT_GHOST_SOUND = SuperPacmanSound.EAT_FRUIT.sound;
+    private static final SoundAcoustics EAT_KEY = SuperPacmanSound.EAT_KEY.sound;
     private static int comboCount = 0;
     private static boolean stopAllAudio = false;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
@@ -138,6 +139,7 @@ public class SuperPacmanPlayer extends Player {
             DEATH_SOUND.bip(audio);
             EAT_GHOST_SOUND.bip(audio);
             POWER_PELLET_SOUND.bip(audio);
+            EAT_KEY.bip(audio);
         }
     }
 
@@ -145,7 +147,6 @@ public class SuperPacmanPlayer extends Player {
     public void update(float deltaTime) {
         gui.update(currentHp, score);
         updateAnimation(deltaTime);
-        // TODO: check if this is good idea
         ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().update(deltaTime);
 
         if (isDead) {
@@ -342,6 +343,14 @@ public class SuperPacmanPlayer extends Player {
                 setDead(true);
                 ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().resetGhosts();
             }
+        }
+
+        //added 12/04 Karlis
+        @Override
+        public void interactWith(Key key) {
+            EAT_KEY.shouldBeStarted();
+            key.collect();
+            updateScore(key.getPoints());
         }
 
         @Override

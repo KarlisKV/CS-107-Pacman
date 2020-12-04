@@ -14,7 +14,8 @@ public enum SuperPacmanSound {
     EAT_GHOST(new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_ghost"), 1.f, false, false, false, false)),
     MENU_SELECT(new SoundAcoustics(ResourcePath.getSounds("superpacman/menu/select_007"), 1.f, false, false, false, true)),
     MENU_ENTER(new SoundAcoustics(ResourcePath.getSounds("superpacman/menu/select_005"), 1.f, false, false, false, true)),
-    MENU_EXIT(new SoundAcoustics(ResourcePath.getSounds("superpacman/menu/close_004"), 1.f, false, false, false, true));
+    MENU_EXIT(new SoundAcoustics(ResourcePath.getSounds("superpacman/menu/close_004"), 1.f, false, false, false, true)),
+    EAT_KEY(new SoundAcoustics(ResourcePath.getSounds("superpacman/eat_key"), 1.f, false, false, false, false));
 
     public final SoundAcoustics sound;
 

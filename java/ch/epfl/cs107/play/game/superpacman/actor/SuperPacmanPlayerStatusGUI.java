@@ -61,7 +61,6 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
         float height = canvas.getScaledHeight();
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
-        // TODO: Temporary fix, find better solution
         if (SuperPacman.currentCameraScaleFactor < 55) {
             for (int i = 0; i < maxHp; ++i) {
                 int x = i < currentHp ? LIFE : NO_LIFE;

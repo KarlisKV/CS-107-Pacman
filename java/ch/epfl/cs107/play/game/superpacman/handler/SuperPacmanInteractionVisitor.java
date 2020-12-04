@@ -9,6 +9,7 @@ package ch.epfl.cs107.play.game.superpacman.handler;
 
 import ch.epfl.cs107.play.game.rpg.handler.RPGInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
+import ch.epfl.cs107.play.game.superpacman.actor.Key;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.*;
 
@@ -35,6 +36,14 @@ public interface SuperPacmanInteractionVisitor extends RPGInteractionVisitor {
      * @param bonus (Bonus)
      */
     default void interactWith(Bonus bonus) {
+        // by default empty
+    }
+
+    /**
+     * Default interaction between something and a Key
+     * @param key (Key)
+     */
+    default void interactWith(Key key) {
         // by default empty
     }
 

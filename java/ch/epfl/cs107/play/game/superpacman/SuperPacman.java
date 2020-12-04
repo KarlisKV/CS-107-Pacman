@@ -101,8 +101,6 @@ public class SuperPacman extends RPG {
 
     @Override
     public void end() {
-        // TODO: Figure out how to end game
-        getWindow().dispose();
     }
 
 

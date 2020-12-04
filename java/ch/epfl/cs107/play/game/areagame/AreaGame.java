@@ -115,6 +115,8 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void end() {
+		// TODO: Figure out how to end game
+		getWindow().dispose();
 		// by default does nothing
 		// can save the game states if wanted
 	}
