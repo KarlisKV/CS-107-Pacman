@@ -154,10 +154,22 @@ public abstract class Camera implements Updatable {
     protected abstract Vector getShakeModifier();
 
     private float getRandomShakeModifier() {
-        final float min = -shakeIntensity;
-        final float max = shakeIntensity;
+        final float OFFSET = 0.01f;
+        float min = -shakeIntensity;
+        float minOffset = -shakeIntensity + OFFSET;
+        float max = shakeIntensity;
+        float maxOffset = shakeIntensity - OFFSET;
 
-        return min + rand.nextFloat() * (max - min);
+        float randomMin = min + rand.nextFloat() * (minOffset - min);
+        float randomMax = max + rand.nextFloat() * (maxOffset - max);
+        if (rand.nextBoolean()) {
+            System.out.println(randomMin);
+            return randomMin;
+        } else {
+            System.out.println(randomMax);
+            return randomMax;
+        }
+
     }
 
     /**

@@ -42,25 +42,22 @@ public class SuperPacmanPlayer extends Player {
     private static final SoundAcoustics EAT_FRUIT_SOUND = SuperPacmanSound.EAT_FRUIT.sound;
     private static final SoundAcoustics EAT_GHOST_SOUND = SuperPacmanSound.EAT_FRUIT.sound;
     private static final SoundAcoustics COLLECT_KEY_SOUND = SuperPacmanSound.COLLECT_KEY.sound;
-    private static boolean stopAllAudio = false;
-
     // Animation duration in frame number
     private static final int ANIMATION_DURATION = 10; // base 10
     private static final int DEBUG_ANIMATION_DURATION = 4;
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int SPRITE_SIZE = 14;
-    private static int comboCount = 0;
     private static final int MAX_HP = 5;
-    private int currentHp = 5;
-    private int score = 0;
+    private static boolean stopAllAudio = false;
+    private static int comboCount = 0;
     private final Animation[] animation;
     private final Animation deathAnimation;
-
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
-    private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP);
     private final Glow glow;
-
     private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
+    private int currentHp = 5;
+    private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP);
+    private int score = 0;
     private Orientation desiredOrientation = null;
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
     private boolean canUserMove = false;
@@ -340,7 +337,7 @@ public class SuperPacmanPlayer extends Player {
         @Override
         public void interactWith(Ghost ghost) {
             if (ghost.isFrightened()) {
-                getOwnerArea().getCamera().shake(4, 8);
+                getOwnerArea().getCamera().shake(2.5f, 8);
                 EAT_GHOST_SOUND.shouldBeStarted();
                 ghost.setEaten();
                 if (comboCount < 4) {
@@ -389,14 +386,12 @@ public class SuperPacmanPlayer extends Player {
 
         @Override
         public void interactWith(Wall wall) {
-            if (!collision) {
-                try {
-                    getOwnerArea().getCamera().shake(0.3f, 5);
-                } catch (Exception e) {
-
+            if (getOwnerArea().getCamera() != null) {
+                if (!collision) {
+                    getOwnerArea().getCamera().shake(0.1f, 5);
                 }
+                collision = true;
             }
-            collision = true;
         }
     }
 }

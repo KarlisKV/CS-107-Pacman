@@ -29,7 +29,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     protected static final int GHOST_BASE_SCORE = 200;
     private static final float RESET_TIME = 4;
     private static final float EATEN_TIME = 2;
-    private static final int BACK_TO_HOME_ANIMATION_DURATION = 5;
+    private static final int BACK_TO_HOME_ANIMATION_DURATION = 5; // base 5
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int NORMAL_GLOW = 0;
     private static final int FRIGHTENED_GLOW = 1;
@@ -376,20 +376,20 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         if (reachedDestination(targetPos) || isStateUpdate()) {
             if (isEaten) {
                 return moveToTarget(homePosition);
-            }
-            if (isFrightened) {
-                return moveToTarget(getTargetWhileFrightened());
-            }
-            if (playerInView) {
-                return moveToTarget(getTargetWhilePlayerInVew());
-            }
-            if (chase) {
-                return moveToTarget(getTargetWhileChaseMode());
             } else {
-                return moveToTarget(getTargetDefault());
+                if (isFrightened) {
+                    return moveToTarget(getTargetWhileFrightened());
+                }
+                if (playerInView) {
+                    return moveToTarget(getTargetWhilePlayerInVew());
+                }
+                if (chase) {
+                    return moveToTarget(getTargetWhileChaseMode());
+                } else {
+                    return moveToTarget(getTargetDefault());
+                }
             }
         }
-
         return moveToTarget(targetPos);
     }
 
@@ -446,7 +446,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
                 path = null;
             }
         }
-        return getRandomValidOrientation();
+        return getClosestValidOrientation(targetPos);
     }
 
     /**
@@ -506,6 +506,26 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
             possibleOrientations.add(currentOrientation.opposite());
         }
         return possibleOrientations;
+    }
+
+    private Orientation getClosestValidOrientation(DiscreteCoordinates targetPos) {
+        float minDistance = Float.MAX_VALUE;
+        Orientation closestOrientation = getRandomValidOrientation();
+
+        if (targetPos != null) {
+            for (Orientation validOrientation : getValidOrientations()) {
+                float xA = getCurrentMainCellCoordinates().toVector().add(validOrientation.toVector()).getX();
+                float yA = getCurrentMainCellCoordinates().toVector().add(validOrientation.toVector()).getY();
+                float xB = targetPos.toVector().getX();
+                float yB = targetPos.toVector().getY();
+                float distance = (float) Math.sqrt(Math.pow(xB - xA, 2) + Math.pow(yB - yA, 2));
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestOrientation = validOrientation;
+                }
+            }
+        }
+        return closestOrientation;
     }
 
     /**
