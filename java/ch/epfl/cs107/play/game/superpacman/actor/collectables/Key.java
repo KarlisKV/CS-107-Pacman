@@ -17,11 +17,10 @@ public class Key extends CollectableAreaEntity {
     private final Sprite sprite;
     private Logic signal = Logic.FALSE;
 
-
     /**
      * Default MovableAreaEntity constructor
-     * @param area        (Area): Owner area. Not null
-     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param area     (Area): Owner area. Not null
+     * @param position (Coordinate): Initial position of the entity. Not null
      */
     public Key(Area area, DiscreteCoordinates position) {
         super(area, position);
@@ -29,14 +28,16 @@ public class Key extends CollectableAreaEntity {
         sprite.setDepth(DEPTH_COLLECTABLES);
     }
 
-    /**+
+    /**
+     * +
      * set signal to Logic True when the key is collected
      */
     public void setSignalOn() {
         signal = Logic.TRUE;
     }
 
-    /**+
+    /**
+     * +
      * get the signal of the key
      */
     public Logic getSignal() {

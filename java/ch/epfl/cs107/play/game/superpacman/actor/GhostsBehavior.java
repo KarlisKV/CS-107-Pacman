@@ -52,10 +52,10 @@ public class GhostsBehavior implements Updatable {
             }
             if (areGhostsNotFrightened()) {
                 SuperPacmanPlayer.resetComboCount();
-                if (!SuperPacmanPlayer.isStopAllAudio()) {
+                if (!SuperPacmanPlayer.isStopAllAudio() && !SuperPacmanPlayer.isIsDead()) {
+                    SuperPacmanPlayer.setStopAllAudio();
                     SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
                 }
-                SuperPacmanPlayer.setStopAllAudio();
                 requestToFrighten = false;
             }
         }
