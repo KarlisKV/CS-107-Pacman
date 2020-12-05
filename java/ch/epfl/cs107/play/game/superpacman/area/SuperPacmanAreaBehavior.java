@@ -24,6 +24,19 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
     public static SuperPacmanDifficulty initDifficulty = SuperPacmanDifficulty.NORMAL;
     private final GhostsBehavior ghostsBehavior = new GhostsBehavior(initDifficulty);
 
+    private int totalPellets;
+    private int eatenPellets;
+    public int getTotalPellets() {
+        return totalPellets;
+    }
+    public int getEatenPellets() {
+        return eatenPellets;
+    }
+    public void setEatenPellets() {
+        eatenPellets +=1;
+        System.out.println("eaten pellets" + eatenPellets);
+    }
+
     /**
      * Default SuperPacmanBehavior Constructor
      * @param window (Window), not null
@@ -116,6 +129,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                         break;
                     case FREE_WITH_DIAMOND:
                         Pellet pellet = new Pellet(area, new DiscreteCoordinates(x, y));
+                        ++ totalPellets;
                         area.registerActor(pellet);
                         break;
                     case FREE_WITH_BLINKY:

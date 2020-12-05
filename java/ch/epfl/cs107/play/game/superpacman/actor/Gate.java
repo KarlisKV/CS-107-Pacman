@@ -7,6 +7,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Key;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
@@ -20,7 +21,10 @@ public class Gate extends AreaEntity {
     private static final String GATE_PATHNAME = "superpacman/gate";
     private static final int DEPTH_GATE = -2000;
     private final Sprite sprite;
-    private final Key key;
+    private Key key;
+    private Key key1;
+    private Key key2;
+    private boolean checkIfTwoKeys;
     private Logic signal;
 
     /**
@@ -45,6 +49,42 @@ public class Gate extends AreaEntity {
         sprite.setDepth(DEPTH_GATE);
 
     }
+    //constructor for the gate, i have no clue if this is how we should do it tbh
+    public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal) {
+        super(area,orientation, position);
+        this.signal = signal;
+
+
+        //this sets the gate's orientation correctly
+        if(orientation == Orientation.RIGHT || orientation == Orientation.LEFT) {
+
+            sprite = new RPGSprite(GATE_PATHNAME, 1, 1, this, new RegionOfInterest(0, 64, 64, 64));
+            sprite.setDepth(-1000);
+        }
+        else {
+            sprite = new RPGSprite(GATE_PATHNAME, 1, 1, this, new RegionOfInterest(0, 0, 64, 64));
+            sprite.setDepth(-1000);
+        }
+    }
+    //construcctor for case with 2 keys
+    public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal, Key key1, Key key2) {
+        super(area,orientation, position);
+        this.signal = signal;
+        this.key1 = key1;
+        this.key2 = key2;
+        this.checkIfTwoKeys = true;
+
+        //this sets the gate's orientation correctly
+        if(orientation == Orientation.RIGHT || orientation == Orientation.LEFT) {
+
+            sprite = new RPGSprite(GATE_PATHNAME, 1, 1, this, new RegionOfInterest(0, 64, 64, 64));
+            sprite.setDepth(-1000);
+        }
+        else {
+            sprite = new RPGSprite(GATE_PATHNAME, 1, 1, this, new RegionOfInterest(0, 0, 64, 64));
+            sprite.setDepth(-1000);
+        }
+    }
 
     /**
      * +
@@ -53,10 +93,23 @@ public class Gate extends AreaEntity {
      * @param deltaTime time
      */
     public void update(float deltaTime) {
-        if (key.getSignal().isOn() || MenuItems.isDebugMode()) {
+        if(((SuperPacmanArea) getOwnerArea()).getEatenPellets() >= ((SuperPacmanArea) getOwnerArea()).getTotalPellets()) {
             signal = Logic.TRUE;
         }
-
+        else {
+            if(checkIfTwoKeys) {
+                if(key1.getSignal().isOn() && key2.getSignal().isOn()) {
+                    signal = Logic.TRUE;
+                }
+            }
+            else {
+                if(key != null) {
+                    if(key.getSignal().isOn()) {
+                        signal = Logic.TRUE;
+                    }
+                }
+            }
+        }
     }
 
     @Override
