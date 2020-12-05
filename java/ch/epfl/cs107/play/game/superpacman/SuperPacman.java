@@ -99,6 +99,20 @@ public class SuperPacman extends RPG {
                 player.setCanUserMove(true);
             }
         }
+        if (player.isGameOver()) {
+            arcade.setArcadeTurnedOn(false);
+            MenuItems.setGameOver(true);
+            MenuItems.setStartGame(false);
+            currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR;
+            player.leaveArea();
+            player.restart();
+            getCurrentArea().end();
+            timer = 0;
+            transition.reset();
+            Area area = setCurrentArea(areas[0], true);
+            player.enterArea(area, Level0.PLAYER_SPAWN_POSITION);
+            initPlayer(player);
+        }
     }
 
     @Override

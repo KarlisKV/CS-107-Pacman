@@ -104,12 +104,10 @@ abstract public class AreaGame implements Game {
 			end();
 		} else {
 			currentArea.update(deltaTime);
-			if (!MenuItems.isStartGame()) {
 				menuItems.draw(window);
 				if (!MenuItems.isSoundDeactivated()) {
 					menuItems.bip(window);
 				}
-			}
 		}
 	}
 

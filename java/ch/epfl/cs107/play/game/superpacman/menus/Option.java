@@ -9,7 +9,9 @@ public enum Option {
     SOUND("Sound"),
     FPS("Show fps"),
     DIFFICULTY("Difficulty"),
-    BACK("Back");
+    BACK("Back"),
+    RESTART("Restart"),
+    BACK_TO_MAIN_MENU("Back to main menu");
 
     public final String text;
 

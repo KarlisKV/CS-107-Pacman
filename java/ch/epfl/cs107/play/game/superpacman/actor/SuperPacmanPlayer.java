@@ -51,12 +51,13 @@ public class SuperPacmanPlayer extends Player {
     private static boolean stopAllAudio = false;
     private static int comboCount = 0;
     private static boolean isDead = false;
+    private boolean gameOver = false;
     private final Animation[] animation;
     private final Animation deathAnimation;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final Glow glow;
     private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
-    private int currentHp = 5;
+    private int currentHp = 1;
     private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP);
     private int score = 0;
     private Orientation desiredOrientation = null;
@@ -104,6 +105,10 @@ public class SuperPacmanPlayer extends Player {
     }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
 
     public static boolean isIsDead() {
         return isDead;
@@ -227,7 +232,18 @@ public class SuperPacmanPlayer extends Player {
         getOwnerArea().leaveAreaCells(this, getEnteredCells());
         getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
         setCurrentPosition(intiPos.toVector());
+        if (currentHp == 0) {
+            gameOver = true;
+        }
 
+    }
+
+    public void restart() {
+        currentHp = MAX_HP;
+        score = 0;
+        canUserMove = false;
+        setStopAllAudio();
+        gameOver = false;
     }
 
     private void setDead(boolean isDead) {
@@ -364,6 +380,7 @@ public class SuperPacmanPlayer extends Player {
         public void interactWith(Key key) {
             COLLECT_KEY_SOUND.shouldBeStarted();
             key.collect();
+            key.setSignalOn();
             updateScore(key.getPoints());
         }
 

@@ -31,7 +31,18 @@ public final class MenuItems implements Graphics, Acoustics {
     private static final SoundAcoustics ENTER_SOUND = SuperPacmanSound.MENU_ENTER.sound;
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
     private static final float OVERLAY_DEPTH = Menu.DEPTH + 500;
+
+    public static void setStartGame(boolean startGame) {
+        MenuItems.startGame = startGame;
+    }
+
     private static boolean startGame = false;
+
+    public static boolean isGameOver() {
+        return gameOver;
+    }
+
+    private static boolean gameOver = false;
     private static boolean debugMode = false;
     private static boolean exit = false;
     private static boolean soundDeactivated = false;
@@ -52,6 +63,13 @@ public final class MenuItems implements Graphics, Acoustics {
         menus.put(MenuState.HELP_PAGE, help);
         Menu credits = new Credits(window);
         menus.put(MenuState.CREDITS_PAGE, credits);
+        Menu death = new GameOver(window);
+        menus.put(MenuState.GAME_OVER, death);
+
+    }
+
+    public static void setGameOver(boolean gameOver) {
+        MenuItems.gameOver = gameOver;
     }
 
     public static boolean isDebugMode() {
@@ -76,10 +94,16 @@ public final class MenuItems implements Graphics, Acoustics {
 
     @Override
     public void draw(Canvas canvas) {
+        // Press shift, ctrl and alt to enter debug mode
         if (!debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.CTRL).isDown() &&
-                keyboard.get(Keyboard.ALT).isDown()) {
+                keyboard.get(Keyboard.ALT).isDown() && currentState != MenuState.PLAY &&
+                currentState != MenuState.GAME_OVER) {
             System.out.println("Debug mode enabled");
             debugMode = true;
+        }
+        if (gameOver) {
+            currentState = MenuState.GAME_OVER;
+            gameOver = false;
         }
         for (Map.Entry<MenuState, Menu> menuStateMenuEntry : menus.entrySet()) {
             if (menuStateMenuEntry.getKey().equals(currentState)) {
@@ -125,6 +149,7 @@ public final class MenuItems implements Graphics, Acoustics {
                 case CREDITS:
                     currentState = MenuState.CREDITS_PAGE;
                     break;
+                case BACK_TO_MAIN_MENU:
                 case BACK:
                     menu.reset();
                     currentState = MenuState.MAIN_MENU_PAGE;
@@ -142,6 +167,8 @@ public final class MenuItems implements Graphics, Acoustics {
                     SuperPacmanDifficulty difficulty =
                             SuperPacmanDifficulty.getDifficulty(menu.getCurrentSubSelection());
                     SuperPacmanAreaBehavior.setInitDifficulty(difficulty);
+                    break;
+                case RESTART:
                     break;
                 default:
                     // empty on purpose, do noting
@@ -171,6 +198,7 @@ public final class MenuItems implements Graphics, Acoustics {
         OPTIONS_PAGE(),
         HELP_PAGE(),
         CREDITS_PAGE(),
+        GAME_OVER(),
         EXIT()
     }
 }

@@ -8,8 +8,6 @@
 package ch.epfl.cs107.play.game.superpacman.menus;
 
 import ch.epfl.cs107.play.game.actor.TextGraphics;
-import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
-import ch.epfl.cs107.play.math.transitions.Transition;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
@@ -17,11 +15,9 @@ public class MainMenu extends Menu {
     private static final String TITLE_PATH = "superpacman/mainMenuTitle";
     private static final float Y_TEXT_OFFSET = 6.25f;
     private static final float TEXT_PADDING = -4.5f;
-    private final Transition transitionTitle = new EaseInOutCubic(0.02f);
 
     public MainMenu(Window window) {
         super(window);
-
     }
 
     @Override
@@ -77,17 +73,6 @@ public class MainMenu extends Menu {
         TextGraphics credits = updateText(getOptionText(Option.CREDITS), BODY_FONT_SIZE, 0, -50);
         credits.draw(canvas);
 
-
     }
-
-
-//    public void fadeOut() {
-//        alpha = 1.0f;
-//        if (!transitionTitle.isFinished()) {
-//            alpha = 1.0f - transitionTitle.getProgress();
-//        } else if (transitionTitle.isFinished()) {
-//            alpha = 0.0f;
-//        }
-//    }
 
 }
