@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.superpacman.actor;
+package ch.epfl.cs107.play.game.superpacman;
 
 import ch.epfl.cs107.play.game.superpacman.menus.SubOption;
 
@@ -12,14 +12,14 @@ public enum SuperPacmanDifficulty {
     IMPOSSIBLE(SubOption.DIFFICULTY_IMPOSSIBLE, true, 12, 8, 6, 4, 1.5f,
                1);
 
-    final SubOption subOption;
-    final boolean increaseDifficultyOverTime;
-    final int ghostAnimationDuration;
-    final int minGhostAnimationDuration;
-    final float ghostFrightenTime;
-    final float minGhostFrightenTime;
-    final float ghostStateUpdateTime;
-    final float minGhostStateUpdateTime;
+    public final SubOption subOption;
+    public final boolean increaseDifficultyOverTime;
+    public final int ghostAnimationDuration;
+    public final int minGhostAnimationDuration;
+    public final float ghostFrightenTime;
+    public final float minGhostFrightenTime;
+    public final float ghostStateUpdateTime;
+    public final float minGhostStateUpdateTime;
 
     SuperPacmanDifficulty(SubOption subOption, boolean increaseDifficultyOverTime, int ghostAnimationDuration,
                           int minGhostAnimationDuration, float ghostFrightenTime, float minGhostFrightenTime,

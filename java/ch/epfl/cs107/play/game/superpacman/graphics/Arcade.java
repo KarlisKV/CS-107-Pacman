@@ -5,7 +5,7 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.actor;
+package ch.epfl.cs107.play.game.superpacman.graphics;
 
 import ch.epfl.cs107.play.game.actor.Acoustics;
 import ch.epfl.cs107.play.game.actor.Graphics;
@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;

@@ -10,12 +10,12 @@ package ch.epfl.cs107.play.game.superpacman;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.rpg.RPG;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
-import ch.epfl.cs107.play.game.superpacman.actor.Arcade;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level3;
+import ch.epfl.cs107.play.game.superpacman.graphics.Arcade;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
@@ -30,6 +30,7 @@ public class SuperPacman extends RPG {
             {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
     private final Transition transition = new EaseInOutCubic(0.01f);
     private Arcade arcade;
+    private SuperPacmanStatusGUI superPacmanStatusGUI = new SuperPacmanStatusGUI();
 
     private int areaIndex;
     private float timer = 0;
@@ -84,6 +85,8 @@ public class SuperPacman extends RPG {
         // update arcade
         arcade.draw(getWindow());
         arcade.bip(getWindow());
+        // update game status GUI
+        superPacmanStatusGUI.draw(getWindow());
     }
 
     private void updateGame(float deltaTime) {

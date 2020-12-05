@@ -93,17 +93,17 @@ public class Gate extends AreaEntity {
      * @param deltaTime time
      */
     public void update(float deltaTime) {
-        if(((SuperPacmanArea) getOwnerArea()).getEatenPellets() >= ((SuperPacmanArea) getOwnerArea()).getTotalPellets()) {
+        if (((SuperPacmanArea) getOwnerArea()).getEatenPellets() >=
+                ((SuperPacmanArea) getOwnerArea()).getTotalPellets() ||
+                MenuItems.isDebugMode()) {
             signal = Logic.TRUE;
-        }
-        else {
-            if(checkIfTwoKeys) {
-                if(key1.getSignal().isOn() && key2.getSignal().isOn()) {
+        } else {
+            if (checkIfTwoKeys) {
+                if (key1.getSignal().isOn() && key2.getSignal().isOn()) {
                     signal = Logic.TRUE;
                 }
-            }
-            else {
-                if(key != null) {
+            } else {
+                if (key != null) {
                     if(key.getSignal().isOn()) {
                         signal = Logic.TRUE;
                     }

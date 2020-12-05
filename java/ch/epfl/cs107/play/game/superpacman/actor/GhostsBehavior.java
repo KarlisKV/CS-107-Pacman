@@ -8,6 +8,7 @@
 package ch.epfl.cs107.play.game.superpacman.actor;
 
 import ch.epfl.cs107.play.game.Updatable;
+import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 
 import java.util.ArrayList;

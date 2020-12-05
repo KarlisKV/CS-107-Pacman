@@ -5,7 +5,7 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.actor;
+package ch.epfl.cs107.play.game.superpacman.graphics;
 
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
@@ -32,14 +32,14 @@ public class Glow implements Graphics {
         currentAlpha = alpha;
     }
 
-    protected void fadeOut(float speed) {
+    public void fadeOut(float speed) {
         if (currentAlpha > 0) {
             currentAlpha -= currentAlpha * speed;
         }
         currentAlpha = currentAlpha < 0 ? 0 : currentAlpha;
     }
 
-    protected void reset() {
+    public void reset() {
         currentAlpha = alpha;
     }
 
