@@ -330,6 +330,7 @@ public class SuperPacmanPlayer extends Player {
                     SIREN_SOUND.shouldBeStarted();
                 }
                 setStopAllAudio();
+                comboCount = 0;
                 setIsPassingADoor(door);
             }
         }
@@ -388,7 +389,7 @@ public class SuperPacmanPlayer extends Player {
         public void interactWith(Wall wall) {
             if (getOwnerArea().getCamera() != null) {
                 if (!collision) {
-                    getOwnerArea().getCamera().shake(0.1f, 5);
+                    getOwnerArea().getCamera().shake(0.2f, 5);
                 }
                 collision = true;
             }

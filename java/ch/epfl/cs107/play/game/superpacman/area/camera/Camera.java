@@ -163,10 +163,8 @@ public abstract class Camera implements Updatable {
         float randomMin = min + rand.nextFloat() * (minOffset - min);
         float randomMax = max + rand.nextFloat() * (maxOffset - max);
         if (rand.nextBoolean()) {
-            System.out.println(randomMin);
             return randomMin;
         } else {
-            System.out.println(randomMax);
             return randomMax;
         }
 
