@@ -106,10 +106,10 @@ public class SuperPacman extends RPG {
             currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR;
             player.leaveArea();
             player.restart();
-            getCurrentArea().end();
+//            getCurrentArea().end();
             timer = 0;
             transition.reset();
-            Area area = setCurrentArea(areas[0], true);
+            Area area = setCurrentArea(areas[0], false);
             player.enterArea(area, Level0.PLAYER_SPAWN_POSITION);
             initPlayer(player);
         }
