@@ -131,6 +131,7 @@ public final class MenuItems implements Graphics, Acoustics {
             ENTER_SOUND.shouldBeStarted();
             switch (menu.getCurrentSelection()) {
                 case PLAY:
+                case RESTART:
                     currentState = MenuState.PLAY;
                     startGame = true;
                     break;
@@ -167,8 +168,6 @@ public final class MenuItems implements Graphics, Acoustics {
                     SuperPacmanDifficulty difficulty =
                             SuperPacmanDifficulty.getDifficulty(menu.getCurrentSubSelection());
                     SuperPacmanAreaBehavior.setInitDifficulty(difficulty);
-                    break;
-                case RESTART:
                     break;
                 default:
                     // empty on purpose, do noting

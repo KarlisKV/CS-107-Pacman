@@ -33,6 +33,7 @@ public class SuperPacman extends RPG {
 
     private int areaIndex;
     private float timer = 0;
+    private boolean pauseTimer = false;
     private SuperPacmanPlayer player;
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
@@ -86,32 +87,43 @@ public class SuperPacman extends RPG {
     }
 
     private void updateGame(float deltaTime) {
-        timer += deltaTime;
-        if (timer > 2) {
-            if (!arcade.isArcadeTurnedOn()) {
-                arcade.setArcadeTurnedOn(true);
-            }
-            if (timer > 3 && currentCameraScaleFactor > FIN_CAMERA_SCALE_FACTOR && !transition.isFinished()) {
-                float newProgress = transition.getProgress();
-                currentCameraScaleFactor = FIN_CAMERA_SCALE_FACTOR +
-                        ((INIT_CAMERA_SCALE_FACTOR - FIN_CAMERA_SCALE_FACTOR) * (1 - newProgress));
-            } else if (transition.isFinished() && !player.canUserMove()) {
-                player.setCanUserMove(true);
-            }
+        if (!pauseTimer) {
+            timer += deltaTime;
         }
-        if (player.isGameOver()) {
-            arcade.setArcadeTurnedOn(false);
-            MenuItems.setGameOver(true);
-            MenuItems.setStartGame(false);
-            currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR;
-            player.leaveArea();
-            player.restart();
-//            getCurrentArea().end();
-            timer = 0;
-            transition.reset();
-            Area area = setCurrentArea(areas[0], false);
-            player.enterArea(area, Level0.PLAYER_SPAWN_POSITION);
-            initPlayer(player);
+        if (!player.isGameOver()) {
+            if (timer > 2) {
+                if (!arcade.isArcadeTurnedOn()) {
+                    arcade.setArcadeTurnedOn(true);
+                }
+                if (timer > 3 && currentCameraScaleFactor > FIN_CAMERA_SCALE_FACTOR && !transition.isFinished()) {
+                    float newProgress = transition.getProgress();
+                    currentCameraScaleFactor = FIN_CAMERA_SCALE_FACTOR +
+                            ((INIT_CAMERA_SCALE_FACTOR - FIN_CAMERA_SCALE_FACTOR) * (1 - newProgress));
+                } else if (transition.isFinished() && !player.canUserMove()) {
+                    player.setCanUserMove(true);
+                    timer = 0;
+                    transition.reset();
+                    pauseTimer = true;
+                }
+            }
+        } else {
+            pauseTimer = false;
+            if (currentCameraScaleFactor < INIT_CAMERA_SCALE_FACTOR && !transition.isFinished()) {
+                float newProgress = transition.getProgress();
+                currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR +
+                        ((FIN_CAMERA_SCALE_FACTOR - INIT_CAMERA_SCALE_FACTOR) * (1 - newProgress));
+            } else if (transition.isFinished()) {
+                arcade.setArcadeTurnedOn(false);
+                MenuItems.setGameOver(true);
+                MenuItems.setStartGame(false);
+                player.restart();
+                timer = 0;
+                transition.reset();
+                player.leaveArea();
+                Area area = setCurrentArea(areas[0], true);
+                player.enterArea(area, Level0.PLAYER_SPAWN_POSITION);
+            }
+
         }
     }
 

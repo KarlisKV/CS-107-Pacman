@@ -22,7 +22,7 @@ import java.util.List;
 public class Door extends AreaEntity{
 
 	/// Door Debug flag. Door is an invisible Entity. When debug, we draw something visible
-	private static boolean DEBUG_DOOR = MenuItems.isDebugMode();
+	private static boolean DEBUG_DOOR = false;
 
 	/// Debug variable : useful only for drawing door debug shape
 	private Polyline debugSquare;
@@ -96,7 +96,7 @@ public class Door extends AreaEntity{
 	@Override
 	public void draw(Canvas canvas) {
 
-		if(DEBUG_DOOR){
+		if(DEBUG_DOOR || MenuItems.isDebugMode()){
 
 			if(debugSquare == null){
 				List<Vector> points = new ArrayList<>();

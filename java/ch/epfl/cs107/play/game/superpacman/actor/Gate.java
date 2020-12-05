@@ -38,13 +38,11 @@ public class Gate extends AreaEntity {
         this.key = key;
         //this sets the gate's orientation correctly
         if (orientation == Orientation.RIGHT || orientation == Orientation.LEFT) {
-
             sprite = new RPGSprite(GATE_PATHNAME, 1, 1, this, new RegionOfInterest(0, 64, 64, 64));
-            sprite.setDepth(DEPTH_GATE);
         } else {
             sprite = new RPGSprite(GATE_PATHNAME, 1, 1, this, new RegionOfInterest(0, 0, 64, 64));
-            sprite.setDepth(DEPTH_GATE);
         }
+        sprite.setDepth(DEPTH_GATE);
 
     }
 

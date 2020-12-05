@@ -354,17 +354,6 @@ public abstract class Area implements Playable {
 
 	@Override
 	public void end() {
-		for (Actor actor : actors) {
-			unregisterActor(actor);
-		}
-		for (Map.Entry<Interactable, List<DiscreteCoordinates>> entry : interactablesToLeave.entrySet()){
-			areaBehavior.leave(entry.getKey(), entry.getValue());
-		}
-		interactablesToLeave.clear();
-		for (Map.Entry<Interactable, List<DiscreteCoordinates>> entry : interactablesToEnter.entrySet()){
-			areaBehavior.leave(entry.getKey(), entry.getValue());
-		}
-		interactablesToEnter.clear();
 		// by default does nothing
 		// can save the Area state somewhere if wanted
 	}
