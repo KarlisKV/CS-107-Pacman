@@ -53,14 +53,13 @@ public class GhostsBehavior implements Updatable {
             }
             if (areGhostsNotFrightened()) {
                 SuperPacmanPlayer.resetComboCount();
-                if (!SuperPacmanPlayer.isStopAllAudio() && !SuperPacmanPlayer.isIsDead()) {
-                    SuperPacmanPlayer.setStopAllAudio();
+                if (!SuperPacmanPlayer.isStopAllAudio() && !SuperPacmanPlayer.isDead()) {
                     SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
                 }
+                SuperPacmanPlayer.setStopAllAudio();
                 requestToFrighten = false;
             }
         }
-
 
     }
 
@@ -123,6 +122,12 @@ public class GhostsBehavior implements Updatable {
     public void resetGhosts() {
         for (Ghost ghost : ghosts) {
             ghost.reset();
+        }
+    }
+
+    public void pauseGhosts() {
+        for (Ghost ghost : ghosts) {
+            ghost.setGameOver();
         }
     }
 }

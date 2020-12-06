@@ -15,6 +15,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 public class Level1 extends SuperPacmanArea {
+    public static final String LEVEL_PATHNAME = "superpacman/level1";
     public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15, 6);
 
     @Override
@@ -25,15 +26,17 @@ public class Level1 extends SuperPacmanArea {
 
     @Override
     protected void createArea() {
-        registerActor(new Door("superpacman/level2", Level2.PLAYER_SPAWN_POSITION, Logic.TRUE,
-                this, Orientation.DOWN, new DiscreteCoordinates(14, 0), new DiscreteCoordinates(15, 0)));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14,3), Logic.FALSE ));
-        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15,3), Logic.FALSE ));
+        // Door
+        registerActor(new Door(Level2.LEVEL_PATHNAME, Level2.PLAYER_SPAWN_POSITION, Logic.TRUE,
+                               this, Orientation.DOWN, new DiscreteCoordinates(14, 0), new DiscreteCoordinates(15, 0)));
+        // Gates
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14, 3), Logic.FALSE));
+        registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15, 3), Logic.FALSE));
     }
 
     @Override
     public String getTitle() {
-        return "superpacman/level1";
+        return LEVEL_PATHNAME;
     }
 
 }

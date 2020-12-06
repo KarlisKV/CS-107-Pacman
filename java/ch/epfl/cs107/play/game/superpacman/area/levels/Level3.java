@@ -15,6 +15,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 public class Level3 extends SuperPacmanArea {
+    public static final String LEVEL_PATHNAME = "superpacman/level3";
     public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(19, 33);
     private static final DiscreteCoordinates DOOR_TOP_LEFT = new DiscreteCoordinates(2, 25);
     private static final DiscreteCoordinates DOOR_TOP_RIGHT = new DiscreteCoordinates(35, 25);
@@ -30,18 +31,20 @@ public class Level3 extends SuperPacmanArea {
     @Override
     protected void createArea() {
         registerActor(new Foreground(this));
-        registerActor(new Door("superpacman/level3", DOOR_TOP_RIGHT.left(), Logic.TRUE, this, Orientation.RIGHT,
-                               DOOR_TOP_LEFT));
-        registerActor(new Door("superpacman/level3", DOOR_TOP_LEFT.right(), Logic.TRUE, this, Orientation.LEFT,
-                               DOOR_TOP_RIGHT));
-        registerActor(new Door("superpacman/level3", DOOR_BOTTOM_RIGHT.left(), Logic.TRUE, this, Orientation.RIGHT,
-                               DOOR_BOTTOM_LEFT));
-        registerActor(new Door("superpacman/level3", DOOR_BOTTOM_LEFT.right(), Logic.TRUE, this, Orientation.LEFT,
-                               DOOR_BOTTOM_RIGHT));
+        // Doors
+        createDoorTunnel(DOOR_TOP_RIGHT.left(), Orientation.RIGHT, DOOR_TOP_LEFT);
+        createDoorTunnel(DOOR_TOP_LEFT.right(), Orientation.LEFT, DOOR_TOP_RIGHT);
+        createDoorTunnel(DOOR_BOTTOM_RIGHT.left(), Orientation.RIGHT, DOOR_BOTTOM_LEFT);
+        createDoorTunnel(DOOR_BOTTOM_LEFT.right(), Orientation.LEFT, DOOR_BOTTOM_RIGHT);
+    }
+
+    private void createDoorTunnel(DiscreteCoordinates otherSideCoordinates, Orientation orientation,
+                                  DiscreteCoordinates position) {
+        registerActor(new Door(LEVEL_PATHNAME, otherSideCoordinates, Logic.TRUE, this, orientation, position));
     }
 
     @Override
     public String getTitle() {
-        return "superpacman/level3";
+        return LEVEL_PATHNAME;
     }
 }

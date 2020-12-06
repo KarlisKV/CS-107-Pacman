@@ -40,17 +40,10 @@ public abstract class SuperPacmanArea extends Area {
         }
         return false;
     }
-    public int getTotalPellets() {
-        return behavior.getTotalPellets();
-    }
-    public int getEatenPellets() {
-        return behavior.getEatenPellets();
-    }
-    public void setEatenPellets() {
-        behavior.setEatenPellets();
-    }
+
     /**
      * Abstract method to create and add actors to area
      */
     protected abstract void createArea();
+
 }

@@ -7,7 +7,6 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus;
 
-import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
@@ -31,6 +30,7 @@ public class MainMenu extends Menu {
         getOptionList().add(Option.OPTIONS);
         getOptionList().add(Option.HELP);
         getOptionList().add(Option.QUIT);
+        getOptionList().add(Option.LEADERBOARD);
         getOptionList().add(Option.CREDITS);
     }
 
@@ -47,31 +47,28 @@ public class MainMenu extends Menu {
 
         // Play option
         int paddingCount = 0;
-        TextGraphics play = updateText(getOptionText(Option.PLAY), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET);
-        play.draw(canvas);
+        updateText(getOptionText(Option.PLAY), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET).draw(canvas);
         ++paddingCount;
 
         // Options option text
-        TextGraphics options =
-                updateText(getOptionText(Option.OPTIONS), BODY_FONT_SIZE, 0,
-                           Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
-        options.draw(canvas);
+        updateText(getOptionText(Option.OPTIONS), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
+                .draw(canvas);
         ++paddingCount;
 
         // Help option text
-        TextGraphics help =
-                updateText(getOptionText(Option.HELP), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
-        help.draw(canvas);
+        updateText(getOptionText(Option.HELP), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
+                .draw(canvas);
         ++paddingCount;
 
         // Quit option text
-        TextGraphics quit =
-                updateText(getOptionText(Option.QUIT), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
-        quit.draw(canvas);
+        updateText(getOptionText(Option.QUIT), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
+                .draw(canvas);
+
+        // Leaderboard option text
+        updateText(getOptionText(Option.LEADERBOARD), BODY_FONT_SIZE, 0, -50 - TEXT_PADDING).draw(canvas);
 
         // Credits option text
-        TextGraphics credits = updateText(getOptionText(Option.CREDITS), BODY_FONT_SIZE, 0, -50);
-        credits.draw(canvas);
+        updateText(getOptionText(Option.CREDITS), BODY_FONT_SIZE, 0, -50).draw(canvas);
 
     }
 

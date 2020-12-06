@@ -4,6 +4,7 @@ package ch.epfl.cs107.play.window;
  * Represents the keyboard.
  */
 public interface Keyboard {
+    int BACKSPACE = 8;
     int TAB = 9;
     int ENTER = 10;
     int SHIFT = 16;

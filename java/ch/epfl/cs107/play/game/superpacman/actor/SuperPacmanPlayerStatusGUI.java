@@ -7,23 +7,27 @@
 
 package ch.epfl.cs107.play.game.superpacman.actor;
 
-import ch.epfl.cs107.play.Play;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class SuperPacmanPlayerStatusGUI implements Graphics {
     private static final float DEPTH = 5000.0f;
     private static final float HP_SPACING = 1.25f;
-    private static final float EDGE_PADDING = 9.0f;
+    private static final float TOP_EDGE_PADDING = 9.0f;
+    private static final float LEFT_EDGE_PADDING = 6.2f;
+    private static final float RIGHT_EDGE_PADDING = -9.5f;
     private static final float LIFE_SIZE = 1.0f;
     private static final float TEXT_PADDING = 1.5f;
     private static final int LIFE_SPRITE_SIZE = 14;
@@ -34,6 +38,8 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private final int maxHp;
     private int currentHp;
     private int score = 0;
+    private float areaTimer = 0;
+    private List<Float> areaTimerHistory = new ArrayList<>();
 
     /**
      * Consructor for SuperPacmanPlayerStatusGUI
@@ -50,9 +56,11 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
      * @param currentHp the SuperPacmanPlayer's current health
      * @param score     the SuperPacmanPlayer's current health
      */
-    protected void update(int currentHp, int score) {
+    protected void update(int currentHp, int score, float areaTimer, Collection<Float> historyTimer) {
         this.currentHp = currentHp;
         this.score = score;
+        this.areaTimer = areaTimer;
+        this.areaTimerHistory = new ArrayList<>(historyTimer);
     }
 
     @Override
@@ -62,12 +70,13 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
         if (SuperPacman.currentCameraScaleFactor < 55) {
+            // Lives
             for (int i = 0; i < maxHp; ++i) {
                 int x = i < currentHp ? LIFE : NO_LIFE;
 
                 float xPos = width / 2 + (HP_SPACING * i) -
                         (((LIFE_SIZE * maxHp) / 2.f) + (HP_SPACING * ((maxHp / 2.f) - 2)));
-                float yPos = height - (EDGE_PADDING) - TEXT_PADDING;
+                float yPos = height - (TOP_EDGE_PADDING) - TEXT_PADDING;
 
                 ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
                                                        LIFE_SIZE, LIFE_SIZE,
@@ -75,36 +84,50 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                                                        anchor.add(new Vector(xPos, yPos)), 1, DEPTH);
                 life.draw(canvas);
             }
+            // Score
             String textToDisplay = "Score: " + score;
             TextGraphics scoreText =
                     new TextGraphics(textToDisplay, FONT_SIZE, Color.YELLOW, Color.BLACK, 0.0f, false, false,
                                      anchor.add(new Vector(width / 2 - (textToDisplay.length() * FONT_SIZE / 2),
-                                                           height - (EDGE_PADDING))));
+                                                           height - TOP_EDGE_PADDING)));
             scoreText.setFontName(FONT);
             scoreText.setDepth(DEPTH);
             scoreText.draw(canvas);
-        }
 
-        if (MenuItems.isShowFps()) {
-            String fps = "Fps: " + Play.getCurrentFps();
-            TextGraphics fpsText =
-                    new TextGraphics(fps, height / (1.5f * 35), Color.WHITE, Color.WHITE, 0.0f, false, false,
-                                     anchor.add(new Vector(height / (TEXT_PADDING * 35),
-                                                           height / (TEXT_PADDING * 35))));
-            fpsText.setFontName(FONT);
-            fpsText.setDepth(DEPTH + 10000);
-            fpsText.draw(canvas);
-        }
+            // Eaten pellets
+            TextGraphics eatenPellets =
+                    new TextGraphics(Pellet.getNbrOfPelletsEaten() + "/" + Pellet.getTotalPellets(),
+                                     FONT_SIZE - 0.4f, Color.YELLOW, Color.BLACK, 0.0f, false, false, anchor.add(
+                            new Vector(LEFT_EDGE_PADDING, height - TOP_EDGE_PADDING + 0.2f)));
+            eatenPellets.setFontName(FONT);
+            eatenPellets.setDepth(DEPTH);
+            eatenPellets.draw(canvas);
 
-        if (MenuItems.isDebugMode()) {
-            String textToDisplay = "Debug Mode";
-            TextGraphics debugText =
-                    new TextGraphics(textToDisplay, height / (1.5f * 35), Color.ORANGE, Color.ORANGE, 0.0f, false, false,
-                                     anchor.add(new Vector(width - (2 * (height / (TEXT_PADDING * 7))) - (height / (TEXT_PADDING * 35)),
-                                                           height / (TEXT_PADDING * 35))));
-            debugText.setFontName(FONT);
-            debugText.setDepth(DEPTH + 10000);
-            debugText.draw(canvas);
+            // Timer
+            String timerText = String.format("%.3f", areaTimer);
+            TextGraphics timer =
+                    new TextGraphics(timerText,
+                                     FONT_SIZE - 0.4f, Color.YELLOW, Color.BLACK, 0.0f, false, false, anchor.add(
+                            new Vector(width + RIGHT_EDGE_PADDING - (timerText.length() * 0.6f) + 3,
+                                       height - TOP_EDGE_PADDING + 0.2f)));
+            timer.setFontName(FONT);
+            timer.setDepth(DEPTH);
+            timer.draw(canvas);
+
+            // History Timer
+            for (int i = 0; i < areaTimerHistory.size(); ++i) {
+                String historyTimerText = String.format("%.3f", areaTimerHistory.get(i));
+                TextGraphics historyTimer =
+                        new TextGraphics(historyTimerText,
+                                         FONT_SIZE - 0.5f, Color.YELLOW, Color.BLACK, 0.0f, false, false, anchor.add(
+                                new Vector(width + RIGHT_EDGE_PADDING - (historyTimerText.length() * 0.5f) + 3,
+                                           height - TOP_EDGE_PADDING - 0.6f - (i * 0.6f))));
+                historyTimer.setFontName(FONT);
+                historyTimer.setDepth(DEPTH);
+                historyTimer.draw(canvas);
+            }
+
+
         }
     }
 }

@@ -102,6 +102,7 @@ abstract public class AreaGame implements Game {
 	public void update(float deltaTime) {
 		if (MenuItems.isExit()) {
 			end();
+			MenuItems.setExit(false);
 		} else {
 			currentArea.update(deltaTime);
 				menuItems.draw(window);

@@ -11,6 +11,8 @@ import ch.epfl.cs107.play.game.actor.Acoustics;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
+import ch.epfl.cs107.play.game.superpacman.Serialization;
+import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
@@ -31,27 +33,20 @@ public final class MenuItems implements Graphics, Acoustics {
     private static final SoundAcoustics ENTER_SOUND = SuperPacmanSound.MENU_ENTER.sound;
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
     private static final float OVERLAY_DEPTH = Menu.DEPTH + 500;
-
-    public static void setStartGame(boolean startGame) {
-        MenuItems.startGame = startGame;
-    }
-
+    private static final String LEADERBOARD_TMP_FILENAME = "leaderboard.ser";
     private static boolean startGame = false;
-
-    public static boolean isGameOver() {
-        return gameOver;
-    }
-
     private static boolean gameOver = false;
     private static boolean debugMode = false;
     private static boolean exit = false;
     private static boolean soundDeactivated = false;
+    private static boolean cameraShakeDeactivated = false;
     private static boolean showFps = false;
     private final Transition transitionOverlay = new EaseInOutCubic(0.01f);
     private final EnumMap<MenuState, Menu> menus = new EnumMap<>(MenuState.class);
     private final Keyboard keyboard;
     private MenuState currentState = MenuState.MAIN_MENU_PAGE;
     private boolean updateState = true;
+
     public MenuItems(Window window) {
         keyboard = window.getKeyboard();
 
@@ -61,6 +56,8 @@ public final class MenuItems implements Graphics, Acoustics {
         menus.put(MenuState.OPTIONS_PAGE, options);
         Menu help = new Help(window);
         menus.put(MenuState.HELP_PAGE, help);
+        Menu leaderboard = new Leaderboard(window);
+        menus.put(MenuState.LEADERBOARD_PAGE, leaderboard);
         Menu credits = new Credits(window);
         menus.put(MenuState.CREDITS_PAGE, credits);
         Menu death = new GameOver(window);
@@ -68,8 +65,16 @@ public final class MenuItems implements Graphics, Acoustics {
 
     }
 
+    public static boolean isGameOver() {
+        return gameOver;
+    }
+
     public static void setGameOver(boolean gameOver) {
         MenuItems.gameOver = gameOver;
+    }
+
+    public static boolean isCameraShakeDeactivated() {
+        return cameraShakeDeactivated;
     }
 
     public static boolean isDebugMode() {
@@ -88,8 +93,16 @@ public final class MenuItems implements Graphics, Acoustics {
         return startGame;
     }
 
+    public static void setStartGame(boolean startGame) {
+        MenuItems.startGame = startGame;
+    }
+
     public static boolean isExit() {
         return exit;
+    }
+
+    public static void setExit(boolean exit) {
+        MenuItems.exit = exit;
     }
 
     @Override
@@ -132,6 +145,7 @@ public final class MenuItems implements Graphics, Acoustics {
             switch (menu.getCurrentSelection()) {
                 case PLAY:
                 case RESTART:
+                    Serialization.serialize(SuperPacman.getLeaderboardScores(), LEADERBOARD_TMP_FILENAME);
                     currentState = MenuState.PLAY;
                     startGame = true;
                     break;
@@ -147,10 +161,21 @@ public final class MenuItems implements Graphics, Acoustics {
                     soundDeactivated = false;
                     exit = true;
                     break;
+                case LEADERBOARD:
+                    currentState = MenuState.LEADERBOARD_PAGE;
+                    break;
+                case CLEAR_LEADERBOARD:
+                    SuperPacman.getLeaderboardScores().clear();
+                    Serialization.delete(LEADERBOARD_TMP_FILENAME);
+                    break;
                 case CREDITS:
                     currentState = MenuState.CREDITS_PAGE;
                     break;
                 case BACK_TO_MAIN_MENU:
+                    Serialization.serialize(SuperPacman.getLeaderboardScores(), LEADERBOARD_TMP_FILENAME);
+                    menu.reset();
+                    currentState = MenuState.MAIN_MENU_PAGE;
+                    break;
                 case BACK:
                     menu.reset();
                     currentState = MenuState.MAIN_MENU_PAGE;
@@ -158,6 +183,10 @@ public final class MenuItems implements Graphics, Acoustics {
                 case SOUND:
                     menu.updateSubSelection();
                     soundDeactivated = !menu.isToggleLogic();
+                    break;
+                case CAMERA_SHAKE:
+                    menu.updateSubSelection();
+                    cameraShakeDeactivated = !menu.isToggleLogic();
                     break;
                 case FPS:
                     menu.updateSubSelection();
@@ -196,6 +225,7 @@ public final class MenuItems implements Graphics, Acoustics {
         PLAY(),
         OPTIONS_PAGE(),
         HELP_PAGE(),
+        LEADERBOARD_PAGE(),
         CREDITS_PAGE(),
         GAME_OVER(),
         EXIT()

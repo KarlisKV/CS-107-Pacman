@@ -21,6 +21,8 @@ import java.util.List;
 
 public class Pellet extends CollectableAreaEntity {
     private static final int POINTS = 10;
+    private static int nbrOfPelletsEaten = 0;
+    private static int totalPellets = 0;
     private final Glow glow;
     private final Sprite sprite;
 
@@ -34,6 +36,20 @@ public class Pellet extends CollectableAreaEntity {
         sprite = new Sprite("superpacman/pellet", 1, 1, this);
         sprite.setDepth(DEPTH_COLLECTABLES);
         glow = new Glow(this, sprite, Glow.GlowColors.LIGHT_PINK, 1.5f, 0.2f);
+        ++totalPellets;
+    }
+
+    public static int getTotalPellets() {
+        return totalPellets;
+    }
+
+    public static int getNbrOfPelletsEaten() {
+        return nbrOfPelletsEaten;
+    }
+
+    public static void resetPelletCount() {
+        nbrOfPelletsEaten = 0;
+        totalPellets = 0;
     }
 
     @Override
@@ -50,6 +66,12 @@ public class Pellet extends CollectableAreaEntity {
     @Override
     public int getPoints() {
         return POINTS;
+    }
+
+    @Override
+    public void collect() {
+        ++nbrOfPelletsEaten;
+        super.collect();
     }
 
     @Override

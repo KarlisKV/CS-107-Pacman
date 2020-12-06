@@ -41,7 +41,7 @@ public class Credits extends Menu {
         // Title
         updateText(Option.CREDITS.text, HEADER_FONT_SIZE, 0, yTextOffSet).draw(canvas);
 
-        // Help image
+        // Credits image
 //        updateImage(CREDITS_PATH).draw(canvas);
 
         // Back option

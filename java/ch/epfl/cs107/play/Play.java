@@ -101,7 +101,7 @@ public class Play {
                     //replayer.update();
                 }
             }
-            //recorder.stop("record1.xml");
+            recorder.stop("record1.xml");
             game.end();
 
         } finally {

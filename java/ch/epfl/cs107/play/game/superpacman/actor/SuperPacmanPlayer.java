@@ -33,7 +33,9 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SuperPacmanPlayer extends Player {
     // Sounds
@@ -52,13 +54,41 @@ public class SuperPacmanPlayer extends Player {
     private static final int MAX_HP = 5;
     private static boolean stopAllAudio = false;
     private static int comboCount = 0;
-    private static boolean isDead = false;
-    private boolean gameOver = false;
+    private static boolean dead = false;
+    private final HashMap<String, Float> areaTimerHistory = new HashMap<>();
     private final Animation[] animation;
     private final Animation deathAnimation;
     private final SuperPacmanPlayerHandler playerHandler = new SuperPacmanPlayerHandler();
     private final Glow glow;
     private final DiscreteCoordinates PLAYER_SPAWN_POSITION;
+    private float areaTimer = 0;
+    private boolean gameOver = false;
+
+    public static int getMaxHp() {
+        return MAX_HP;
+    }
+
+    public static boolean isDead() {
+        return dead;
+    }
+
+    private void setDead(boolean isDead) {
+        SuperPacmanPlayer.dead = isDead;
+        if (isDead) {
+            setStopAllAudio();
+            DEATH_SOUND.shouldBeStarted();
+        } else {
+            if (!stopAllAudio) {
+                setStopAllAudio();
+                SIREN_SOUND.shouldBeStarted();
+            }
+        }
+    }
+
+    public Map<String, Float> getAreaTimerHistory() {
+        return areaTimerHistory;
+    }
+
     private int currentHp = 1;
     private final SuperPacmanPlayerStatusGUI gui = new SuperPacmanPlayerStatusGUI(currentHp, MAX_HP);
     private int score = 0;
@@ -67,6 +97,7 @@ public class SuperPacmanPlayer extends Player {
     private boolean canUserMove = false;
     private float timer = 3;
     private boolean collision = false;
+
     /**
      * Constructor for SuperPacmanPlayer
      * @param owner       (Area): Owner Area, not null
@@ -108,12 +139,12 @@ public class SuperPacmanPlayer extends Player {
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
-    public boolean isGameOver() {
-        return gameOver;
+    public int getCurrentHp() {
+        return currentHp;
     }
 
-    public static boolean isIsDead() {
-        return isDead;
+    public int getScore() {
+        return score;
     }
 
     public static boolean isStopAllAudio() {
@@ -126,6 +157,10 @@ public class SuperPacmanPlayer extends Player {
 
     public static void resetComboCount() {
         SuperPacmanPlayer.comboCount = 0;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 
     public boolean canUserMove() {
@@ -146,24 +181,24 @@ public class SuperPacmanPlayer extends Player {
             SoundAcoustics.stopAllSounds(audio);
             stopAllAudio = false;
         }
-        if (canUserMove) {
+        if (canUserMove && !gameOver) {
             SIREN_SOUND.bip(audio);
             MUNCH_SOUND.bip(audio);
             EAT_FRUIT_SOUND.bip(audio);
-            DEATH_SOUND.bip(audio);
             EAT_GHOST_SOUND.bip(audio);
             POWER_PELLET_SOUND.bip(audio);
             COLLECT_KEY_SOUND.bip(audio);
         }
+        DEATH_SOUND.bip(audio);
     }
 
     @Override
     public void update(float deltaTime) {
-        gui.update(currentHp, score);
+        gui.update(currentHp, score, areaTimer, areaTimerHistory.values());
         updateAnimation(deltaTime);
         ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().update(deltaTime);
 
-        if (isDead) {
+        if (dead) {
             glow.fadeOut(0.02f);
             resetMotion();
             canUserMove = false;
@@ -174,7 +209,8 @@ public class SuperPacmanPlayer extends Player {
                 timer = 3;
             }
         }
-        if (canUserMove) {
+        if (canUserMove && !gameOver) {
+            areaTimer += deltaTime;
             Keyboard keyboard = getOwnerArea().getKeyboard();
             setDesiredOrientation(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
             setDesiredOrientation(Orientation.UP, keyboard.get(Keyboard.UP));
@@ -182,7 +218,7 @@ public class SuperPacmanPlayer extends Player {
             setDesiredOrientation(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
         }
 
-        if (desiredOrientation != null && !isDead) {
+        if (desiredOrientation != null && !dead && !gameOver) {
             List<DiscreteCoordinates> jumpedCell =
                     Collections.singletonList(getCurrentMainCellCoordinates().jump(desiredOrientation.toVector()));
 
@@ -212,7 +248,7 @@ public class SuperPacmanPlayer extends Player {
         } else {
             animation[currentOrientation.ordinal()].reset();
         }
-        if (isDead) {
+        if (dead) {
             deathAnimation.update(deltaTime);
         } else {
             deathAnimation.reset();
@@ -226,7 +262,6 @@ public class SuperPacmanPlayer extends Player {
         if (currentHp > 0) {
             --currentHp;
         }
-        canUserMove = true;
         desiredOrientation = null;
         currentOrientation = DEFAULT_ORIENTATION;
         glow.reset();
@@ -235,30 +270,13 @@ public class SuperPacmanPlayer extends Player {
         getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
         setCurrentPosition(intiPos.toVector());
         if (currentHp == 0) {
+            areaTimerHistory.put(getOwnerArea().getTitle(), areaTimer);
             gameOver = true;
-        }
-
-    }
-
-    public void restart() {
-        currentHp = MAX_HP;
-        score = 0;
-        canUserMove = false;
-        setStopAllAudio();
-        gameOver = false;
-    }
-
-    private void setDead(boolean isDead) {
-        SuperPacmanPlayer.isDead = isDead;
-        if (isDead) {
-            setStopAllAudio();
-            DEATH_SOUND.shouldBeStarted();
+            canUserMove = false;
         } else {
-            if (!stopAllAudio) {
-                setStopAllAudio();
-                SIREN_SOUND.shouldBeStarted();
-            }
+            canUserMove = true;
         }
+
     }
 
     /**
@@ -273,17 +291,28 @@ public class SuperPacmanPlayer extends Player {
     }
 
     protected static void setStopAllAudio() {
-        SuperPacmanPlayer.stopAllAudio = true;
+        stopAllAudio = true;
+    }
+
+    public void restart() {
+        currentHp = MAX_HP;
+        score = 0;
+        areaTimerHistory.clear();
+        areaTimer = 0;
+        setStopAllAudio();
+        gameOver = false;
     }
 
     @Override
     public void draw(Canvas canvas) {
         gui.draw(canvas);
-        glow.draw(canvas);
-        if (!isDead) {
-            animation[currentOrientation.ordinal()].draw(canvas);
-        } else {
-            deathAnimation.draw(canvas);
+        if (!gameOver) {
+            glow.draw(canvas);
+            if (!dead) {
+                animation[currentOrientation.ordinal()].draw(canvas);
+            } else {
+                deathAnimation.draw(canvas);
+            }
         }
     }
 
@@ -310,7 +339,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public boolean isViewInteractable() {
-        return !isDead;
+        return !dead;
     }
 
     @Override
@@ -325,7 +354,7 @@ public class SuperPacmanPlayer extends Player {
 
     @Override
     public boolean wantsCellInteraction() {
-        return !isDead;
+        return !dead;
     }
 
     @Override
@@ -348,11 +377,13 @@ public class SuperPacmanPlayer extends Player {
             if (getOwnerArea().getTitle().equals(door.getDestination())) {
                 setPlayerPosition(door.getOtherSideCoordinates());
             } else {
-                if (!stopAllAudio) {
+                if (!isStopAllAudio()) {
                     SIREN_SOUND.shouldBeStarted();
                 }
                 setStopAllAudio();
                 comboCount = 0;
+                areaTimerHistory.put(getOwnerArea().getTitle(), areaTimer);
+                areaTimer = 0;
                 setIsPassingADoor(door);
             }
         }
@@ -372,6 +403,10 @@ public class SuperPacmanPlayer extends Player {
                 score += Ghost.GHOST_BASE_SCORE * comboCount;
 
             } else {
+                if (currentHp - 1 == 0) {
+                    ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().pauseGhosts();
+                    canUserMove = false;
+                }
                 setDead(true);
                 ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().resetGhosts();
             }

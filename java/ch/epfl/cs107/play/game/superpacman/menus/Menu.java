@@ -30,6 +30,8 @@ public abstract class Menu implements Graphics, Acoustics {
     protected static final String FONT = "emulogic";
     protected static final float DEPTH = 20000;
     private static final SoundAcoustics SELECT_SOUND = SuperPacmanSound.MENU_SELECT.sound;
+    private static final SoundAcoustics KEY_CLICK_SOUND = SuperPacmanSound.MENU_KEY_CLICK.sound;
+    private static final SoundAcoustics ERROR_SOUND = SuperPacmanSound.MENU_ERROR.sound;
     private final Keyboard keyboard;
     private final float alpha = 1.0f;
     private final EnumMap<Option, List<SubOption>> subOptionList = new EnumMap<>(Option.class);
@@ -95,14 +97,6 @@ public abstract class Menu implements Graphics, Acoustics {
         return scaledHeight;
     }
 
-    protected Option getCurrentSelection() {
-        return currentSelection;
-    }
-
-    protected void setCurrentSelection(Option currentSelection) {
-        this.currentSelection = currentSelection;
-    }
-
     protected float getAlpha() {
         return alpha;
     }
@@ -146,6 +140,45 @@ public abstract class Menu implements Graphics, Acoustics {
         }
     }
 
+    protected String getUserInputOptionText(Option option, String initText) {
+        if (option.equals(currentSelection)) {
+            return "[" + option.text + ": " + initText + "]";
+        } else {
+            return option.text + ": " + initText;
+        }
+    }
+
+    protected String getUserTextInput(Option modifiableOption, String initText) {
+        char keyInput = 0;
+        for (int key = 65; key <= 90; ++key) {
+            if (keyboard.get(key).isPressed()) {
+                if (initText.length() < 8) {
+                    keyInput = (char) key;
+                    KEY_CLICK_SOUND.shouldBeStarted();
+                } else {
+                    ERROR_SOUND.shouldBeStarted();
+                }
+            }
+            if (keyboard.get(Keyboard.BACKSPACE).isPressed()) {
+                if (!initText.isEmpty()) {
+                    KEY_CLICK_SOUND.shouldBeStarted();
+                    return initText.substring(0, initText.length() - 1);
+                } else {
+                    ERROR_SOUND.shouldBeStarted();
+                }
+            }
+        }
+        if (keyInput != 0 && getCurrentSelection().equals(modifiableOption)) {
+            return initText + keyInput;
+        } else {
+            return initText;
+        }
+    }
+
+    protected Option getCurrentSelection() {
+        return currentSelection;
+    }
+
     protected String getSubOptionText(Option option) {
         if (option.equals(currentSelection)) {
             return "[" + subOptionSectionList.get(option).text + "]";
@@ -174,6 +207,8 @@ public abstract class Menu implements Graphics, Acoustics {
     @Override
     public void bip(Audio audio) {
         SELECT_SOUND.bip(audio);
+        KEY_CLICK_SOUND.bip(audio);
+        ERROR_SOUND.bip(audio);
     }
 
     @Override

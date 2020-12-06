@@ -5,11 +5,15 @@ public enum Option {
     OPTIONS("Options"),
     HELP("Help"),
     QUIT("Quit"),
+    LEADERBOARD("Leaderboard"),
+    CLEAR_LEADERBOARD("Clear Leaderboard"),
     CREDITS("Credits"),
     SOUND("Sound"),
+    CAMERA_SHAKE("Camera Shake"),
     FPS("Show fps"),
     DIFFICULTY("Difficulty"),
     BACK("Back"),
+    NAME("Enter name"),
     RESTART("Restart"),
     BACK_TO_MAIN_MENU("Back to main menu");
 

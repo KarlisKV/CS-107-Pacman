@@ -62,6 +62,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     private boolean reset = false;
     private boolean paused = false;
+    private boolean gameOver = false;
     private float pauseTime = 0;
     private float timer = 0;
     private boolean timerIsFinished = false;
@@ -83,7 +84,6 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     private DiscreteCoordinates targetPos = null;
     private DiscreteCoordinates lastPlayerPosition = null;
     private Orientation lastPlayerOrientation = null;
-
     /**
      * Constructor for Ghost
      * @param area            (Area): Owner area. Not null
@@ -154,6 +154,10 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    protected void setGameOver() {
+        this.gameOver = true;
+    }
 
     protected boolean isEaten() {
         return isEaten;
@@ -275,7 +279,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
             }
         }
 
-        if (!paused) {
+        if (!paused && !gameOver) {
             updateAnimation(deltaTime);
             if (!isDisplacementOccurs()) {
                 if (getNextOrientation() != null) {

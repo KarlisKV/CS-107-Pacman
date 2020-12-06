@@ -24,9 +24,11 @@ import ch.epfl.cs107.play.window.Window;
 
 public class Arcade implements Graphics, Acoustics {
     private static final float DEPTH = 10000;
-    private static final SoundAcoustics GAME_START_SOUND = SuperPacmanSound.GAME_START.sound;
+    private static final SoundAcoustics GAME_START_SOUND = SuperPacmanSound.ARCADE_ON.sound;
+    private static final SoundAcoustics TURN_OFF_SOUND = SuperPacmanSound.ARCADE_OFF.sound;
     private final Window window;
     String arcadePathName = "superpacman/pacmanArcadeOff";
+    private float alpha = 1.0f;
     private float xScaledInit;
     private float yScaledInit;
     private boolean areInitPosSaved = false;
@@ -39,11 +41,17 @@ public class Arcade implements Graphics, Acoustics {
         this.window = window;
     }
 
+
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    public void setAlpha(float alpha) {
+        this.alpha = alpha;
+    }
+
     public boolean isArcadeTurnedOn() {
         return isArcadeTurnedOn;
     }
 
-    /* ----------------------------------- ACCESSORS ----------------------------------- */
     public void setArcadeTurnedOn(boolean isArcadeTurnedOn) {
         this.isArcadeTurnedOn = isArcadeTurnedOn;
         if (isArcadeTurnedOn) {
@@ -52,6 +60,7 @@ public class Arcade implements Graphics, Acoustics {
             }
             arcadePathName = "superpacman/pacmanArcadeOn";
         } else {
+            TURN_OFF_SOUND.shouldBeStarted();
             arcadePathName = "superpacman/pacmanArcadeOff";
         }
     }
@@ -59,6 +68,7 @@ public class Arcade implements Graphics, Acoustics {
     @Override
     public void bip(Audio audio) {
         GAME_START_SOUND.bip(audio);
+        TURN_OFF_SOUND.bip(audio);
     }
 
     @Override
@@ -77,7 +87,7 @@ public class Arcade implements Graphics, Acoustics {
         // DRAW ARCADE
         ImageGraphics arcade = new ImageGraphics(ResourcePath.getBackgrounds(arcadePathName), xScaledInit, yScaledInit,
                                                  new RegionOfInterest(0, 0, 1100, 1100), anchor.add(
-                new Vector((width / 2) - (xScaledInit / 2), (height / 2) - (yScaledInit / 2))), 1.0f, DEPTH);
+                new Vector((width / 2) - (xScaledInit / 2), (height / 2) - (yScaledInit / 2))), alpha, DEPTH);
         arcade.draw(canvas);
 
 
@@ -89,14 +99,14 @@ public class Arcade implements Graphics, Acoustics {
             for (int i = 0; i < 4; ++i) {
                 joystick[i] = new ImageGraphics(ResourcePath.getSprite("superpacman/joystickArcade"), 3, 3,
                                                 new RegionOfInterest(0, 28 * i, 28, 28), anchor.add(
-                        new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), 1.0f,
+                        new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), alpha,
                                                 DEPTH + 50);
             }
 
             ImageGraphics joystickDefault =
                     new ImageGraphics(ResourcePath.getSprite("superpacman/joystickArcadeDefault"), 3, 3,
                                       new RegionOfInterest(0, 0, 28, 28), anchor.add(
-                            new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), 1.0f,
+                            new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), alpha,
                                       DEPTH + 50);
 
             // Set joystick orientation
