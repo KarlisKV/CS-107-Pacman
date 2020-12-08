@@ -26,7 +26,8 @@ public class EaseInOutCubic extends Transition {
 
     @Override
     public float getInverseProgress() {
-        update();
-        return 1 - getProgress();
+        inverseUpdate();
+        return getCurrentProgress() < 0.5 ? (float) (4 * Math.pow(getCurrentProgress(), 3)) :
+               (float) (1 - Math.pow(-2 * getCurrentProgress() + 2, 3) / 2);
     }
 }

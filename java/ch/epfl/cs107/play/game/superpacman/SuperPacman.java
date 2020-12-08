@@ -115,7 +115,7 @@ public class SuperPacman extends RPG {
             timer += deltaTime;
         }
         // START GAME
-        if (!player.isGameOver()) {
+        if (!player.isGameOver() && !MenuItems.isEndGame()) {
             // Turn on arcade
             if (timer > 2) {
                 if (!arcade.isArcadeTurnedOn()) {
@@ -145,22 +145,29 @@ public class SuperPacman extends RPG {
                 currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR +
                         ((FIN_CAMERA_SCALE_FACTOR - INIT_CAMERA_SCALE_FACTOR) * (1 - newProgress));
             } else if (transition.isFinished()) {
-                // Save leaderboard to file
-                leaderboardGameScores
-                        .add(new GameScore(SuperPacmanPlayer.getMaxHp(), player.getAreaTimerHistory(),
-                                           player.getScore(),
-                                           player.getCurrentHp()));
+
                 // Reset all
                 arcade.setAlpha(1);
                 arcade.setArcadeTurnedOn(false);
-                MenuItems.setGameOver(true);
                 MenuItems.setStartGame(false);
-                player.restart();
                 timer = 0;
                 transition.reset();
+                if (MenuItems.isEndGame()) {
+                    player.reset();
+                    MenuItems.setEndGame(false);
+                } else {
+                    // Save leaderboard to file
+                    leaderboardGameScores
+                            .add(new GameScore(SuperPacmanPlayer.getMaxHp(), player.getAreaTimerHistory(),
+                                               player.getScore(),
+                                               player.getCurrentHp()));
+                    MenuItems.setGameOver(true);
+                }
+                player.restart();
                 player.leaveArea();
                 Area area = setCurrentArea(areas[0], true);
                 player.enterArea(area, Level0.PLAYER_SPAWN_POSITION);
+
                 pauseTimer = false;
             }
 

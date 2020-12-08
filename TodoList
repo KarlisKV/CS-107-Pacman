@@ -34,5 +34,5 @@ Depths:
     - Arcade: 10'000
     - Arcade Joystick: 10'050
     - Menu Title: 10'250
-    - ScreeFade Menu: 10'500
     - StatusGUI: 15'000
+    - ScreenFade Menu: 25'500

@@ -10,6 +10,7 @@ public interface Keyboard {
     int SHIFT = 16;
     int CTRL = 17;
     int ALT = 18;
+    int ESC = 27;
     int SPACE = 32;
     int UP = 38;
     int DOWN = 40;

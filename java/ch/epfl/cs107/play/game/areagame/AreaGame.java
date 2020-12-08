@@ -102,15 +102,16 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void update(float deltaTime) {
-        if (MenuItems.isExit()) {
-            // Dispose the window
-            timer -= deltaTime;
-            if (timer <= 0) {
-                getWindow().dispose();
-            }
-        } else {
-            currentArea.update(deltaTime);
-        }
+        if (MenuItems.isQuit()) {
+			// Dispose the window
+			timer -= deltaTime;
+			if (timer <= 0) {
+				System.exit(0);
+			}
+		} else {
+			currentArea.update(deltaTime);
+
+		}
         menuItems.update(deltaTime);
         menuItems.draw(window);
         if (!MenuItems.isSoundDeactivated()) {

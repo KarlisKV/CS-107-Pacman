@@ -77,8 +77,10 @@ public class Leaderboard extends Menu {
         boolean isTableTitle = true;
         for (String[] row : leaderboardTable) {
             for (String cell : row) {
-                updateText(cell, BODY_FONT_SIZE, CENTER_X_OFFSET + xOffset, CENTER_Y_OFFSET + yOffset).draw(canvas);
-                xOffset += TAB_COL_PADDING;
+                if (cell != null) {
+                    updateText(cell, BODY_FONT_SIZE, CENTER_X_OFFSET + xOffset, CENTER_Y_OFFSET + yOffset).draw(canvas);
+                    xOffset += TAB_COL_PADDING;
+                }
             }
             if (isTableTitle) {
                 yOffset += -1f;

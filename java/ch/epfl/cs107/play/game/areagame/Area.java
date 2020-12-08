@@ -283,25 +283,26 @@ public abstract class Area implements Playable {
 
 		purgeRegistration();
 
-		// Update actors
-		for (Actor actor : actors) {
-			actor.update(deltaTime);
-		}
-
-		// Realize interaction between interactors and their cells contents
-		for (Interactor interactor : interactors) {
-			if (interactor.wantsCellInteraction()) {
-				areaBehavior.cellInteractionOf(interactor);
-				// demander à la grille associée (AreaBehavior)
-				//de mettre en place les interactions de contact
+		if (!MenuItems.isPaused() && !MenuItems.isEndGame()) {
+			// Update actors
+			for (Actor actor : actors) {
+				actor.update(deltaTime);
 			}
-			if (interactor.wantsViewInteraction()) {
-				areaBehavior.viewInteractionOf(interactor);
-				// demander à la grille associée e de mettre en place
-				// les interactions distantes
+
+			// Realize interaction between interactors and their cells contents
+			for (Interactor interactor : interactors) {
+				if (interactor.wantsCellInteraction()) {
+					areaBehavior.cellInteractionOf(interactor);
+					// demander à la grille associée (AreaBehavior)
+					//de mettre en place les interactions de contact
+				}
+				if (interactor.wantsViewInteraction()) {
+					areaBehavior.viewInteractionOf(interactor);
+					// demander à la grille associée e de mettre en place
+					// les interactions distantes
+				}
 			}
 		}
-
 		// Update camera location
 		if (camera == null) {
 			camera = new SmoothLimited(this, false, true, 8);
@@ -309,12 +310,14 @@ public abstract class Area implements Playable {
 		camera.updatePos(viewCandidate.getPosition());
 		camera.update(deltaTime);
 
-		// Draw actors and play sounds
-		for (Actor actor : actors) {
-			if (!MenuItems.isSoundDeactivated()) {
-				actor.bip(window);
+		if (!MenuItems.isPaused() && !MenuItems.isEndGame()) {
+			// Draw actors and play sounds
+			for (Actor actor : actors) {
+				if (!MenuItems.isSoundDeactivated()) {
+					actor.bip(window);
+				}
+				actor.draw(window);
 			}
-			actor.draw(window);
 		}
 	}
 

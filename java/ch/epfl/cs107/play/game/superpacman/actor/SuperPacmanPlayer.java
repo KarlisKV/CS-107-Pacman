@@ -47,11 +47,11 @@ public class SuperPacmanPlayer extends Player {
     private static final SoundAcoustics COLLECT_KEY_SOUND = SuperPacmanSound.COLLECT_KEY.sound;
     // Default attributes
     private static final int ANIMATION_DURATION = 10;  // base 10
-    private static SoundUtility playerSoundUtility;
     private static final int DEBUG_ANIMATION_DURATION = 4;
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int SPRITE_SIZE = 14;
     private static final int MAX_HP = 5;
+    private static SoundUtility playerSoundUtility;
     // Player key attributes
     private static int comboCount = 0;
     // Player state
@@ -75,7 +75,6 @@ public class SuperPacmanPlayer extends Player {
     private boolean gameOver = false;
     private boolean canUserMove = false;
     private boolean collision = false;
-
     /**
      * Constructor for SuperPacmanPlayer
      * @param owner       (Area): Owner Area, not null
@@ -257,7 +256,7 @@ public class SuperPacmanPlayer extends Player {
     /**
      * Restart SuperPacmanPlayer, resetting all attributes to initial values, and loosing 1 life
      */
-    private void reset() {
+    public void reset() {
         if (currentHp > 0) {
             --currentHp;
         }
@@ -265,10 +264,12 @@ public class SuperPacmanPlayer extends Player {
         currentOrientation = DEFAULT_ORIENTATION;
         glow.reset();
         DiscreteCoordinates intiPos = ((SuperPacmanArea) getOwnerArea()).getPlayerSpawnPosition();
-        getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        if (getEnteredCells() != null) {
+            getOwnerArea().leaveAreaCells(this, getEnteredCells());
+        }
         getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
         setCurrentPosition(intiPos.toVector());
-        if (currentHp == 0) {
+        if (currentHp == 0 || MenuItems.isEndGame()) {
             areaTimerHistory.put(getOwnerArea().getTitle(), areaTimer);
             gameOver = true;
             canUserMove = false;

@@ -7,6 +7,7 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
 import ch.epfl.cs107.play.game.superpacman.menus.Menu;
 import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
@@ -16,6 +17,8 @@ public class MainMenu extends Menu {
     private static final String TITLE_PATH = "superpacman/mainMenuTitle";
     private static final float Y_TEXT_OFFSET = 6.25f;
     private static final float TEXT_PADDING = -4.5f;
+    private final ScreenFade screenFade = new ScreenFade(7500, 1);
+
 
     /**
      * Constructor for MainMenu class
@@ -48,6 +51,9 @@ public class MainMenu extends Menu {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        screenFade.setFadeOut();
+        screenFade.draw(canvas);
+
         // Title image
         updateImage(TITLE_PATH).draw(canvas);
 

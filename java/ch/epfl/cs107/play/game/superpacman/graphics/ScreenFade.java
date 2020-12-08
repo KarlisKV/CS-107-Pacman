@@ -57,7 +57,7 @@ public class ScreenFade implements Graphics {
             // DRAW BLACK OVERLAY
             ShapeGraphics overlay =
                     new ShapeGraphics(
-                            new Circle(300, new Vector(canvas.getScaledWidth(), canvas.getScaledHeight())),
+                            new Circle(400, new Vector(canvas.getScaledWidth(), canvas.getScaledHeight())),
                             Color.BLACK, Color.BLACK, 0.0f,
                             alpha, overlayDepth);
             overlay.draw(canvas);

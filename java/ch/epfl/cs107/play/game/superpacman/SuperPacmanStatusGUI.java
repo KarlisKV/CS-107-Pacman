@@ -20,6 +20,7 @@ public class SuperPacmanStatusGUI implements Graphics {
     private static final float DEPTH = 15000;
     private static final float TEXT_PADDING = 1.5f;
     private static final String FONT = "emulogic";
+    private static final float FONT_SIZE = 1.5f;
 
     @Override
     public void draw(Canvas canvas) {
@@ -32,7 +33,7 @@ public class SuperPacmanStatusGUI implements Graphics {
         if (MenuItems.isShowFps()) {
             String fps = "Fps: " + Play.getCurrentFps();
             TextGraphics fpsText =
-                    new TextGraphics(fps, height / (1.5f * 35), Color.WHITE, Color.WHITE, 0.0f, false, false,
+                    new TextGraphics(fps, height / (FONT_SIZE * 35), Color.WHITE, Color.WHITE, 0.0f, false, false,
                                      anchor.add(new Vector(height / (TEXT_PADDING * 35),
                                                            height / (TEXT_PADDING * 35))));
             fpsText.setFontName(FONT);
@@ -44,7 +45,7 @@ public class SuperPacmanStatusGUI implements Graphics {
         if (MenuItems.isDebugMode()) {
             String textToDisplay = "Debug Mode";
             TextGraphics debugText =
-                    new TextGraphics(textToDisplay, height / (1.5f * 35), Color.ORANGE, Color.ORANGE, 0.0f, false,
+                    new TextGraphics(textToDisplay, height / (FONT_SIZE * 35), Color.ORANGE, Color.ORANGE, 0.0f, false,
                                      false,
                                      anchor.add(new Vector(width - (2 * (height / (TEXT_PADDING * 7))) -
                                                                    (height / (TEXT_PADDING * 35)),

@@ -52,8 +52,6 @@ public class GameOver extends Menu {
         // Game over image
         updateImage(GAME_OVER_TITLE_PATH).draw(canvas);
 
-        // Restart option
-
         // Game score
         GameScore gameScore = SuperPacman.getLeaderboardScores().getLastGame();
 
@@ -80,13 +78,14 @@ public class GameOver extends Menu {
         gameScore.setPlayerName(getUserTextInput(Option.NAME, gameScore.getPlayerName()));
         updateText(getUserInputOptionText(Option.NAME, gameScore.getPlayerName()), BODY_FONT_SIZE, 0,
                    Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
-        paddingCount += 2;
 
+        // Restart option
+        paddingCount += 2;
         updateText(getOptionText(Option.RESTART), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
                 .draw(canvas);
 
 
-        // Back option
+        // Back to main menu option
         updateText(getOptionText(Option.BACK_TO_MAIN_MENU), BODY_FONT_SIZE, 0, -50).draw(canvas);
     }
 }

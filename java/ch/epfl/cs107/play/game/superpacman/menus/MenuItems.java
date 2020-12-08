@@ -23,6 +23,8 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -31,17 +33,19 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
     private static final String LEADERBOARD_TMP_FILENAME = "leaderboard.ser";
     private static boolean startGame = false;
+    private static boolean endGame = false;
     private static boolean gameOver = false;
     private static boolean debugMode = false;
-    private static boolean exit = false;
+    private static boolean quit = false;
+    private static boolean paused = false;
     private static boolean soundDeactivated = false;
     private static boolean cameraShakeDeactivated = false;
     private static boolean showFps = false;
-    private final ScreenFade screenFade = new ScreenFade(15000, 0.02f);
-    private final EnumMap<MenuState, Menu> menus = new EnumMap<>(MenuState.class);
+    private final ScreenFade screenFade = new ScreenFade(25000, 0.005f);
+    private final Deque<Menu> menuStack = new ArrayDeque<>();
     private final Keyboard keyboard;
-    private MenuState currentState = MenuState.MAIN_MENU_PAGE;
-    private boolean updateState = true;
+    private Window window;
+    private final Map<MenuState, Menu> menuStates = new EnumMap<>(MenuState.class);
 
     /**
      * Constructor for MenuItems class
@@ -49,23 +53,52 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
      */
     public MenuItems(Window window) {
         keyboard = window.getKeyboard();
+        this.window = window;
 
         Menu mainMenu = new MainMenu(window);
-        menus.put(MenuState.MAIN_MENU_PAGE, mainMenu);
+        menuStates.put(MenuState.MAIN_MENU, mainMenu);
+        menuStack.push(mainMenu);
+
         Menu options = new Options(window);
-        menus.put(MenuState.OPTIONS_PAGE, options);
+        menuStates.put(MenuState.OPTIONS, options);
+
         Menu help = new Help(window);
-        menus.put(MenuState.HELP_PAGE, help);
+        menuStates.put(MenuState.HELP, help);
+
         Menu leaderboard = new Leaderboard(window);
-        menus.put(MenuState.LEADERBOARD_PAGE, leaderboard);
+        menuStates.put(MenuState.LEADERBOARD, leaderboard);
+
         Menu credits = new Credits(window);
-        menus.put(MenuState.CREDITS_PAGE, credits);
+        menuStates.put(MenuState.CREDITS, credits);
+
         Menu death = new GameOver(window);
-        menus.put(MenuState.GAME_OVER, death);
+        menuStates.put(MenuState.GAME_OVER, death);
+
+        Menu play = new Play(window);
+        menuStates.put(MenuState.PLAY, play);
+
+        Menu quit = new Quit(window);
+        menuStates.put(MenuState.QUIT, quit);
+
+        Menu pause = new Pause(window);
+        menuStates.put(MenuState.PAUSE, pause);
+
         screenFade.setFadeIn();
     }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    public static boolean isPaused() {
+        return paused;
+    }
+
+    public static boolean isEndGame() {
+        return endGame;
+    }
+
+    public static void setEndGame(boolean endGame) {
+        MenuItems.endGame = endGame;
+    }
 
     protected static boolean isGameOver() {
         return gameOver;
@@ -99,21 +132,22 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
         MenuItems.startGame = startGame;
     }
 
-    public static boolean isExit() {
-        return exit;
+    public static boolean isQuit() {
+        return quit;
     }
 
-    protected static void setExit(boolean exit) {
-        MenuItems.exit = exit;
+    protected static void setQuit(boolean quit) {
+        MenuItems.quit = quit;
     }
 
     @Override
     public void bip(Audio audio) {
         ENTER_SOUND.bip(audio);
         EXIT_SOUND.bip(audio);
-        for (Map.Entry<MenuState, Menu> menuStateMenuEntry : menus.entrySet()) {
-            if (menuStateMenuEntry.getKey().equals(currentState)) {
-                menuStateMenuEntry.getValue().bip(audio);
+        for (Map.Entry<MenuState, Menu> menuStateEntry : menuStates.entrySet()) {
+            assert menuStack.peek() != null;
+            if (menuStack.peek().equals(menuStateEntry.getValue())) {
+                menuStateEntry.getValue().bip(audio);
             }
         }
     }
@@ -122,13 +156,10 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
     public void draw(Canvas canvas) {
         screenFade.draw(canvas);
 
-        for (Map.Entry<MenuState, Menu> menuStateMenuEntry : menus.entrySet()) {
-            if (menuStateMenuEntry.getKey().equals(currentState)) {
-                menuStateMenuEntry.getValue().draw(canvas);
-                selectOption(menuStateMenuEntry.getValue());
-            }
-        }
-        updateState = true;
+        assert menuStack.peek() != null;
+        menuStack.peek().draw(canvas);
+        selectOption(menuStack.peek());
+
     }
 
     /**
@@ -136,48 +167,58 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
      * @param menu the selected menu option
      */
     private void selectOption(Menu menu) {
-        if (enterKeyIsPressed() && updateState) {
+        if (enterKeyIsPressed() && menu.getCurrentSelection() != null) {
             ENTER_SOUND.shouldBeStarted();
             switch (menu.getCurrentSelection()) {
                 case PLAY:
-                    currentState = MenuState.PLAY;
+                    menuStack.push(menuStates.get(MenuState.PLAY));
                     startGame = true;
                     break;
                 case RESTART:
                     Serialization.serialize(SuperPacman.getLeaderboardScores(), LEADERBOARD_TMP_FILENAME);
-                    currentState = MenuState.PLAY;
+                    menuStack.push(menuStates.get(MenuState.PLAY));
                     startGame = true;
                     break;
                 case OPTIONS:
-                    currentState = MenuState.OPTIONS_PAGE;
+                    menuStack.push(menuStates.get(MenuState.OPTIONS));
                     break;
                 case HELP:
-                    currentState = MenuState.HELP_PAGE;
-                    break;
-                case QUIT:
-                    currentState = MenuState.EXIT;
-                    EXIT_SOUND.shouldBeStarted();
-                    soundDeactivated = false;
-                    exit = true;
+                    menuStack.push(menuStates.get(MenuState.HELP));
                     break;
                 case LEADERBOARD:
-                    currentState = MenuState.LEADERBOARD_PAGE;
-                    break;
-                case CLEAR_LEADERBOARD:
-                    SuperPacman.getLeaderboardScores().clear();
-                    Serialization.delete(LEADERBOARD_TMP_FILENAME);
+                    menuStack.push(menuStates.get(MenuState.LEADERBOARD));
                     break;
                 case CREDITS:
-                    currentState = MenuState.CREDITS_PAGE;
+                    menuStack.push(menuStates.get(MenuState.CREDITS));
                     break;
                 case BACK_TO_MAIN_MENU:
                     Serialization.serialize(SuperPacman.getLeaderboardScores(), LEADERBOARD_TMP_FILENAME);
                     menu.reset();
-                    currentState = MenuState.MAIN_MENU_PAGE;
+                    menuStack.clear();
+                    menuStack.push(menuStates.get(MenuState.MAIN_MENU));
                     break;
                 case BACK:
+                    menuStack.removeFirst();
                     menu.reset();
-                    currentState = MenuState.MAIN_MENU_PAGE;
+                    break;
+                case RESUME:
+                    paused = false;
+                    menuStack.removeFirst();
+                    menu.reset();
+                    break;
+                case END_GAME:
+                    endGame = true;
+                    paused = false;
+                    menuStack.removeFirst();
+                    menu.reset();
+                    menuStack.push(menuStates.get(MenuState.MAIN_MENU));
+                    break;
+                // Options within a page
+                case QUIT:
+                    menuStack.push(menuStates.get(MenuState.QUIT));
+                    EXIT_SOUND.shouldBeStarted();
+                    soundDeactivated = false;
+                    quit = true;
                     break;
                 case SOUND:
                     menu.updateSubSelection();
@@ -197,10 +238,25 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
                             SuperPacmanDifficulty.getDifficulty(menu.getCurrentSubSelection());
                     SuperPacmanAreaBehavior.setInitDifficulty(difficulty);
                     break;
+                case CLEAR_LEADERBOARD:
+                    SuperPacman.getLeaderboardScores().clear();
+                    Serialization.delete(LEADERBOARD_TMP_FILENAME);
+                    break;
                 default:
                     // empty on purpose, do noting
             }
-            updateState = false;
+        }
+        if (escKeyIsPressed()) {
+            assert menuStack.peek() != null;
+            if (menuStack.peek().equals(menuStates.get(MenuState.PLAY))) {
+                SoundAcoustics.stopAllSounds(window);
+                menuStack.push(menuStates.get(MenuState.PAUSE));
+                paused = true;
+            } else if (menuStack.peek().equals(menuStates.get(MenuState.PAUSE))) {
+                menuStack.removeFirst();
+                menu.reset();
+                paused = false;
+            }
         }
     }
 
@@ -211,17 +267,24 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
         return keyboard.get(Keyboard.ENTER).isPressed();
     }
 
+    /**
+     * @return (true) if Esc key is pressed
+     */
+    private boolean escKeyIsPressed() {
+        return keyboard.get(Keyboard.ESC).isPressed();
+    }
+
     @Override
     public void update(float deltaTime) {
         // Press shift, ctrl and alt to enter debug mode
         if (!debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.CTRL).isDown() &&
-                keyboard.get(Keyboard.ALT).isDown() && currentState != MenuState.PLAY &&
-                currentState != MenuState.GAME_OVER) {
+                keyboard.get(Keyboard.ALT).isDown() && menuStack.peek() != menuStates.get(MenuState.PLAY) &&
+                menuStack.peek() != menuStates.get(MenuState.GAME_OVER)) {
             System.out.println("Debug mode enabled");
             debugMode = true;
         }
         if (gameOver) {
-            currentState = MenuState.GAME_OVER;
+            menuStack.push(menuStates.get(MenuState.GAME_OVER));
             gameOver = false;
         }
     }
@@ -231,13 +294,14 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
      * Private enum of all of the menu states
      */
     private enum MenuState {
-        MAIN_MENU_PAGE(),
+        MAIN_MENU(),
         PLAY(),
-        OPTIONS_PAGE(),
-        HELP_PAGE(),
-        LEADERBOARD_PAGE(),
-        CREDITS_PAGE(),
+        OPTIONS(),
+        HELP(),
+        LEADERBOARD(),
+        CREDITS(),
         GAME_OVER(),
-        EXIT()
+        QUIT(),
+        PAUSE()
     }
 }

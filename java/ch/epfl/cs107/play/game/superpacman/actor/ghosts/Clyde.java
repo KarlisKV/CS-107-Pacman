@@ -36,7 +36,7 @@ public class Clyde extends Ghost {
             return getRandomValidPosition(
                     getCellsFromRange(getCurrentMainCellCoordinates(), MIN_AFRAID_DISTANCE, true));
         }
-        try {
+        if (getLastPlayerPosition() != null && getLastPlayerOrientation() != null) {
             DiscreteCoordinates target =
                     getRandomValidPosition(getCellsFromRange(
                             getLastPlayerPosition().jump(getLastPlayerOrientation().toVector().resized(FORWARD_VISION)),
@@ -45,8 +45,7 @@ public class Clyde extends Ghost {
                 return target;
             }
             return getLastPlayerPosition();
-        } catch (NullPointerException e) {
-            // Player position cannot be found, therefore move randomly
+        } else {
             return null;
         }
     }

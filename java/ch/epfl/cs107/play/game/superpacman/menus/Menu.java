@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Menu implements Graphics, Acoustics {
-    public static final float DEPTH = 20000;
+    public static final float DEPTH = 10250;
     protected static final float HEADER_FONT_SIZE = 5;
     protected static final float BODY_FONT_SIZE = 2;
     protected static final String FONT = "emulogic";
@@ -39,6 +39,7 @@ public abstract class Menu implements Graphics, Acoustics {
     private final List<Option> optionList = new ArrayList<>();
     private float scaledWidth;
     private float scaledHeight;
+    private Vector scaledAnchor;
     private Vector anchor;
     private float width;
     private float height;
@@ -47,7 +48,6 @@ public abstract class Menu implements Graphics, Acoustics {
     private Option currentSelection;
     private SubOption currentSubSelection;
     private boolean toggleLogic = true;
-
     /**
      * Constructor for Menu class
      * @param window (Window): the current window
@@ -89,6 +89,14 @@ public abstract class Menu implements Graphics, Acoustics {
     }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    public Vector getScaledAnchor() {
+        return scaledAnchor;
+    }
+
+    protected Vector getAnchor() {
+        return anchor;
+    }
 
     protected SubOption getCurrentSubSelection() {
         return currentSubSelection;
@@ -150,6 +158,22 @@ public abstract class Menu implements Graphics, Acoustics {
                                                           (height / 2) + centerYOffset));
         option.setFontName(FONT);
         option.setDepth(DEPTH);
+        option.setAlpha(alpha);
+        return option;
+    }
+
+    /**
+     * Other method to create and update a TextGraphics with specific parameters
+     * @param text     the text to display
+     * @param fontSize the size of the text
+     * @param anchor   the anchor of the text
+     * @return a new TextGraphics
+     */
+    protected TextGraphics updateText(String text, float fontSize, Vector anchor, float depth) {
+        TextGraphics option = new TextGraphics(text, fontSize, Color.WHITE, Color.WHITE, 0.0f, false, false,
+                                               anchor);
+        option.setFontName(FONT);
+        option.setDepth(depth);
         option.setAlpha(alpha);
         return option;
     }
@@ -276,6 +300,7 @@ public abstract class Menu implements Graphics, Acoustics {
         width = canvas.getWidth();
         height = canvas.getHeight();
 
+        scaledAnchor = canvas.getTransform().getOrigin().sub(new Vector(scaledWidth / 2, scaledHeight / 2));
         anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
         updateCurrentSelection();
     }
