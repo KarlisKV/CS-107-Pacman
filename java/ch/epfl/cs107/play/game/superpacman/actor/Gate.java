@@ -18,8 +18,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Gate extends AreaEntity {
-    private static final String GATE_PATHNAME = "superpacman/gate";
-    private static final int DEPTH_GATE = -2000;
+    private static final String GATE_PATHNAME = "superpacman/gateGlow";
+    private static final int DEPTH_GATE = -3500;
     private Sprite sprite;
     // TODO: Give descriptif name to keys (ex: key -> singleLogicKey, Key[] doubleLogicKey = new Key[2])
     private Key key;
@@ -44,6 +44,10 @@ public class Gate extends AreaEntity {
         createGateSprite(orientation);
     }
 
+    /**
+     * Method to create gate Sprite with specific parameters
+     * @param orientation the desired Orientation of the gate
+     */
     private void createGateSprite(Orientation orientation) {
         //this sets the gate's orientation correctly
         int yPixelOffset = 0;

@@ -52,6 +52,10 @@ public final class SoundItem implements LineListener {
         if(audioClip != null) {
             audioClip.addLineListener(this);
             applyVolume();
+            // added loop
+            if (loop) {
+                audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
             audioClip.start();
             finish = false;
         }
@@ -112,17 +116,20 @@ public final class SoundItem implements LineListener {
     public void update(LineEvent event) {
         if (event.getType() == LineEvent.Type.STOP) {
             // On self ending : if loop : stop and reset the clip
-            if (loop && !finish) {
-                audioClip.close();
-                start();
+
+            // Leonard --------- REMOVED, TOO MUCH PERFORMANCE LOSS -> See start method ---------
+//            if (loop && !finish) {
+//                audioClip.close();
+//                start();
 
             // On self ending : if no loop : finish the clip
-            }else if(!finish){
+//            }else
+            if (!finish) {
                 finish = true;
                 audioClip.close();
             }
             // On forced ending
-            else{
+            else {
                 audioClip.flush();
                 audioClip.close();
             }

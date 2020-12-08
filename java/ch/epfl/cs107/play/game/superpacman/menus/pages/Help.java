@@ -5,14 +5,20 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.menus;
+package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.superpacman.menus.Menu;
+import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
 public class Help extends Menu {
     private static final String HELP_PATH = "superpacman/help";
 
+    /**
+     * Constructor for Help class
+     * @param window (Window): the current window
+     */
     public Help(Window window) {
         super(window);
     }
@@ -46,7 +52,6 @@ public class Help extends Menu {
 
         // Back option
         updateText(getOptionText(Option.BACK), BODY_FONT_SIZE, 0, -50).draw(canvas);
-
 
     }
 }

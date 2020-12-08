@@ -25,44 +25,46 @@ import java.util.Map;
  */
 public abstract class Area implements Playable {
 
-	// Context objects
-	private Window window;
-	private FileSystem fileSystem;
-	// Camera Parameter
-	private Actor viewCandidate;
-	private Camera camera;
-	private int count = 0;
-	/// List of Actors inside the area
-	private List<Actor> actors;
-	/// List of Actors we want to register/unregistered from the area for next update iteration
-	private List<Actor> registeredActors;
-	private List<Actor> unregisteredActors;
-	/// Sublist of actor (interactors) inside the area
-	private List<Interactor> interactors;
-	private Map<Interactable, List<DiscreteCoordinates>> interactablesToEnter;
-	private Map<Interactable, List<DiscreteCoordinates>> interactablesToLeave;
-	/// The behavior Map
-	private AreaBehavior areaBehavior;
-	/// pause mechanics and menu to display. May be null
-	/// - start indicate if area already begins, paused indicate if we display the pause menu
-	private boolean started;
+    // Context objects
+    private Window window;
+    private FileSystem fileSystem;
+    // Camera Parameter
+    private Actor viewCandidate;
+    private Camera camera;
+    private int count = 0;
+    /// List of Actors inside the area
+    private List<Actor> actors;
+    /// List of Actors we want to register/unregistered from the area for next update iteration
+    private List<Actor> registeredActors;
+    private List<Actor> unregisteredActors;
+    /// Sublist of actor (interactors) inside the area
+    private List<Interactor> interactors;
+    private Map<Interactable, List<DiscreteCoordinates>> interactablesToEnter;
+    private Map<Interactable, List<DiscreteCoordinates>> interactablesToLeave;
+    /// The behavior Map
+    private AreaBehavior areaBehavior;
+    /// stop mechanics and menu to display. May be null
+    /// - start indicate if area already begins, paused indicate if we display the stop menu
+    private boolean started;
 
-	/**
-	 * @return (Window): get the current window
-	 */
-	public Window getWindow() {
-		return window;
-	}
+    /**
+     * @return (Window): get the current window
+     */
+    public Window getWindow() {
+        return window;
+    }
 
-	/**
-	 * @return (Camera): get the area's Camera public methods
-	 */
-	public Camera getCamera() {
-		return camera;
-	}
+    /**
+     * @return (Camera): get the area's Camera public methods
+     */
+    public Camera getCamera() {
+        return camera;
+    }
 
-	/** @return (float): camera scale factor, assume it is the same in x and y direction */
-	public abstract float getCameraScaleFactor();
+    /**
+     * @return (float): camera scale factor, assume it is the same in x and y direction
+     */
+    public abstract float getCameraScaleFactor();
 
 	/**
 	 * Setter for the Behavior of this Area

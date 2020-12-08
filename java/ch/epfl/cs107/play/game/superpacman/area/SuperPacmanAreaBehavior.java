@@ -13,10 +13,11 @@ import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
-import ch.epfl.cs107.play.game.superpacman.actor.*;
-import ch.epfl.cs107.play.game.superpacman.actor.collectables.Cherry;
+import ch.epfl.cs107.play.game.superpacman.actor.Wall;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Cake;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.PowerPellet;
+import ch.epfl.cs107.play.game.superpacman.actor.ghosts.*;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
@@ -114,8 +115,8 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                         area.registerActor(powerPellet);
                         break;
                     case FREE_WITH_CHERRY:
-                        Cherry cherry = new Cherry(area, new DiscreteCoordinates(x, y));
-                        area.registerActor(cherry);
+                        Cake cake = new Cake(area, new DiscreteCoordinates(x, y));
+                        area.registerActor(cake);
                         break;
                     case FREE_WITH_DIAMOND:
                         Pellet pellet = new Pellet(area, new DiscreteCoordinates(x, y));
@@ -168,6 +169,9 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         return neighbors;
     }
 
+    /**
+     * Private enum for all of the different cell types
+     */
     private enum SuperPacmanCellType {
         NONE(0), // never used as real content
         WALL(-16777216), //black
@@ -176,6 +180,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         FREE_WITH_PINKY(-157237), //pink
         FREE_WITH_INKY(-16724737), //cyan
         FREE_WITH_CLYDE(-24526), //orange
+        // TODO: change from cherry to cake
         FREE_WITH_CHERRY(-36752), //light red
         FREE_WITH_BONUS(-16478723), //light blue
         FREE_EMPTY(-6118750); // sort of gray

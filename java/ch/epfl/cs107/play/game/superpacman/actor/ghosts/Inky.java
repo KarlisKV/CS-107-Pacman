@@ -5,7 +5,7 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.actor;
+package ch.epfl.cs107.play.game.superpacman.actor.ghosts;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
@@ -37,6 +37,7 @@ public class Inky extends Ghost {
 
     @Override
     protected DiscreteCoordinates getTargetWhileChaseMode() {
+        // Returning null on purpose, Orientation will be chose randomly
         return null;
     }
 

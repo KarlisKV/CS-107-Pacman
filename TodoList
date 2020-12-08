@@ -2,20 +2,16 @@
 -------------------------------------
                 BUGS
 -------------------------------------
-- Fix superPacmanSound issues -> reduce lag
-- Fix siren not playing when frighten mode end before ghost got home
-- Fix scoreCombo to not update when new combo
-- Fix fps counter size
+- Fix sound when eaten all frightened ghosts no EAT_GHOST sound
+- Fix scoreCombo to not update when new combo (not super important)
 
 -------------------------------------
           NEW IDEAS TO ADD
 -------------------------------------
 - Arrange code + add javaDoc
-- Add loading screens
-- Add launch game screen fade transition
-- Add debug mode (ex: pressing shift while launching game, sets player speed to fast, opens all door, when lives = 0, notion happens)
-- Add leaderboard
-- Add timer
+- Add [more] page in help for ghost description...
+- Add speed pellet
+- Add magnet pellet
 - Variation maze size
 - Auto-Maze generation
 - limited vision (black ghost??)
@@ -25,14 +21,18 @@
 -------------------------------------
 Depths:
     - Glow: -5'000
+    - Gate: -3'500
     - Wall: -2'000
     - Collectables: -1'000
+    - PlayerDeath: 50
     - Ghosts: 200
     - Player: 600
-    - PlayerDeath: 50
     - Combos: 800
-    - Foreground: 1000
+    - Foreground: 1'000
+    - ScreenFade doors: 4'000
+    - PlayerGUI: 5'000
     - Arcade: 10'000
     - Arcade Joystick: 10'050
     - Menu Title: 10'250
-    - Menu Black Overlay: 10'500
+    - ScreeFade Menu: 10'500
+    - StatusGUI: 15'000

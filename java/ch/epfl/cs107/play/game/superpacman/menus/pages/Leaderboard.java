@@ -5,11 +5,13 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.menus;
+package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
-import ch.epfl.cs107.play.game.superpacman.GameScore;
-import ch.epfl.cs107.play.game.superpacman.LeaderboardScores;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
+import ch.epfl.cs107.play.game.superpacman.leaderboard.GameScore;
+import ch.epfl.cs107.play.game.superpacman.leaderboard.LeaderboardGameScores;
+import ch.epfl.cs107.play.game.superpacman.menus.Menu;
+import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
@@ -19,6 +21,10 @@ public class Leaderboard extends Menu {
     private static final float TAB_COL_PADDING = 22.5f;
     private static final float TAB_LINE_PADDING = -4f;
 
+    /**
+     * Constructor for Leaderboard class
+     * @param window (Window): the current window
+     */
     public Leaderboard(Window window) {
         super(window);
     }
@@ -49,15 +55,15 @@ public class Leaderboard extends Menu {
         updateText("Top 10 games", BODY_FONT_SIZE + 1, 0, yTextOffSet - 5.5f).draw(canvas);
 
         // LeaderBoard table
-        LeaderboardScores leaderboardScores = SuperPacman.getLeaderboardScores();
-        String[][] leaderboardTable = new String[leaderboardScores.getSortedGameScores().size() + 1][5];
+        LeaderboardGameScores leaderboardGameScores = SuperPacman.getLeaderboardScores();
+        String[][] leaderboardTable = new String[leaderboardGameScores.getSortedGameScores().size() + 1][5];
         leaderboardTable[0][0] = "Pos";
         leaderboardTable[0][1] = "Player";
         leaderboardTable[0][2] = "Score";
         leaderboardTable[0][3] = "Deaths";
         leaderboardTable[0][4] = "Time";
         for (int i = 1; i < leaderboardTable.length && i < 11; ++i) {
-            GameScore gameScore = leaderboardScores.getSortedGameScores().get(i - 1);
+            GameScore gameScore = leaderboardGameScores.getSortedGameScores().get(i - 1);
             leaderboardTable[i][0] = String.valueOf(i);
             leaderboardTable[i][1] = gameScore.getPlayerName();
             leaderboardTable[i][2] = String.valueOf(gameScore.getScore());

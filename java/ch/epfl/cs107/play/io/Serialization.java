@@ -5,11 +5,17 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman;
+package ch.epfl.cs107.play.io;
 
 import java.io.*;
 
 public class Serialization implements Serializable {
+
+    /**
+     * Method to serialize Object into /tmp
+     * @param serializableObject the Object to serialize
+     * @param fileOutName        the new .ser filename
+     */
     public static void serialize(Object serializableObject, String fileOutName) {
         try {
             File directory = new File("tmp");
@@ -24,6 +30,11 @@ public class Serialization implements Serializable {
         }
     }
 
+    /**
+     * Method to read serialized file into an Object
+     * @param fileName the .ser filename that should be read
+     * @return an Object from the .ser file or (null) if any exception happened
+     */
     public static Object deserialize(String fileName) {
         Object object = null;
         try {
@@ -38,6 +49,10 @@ public class Serialization implements Serializable {
         return object;
     }
 
+    /**
+     * Method to delete a file in /tmp
+     * @param fileName the name of the file to be deleted
+     */
     public static void delete(String fileName) {
         File directory = new File("tmp");
         File file = new File(directory, fileName);

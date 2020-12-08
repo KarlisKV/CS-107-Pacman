@@ -5,14 +5,20 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.menus;
+package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.superpacman.menus.Menu;
+import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
 public class Credits extends Menu {
     private static final String CREDITS_PATH = "superpacman/help";
 
+    /**
+     * Constructor for Credits class
+     * @param window (Window): the current window
+     */
     public Credits(Window window) {
         super(window);
     }

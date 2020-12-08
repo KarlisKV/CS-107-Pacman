@@ -5,10 +5,11 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.actor;
+package ch.epfl.cs107.play.game.superpacman.actor.ghosts;
 
 import ch.epfl.cs107.play.game.Updatable;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
+import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 
 import java.util.ArrayList;
@@ -31,38 +32,58 @@ public class GhostsBehavior implements Updatable {
         this.difficulty = difficulty;
     }
 
+    /**
+     * Method to add new ghosts to the current List
+     * @param ghost a new ghost
+     */
     public void addGhost(Ghost ghost) {
         ghosts.add(ghost);
     }
 
     @Override
     public void update(float deltaTime) {
+        // Set initial difficulty settings
         if (!isDifficultSet) {
             setGhostDifficulty();
             isDifficultSet = true;
         }
+        // Increase difficulty over time
         if (difficulty.increaseDifficultyOverTime && updateTimer && !MenuItems.isDebugMode()) {
             updateTimer(deltaTime);
-            // Set more difficult
         }
-        if (requestToFrighten) {
+        if (requestToFrighten && !ghosts.isEmpty()) {
             for (Ghost ghost : ghosts) {
                 if (ghost.isEaten() && ghost.reachedHome()) {
-                    SuperPacmanPlayer.setStopAllAudio();
+                    boolean playPowerPelletSound = true;
+                    for (Ghost otherGhost : ghosts) {
+                        if (!otherGhost.equals(ghost) && otherGhost.isEaten()) {
+                            playPowerPelletSound = false;
+                            break;
+                        }
+                    }
+                    // Play power pellet if ghosts are still frightened and all got home
+                    if (playPowerPelletSound) {
+                        Ghost.getGhostSoundManager().stopAll();
+                        SuperPacmanPlayer.getPlayerSoundUtility().play(SuperPacmanPlayer.POWER_PELLET_SOUND, true);
+                    }
                 }
             }
             if (areGhostsNotFrightened()) {
                 SuperPacmanPlayer.resetComboCount();
-                if (!SuperPacmanPlayer.isStopAllAudio() && !SuperPacmanPlayer.isDead()) {
-                    SuperPacmanPlayer.SIREN_SOUND.shouldBeStarted();
+                // Play siren sound if ghosts not anymore frightened
+                if (!SuperPacmanPlayer.isDead()) {
+                    Ghost.getGhostSoundManager().stopAll();
+                    SuperPacmanPlayer.getPlayerSoundUtility().play(SuperPacmanPlayer.SIREN_SOUND, true);
                 }
-                SuperPacmanPlayer.setStopAllAudio();
                 requestToFrighten = false;
             }
         }
 
     }
 
+    /**
+     * Method to set ghosts difficulty, and increase ghosts difficulty
+     */
     public void setGhostDifficulty() {
         updateTimer = false;
         for (Ghost ghost : ghosts) {
@@ -92,6 +113,10 @@ public class GhostsBehavior implements Updatable {
         }
     }
 
+    /**
+     * Method to time and update the ghosts difficulty
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     private void updateTimer(float deltaTime) {
         timer += deltaTime;
         if (timer >= timeToIncreaseDifficulty) {
@@ -101,7 +126,11 @@ public class GhostsBehavior implements Updatable {
         }
     }
 
-    private boolean areGhostsNotFrightened() {
+    /**
+     * Method the check whether the ghosts are not anymore frightened
+     * @return (true) if all the ghosts are not frightened
+     */
+    public boolean areGhostsNotFrightened() {
         int count = 0;
         for (Ghost ghost : ghosts) {
             if (!ghost.isFrightened()) {
@@ -111,6 +140,9 @@ public class GhostsBehavior implements Updatable {
         return count == ghosts.size();
     }
 
+    /**
+     * Method to frighten all the ghosts
+     */
     public void frightenGhosts() {
         for (Ghost ghost : ghosts) {
             ghost.setFrightened(true);
@@ -119,12 +151,18 @@ public class GhostsBehavior implements Updatable {
 
     }
 
+    /**
+     * Method to reset all the ghosts
+     */
     public void resetGhosts() {
         for (Ghost ghost : ghosts) {
             ghost.reset();
         }
     }
 
+    /**
+     * Method to pause all the ghosts
+     */
     public void pauseGhosts() {
         for (Ghost ghost : ghosts) {
             ghost.setGameOver();

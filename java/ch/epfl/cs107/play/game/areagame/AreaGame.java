@@ -14,34 +14,36 @@ import java.util.Map;
  */
 abstract public class AreaGame implements Game {
 
-	// Context objects
-	private Window window;
-	private FileSystem fileSystem;
-	/// A map containing all the Area of the Game
-	private Map<String, Area> areas;
-	/// The current area the game is in
-	private Area currentArea;
+    // Context objects
+    private Window window;
+    private FileSystem fileSystem;
+    /// A map containing all the Area of the Game
+    private Map<String, Area> areas;
+    /// The current area the game is in
+    private Area currentArea;
 
-	// Menu for the game
-	private MenuItems menuItems;
+    // Menu for the game
+    private MenuItems menuItems;
+    private static final float EXIT_TIMER = 1;
+    private float timer = EXIT_TIMER;
 
-	/**
-	 * Add an Area to the AreaGame list
-	 * @param a (Area): The area to add, not null
-	 */
-	protected final void addArea(Area a){
-		areas.put(a.getTitle(), a);
-	}
+    /**
+     * Add an Area to the AreaGame list
+     * @param a (Area): The area to add, not null
+     */
+    protected final void addArea(Area a) {
+        areas.put(a.getTitle(), a);
+    }
 
-	/**
-	 * Setter for the current area: Select an Area in the list from its key
-	 * - the area is then begin or resume depending if the area is already started or not and if it is forced
-	 * @param key (String): Key of the Area to select, not null
-	 * @param forceBegin (boolean): force the key area to call begin even if it was already started
-	 * @return (Area): after setting it, return the new current area
-	 */
-	protected final Area setCurrentArea(String key, boolean forceBegin){
-		Area newArea = areas.get(key);
+    /**
+     * Setter for the current area: Select an Area in the list from its key
+     * - the area is then begin or resume depending if the area is already started or not and if it is forced
+     * @param key        (String): Key of the Area to select, not null
+     * @param forceBegin (boolean): force the key area to call begin even if it was already started
+     * @return (Area): after setting it, return the new current area
+     */
+    protected final Area setCurrentArea(String key, boolean forceBegin) {
+        Area newArea = areas.get(key);
 
 		if(newArea == null) {
 			System.out.println("New Area not found, keep previous one");
@@ -100,22 +102,24 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void update(float deltaTime) {
-		if (MenuItems.isExit()) {
-			end();
-			MenuItems.setExit(false);
-		} else {
-			currentArea.update(deltaTime);
-				menuItems.draw(window);
-				if (!MenuItems.isSoundDeactivated()) {
-					menuItems.bip(window);
-				}
+        if (MenuItems.isExit()) {
+            // Dispose the window
+            timer -= deltaTime;
+            if (timer <= 0) {
+                getWindow().dispose();
+            }
+        } else {
+            currentArea.update(deltaTime);
+        }
+        menuItems.update(deltaTime);
+        menuItems.draw(window);
+        if (!MenuItems.isSoundDeactivated()) {
+            menuItems.bip(window);
 		}
 	}
 
 	@Override
 	public void end() {
-		// TODO: Figure out how to end game
-		getWindow().dispose();
 		// by default does nothing
 		// can save the game states if wanted
 	}

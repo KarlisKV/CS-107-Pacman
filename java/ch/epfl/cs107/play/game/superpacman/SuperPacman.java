@@ -16,8 +16,12 @@ import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
 import ch.epfl.cs107.play.game.superpacman.area.levels.Level3;
 import ch.epfl.cs107.play.game.superpacman.graphics.Arcade;
+import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
+import ch.epfl.cs107.play.game.superpacman.leaderboard.GameScore;
+import ch.epfl.cs107.play.game.superpacman.leaderboard.LeaderboardGameScores;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.io.Serialization;
 import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
 import ch.epfl.cs107.play.math.transitions.Transition;
 import ch.epfl.cs107.play.window.Window;
@@ -25,7 +29,7 @@ import ch.epfl.cs107.play.window.Window;
 public class SuperPacman extends RPG {
     public static final float INIT_CAMERA_SCALE_FACTOR = 120.0f;
     public static final float FIN_CAMERA_SCALE_FACTOR = 37.0f;
-    private static LeaderboardScores leaderboardScores;
+    private static LeaderboardGameScores leaderboardGameScores;
     public static float currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR;
     private final String[] areas =
             {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
@@ -36,11 +40,12 @@ public class SuperPacman extends RPG {
     private float timer = 0;
     private boolean pauseTimer = false;
     private SuperPacmanPlayer player;
+    private final ScreenFade screenFade = new ScreenFade(4000, 0.02f);
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
-    public static LeaderboardScores getLeaderboardScores() {
-        return leaderboardScores;
+    public static LeaderboardGameScores getLeaderboardScores() {
+        return leaderboardGameScores;
     }
 
     @Override
@@ -66,9 +71,9 @@ public class SuperPacman extends RPG {
 
             Object leaderboardScoresTemp = Serialization.deserialize("leaderboard.ser");
             if (leaderboardScoresTemp != null) {
-                leaderboardScores = (LeaderboardScores) leaderboardScoresTemp;
+                leaderboardGameScores = (LeaderboardGameScores) leaderboardScoresTemp;
             } else {
-                leaderboardScores = new LeaderboardScores();
+                leaderboardGameScores = new LeaderboardGameScores();
             }
             return true;
         }
@@ -98,22 +103,32 @@ public class SuperPacman extends RPG {
         arcade.bip(getWindow());
         // update game status GUI
         superPacmanStatusGUI.draw(getWindow());
+        screenFade.draw(getWindow());
     }
 
+    /**
+     * Method to start, update and end the game
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
+     */
     private void updateGame(float deltaTime) {
         if (!pauseTimer) {
             timer += deltaTime;
         }
+        // START GAME
         if (!player.isGameOver()) {
+            // Turn on arcade
             if (timer > 2) {
                 if (!arcade.isArcadeTurnedOn()) {
                     arcade.setArcadeTurnedOn(true);
                 }
+                // Zoom in onto arcade
                 if (timer > 3 && currentCameraScaleFactor > FIN_CAMERA_SCALE_FACTOR && !transition.isFinished()) {
                     float newProgress = transition.getProgress();
                     currentCameraScaleFactor = FIN_CAMERA_SCALE_FACTOR +
                             ((INIT_CAMERA_SCALE_FACTOR - FIN_CAMERA_SCALE_FACTOR) * (1 - newProgress));
                 } else if (transition.isFinished() && !player.canUserMove()) {
+                    // Start player
+                    SuperPacmanPlayer.getPlayerSoundUtility().setAudioPaused(false);
                     player.setCanUserMove(true);
                     timer = 0;
                     transition.reset();
@@ -121,16 +136,21 @@ public class SuperPacman extends RPG {
                 }
             }
         } else {
+            // GAME OVER
+            // Fade out
+            screenFade.setFadeOut();
+            // Zoom out
             if (currentCameraScaleFactor < INIT_CAMERA_SCALE_FACTOR && !transition.isFinished()) {
                 float newProgress = transition.getProgress();
                 currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR +
                         ((FIN_CAMERA_SCALE_FACTOR - INIT_CAMERA_SCALE_FACTOR) * (1 - newProgress));
             } else if (transition.isFinished()) {
-                leaderboardScores
+                // Save leaderboard to file
+                leaderboardGameScores
                         .add(new GameScore(SuperPacmanPlayer.getMaxHp(), player.getAreaTimerHistory(),
                                            player.getScore(),
                                            player.getCurrentHp()));
-                // Save leaderboard to file
+                // Reset all
                 arcade.setAlpha(1);
                 arcade.setArcadeTurnedOn(false);
                 MenuItems.setGameOver(true);

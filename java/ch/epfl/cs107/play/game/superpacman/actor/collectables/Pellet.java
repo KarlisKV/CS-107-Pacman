@@ -9,22 +9,29 @@ package ch.epfl.cs107.play.game.superpacman.actor.collectables;
 
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.CollectableAreaEntity;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Pellet extends CollectableAreaEntity {
+public class Pellet extends CollectableAreaEntity implements Interactor {
     private static final int POINTS = 10;
     private static int nbrOfPelletsEaten = 0;
     private static int totalPellets = 0;
     private final Glow glow;
     private final Sprite sprite;
+    private final SuperPacmanPelletHandler pelletHandler = new SuperPacmanPelletHandler();
+
 
     /**
      * Default MovableAreaEntity constructor
@@ -75,7 +82,71 @@ public class Pellet extends CollectableAreaEntity {
     }
 
     @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        List<DiscreteCoordinates> cellsInView = new ArrayList<>();
+        final int RANGE = 1;
+        for (DiscreteCoordinates currentCell : getCurrentCells()) {
+            for (int x = -RANGE; x <= RANGE; ++x) {
+                for (int y = -RANGE; y <= RANGE; ++y) {
+                    cellsInView.add(currentCell.jump(x, y));
+                }
+            }
+        }
+        return cellsInView;
+    }
+
+    @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         return Collections.singletonList(getCurrentMainCellCoordinates());
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return false;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return true;
+    }
+
+    @Override
+    public void interactWith(Interactable other) {
+        other.acceptInteraction(pelletHandler);
+    }
+
+    /**
+     * Interaction handler class for Pellet
+     */
+    private class SuperPacmanPelletHandler implements SuperPacmanInteractionVisitor {
+
+        @Override
+        public void interactWith(SuperPacmanPlayer player) {
+            if (!((SuperPacmanArea) getOwnerArea()).getGhostsManagement().areGhostsNotFrightened()) {
+                // Pellet movement towards player
+                float xPlayer = player.getPosition().x;
+                float yPlayer = player.getPosition().y;
+                float xPellet = getCurrentMainCellCoordinates().x;
+                float yPellet = getCurrentMainCellCoordinates().y;
+
+                final float SPEED_MODIFIER = 0.25f;
+                float xDiff = 0;
+                if (xPellet > xPlayer) {
+                    xDiff -= SPEED_MODIFIER;
+                } else if (xPellet < xPlayer) {
+                    xDiff += SPEED_MODIFIER;
+                }
+                float yDiff = 0;
+                if (yPellet > yPlayer) {
+                    yDiff -= SPEED_MODIFIER;
+                } else if (yPellet < yPlayer) {
+                    yDiff += SPEED_MODIFIER;
+                }
+                setCurrentPosition(getPosition().add(xDiff, yDiff));
+                collect();
+                SuperPacmanPlayer.getPlayerSoundUtility().play(SuperPacmanPlayer.MUNCH_SOUND);
+                player.updateScore(getPoints());
+            }
+        }
     }
 }

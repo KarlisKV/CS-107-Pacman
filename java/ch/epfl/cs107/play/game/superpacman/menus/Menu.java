@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Menu implements Graphics, Acoustics {
+    public static final float DEPTH = 20000;
     protected static final float HEADER_FONT_SIZE = 5;
     protected static final float BODY_FONT_SIZE = 2;
     protected static final String FONT = "emulogic";
-    protected static final float DEPTH = 20000;
     private static final SoundAcoustics SELECT_SOUND = SuperPacmanSound.MENU_SELECT.sound;
     private static final SoundAcoustics KEY_CLICK_SOUND = SuperPacmanSound.MENU_KEY_CLICK.sound;
     private static final SoundAcoustics ERROR_SOUND = SuperPacmanSound.MENU_ERROR.sound;
@@ -48,6 +48,10 @@ public abstract class Menu implements Graphics, Acoustics {
     private SubOption currentSubSelection;
     private boolean toggleLogic = true;
 
+    /**
+     * Constructor for Menu class
+     * @param window (Window): the current window
+     */
     public Menu(Window window) {
         keyboard = window.getKeyboard();
         currentSelection = getDefaultSelection();
@@ -56,14 +60,25 @@ public abstract class Menu implements Graphics, Acoustics {
         setupSubOptionSelectionList();
     }
 
+    /**
+     * Abstract method to get which option is selected by default when entering the Menu
+     * @return a selected Option
+     */
     protected abstract Option getDefaultSelection();
 
+    /**
+     * Abstract method to set List of all Options on the Menu
+     */
     protected abstract void setupOptionList();
 
-    /* ----------------------------------- ACCESSORS ----------------------------------- */
-
+    /**
+     * Abstract method to set EnumMap of all SubOptions on the Menu
+     */
     protected abstract void setupSubOptionList();
 
+    /**
+     * Method to setup SubOptionSelection EnumMap and currentSubSelection
+     */
     private void setupSubOptionSelectionList() {
         for (Map.Entry<Option, List<SubOption>> optionListEntry : subOptionList.entrySet()) {
             subOptionSectionList.put(optionListEntry.getKey(), optionListEntry.getValue().get(0));
@@ -72,6 +87,8 @@ public abstract class Menu implements Graphics, Acoustics {
             currentSubSelection = subOptionList.get(currentSelection).get(0);
         }
     }
+
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
 
     protected SubOption getCurrentSubSelection() {
         return currentSubSelection;
@@ -109,12 +126,23 @@ public abstract class Menu implements Graphics, Acoustics {
         return height;
     }
 
+    /**
+     * Method to rest selections for a Menu
+     */
     protected void reset() {
         currentSelection = getDefaultSelection();
         selectionCount = 0;
         subSelectionCount = 0;
     }
 
+    /**
+     * Method to create and update a TextGraphics with specific parameters
+     * @param text          the text to display
+     * @param fontSize      the size of the text
+     * @param centerXOffset the x offset from the center
+     * @param centerYOffset the y offset from the center
+     * @return a new TextGraphics
+     */
     protected TextGraphics updateText(String text, float fontSize, float centerXOffset, float centerYOffset) {
         TextGraphics option = new TextGraphics(text, fontSize, Color.WHITE, Color.WHITE, 0.0f, false, false,
                                                anchor.add(((width / 2) - text.length() * fontSize / 2) +
@@ -126,12 +154,22 @@ public abstract class Menu implements Graphics, Acoustics {
         return option;
     }
 
+    /**
+     * Method to create and update an ImageGraphics with specific parameters
+     * @param path the pathname to the image
+     * @return a new ImageGraphics
+     */
     protected ImageGraphics updateImage(String path) {
         return new ImageGraphics(ResourcePath.getBackgrounds(path), scaledWidth, scaledHeight,
                                  new RegionOfInterest(0, 0, 1100, 1100), anchor.add(
                 new Vector((width / 2) - (scaledWidth / 2), (height / 2) - (scaledHeight / 2))), alpha, DEPTH + 250);
     }
 
+    /**
+     * Method to replace Option text with selecting brackets if it is selected
+     * @param option the specified option that can be selected
+     * @return String of the Option text
+     */
     protected String getOptionText(Option option) {
         if (option.equals(currentSelection)) {
             return "[" + option.text + "]";
@@ -140,38 +178,52 @@ public abstract class Menu implements Graphics, Acoustics {
         }
     }
 
-    protected String getUserInputOptionText(Option option, String initText) {
+    /**
+     * Method to replace add to Option text user input
+     * @param option    the specified option that can be selected
+     * @param userInput the user input text
+     * @return String of the Option text
+     */
+    protected String getUserInputOptionText(Option option, String userInput) {
         if (option.equals(currentSelection)) {
-            return "[" + option.text + ": " + initText + "]";
+            return "[" + option.text + ": " + userInput + "]";
         } else {
-            return option.text + ": " + initText;
+            return option.text + ": " + userInput;
         }
     }
 
-    protected String getUserTextInput(Option modifiableOption, String initText) {
+    /**
+     * Method to get user input from keyboard, including all letters and Backspace key
+     * @param modifiableOption the Option where user input can be added
+     * @param userInput        the user input text
+     * @return userInput with new or less char depending on the user input
+     */
+    protected String getUserTextInput(Option modifiableOption, String userInput) {
         char keyInput = 0;
+        // Check for the letters of the alphabet
         for (int key = 65; key <= 90; ++key) {
             if (keyboard.get(key).isPressed()) {
-                if (initText.length() < 8) {
+                if (userInput.length() < 8) {
                     keyInput = (char) key;
                     KEY_CLICK_SOUND.shouldBeStarted();
                 } else {
                     ERROR_SOUND.shouldBeStarted();
                 }
             }
+            // Check for the backspace key
             if (keyboard.get(Keyboard.BACKSPACE).isPressed()) {
-                if (!initText.isEmpty()) {
+                if (!userInput.isEmpty()) {
                     KEY_CLICK_SOUND.shouldBeStarted();
-                    return initText.substring(0, initText.length() - 1);
+                    return userInput.substring(0, userInput.length() - 1);
                 } else {
                     ERROR_SOUND.shouldBeStarted();
                 }
             }
         }
         if (keyInput != 0 && getCurrentSelection().equals(modifiableOption)) {
-            return initText + keyInput;
+            return userInput + keyInput;
         } else {
-            return initText;
+            return userInput;
         }
     }
 
@@ -187,6 +239,9 @@ public abstract class Menu implements Graphics, Acoustics {
         }
     }
 
+    /**
+     * Method to update subSelection by looping in SubOptionList for a specific Option
+     */
     protected void updateSubSelection() {
         ++subSelectionCount;
         subSelectionCount = subSelectionCount >= subOptionList.get(currentSelection).size() ? 0 : subSelectionCount;
@@ -196,6 +251,9 @@ public abstract class Menu implements Graphics, Acoustics {
 
     }
 
+    /**
+     * Method to set logic (acts like a switch)
+     */
     private void setLogic() {
         if (currentSubSelection.equals(SubOption.TOGGLE_ON)) {
             toggleLogic = true;
@@ -220,10 +278,11 @@ public abstract class Menu implements Graphics, Acoustics {
 
         anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
         updateCurrentSelection();
-
-
     }
 
+    /**
+     * Method to update currentSelection with user UP and DOWN arrow keys
+     */
     protected void updateCurrentSelection() {
         if (downKeyIsPressed() && selectionCount < optionList.size() - 1) {
             requestPlaySound(SELECT_SOUND);
@@ -239,16 +298,27 @@ public abstract class Menu implements Graphics, Acoustics {
         }
     }
 
+    /**
+     * Method to check if DOWN key is pressed
+     * @return (true) if the key is pressed
+     */
     protected boolean downKeyIsPressed() {
         return keyboard.get(Keyboard.DOWN).isPressed();
     }
 
+    /**
+     * Method to start sounds
+     * @param sound the desired sound to be started
+     */
     private void requestPlaySound(SoundAcoustics sound) {
         if (!MenuItems.isSoundDeactivated()) {
             sound.shouldBeStarted();
         }
     }
 
+    /**
+     * Method to reset subSelectionCount when exiting an Option
+     */
     private void resetSubCount() {
         if (!subOptionSectionList.isEmpty() && !subOptionList.isEmpty() && currentSelection != null &&
                 subOptionSectionList.containsKey(currentSelection) && subOptionList.containsKey(currentSelection)) {
@@ -266,6 +336,10 @@ public abstract class Menu implements Graphics, Acoustics {
         }
     }
 
+    /**
+     * Method to check if UP key is pressed
+     * @return (true) if the key is pressed
+     */
     protected boolean upKeyIsPressed() {
         return keyboard.get(Keyboard.UP).isPressed();
     }

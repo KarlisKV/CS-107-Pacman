@@ -8,10 +8,10 @@
 package ch.epfl.cs107.play.game.superpacman.handler;
 
 import ch.epfl.cs107.play.game.rpg.handler.RPGInteractionVisitor;
-import ch.epfl.cs107.play.game.superpacman.actor.Ghost;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.*;
+import ch.epfl.cs107.play.game.superpacman.actor.ghosts.Ghost;
 
 public interface SuperPacmanInteractionVisitor extends RPGInteractionVisitor {
 
@@ -52,6 +52,14 @@ public interface SuperPacmanInteractionVisitor extends RPGInteractionVisitor {
      * @param cherry (Cherry)
      */
     default void interactWith(Cherry cherry) {
+        // by default empty
+    }
+
+    /**
+     * Default interaction between something and a Cake
+     * @param cake (Cake)
+     */
+    default void interactWith(Cake cake) {
         // by default empty
     }
 

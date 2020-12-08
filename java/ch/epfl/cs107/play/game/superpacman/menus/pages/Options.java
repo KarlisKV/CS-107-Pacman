@@ -5,8 +5,11 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.menus;
+package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.superpacman.menus.Menu;
+import ch.epfl.cs107.play.game.superpacman.menus.Option;
+import ch.epfl.cs107.play.game.superpacman.menus.SubOption;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
@@ -18,6 +21,10 @@ public class Options extends Menu {
     private static final float TEXT_PADDING = -5;
     private static final float HEADER_PADDING = -7;
 
+    /**
+     * Constructor for Options class
+     * @param window (Window): the current window
+     */
     public Options(Window window) {
         super(window);
     }

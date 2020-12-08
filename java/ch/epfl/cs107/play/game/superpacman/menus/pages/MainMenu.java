@@ -5,8 +5,10 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.menus;
+package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.superpacman.menus.Menu;
+import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
@@ -15,6 +17,10 @@ public class MainMenu extends Menu {
     private static final float Y_TEXT_OFFSET = 6.25f;
     private static final float TEXT_PADDING = -4.5f;
 
+    /**
+     * Constructor for MainMenu class
+     * @param window (Window): the current window
+     */
     public MainMenu(Window window) {
         super(window);
     }

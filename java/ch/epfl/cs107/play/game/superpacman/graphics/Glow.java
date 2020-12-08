@@ -23,6 +23,14 @@ public class Glow implements Graphics {
     private final float alpha;
     private float currentAlpha;
 
+    /**
+     * Constructor for Glow class
+     * @param parent (Positionable): any positionable, may be null
+     * @param sprite (ImageGraphics): the graphic image to be parented a Glow
+     * @param color  (GlowColors): the desired color of the glow
+     * @param size   (float): actual image size, before transformation
+     * @param alpha  (float): transparency, between 0 (invisible) and 1 (opaque)
+     */
     public Glow(Positionable parent, ImageGraphics sprite, GlowColors color, float size, float alpha) {
         this.parent = parent;
         this.sprite = sprite;
@@ -32,6 +40,10 @@ public class Glow implements Graphics {
         currentAlpha = alpha;
     }
 
+    /**
+     * Method to fade out Glow
+     * @param speed the speed at which the glow out will be performed
+     */
     public void fadeOut(float speed) {
         if (currentAlpha > 0) {
             currentAlpha -= currentAlpha * speed;
@@ -39,6 +51,9 @@ public class Glow implements Graphics {
         currentAlpha = currentAlpha < 0 ? 0 : currentAlpha;
     }
 
+    /**
+     * Method to reset Glow alpha
+     */
     public void reset() {
         currentAlpha = alpha;
     }
@@ -57,12 +72,16 @@ public class Glow implements Graphics {
         glow.draw(canvas);
     }
 
+    /**
+     * Enum of all the glow colors pathname
+     */
     public enum GlowColors {
         TEST("superpacman/glowTest"),
         YELLOW("superpacman/glowYellow"),
         RED("superpacman/glowRed"),
         BLUE("superpacman/glowBlue"),
         LIGHT_BLUE("superpacman/glowLightBlue"),
+        LIGHT_BLUE_KEY("superpacman/glowLightBlueKey"),
         PINK("superpacman/glowPink"),
         ORANGE("superpacman/glowOrange"),
         LIGHT_PINK("superpacman/glowLightPink"),

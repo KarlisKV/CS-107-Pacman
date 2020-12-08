@@ -5,10 +5,12 @@
  */
 
 
-package ch.epfl.cs107.play.game.superpacman.menus;
+package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
-import ch.epfl.cs107.play.game.superpacman.GameScore;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
+import ch.epfl.cs107.play.game.superpacman.leaderboard.GameScore;
+import ch.epfl.cs107.play.game.superpacman.menus.Menu;
+import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
@@ -19,6 +21,10 @@ public class GameOver extends Menu {
     private static final String GAME_OVER_TITLE_PATH = "superpacman/gameOverTitle";
     private static final float TEXT_PADDING = -4.5f;
 
+    /**
+     * Constructor for GameOver class
+     * @param window (Window): the current window
+     */
     public GameOver(Window window) {
         super(window);
     }
@@ -52,7 +58,7 @@ public class GameOver extends Menu {
         GameScore gameScore = SuperPacman.getLeaderboardScores().getLastGame();
 
         int paddingCount = 0;
-        updateText("Score: " + gameScore.getScore(), BODY_FONT_SIZE + 1.2f, 0,
+        updateText("High Score: " + gameScore.getScore(), BODY_FONT_SIZE + 1.2f, 0,
                    Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
         ++paddingCount;
         updateText("Deaths: " + gameScore.getDeaths() + "/" + gameScore.getMaxDeaths(), BODY_FONT_SIZE, 0,

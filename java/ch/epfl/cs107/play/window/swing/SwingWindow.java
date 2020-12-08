@@ -431,6 +431,7 @@ public final class SwingWindow extends Node implements Window {
 			if (sound == null)
 				return;
 
+
 			final SoundItem item = new SoundItem(loop, volume, fadeIn, randomFirstStart, (SwingSound) sound);
 			item.start();
 			aItems.add(item);

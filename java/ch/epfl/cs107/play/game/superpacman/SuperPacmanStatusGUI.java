@@ -17,7 +17,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.awt.*;
 
 public class SuperPacmanStatusGUI implements Graphics {
-    private static final float DEPTH = 5000.0f;
+    private static final float DEPTH = 15000;
     private static final float TEXT_PADDING = 1.5f;
     private static final String FONT = "emulogic";
 
@@ -28,6 +28,7 @@ public class SuperPacmanStatusGUI implements Graphics {
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
 
+        // FPS counter
         if (MenuItems.isShowFps()) {
             String fps = "Fps: " + Play.getCurrentFps();
             TextGraphics fpsText =
@@ -35,10 +36,11 @@ public class SuperPacmanStatusGUI implements Graphics {
                                      anchor.add(new Vector(height / (TEXT_PADDING * 35),
                                                            height / (TEXT_PADDING * 35))));
             fpsText.setFontName(FONT);
-            fpsText.setDepth(DEPTH + 10000);
+            fpsText.setDepth(DEPTH);
             fpsText.draw(canvas);
         }
 
+        // DEBUG MODE TEXT
         if (MenuItems.isDebugMode()) {
             String textToDisplay = "Debug Mode";
             TextGraphics debugText =
@@ -48,7 +50,7 @@ public class SuperPacmanStatusGUI implements Graphics {
                                                                    (height / (TEXT_PADDING * 35)),
                                                            height / (TEXT_PADDING * 35))));
             debugText.setFontName(FONT);
-            debugText.setDepth(DEPTH + 10000);
+            debugText.setDepth(DEPTH);
             debugText.draw(canvas);
         }
     }

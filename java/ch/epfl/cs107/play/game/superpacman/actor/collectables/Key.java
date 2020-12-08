@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
@@ -15,6 +16,7 @@ import java.util.List;
 public class Key extends CollectableAreaEntity {
     private static final int POINTS = 200;
     private final Sprite sprite;
+    private final Glow glow;
     private Logic signal = Logic.FALSE;
 
     /**
@@ -24,8 +26,9 @@ public class Key extends CollectableAreaEntity {
      */
     public Key(Area area, DiscreteCoordinates position) {
         super(area, position);
-        sprite = new Sprite("superpacman/key", 1, 1, this);
+        sprite = new Sprite("superpacman/keySmall", 1, 1, this);
         sprite.setDepth(DEPTH_COLLECTABLES);
+        glow = new Glow(this, sprite, Glow.GlowColors.LIGHT_BLUE_KEY, 2.5f, 0.5f);
     }
 
     /**
@@ -53,6 +56,7 @@ public class Key extends CollectableAreaEntity {
     @Override
     public void draw(Canvas canvas) {
         sprite.draw(canvas);
+        glow.draw(canvas);
     }
 
     @Override

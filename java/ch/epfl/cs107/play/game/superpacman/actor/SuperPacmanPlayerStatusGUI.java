@@ -26,6 +26,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private static final float DEPTH = 5000.0f;
     private static final float HP_SPACING = 1.25f;
     private static final float TOP_EDGE_PADDING = 9.0f;
+    private static final float BOTTOM_EDGE_PADDING = TOP_EDGE_PADDING;
     private static final float LEFT_EDGE_PADDING = 6.2f;
     private static final float RIGHT_EDGE_PADDING = -9.5f;
     private static final float LIFE_SIZE = 1.0f;
@@ -38,6 +39,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private final int maxHp;
     private int currentHp;
     private int score = 0;
+    private int comboCount = 0;
     private float areaTimer = 0;
     private List<Float> areaTimerHistory = new ArrayList<>();
 
@@ -56,9 +58,10 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
      * @param currentHp the SuperPacmanPlayer's current health
      * @param score     the SuperPacmanPlayer's current health
      */
-    protected void update(int currentHp, int score, float areaTimer, Collection<Float> historyTimer) {
+    protected void update(int currentHp, int score, int comboCount, float areaTimer, Collection<Float> historyTimer) {
         this.currentHp = currentHp;
         this.score = score;
+        this.comboCount = comboCount;
         this.areaTimer = areaTimer;
         this.areaTimerHistory = new ArrayList<>(historyTimer);
     }
@@ -74,9 +77,9 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
             for (int i = 0; i < maxHp; ++i) {
                 int x = i < currentHp ? LIFE : NO_LIFE;
 
-                float xPos = width / 2 + (HP_SPACING * i) -
+                float xPos = LEFT_EDGE_PADDING + 4 + (HP_SPACING * i) -
                         (((LIFE_SIZE * maxHp) / 2.f) + (HP_SPACING * ((maxHp / 2.f) - 2)));
-                float yPos = height - (TOP_EDGE_PADDING) - TEXT_PADDING;
+                float yPos = (BOTTOM_EDGE_PADDING) - 0.75f;
 
                 ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
                                                        LIFE_SIZE, LIFE_SIZE,
@@ -84,32 +87,64 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                                                        anchor.add(new Vector(xPos, yPos)), 1, DEPTH);
                 life.draw(canvas);
             }
-            // Score
-            String textToDisplay = "Score: " + score;
-            TextGraphics scoreText =
-                    new TextGraphics(textToDisplay, FONT_SIZE, Color.YELLOW, Color.BLACK, 0.0f, false, false,
-                                     anchor.add(new Vector(width / 2 - (textToDisplay.length() * FONT_SIZE / 2),
+
+            // High Score text
+            String text = "High Score";
+            TextGraphics highScore =
+                    new TextGraphics(text, FONT_SIZE, Color.WHITE, Color.BLACK, 0.0f, false, false,
+                                     anchor.add(new Vector(width / 2 - (text.length() * FONT_SIZE / 2),
                                                            height - TOP_EDGE_PADDING)));
+            highScore.setFontName(FONT);
+            highScore.setDepth(DEPTH);
+            highScore.draw(canvas);
+
+            // Score
+            String textToDisplay = String.valueOf(score);
+            if (comboCount != 0) {
+                textToDisplay += " x" + (comboCount + 1);
+            }
+            TextGraphics scoreText =
+                    new TextGraphics(textToDisplay, FONT_SIZE - 0.1f, Color.WHITE, Color.BLACK, 0.0f, false, false,
+                                     anchor.add(new Vector(width / 2 - (textToDisplay.length() * FONT_SIZE / 2),
+                                                           height - TOP_EDGE_PADDING - TEXT_PADDING + 0.25f)));
             scoreText.setFontName(FONT);
             scoreText.setDepth(DEPTH);
             scoreText.draw(canvas);
 
+            // Pellets text
+            TextGraphics pelletText =
+                    new TextGraphics("Pellets",
+                                     FONT_SIZE - 0.4f, Color.WHITE, Color.BLACK, 0.0f, false, false, anchor.add(
+                            new Vector(LEFT_EDGE_PADDING, height - TOP_EDGE_PADDING + 0.2f)));
+            pelletText.setFontName(FONT);
+            pelletText.setDepth(DEPTH);
+            pelletText.draw(canvas);
+
             // Eaten pellets
             TextGraphics eatenPellets =
                     new TextGraphics(Pellet.getNbrOfPelletsEaten() + "/" + Pellet.getTotalPellets(),
-                                     FONT_SIZE - 0.4f, Color.YELLOW, Color.BLACK, 0.0f, false, false, anchor.add(
-                            new Vector(LEFT_EDGE_PADDING, height - TOP_EDGE_PADDING + 0.2f)));
+                                     FONT_SIZE - 0.4f, Color.WHITE, Color.BLACK, 0.0f, false, false, anchor.add(
+                            new Vector(LEFT_EDGE_PADDING, height - TOP_EDGE_PADDING + 0.2f - TEXT_PADDING + 0.25f)));
             eatenPellets.setFontName(FONT);
             eatenPellets.setDepth(DEPTH);
             eatenPellets.draw(canvas);
+
+            // Timer text
+            TextGraphics timerIndicationText =
+                    new TextGraphics("Time", FONT_SIZE - 0.4f, Color.WHITE, Color.BLACK, 0.0f, false, false, anchor.add(
+                            new Vector(width + RIGHT_EDGE_PADDING - (4 * 0.6f) + 3,
+                                       height - TOP_EDGE_PADDING + 0.2f)));
+            timerIndicationText.setFontName(FONT);
+            timerIndicationText.setDepth(DEPTH);
+            timerIndicationText.draw(canvas);
 
             // Timer
             String timerText = String.format("%.3f", areaTimer);
             TextGraphics timer =
                     new TextGraphics(timerText,
-                                     FONT_SIZE - 0.4f, Color.YELLOW, Color.BLACK, 0.0f, false, false, anchor.add(
+                                     FONT_SIZE - 0.4f, Color.WHITE, Color.BLACK, 0.0f, false, false, anchor.add(
                             new Vector(width + RIGHT_EDGE_PADDING - (timerText.length() * 0.6f) + 3,
-                                       height - TOP_EDGE_PADDING + 0.2f)));
+                                       height - TOP_EDGE_PADDING + 0.2f - TEXT_PADDING + 0.25f)));
             timer.setFontName(FONT);
             timer.setDepth(DEPTH);
             timer.draw(canvas);
@@ -119,9 +154,9 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                 String historyTimerText = String.format("%.3f", areaTimerHistory.get(i));
                 TextGraphics historyTimer =
                         new TextGraphics(historyTimerText,
-                                         FONT_SIZE - 0.5f, Color.YELLOW, Color.BLACK, 0.0f, false, false, anchor.add(
+                                         FONT_SIZE - 0.5f, Color.WHITE, Color.BLACK, 0.0f, false, false, anchor.add(
                                 new Vector(width + RIGHT_EDGE_PADDING - (historyTimerText.length() * 0.5f) + 3,
-                                           height - TOP_EDGE_PADDING - 0.6f - (i * 0.6f))));
+                                           height - TOP_EDGE_PADDING - 0.6f - (i * 0.6f) - TEXT_PADDING + 0.25f)));
                 historyTimer.setFontName(FONT);
                 historyTimer.setDepth(DEPTH);
                 historyTimer.draw(canvas);

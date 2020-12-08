@@ -30,7 +30,7 @@ public class Cherry extends CollectableAreaEntity {
     public Cherry(Area area, DiscreteCoordinates position) {
         super(area, position);
         // temporary path name for "Cherry Sprite", to create new classes for every
-        sprite = new Sprite("superpacman/cake", 1, 1, this);
+        sprite = new Sprite("superpacman/cherry", 1, 1, this);
         sprite.setDepth(DEPTH_COLLECTABLES);
     }
 

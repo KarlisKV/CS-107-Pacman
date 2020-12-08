@@ -64,7 +64,14 @@ public class SoundAcoustics implements Acoustics {
      * Stop all sounds from given audio context by sending a null sound that stop others on starts
      * @param audio (Audio): given audio context. Not null
      */
-    public static void  stopAllSounds(Audio audio){
-        audio.playSound(null, false, 0.0f, false,false, true);
+    public static void stopAllSounds(Audio audio) {
+        audio.playSound(null, false, 0.0f, false, false, true);
+    }
+
+    @Override
+    public String toString() {
+        return "SoundAcoustics{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

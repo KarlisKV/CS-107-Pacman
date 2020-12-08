@@ -76,12 +76,12 @@ public class Arcade implements Graphics, Acoustics {
         float width = canvas.getWidth();
         float height = canvas.getHeight();
 
+        // Save initial window scaled size
         if (!areInitPosSaved) {
             xScaledInit = canvas.getScaledWidth();
             yScaledInit = canvas.getScaledHeight();
             areInitPosSaved = true;
         }
-
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
 
         // DRAW ARCADE
