@@ -144,12 +144,7 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
     public void bip(Audio audio) {
         ENTER_SOUND.bip(audio);
         EXIT_SOUND.bip(audio);
-        for (Map.Entry<MenuState, Menu> menuStateEntry : menuStates.entrySet()) {
-            assert menuStack.peek() != null;
-            if (menuStack.peek().equals(menuStateEntry.getValue())) {
-                menuStateEntry.getValue().bip(audio);
-            }
-        }
+        menuStack.peek().bip(audio);
     }
 
     @Override
@@ -159,7 +154,6 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
         assert menuStack.peek() != null;
         menuStack.peek().draw(canvas);
         selectOption(menuStack.peek());
-
     }
 
     /**
@@ -213,13 +207,13 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
                     menu.reset();
                     menuStack.push(menuStates.get(MenuState.MAIN_MENU));
                     break;
-                // Options within a page
                 case QUIT:
                     menuStack.push(menuStates.get(MenuState.QUIT));
                     EXIT_SOUND.shouldBeStarted();
                     soundDeactivated = false;
                     quit = true;
                     break;
+                // Options within a page
                 case SOUND:
                     menu.updateSubSelection();
                     soundDeactivated = !menu.isToggleLogic();
