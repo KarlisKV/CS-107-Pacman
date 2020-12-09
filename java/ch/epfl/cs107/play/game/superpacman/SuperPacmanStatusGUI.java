@@ -51,11 +51,11 @@ public class SuperPacmanStatusGUI implements Graphics {
         // DEBUG MODE TEXT
         if (MenuStateManager.isDebugMode()) {
             debugMode.setText("Debug Mode");
-            fpsCounter.setFontSize(height / (FONT_SIZE * 35));
-            fpsCounter.setAnchor(anchor.add(
+            debugMode.setFontSize(height / (FONT_SIZE * 35));
+            debugMode.setAnchor(anchor.add(
                     new Vector(width - (2 * (height / (TEXT_PADDING * 7))) - (height / (TEXT_PADDING * 35)),
                                height / (TEXT_PADDING * 35))));
-            fpsCounter.draw(canvas);
+            debugMode.draw(canvas);
         }
     }
 }

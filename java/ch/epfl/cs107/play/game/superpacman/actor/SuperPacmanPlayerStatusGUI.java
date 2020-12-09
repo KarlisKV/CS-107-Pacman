@@ -39,7 +39,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private final int playerMaxHp;
     private int playerCurrentHp;
     private int playerScore = 0;
-    private int comboCount = 0;
+    private int playerComboCount = 0;
     private float areaTimer = 0;
     private List<Float> areaTimerHistory = new ArrayList<>();
     private final TextGraphics highScoreTitle;
@@ -92,7 +92,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     protected void update(int currentHp, int score, int comboCount, float areaTimer, Collection<Float> historyTimer) {
         this.playerCurrentHp = currentHp;
         this.playerScore = score;
-        this.comboCount = comboCount;
+        this.playerComboCount = comboCount;
         this.areaTimer = areaTimer;
         this.areaTimerHistory = new ArrayList<>(historyTimer);
     }
@@ -128,8 +128,8 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
 
             // Score
             String scoreText = String.valueOf(playerScore);
-            if (comboCount != 0) {
-                scoreText += " x" + (comboCount + 1);
+            if (playerComboCount != 0) {
+                scoreText += " x" + (playerComboCount + 1);
             }
             score.setText(scoreText);
             score.setAnchor(anchor.add(new Vector(width / 2 - (scoreText.length() * FONT_SIZE / 2),
