@@ -31,8 +31,7 @@ public class LevelEPFL extends SuperPacmanArea {
         registerActor(new Door(Level2.LEVEL_PATHNAME, Level2.PLAYER_SPAWN_POSITION, Logic.TRUE,
          this, Orientation.DOWN, new DiscreteCoordinates(14, 10), new DiscreteCoordinates(15, 10)));
         // Gates
-        // registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14, 3), Logic.FALSE));
-        // registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(15, 3), Logic.FALSE));
+
         Key key1 = new Key(this, new DiscreteCoordinates(1, 1));
         Key key2 = new Key(this, new DiscreteCoordinates(28, 1));
         Key key3 = new Key(this, new DiscreteCoordinates(1, 9));
@@ -43,10 +42,10 @@ public class LevelEPFL extends SuperPacmanArea {
         registerActor(key3);
         registerActor(key4);
 
-        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(14, 10), Logic.FALSE, key1, key2));
-        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(15, 10), Logic.FALSE, key1, key2));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(14, 9), Logic.FALSE, key1, key2));
+        registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(15, 9), Logic.FALSE, key1, key2));
         registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(1, 2), Logic.FALSE, key4));
-        registerActor(new Gate(this, Orientation.UP, new DiscreteCoordinates(2, 1), Logic.FALSE, key4));
+        registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(2, 1), Logic.FALSE, key4));
         registerActor(new Gate(this, Orientation.DOWN, new DiscreteCoordinates(27, 1), Logic.FALSE, key3));
         registerActor(new Gate(this, Orientation.LEFT, new DiscreteCoordinates(28, 2), Logic.FALSE, key3));
         // Gates
