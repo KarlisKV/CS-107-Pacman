@@ -7,6 +7,8 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.actor.ImageGraphics;
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
 import ch.epfl.cs107.play.game.superpacman.menus.Menu;
 import ch.epfl.cs107.play.game.superpacman.menus.Option;
@@ -18,7 +20,13 @@ public class MainMenu extends Menu {
     private static final float Y_TEXT_OFFSET = 6.25f;
     private static final float TEXT_PADDING = -4.5f;
     private final ScreenFade screenFade = new ScreenFade(7500, 1);
-
+    private final ImageGraphics title;
+    private final TextGraphics play;
+    private final TextGraphics options;
+    private final TextGraphics help;
+    private final TextGraphics quit;
+    private final TextGraphics leaderboard;
+    private final TextGraphics credits;
 
     /**
      * Constructor for MainMenu class
@@ -26,6 +34,13 @@ public class MainMenu extends Menu {
      */
     public MainMenu(Window window) {
         super(window);
+        title = createImage(TITLE_PATH);
+        play = createText(BODY_FONT_SIZE);
+        options = createText(BODY_FONT_SIZE);
+        help = createText(BODY_FONT_SIZE);
+        quit = createText(BODY_FONT_SIZE);
+        leaderboard = createText(BODY_FONT_SIZE);
+        credits = createText(BODY_FONT_SIZE);
     }
 
     @Override
@@ -55,32 +70,37 @@ public class MainMenu extends Menu {
         screenFade.draw(canvas);
 
         // Title image
-        updateImage(TITLE_PATH).draw(canvas);
+        updateImage(title);
+        title.draw(canvas);
 
         // Play option
         int paddingCount = 0;
-        updateText(getOptionText(Option.PLAY), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET).draw(canvas);
+        updateText(play, getOptionText(Option.PLAY), 0, Y_TEXT_OFFSET);
+        play.draw(canvas);
         ++paddingCount;
 
+
         // Options option text
-        updateText(getOptionText(Option.OPTIONS), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
-                .draw(canvas);
+        updateText(options, getOptionText(Option.OPTIONS), 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        options.draw(canvas);
         ++paddingCount;
 
         // Help option text
-        updateText(getOptionText(Option.HELP), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
-                .draw(canvas);
+        updateText(help, getOptionText(Option.HELP), 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        help.draw(canvas);
         ++paddingCount;
 
         // Quit option text
-        updateText(getOptionText(Option.QUIT), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
-                .draw(canvas);
+        updateText(quit, getOptionText(Option.QUIT), 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        quit.draw(canvas);
 
         // Leaderboard option text
-        updateText(getOptionText(Option.LEADERBOARD), BODY_FONT_SIZE, 0, -50 - TEXT_PADDING).draw(canvas);
+        updateText(leaderboard, getOptionText(Option.LEADERBOARD), 0, -50 - TEXT_PADDING);
+        leaderboard.draw(canvas);
 
         // Credits option text
-        updateText(getOptionText(Option.CREDITS), BODY_FONT_SIZE, 0, -50).draw(canvas);
+        updateText(credits, getOptionText(Option.CREDITS), 0, -50);
+        credits.draw(canvas);
 
     }
 

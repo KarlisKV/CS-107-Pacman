@@ -14,7 +14,7 @@ import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Audio;
@@ -55,7 +55,7 @@ public class Arcade implements Graphics, Acoustics {
     public void setArcadeTurnedOn(boolean isArcadeTurnedOn) {
         this.isArcadeTurnedOn = isArcadeTurnedOn;
         if (isArcadeTurnedOn) {
-            if (!MenuItems.isSoundDeactivated()) {
+            if (!MenuStateManager.isSoundDeactivated()) {
                 GAME_START_SOUND.shouldBeStarted();
             }
             arcadePathName = "superpacman/pacmanArcadeOn";

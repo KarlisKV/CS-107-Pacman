@@ -1,7 +1,7 @@
 package ch.epfl.cs107.play.game.areagame;
 
 import ch.epfl.cs107.play.game.Game;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
@@ -22,9 +22,9 @@ abstract public class AreaGame implements Game {
     /// The current area the game is in
     private Area currentArea;
 
-    // Menu for the game
-    private MenuItems menuItems;
-    private static final float EXIT_TIMER = 1;
+	// Menu for the game
+	private MenuStateManager menuStateManager;
+	private static final float EXIT_TIMER = 1;
     private float timer = EXIT_TIMER;
 
     /**
@@ -93,7 +93,7 @@ abstract public class AreaGame implements Game {
 		// Keep context
 		this.window = window;
 		this.fileSystem = fileSystem;
-		menuItems = new MenuItems(window);
+		menuStateManager = new MenuStateManager(window);
 
 		areas = new HashMap<>();
 		return true;
@@ -102,7 +102,7 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void update(float deltaTime) {
-        if (MenuItems.isQuit()) {
+		if (MenuStateManager.isQuit()) {
 			// Dispose the window
 			timer -= deltaTime;
 			if (timer <= 0) {
@@ -112,10 +112,10 @@ abstract public class AreaGame implements Game {
 			currentArea.update(deltaTime);
 
 		}
-        menuItems.update(deltaTime);
-        menuItems.draw(window);
-        if (!MenuItems.isSoundDeactivated()) {
-            menuItems.bip(window);
+		menuStateManager.update(deltaTime);
+		menuStateManager.draw(window);
+		if (!MenuStateManager.isSoundDeactivated()) {
+			menuStateManager.bip(window);
 		}
 	}
 

@@ -19,7 +19,7 @@ import ch.epfl.cs107.play.game.superpacman.graphics.Arcade;
 import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
 import ch.epfl.cs107.play.game.superpacman.leaderboard.GameScore;
 import ch.epfl.cs107.play.game.superpacman.leaderboard.LeaderboardGameScores;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.io.Serialization;
 import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
@@ -93,7 +93,7 @@ public class SuperPacman extends RPG {
     @Override
     public void update(float deltaTime) {
 
-        if (MenuItems.isStartGame()) {
+        if (MenuStateManager.isStartGame()) {
             updateGame(deltaTime);
         }
 
@@ -115,7 +115,7 @@ public class SuperPacman extends RPG {
             timer += deltaTime;
         }
         // START GAME
-        if (!player.isGameOver() && !MenuItems.isEndGame()) {
+        if (!player.isGameOver() && !MenuStateManager.isEndGame()) {
             // Turn on arcade
             if (timer > 2) {
                 if (!arcade.isArcadeTurnedOn()) {
@@ -149,19 +149,19 @@ public class SuperPacman extends RPG {
                 // Reset all
                 arcade.setAlpha(1);
                 arcade.setArcadeTurnedOn(false);
-                MenuItems.setStartGame(false);
+                MenuStateManager.setStartGame(false);
                 timer = 0;
                 transition.reset();
-                if (MenuItems.isEndGame()) {
+                if (MenuStateManager.isEndGame()) {
                     player.reset();
-                    MenuItems.setEndGame(false);
+                    MenuStateManager.setEndGame(false);
                 } else {
                     // Save leaderboard to file
                     leaderboardGameScores
                             .add(new GameScore(SuperPacmanPlayer.getMaxHp(), player.getAreaTimerHistory(),
                                                player.getScore(),
                                                player.getCurrentHp()));
-                    MenuItems.setGameOver(true);
+                    MenuStateManager.setGameOver(true);
                 }
                 player.restart();
                 player.leaveArea();

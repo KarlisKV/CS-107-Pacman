@@ -151,7 +151,7 @@ public abstract class Menu implements Graphics, Acoustics {
      * @param centerYOffset the y offset from the center
      * @return a new TextGraphics
      */
-    protected TextGraphics updateText(String text, float fontSize, float centerXOffset, float centerYOffset) {
+    protected TextGraphics getNewUpdatedText(String text, float fontSize, float centerXOffset, float centerYOffset) {
         TextGraphics option = new TextGraphics(text, fontSize, Color.WHITE, Color.WHITE, 0.0f, false, false,
                                                anchor.add(((width / 2) - text.length() * fontSize / 2) +
                                                                   centerXOffset,
@@ -162,6 +162,22 @@ public abstract class Menu implements Graphics, Acoustics {
         return option;
     }
 
+    protected TextGraphics createText(float fontSize) {
+        TextGraphics option = new TextGraphics("", fontSize, Color.WHITE, Color.WHITE, 0.0f, false, false, null);
+        option.setFontName(FONT);
+        option.setDepth(DEPTH);
+        option.setAlpha(alpha);
+        return option;
+    }
+
+
+    protected void updateText(TextGraphics option, String text, float centerXOffset, float centerYOffset) {
+        option.setText(text);
+        option.setAnchor(anchor.add(((width / 2) - text.length() * option.getFontSize() / 2) + centerXOffset,
+                                    (height / 2) + centerYOffset));
+        option.setAlpha(alpha);
+    }
+
     /**
      * Other method to create and update a TextGraphics with specific parameters
      * @param text     the text to display
@@ -169,7 +185,7 @@ public abstract class Menu implements Graphics, Acoustics {
      * @param anchor   the anchor of the text
      * @return a new TextGraphics
      */
-    protected TextGraphics updateText(String text, float fontSize, Vector anchor, float depth) {
+    protected TextGraphics getNewUpdatedText(String text, float fontSize, Vector anchor, float depth) {
         TextGraphics option = new TextGraphics(text, fontSize, Color.WHITE, Color.WHITE, 0.0f, false, false,
                                                anchor);
         option.setFontName(FONT);
@@ -183,10 +199,16 @@ public abstract class Menu implements Graphics, Acoustics {
      * @param path the pathname to the image
      * @return a new ImageGraphics
      */
-    protected ImageGraphics updateImage(String path) {
+    protected ImageGraphics createImage(String path) {
         return new ImageGraphics(ResourcePath.getBackgrounds(path), scaledWidth, scaledHeight,
-                                 new RegionOfInterest(0, 0, 1100, 1100), anchor.add(
-                new Vector((width / 2) - (scaledWidth / 2), (height / 2) - (scaledHeight / 2))), alpha, DEPTH + 250);
+                                 new RegionOfInterest(0, 0, 1100, 1100), null, alpha, DEPTH + 250);
+    }
+
+    protected void updateImage(ImageGraphics image) {
+        image.setWidth(scaledWidth);
+        image.setHeight(scaledHeight);
+        image.setAlpha(alpha);
+        image.setAnchor(anchor.add(new Vector((width / 2) - (scaledWidth / 2), (height / 2) - (scaledHeight / 2))));
     }
 
     /**
@@ -336,7 +358,7 @@ public abstract class Menu implements Graphics, Acoustics {
      * @param sound the desired sound to be started
      */
     private void requestPlaySound(SoundAcoustics sound) {
-        if (!MenuItems.isSoundDeactivated()) {
+        if (!MenuStateManager.isSoundDeactivated()) {
             sound.shouldBeStarted();
         }
     }

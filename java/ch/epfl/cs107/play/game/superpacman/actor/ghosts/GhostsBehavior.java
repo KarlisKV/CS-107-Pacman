@@ -10,7 +10,7 @@ package ch.epfl.cs107.play.game.superpacman.actor.ghosts;
 import ch.epfl.cs107.play.game.Updatable;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class GhostsBehavior implements Updatable {
             isDifficultSet = true;
         }
         // Increase difficulty over time
-        if (difficulty.increaseDifficultyOverTime && updateTimer && !MenuItems.isDebugMode()) {
+        if (difficulty.increaseDifficultyOverTime && updateTimer && !MenuStateManager.isDebugMode()) {
             updateTimer(deltaTime);
         }
         if (requestToFrighten && !ghosts.isEmpty()) {
@@ -87,7 +87,7 @@ public class GhostsBehavior implements Updatable {
     public void setGhostDifficulty() {
         updateTimer = false;
         for (Ghost ghost : ghosts) {
-            if (!MenuItems.isDebugMode()) {
+            if (!MenuStateManager.isDebugMode()) {
                 int animationDuration =
                         difficulty.ghostAnimationDuration + (ANIMATION_DURATION_DECREASE * increaseCount);
                 if (animationDuration >= difficulty.minGhostAnimationDuration) {

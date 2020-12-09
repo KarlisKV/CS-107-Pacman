@@ -7,6 +7,8 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.actor.ImageGraphics;
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.leaderboard.GameScore;
 import ch.epfl.cs107.play.game.superpacman.menus.Menu;
@@ -20,6 +22,14 @@ public class GameOver extends Menu {
     private static final float Y_TEXT_OFFSET = 14;
     private static final String GAME_OVER_TITLE_PATH = "superpacman/gameOverTitle";
     private static final float TEXT_PADDING = -4.5f;
+    private final ImageGraphics titleImage;
+    private final TextGraphics highScore;
+    private final TextGraphics deaths;
+    private final TextGraphics totTime;
+    private final TextGraphics timerPerLevel;
+    private final TextGraphics enterName;
+    private final TextGraphics restart;
+    private final TextGraphics backToMainMenu;
 
     /**
      * Constructor for GameOver class
@@ -27,6 +37,14 @@ public class GameOver extends Menu {
      */
     public GameOver(Window window) {
         super(window);
+        titleImage = createImage(GAME_OVER_TITLE_PATH);
+        highScore = createText(BODY_FONT_SIZE + 1.2f);
+        deaths = createText(BODY_FONT_SIZE);
+        totTime = createText(BODY_FONT_SIZE);
+        timerPerLevel = createText(BODY_FONT_SIZE);
+        enterName = createText(BODY_FONT_SIZE);
+        restart = createText(BODY_FONT_SIZE);
+        backToMainMenu = createText(BODY_FONT_SIZE);
     }
 
     @Override
@@ -50,42 +68,54 @@ public class GameOver extends Menu {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         // Game over image
-        updateImage(GAME_OVER_TITLE_PATH).draw(canvas);
+        updateImage(titleImage);
+        titleImage.draw(canvas);
 
         // Game score
         GameScore gameScore = SuperPacman.getLeaderboardScores().getLastGame();
 
         int paddingCount = 0;
-        updateText("High Score: " + gameScore.getScore(), BODY_FONT_SIZE + 1.2f, 0,
-                   Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
+        updateText(highScore, "High Score: " + gameScore.getScore(), 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        highScore.draw(canvas);
         ++paddingCount;
-        updateText("Deaths: " + gameScore.getDeaths() + "/" + gameScore.getMaxDeaths(), BODY_FONT_SIZE, 0,
-                   Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
+
+        updateText(deaths, "Deaths: " + gameScore.getDeaths() + "/" + gameScore.getMaxDeaths(), 0,
+                   Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        deaths.draw(canvas);
         ++paddingCount;
-        updateText("Total Time: " + String.format("%.3f", gameScore.getTotalTime()), BODY_FONT_SIZE, 0,
-                   Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
+
+        updateText(totTime, "Total Time: " + String.format("%.3f", gameScore.getTotalTime()), 0,
+                   Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        totTime.draw(canvas);
         ++paddingCount;
-        updateText("Time by level: ", BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
+
+        updateText(timerPerLevel, "Time by level: ", 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        timerPerLevel.draw(canvas);
         ++paddingCount;
 
         for (Map.Entry<String, Float> areaTimerEntry : gameScore.getOrderedAreaHistoryTimes().entrySet()) {
-            updateText(" - " + areaTimerEntry.getKey().substring(12) + ": " +
-                               String.format("%.3f", areaTimerEntry.getValue()), BODY_FONT_SIZE, 0,
-                       Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
+            getNewUpdatedText(" - " + areaTimerEntry.getKey().substring(12) + ": " +
+                                      String.format("%.3f", areaTimerEntry.getValue()), BODY_FONT_SIZE, 0,
+                              Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
             ++paddingCount;
         }
         ++paddingCount;
+
+        // Player input name
         gameScore.setPlayerName(getUserTextInput(Option.NAME, gameScore.getPlayerName()));
-        updateText(getUserInputOptionText(Option.NAME, gameScore.getPlayerName()), BODY_FONT_SIZE, 0,
-                   Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
+        updateText(enterName, getUserInputOptionText(Option.NAME, gameScore.getPlayerName()), 0,
+                   Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        enterName.draw(canvas);
+//        getNewUpdatedText(getUserInputOptionText(Option.NAME, gameScore.getPlayerName()), BODY_FONT_SIZE, 0,
+//                          Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
+        paddingCount += 2;
 
         // Restart option
-        paddingCount += 2;
-        updateText(getOptionText(Option.RESTART), BODY_FONT_SIZE, 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount)
-                .draw(canvas);
-
+        updateText(restart, getOptionText(Option.RESTART), 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        restart.draw(canvas);
 
         // Back to main menu option
-        updateText(getOptionText(Option.BACK_TO_MAIN_MENU), BODY_FONT_SIZE, 0, -50).draw(canvas);
+        updateText(backToMainMenu, getOptionText(Option.BACK_TO_MAIN_MENU), 0, -50);
+        backToMainMenu.draw(canvas);
     }
 }

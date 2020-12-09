@@ -7,7 +7,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.superpacman.area.camera.Camera;
 import ch.epfl.cs107.play.game.superpacman.area.camera.SmoothLimited;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
@@ -283,7 +283,7 @@ public abstract class Area implements Playable {
 
 		purgeRegistration();
 
-		if (!MenuItems.isPaused() && !MenuItems.isEndGame()) {
+		if (!MenuStateManager.isPaused() && !MenuStateManager.isEndGame()) {
 			// Update actors
 			for (Actor actor : actors) {
 				actor.update(deltaTime);
@@ -310,10 +310,10 @@ public abstract class Area implements Playable {
 		camera.updatePos(viewCandidate.getPosition());
 		camera.update(deltaTime);
 
-		if (!MenuItems.isPaused() && !MenuItems.isEndGame()) {
+		if (!MenuStateManager.isPaused() && !MenuStateManager.isEndGame()) {
 			// Draw actors and play sounds
 			for (Actor actor : actors) {
-				if (!MenuItems.isSoundDeactivated()) {
+				if (!MenuStateManager.isSoundDeactivated()) {
 					actor.bip(window);
 				}
 				actor.draw(window);

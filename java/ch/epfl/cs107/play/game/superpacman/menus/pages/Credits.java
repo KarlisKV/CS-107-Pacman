@@ -7,6 +7,7 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.superpacman.menus.Menu;
 import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
@@ -14,6 +15,8 @@ import ch.epfl.cs107.play.window.Window;
 
 public class Credits extends Menu {
     private static final String CREDITS_PATH = "superpacman/help";
+    private final TextGraphics title;
+    private final TextGraphics back;
 
     /**
      * Constructor for Credits class
@@ -21,6 +24,8 @@ public class Credits extends Menu {
      */
     public Credits(Window window) {
         super(window);
+        title = createText(HEADER_FONT_SIZE);
+        back = createText(BODY_FONT_SIZE);
     }
 
     @Override
@@ -45,14 +50,14 @@ public class Credits extends Menu {
         float yTextOffSet = (getScaledHeight() / 2) - 15;
 
         // Title
-        updateText(Option.CREDITS.text, HEADER_FONT_SIZE, 0, yTextOffSet).draw(canvas);
+        updateText(title, Option.CREDITS.text, 0, yTextOffSet);
+        title.draw(canvas);
 
         // Credits image
 //        updateImage(CREDITS_PATH).draw(canvas);
 
         // Back option
-        updateText(getOptionText(Option.BACK), BODY_FONT_SIZE, 0, -50).draw(canvas);
-
-
+        updateText(back, getOptionText(Option.BACK), 0, -50);
+        back.draw(canvas);
     }
 }

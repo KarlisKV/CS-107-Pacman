@@ -7,6 +7,7 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.leaderboard.GameScore;
 import ch.epfl.cs107.play.game.superpacman.leaderboard.LeaderboardGameScores;
@@ -20,6 +21,9 @@ public class Leaderboard extends Menu {
     private static final float CENTER_Y_OFFSET = 28;
     private static final float TAB_COL_PADDING = 22.5f;
     private static final float TAB_LINE_PADDING = -4f;
+    private final TextGraphics title;
+    private final TextGraphics subTitle;
+    private final TextGraphics back;
 
     /**
      * Constructor for Leaderboard class
@@ -27,6 +31,9 @@ public class Leaderboard extends Menu {
      */
     public Leaderboard(Window window) {
         super(window);
+        title = createText(HEADER_FONT_SIZE);
+        subTitle = createText(BODY_FONT_SIZE + 1);
+        back = createText(BODY_FONT_SIZE);
     }
 
     @Override
@@ -50,9 +57,12 @@ public class Leaderboard extends Menu {
         float yTextOffSet = (super.getScaledHeight() / 2) - 15;
 
         // Title
-        updateText(Option.LEADERBOARD.text, HEADER_FONT_SIZE, 0, yTextOffSet).draw(canvas);
+        updateText(title, Option.LEADERBOARD.text, 0, yTextOffSet);
+        title.draw(canvas);
+
         // Subtitle
-        updateText("Top 10 games", BODY_FONT_SIZE + 1, 0, yTextOffSet - 5.5f).draw(canvas);
+        updateText(subTitle, "Top 10 games", 0, yTextOffSet - 5.5f);
+        subTitle.draw(canvas);
 
         // LeaderBoard table
         LeaderboardGameScores leaderboardGameScores = SuperPacman.getLeaderboardScores();
@@ -78,7 +88,8 @@ public class Leaderboard extends Menu {
         for (String[] row : leaderboardTable) {
             for (String cell : row) {
                 if (cell != null) {
-                    updateText(cell, BODY_FONT_SIZE, CENTER_X_OFFSET + xOffset, CENTER_Y_OFFSET + yOffset).draw(canvas);
+                    getNewUpdatedText(cell, BODY_FONT_SIZE, CENTER_X_OFFSET + xOffset, CENTER_Y_OFFSET + yOffset)
+                            .draw(canvas);
                     xOffset += TAB_COL_PADDING;
                 }
             }
@@ -91,7 +102,8 @@ public class Leaderboard extends Menu {
         }
 
         // Back option
-        updateText(getOptionText(Option.BACK), BODY_FONT_SIZE, 0, -50).draw(canvas);
+        updateText(back, getOptionText(Option.BACK), 0, -50);
+        back.draw(canvas);
     }
 
 }

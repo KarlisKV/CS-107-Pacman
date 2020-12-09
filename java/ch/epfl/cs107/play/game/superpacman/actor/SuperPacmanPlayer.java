@@ -24,7 +24,7 @@ import ch.epfl.cs107.play.game.superpacman.actor.ghosts.Ghost;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Button;
@@ -226,7 +226,7 @@ public class SuperPacmanPlayer extends Player {
 
             // Move the player
             if (!isDisplacementOccurs()) {
-                if (!MenuItems.isDebugMode()) {
+                if (!MenuStateManager.isDebugMode()) {
                     move(ANIMATION_DURATION);
                 } else {
                     move(DEBUG_ANIMATION_DURATION);
@@ -269,7 +269,7 @@ public class SuperPacmanPlayer extends Player {
         }
         getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
         setCurrentPosition(intiPos.toVector());
-        if (currentHp == 0 || MenuItems.isEndGame()) {
+        if (currentHp == 0 || MenuStateManager.isEndGame()) {
             areaTimerHistory.put(getOwnerArea().getTitle(), areaTimer);
             gameOver = true;
             canUserMove = false;

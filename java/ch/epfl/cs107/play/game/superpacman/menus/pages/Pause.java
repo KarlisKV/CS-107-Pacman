@@ -7,6 +7,7 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
 import ch.epfl.cs107.play.game.superpacman.menus.Menu;
 import ch.epfl.cs107.play.game.superpacman.menus.Option;
@@ -20,6 +21,9 @@ public class Pause extends Menu {
     private static final float TEXT_PADDING = 1.5f;
     private static final float PAUSE_MENU_DEPTH = 8500;
     private final ScreenFade screenFade = new ScreenFade(7500, 1);
+    private final TextGraphics title;
+    private final TextGraphics resume;
+    private final TextGraphics endGame;
 
     /**
      * Constructor for Pause class
@@ -27,6 +31,14 @@ public class Pause extends Menu {
      */
     public Pause(Window window) {
         super(window);
+        title = createText(TITLE_FONT_SIZE);
+        title.setDepth(PAUSE_MENU_DEPTH);
+
+        resume = createText(BODY_FONT_SIZE);
+        resume.setDepth(PAUSE_MENU_DEPTH);
+
+        endGame = createText(BODY_FONT_SIZE);
+        endGame.setDepth(PAUSE_MENU_DEPTH);
     }
 
     @Override
@@ -52,26 +64,28 @@ public class Pause extends Menu {
         screenFade.draw(canvas);
 
         // Title
-        String text = Option.PAUSE.text;
-        updateText(text, TITLE_FONT_SIZE, getScaledAnchor()
-                .add(new Vector(getScaledWidth() / 2 - (text.length() * (TITLE_FONT_SIZE) / 2),
-                                getScaledHeight() - 16)), PAUSE_MENU_DEPTH).draw(canvas);
+        String titleText = Option.PAUSE.text;
+        updateText(title, titleText, 0, 0);
+        title.setAnchor(getScaledAnchor()
+                                .add(new Vector(getScaledWidth() / 2 - (titleText.length() * (TITLE_FONT_SIZE) / 2),
+                                                getScaledHeight() - 16)));
+        title.draw(canvas);
 
         // Resume option
-        text = getOptionText(Option.RESUME);
-        updateText(text, BODY_FONT_SIZE,
-                   getScaledAnchor()
-                           .add(new Vector(getScaledWidth() / 2 - (text.length() * (BODY_FONT_SIZE) / 2), 10.5f)),
-                   PAUSE_MENU_DEPTH)
-                .draw(canvas);
+        String resumeText = getOptionText(Option.RESUME);
+        updateText(resume, resumeText, 0, 0);
+        resume.setAnchor(getScaledAnchor()
+                                 .add(new Vector(getScaledWidth() / 2 - (resumeText.length() * (BODY_FONT_SIZE) / 2),
+                                                 10.5f)));
+        resume.draw(canvas);
 
         // End game option
-        text = getOptionText(Option.END_GAME);
-        updateText(text, BODY_FONT_SIZE, getScaledAnchor()
-                           .add(new Vector(getScaledWidth() / 2 - (text.length() * (BODY_FONT_SIZE) / 2),
-                                           10.5f - TEXT_PADDING)),
-                   PAUSE_MENU_DEPTH)
-                .draw(canvas);
+        String endGameText = getOptionText(Option.END_GAME);
+        updateText(endGame, endGameText, 0, 0);
+        endGame.setAnchor(getScaledAnchor()
+                                  .add(new Vector(getScaledWidth() / 2 - (endGameText.length() * (BODY_FONT_SIZE) / 2),
+                                                  10.5f - TEXT_PADDING)));
+        endGame.draw(canvas);
 
     }
 

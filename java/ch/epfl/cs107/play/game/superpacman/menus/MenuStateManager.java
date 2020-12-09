@@ -28,7 +28,7 @@ import java.util.Deque;
 import java.util.EnumMap;
 import java.util.Map;
 
-public final class MenuItems implements Updatable, Graphics, Acoustics {
+public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private static final SoundAcoustics ENTER_SOUND = SuperPacmanSound.MENU_ENTER.sound;
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
     private static final String LEADERBOARD_TMP_FILENAME = "leaderboard.ser";
@@ -51,7 +51,7 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
      * Constructor for MenuItems class
      * @param window (Window): the current window
      */
-    public MenuItems(Window window) {
+    public MenuStateManager(Window window) {
         keyboard = window.getKeyboard();
         this.window = window;
 
@@ -97,7 +97,7 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
     }
 
     public static void setEndGame(boolean endGame) {
-        MenuItems.endGame = endGame;
+        MenuStateManager.endGame = endGame;
     }
 
     protected static boolean isGameOver() {
@@ -105,7 +105,7 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
     }
 
     public static void setGameOver(boolean gameOver) {
-        MenuItems.gameOver = gameOver;
+        MenuStateManager.gameOver = gameOver;
     }
 
     public static boolean isCameraShakeDeactivated() {
@@ -129,7 +129,7 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
     }
 
     public static void setStartGame(boolean startGame) {
-        MenuItems.startGame = startGame;
+        MenuStateManager.startGame = startGame;
     }
 
     public static boolean isQuit() {
@@ -137,7 +137,7 @@ public final class MenuItems implements Updatable, Graphics, Acoustics {
     }
 
     protected static void setQuit(boolean quit) {
-        MenuItems.quit = quit;
+        MenuStateManager.quit = quit;
     }
 
     @Override

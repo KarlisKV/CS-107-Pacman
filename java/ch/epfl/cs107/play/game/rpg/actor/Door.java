@@ -10,7 +10,7 @@ import ch.epfl.cs107.play.game.rpg.handler.RPGInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Polyline;
 import ch.epfl.cs107.play.math.Transform;
@@ -112,7 +112,7 @@ public class Door extends AreaEntity implements Interactor {
     public void draw(Canvas canvas) {
         screenFade.draw(canvas);
 
-        if (DEBUG_DOOR || MenuItems.isDebugMode()) {
+        if (DEBUG_DOOR || MenuStateManager.isDebugMode()) {
 
             if (debugSquare == null) {
                 List<Vector> points = new ArrayList<>();

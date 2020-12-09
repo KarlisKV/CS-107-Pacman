@@ -7,6 +7,7 @@
 
 package ch.epfl.cs107.play.game.superpacman.menus.pages;
 
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.superpacman.menus.Menu;
 import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.game.superpacman.menus.SubOption;
@@ -20,6 +21,13 @@ public class Options extends Menu {
     private static final float CENTER_Y_OFFSET = 35;
     private static final float TEXT_PADDING = -5;
     private static final float HEADER_PADDING = -7;
+    private final TextGraphics title;
+    private final TextGraphics sound;
+    private final TextGraphics cameraShake;
+    private final TextGraphics fps;
+    private final TextGraphics difficulty;
+    private final TextGraphics clearLeaderboard;
+    private final TextGraphics back;
 
     /**
      * Constructor for Options class
@@ -27,6 +35,13 @@ public class Options extends Menu {
      */
     public Options(Window window) {
         super(window);
+        title = createText(HEADER_FONT_SIZE);
+        sound = createText(BODY_FONT_SIZE);
+        cameraShake = createText(BODY_FONT_SIZE);
+        fps = createText(BODY_FONT_SIZE);
+        difficulty = createText(BODY_FONT_SIZE);
+        clearLeaderboard = createText(BODY_FONT_SIZE);
+        back = createText(BODY_FONT_SIZE);
     }
 
     @Override
@@ -62,35 +77,40 @@ public class Options extends Menu {
         float yTextOffSet = (super.getScaledHeight() / 2) - 15;
 
         // Title text
-        updateText(Option.OPTIONS.text, HEADER_FONT_SIZE, 0, yTextOffSet).draw(canvas);
+        updateText(title, Option.OPTIONS.text, 0, yTextOffSet);
+        title.draw(canvas);
 
         // Sound options text
-        updateText(Option.SOUND.text + ": " + getSubOptionText(Option.SOUND), BODY_FONT_SIZE, 0,
-                   CENTER_Y_OFFSET + HEADER_PADDING).draw(canvas);
+        updateText(sound, Option.SOUND.text + ": " + getSubOptionText(Option.SOUND), 0,
+                   CENTER_Y_OFFSET + HEADER_PADDING);
+        sound.draw(canvas);
 
-        int paddingCount = 0;
+        int paddingCount = 1;
         // Camera shake options text
+        updateText(cameraShake, Option.CAMERA_SHAKE.text + ": " + getSubOptionText(Option.CAMERA_SHAKE), 0,
+                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+        cameraShake.draw(canvas);
         ++paddingCount;
-        updateText(Option.CAMERA_SHAKE.text + ": " + getSubOptionText(Option.CAMERA_SHAKE), BODY_FONT_SIZE, 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING).draw(canvas);
 
         // Fps options text
+        updateText(fps, Option.FPS.text + ": " + getSubOptionText(Option.FPS), 0,
+                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+        fps.draw(canvas);
         ++paddingCount;
-        updateText(Option.FPS.text + ": " + getSubOptionText(Option.FPS), BODY_FONT_SIZE, 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING).draw(canvas);
 
         // Difficulty options text
+        updateText(difficulty, Option.DIFFICULTY.text + ": " + getSubOptionText(Option.DIFFICULTY), 0,
+                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+        difficulty.draw(canvas);
         ++paddingCount;
-        updateText(Option.DIFFICULTY.text + ": " + getSubOptionText(Option.DIFFICULTY), BODY_FONT_SIZE, 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING).draw(canvas);
 
         // Clear leaderboard option text
-        ++paddingCount;
-        updateText(getOptionText(Option.CLEAR_LEADERBOARD), BODY_FONT_SIZE, 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING).draw(canvas);
+        updateText(clearLeaderboard, getOptionText(Option.CLEAR_LEADERBOARD), 0,
+                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+        clearLeaderboard.draw(canvas);
 
         // Back option text
-        updateText(getOptionText(Option.BACK), BODY_FONT_SIZE, 0, -50).draw(canvas);
-
+        updateText(back, getOptionText(Option.BACK), 0, -50);
+        back.draw(canvas);
     }
 }

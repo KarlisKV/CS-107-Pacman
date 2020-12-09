@@ -8,7 +8,7 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Key;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.signal.logic.Logic;
@@ -110,7 +110,7 @@ public class Gate extends AreaEntity {
 
     @Override
     public boolean takeCellSpace() {
-        return signal.isOff() && !MenuItems.isDebugMode();
+        return signal.isOff() && !MenuStateManager.isDebugMode();
     }
 
     @Override

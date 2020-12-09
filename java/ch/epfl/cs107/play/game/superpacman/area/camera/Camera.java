@@ -9,7 +9,7 @@ package ch.epfl.cs107.play.game.superpacman.area.camera;
 
 import ch.epfl.cs107.play.game.Updatable;
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuItems;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 
@@ -226,7 +226,7 @@ public abstract class Camera implements Updatable {
      * @param duration  the duration of the shake in frames
      */
     public void shake(float intensity, int duration) {
-        if (!MenuItems.isCameraShakeDeactivated()) {
+        if (!MenuStateManager.isCameraShakeDeactivated()) {
             shakeIntensity = intensity;
             shakeDuration = duration;
             shake();
@@ -237,7 +237,7 @@ public abstract class Camera implements Updatable {
      * Method to start camera shake with default values.
      */
     public void shake() {
-        if (!MenuItems.isCameraShakeDeactivated()) {
+        if (!MenuStateManager.isCameraShakeDeactivated()) {
             shakeCamera = true;
             shakenFrames = 0;
         }
