@@ -11,10 +11,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.rpg.RPG;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level0;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level1;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level2;
-import ch.epfl.cs107.play.game.superpacman.area.levels.Level3;
+import ch.epfl.cs107.play.game.superpacman.area.levels.*;
 import ch.epfl.cs107.play.game.superpacman.graphics.Arcade;
 import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
 import ch.epfl.cs107.play.game.superpacman.leaderboard.GameScore;
@@ -88,6 +85,7 @@ public class SuperPacman extends RPG {
         addArea(new Level1());
         addArea(new Level2());
         addArea(new Level3());
+        addArea(new LevelEPFL());
     }
 
     @Override
