@@ -106,8 +106,6 @@ public class GameOver extends Menu {
         updateText(enterName, getUserInputOptionText(Option.NAME, gameScore.getPlayerName()), 0,
                    Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
         enterName.draw(canvas);
-//        getNewUpdatedText(getUserInputOptionText(Option.NAME, gameScore.getPlayerName()), BODY_FONT_SIZE, 0,
-//                          Y_TEXT_OFFSET + TEXT_PADDING * paddingCount).draw(canvas);
         paddingCount += 2;
 
         // Restart option

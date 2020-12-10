@@ -79,7 +79,6 @@ public class MainMenu extends Menu {
         play.draw(canvas);
         ++paddingCount;
 
-
         // Options option text
         updateText(options, getOptionText(Option.OPTIONS), 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
         options.draw(canvas);
