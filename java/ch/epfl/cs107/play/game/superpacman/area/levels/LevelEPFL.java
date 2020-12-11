@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class LevelEPFL extends SuperPacmanArea {
     public static final String LEVEL_PATHNAME = "superpacman/levelEPFL";
-    public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15, 3);
+    public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15, 2);
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition() {
@@ -55,8 +55,6 @@ public class LevelEPFL extends SuperPacmanArea {
 
         //Gates for unlocking keys
         createGate(Orientation.LEFT, new DiscreteCoordinates(1, 2), keyList.get("keyTopRight"));
-        createGate(Orientation.DOWN, new DiscreteCoordinates(2, 1), keyList.get("keyTopRight"));
-        createGate(Orientation.DOWN, new DiscreteCoordinates(27, 1), keyList.get("keyTopLeft"));
         createGate(Orientation.LEFT, new DiscreteCoordinates(28, 2), keyList.get("keyTopLeft"));
 
     }
