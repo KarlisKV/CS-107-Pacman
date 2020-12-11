@@ -23,7 +23,12 @@ import ch.epfl.cs107.play.window.Window;
 
 public class SuperPacmanAreaBehavior extends AreaBehavior {
     public static AreaGraph areaGraph;
-    public static SuperPacmanDifficulty initDifficulty = SuperPacmanDifficulty.NORMAL;
+
+    public static SuperPacmanDifficulty getInitDifficulty() {
+        return initDifficulty;
+    }
+
+    private static SuperPacmanDifficulty initDifficulty = SuperPacmanDifficulty.NORMAL;
     private final GhostsBehavior ghostsBehavior = new GhostsBehavior(initDifficulty);
 
     /**
@@ -86,6 +91,8 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         return y > 0 && !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL) &&
                 !cellEqualsToType(x, y - 1, SuperPacmanCellType.NONE);
     }
+
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
 
     public static void setInitDifficulty(SuperPacmanDifficulty initDifficulty) {
         SuperPacmanAreaBehavior.initDifficulty = initDifficulty;

@@ -179,16 +179,17 @@ public final class SwingWindow extends Node implements Window {
 		canvas.addMouseListener(mouseProxy);
 		canvas.addMouseWheelListener(mouseProxy);
 
-		// Create keyboard manager
-		keyboardProxy = new KeyboardProxy();
-		canvas.addKeyListener(keyboardProxy);
+        // Create keyboard manager
+        keyboardProxy = new KeyboardProxy();
+        canvas.addKeyListener(keyboardProxy);
 
-		// Show frame
-		frame.pack();
-		frame.setSize(width, height);
-		frame.setResizable(false);
-		frame.setVisible(true);
-	}
+        // Show frame
+        frame.pack();
+        frame.setSize(width, height);
+        frame.setResizable(false);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null); // Added to center window on screen
+    }
 
 	@Override
 	public Button getFocus() {

@@ -10,7 +10,6 @@ package ch.epfl.cs107.play.game.superpacman.actor.ghosts;
 import ch.epfl.cs107.play.game.Updatable;
 import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
-import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class GhostsBehavior implements Updatable {
             isDifficultSet = true;
         }
         // Increase difficulty over time
-        if (difficulty.increaseDifficultyOverTime && updateTimer && !MenuStateManager.isDebugMode()) {
+        if (difficulty.increaseDifficultyOverTime && updateTimer) {
             updateTimer(deltaTime);
         }
         if (requestToFrighten && !ghosts.isEmpty()) {
@@ -87,28 +86,21 @@ public class GhostsBehavior implements Updatable {
     public void setGhostDifficulty() {
         updateTimer = false;
         for (Ghost ghost : ghosts) {
-            if (!MenuStateManager.isDebugMode()) {
-                int animationDuration =
-                        difficulty.ghostAnimationDuration + (ANIMATION_DURATION_DECREASE * increaseCount);
-                if (animationDuration >= difficulty.minGhostAnimationDuration) {
-                    ghost.setAnimationDuration(animationDuration);
-                    updateTimer = true;
-                }
-                float frightenTime = difficulty.ghostFrightenTime + (FRIGHTEN_TIME_DECREASE * increaseCount);
-                if (frightenTime >= difficulty.minGhostFrightenTime) {
-                    ghost.setFrightenTime(frightenTime);
-                    updateTimer = true;
-                }
-                float stateUpdateTime = difficulty.ghostStateUpdateTime + (STATE_UPDATE_TIME_DECREASE * increaseCount);
-                if (stateUpdateTime >= difficulty.minGhostStateUpdateTime) {
-                    ghost.setStateUpdateTime(stateUpdateTime);
-                    updateTimer = true;
-                }
-            } else {
-                // Options for debug mode
-                ghost.setAnimationDuration(20);
-                ghost.setFrightenTime(15);
-                ghost.setStateUpdateTime(1.5f);
+            int animationDuration =
+                    difficulty.ghostAnimationDuration + (ANIMATION_DURATION_DECREASE * increaseCount);
+            if (animationDuration >= difficulty.minGhostAnimationDuration) {
+                ghost.setAnimationDuration(animationDuration);
+                updateTimer = true;
+            }
+            float frightenTime = difficulty.ghostFrightenTime + (FRIGHTEN_TIME_DECREASE * increaseCount);
+            if (frightenTime >= difficulty.minGhostFrightenTime) {
+                ghost.setFrightenTime(frightenTime);
+                updateTimer = true;
+            }
+            float stateUpdateTime = difficulty.ghostStateUpdateTime + (STATE_UPDATE_TIME_DECREASE * increaseCount);
+            if (stateUpdateTime >= difficulty.minGhostStateUpdateTime) {
+                ghost.setStateUpdateTime(stateUpdateTime);
+                updateTimer = true;
             }
         }
     }
