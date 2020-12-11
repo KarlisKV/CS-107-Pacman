@@ -28,6 +28,7 @@ public class SuperPacmanStatusGUI implements Graphics {
         fpsCounter = new TextGraphics("", 0, Color.WHITE, Color.WHITE, 0.0f, false, false, null);
         fpsCounter.setFontName(FONT);
         fpsCounter.setDepth(DEPTH);
+
         debugMode = new TextGraphics("", 0, Color.ORANGE, Color.ORANGE, 0.0f, false, false, null);
         debugMode.setFontName(FONT);
         debugMode.setDepth(DEPTH);
@@ -40,10 +41,12 @@ public class SuperPacmanStatusGUI implements Graphics {
 
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
 
+        float fontSize = height / (FONT_SIZE * 35);
+
         // FPS counter
         if (MenuStateManager.isShowFps()) {
             fpsCounter.setText("Fps: " + Play.getCurrentFps());
-            fpsCounter.setFontSize(height / (FONT_SIZE * 35));
+            fpsCounter.setFontSize(fontSize);
             fpsCounter.setAnchor(anchor.add(new Vector(height / (TEXT_PADDING * 35), height / (TEXT_PADDING * 35))));
             fpsCounter.draw(canvas);
         }
@@ -51,7 +54,7 @@ public class SuperPacmanStatusGUI implements Graphics {
         // DEBUG MODE TEXT
         if (MenuStateManager.isDebugMode()) {
             debugMode.setText("Debug Mode");
-            debugMode.setFontSize(height / (FONT_SIZE * 35));
+            debugMode.setFontSize(fontSize);
             debugMode.setAnchor(anchor.add(
                     new Vector(width - (2 * (height / (TEXT_PADDING * 7))) - (height / (TEXT_PADDING * 35)),
                                height / (TEXT_PADDING * 35))));

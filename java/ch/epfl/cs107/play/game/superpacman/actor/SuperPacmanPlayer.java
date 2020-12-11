@@ -22,6 +22,7 @@ import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.*;
 import ch.epfl.cs107.play.game.superpacman.actor.ghosts.Ghost;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
 import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
@@ -75,6 +76,7 @@ public class SuperPacmanPlayer extends Player {
     private boolean gameOver = false;
     private boolean canUserMove = false;
     private boolean collision = false;
+
     /**
      * Constructor for SuperPacmanPlayer
      * @param owner       (Area): Owner Area, not null
@@ -176,7 +178,7 @@ public class SuperPacmanPlayer extends Player {
     }
 
     public void updateScore(int score) {
-        this.score += score * (comboCount + 1);
+        this.score += score * (comboCount + 1) * SuperPacmanAreaBehavior.getInitDifficulty().multiplicationFactor;
     }
 
     @Override
@@ -202,6 +204,7 @@ public class SuperPacmanPlayer extends Player {
                 timer = 3;
             }
         }
+
         // Set desired Orientation
         if (canUserMove && !gameOver) {
             areaTimer += deltaTime;
@@ -398,12 +401,14 @@ public class SuperPacmanPlayer extends Player {
                 score += Ghost.GHOST_BASE_SCORE * comboCount;
 
             } else {
-                if (currentHp - 1 == 0) {
-                    ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().pauseGhosts();
-                    canUserMove = false;
+                if (!MenuStateManager.isGodMode()) {
+                    if (currentHp - 1 == 0) {
+                        ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().pauseGhosts();
+                        canUserMove = false;
+                    }
+                    setDead(true);
+                    ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().resetGhosts();
                 }
-                setDead(true);
-                ((SuperPacmanArea) getOwnerArea()).getGhostsManagement().resetGhosts();
             }
         }
 

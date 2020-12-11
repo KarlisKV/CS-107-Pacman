@@ -36,6 +36,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private static boolean endGame = false;
     private static boolean gameOver = false;
     private static boolean debugMode = false;
+    private static boolean godMode = false;
     private static boolean quit = false;
     private static boolean paused = false;
     private static boolean soundDeactivated = false;
@@ -114,6 +115,10 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
 
     public static boolean isDebugMode() {
         return debugMode;
+    }
+
+    public static boolean isGodMode() {
+        return godMode;
     }
 
     public static boolean isShowFps() {
@@ -240,6 +245,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                     // empty on purpose, do noting
             }
         }
+        // pause menu
         if (escKeyIsPressed()) {
             assert menuStack.peek() != null;
             if (menuStack.peek().equals(menuStates.get(MenuState.PLAY))) {
@@ -276,6 +282,11 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                 menuStack.peek() != menuStates.get(MenuState.GAME_OVER)) {
             System.out.println("Debug mode enabled");
             debugMode = true;
+        }
+
+        if (!godMode && debugMode && keyboard.get(Keyboard.G).isDown()) {
+            System.out.println("God mode enabled");
+            godMode = true;
         }
         if (gameOver) {
             menuStack.push(menuStates.get(MenuState.GAME_OVER));

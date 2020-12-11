@@ -13,6 +13,8 @@ import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -48,6 +50,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private final TextGraphics eatenPelletsCount;
     private final TextGraphics timerTitle;
     private final TextGraphics timer;
+    private final TextGraphics difficultyMultiplier;
 
     /**
      * Constructor for SuperPacmanPlayerStatusGUI
@@ -77,6 +80,10 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
 
         timer = new TextGraphics("", FONT_SIZE - 0.4f, Color.WHITE, Color.BLACK, 0.0f, false, false, null);
         setFontAndDepth(timer);
+
+        difficultyMultiplier =
+                new TextGraphics("", FONT_SIZE - 0.4f, Color.WHITE, Color.BLACK, 0.0f, false, false, null);
+        setFontAndDepth(difficultyMultiplier);
     }
 
     private void setFontAndDepth(TextGraphics textGraphics) {
@@ -105,19 +112,43 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
         Vector anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
         if (SuperPacman.currentCameraScaleFactor < 55) {
             // Lives
-            for (int i = 0; i < playerMaxHp; ++i) {
-                int x = i < playerCurrentHp ? LIFE : NO_LIFE;
+            // TODO: (for myself) need to simply duplicate code below
+            if (!MenuStateManager.isGodMode()) {
+                for (int i = 0; i < playerMaxHp; ++i) {
+                    int x = i < playerCurrentHp ? LIFE : NO_LIFE;
 
-                float xPos =
-                        LEFT_EDGE_PADDING + 4 + (HP_SPACING * i) - (((LIFE_SIZE * playerMaxHp) / 2.f) + (HP_SPACING * ((
-                                playerMaxHp / 2.f) - 2)));
+                    float xPos =
+                            LEFT_EDGE_PADDING + 4 + (HP_SPACING * i) -
+                                    (((LIFE_SIZE * playerMaxHp) / 2.f) + (HP_SPACING * ((
+                                            playerMaxHp / 2.f) - 2)));
+                    float yPos = (BOTTOM_EDGE_PADDING) - 0.75f;
+
+                    ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
+                                                           LIFE_SIZE, LIFE_SIZE,
+                                                           new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE,
+                                                                                LIFE_SPRITE_SIZE),
+                                                           anchor.add(new Vector(xPos, yPos)), 1, DEPTH);
+                    life.draw(canvas);
+                }
+            } else {
+                float xPos = LEFT_EDGE_PADDING + 4 -
+                        (((LIFE_SIZE * playerMaxHp) / 2.f) + (HP_SPACING * ((playerMaxHp / 2.f) - 2)));
                 float yPos = (BOTTOM_EDGE_PADDING) - 0.75f;
 
                 ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
                                                        LIFE_SIZE, LIFE_SIZE,
-                                                       new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE, LIFE_SPRITE_SIZE),
+                                                       new RegionOfInterest(LIFE, 0, LIFE_SPRITE_SIZE,
+                                                                            LIFE_SPRITE_SIZE),
                                                        anchor.add(new Vector(xPos, yPos)), 1, DEPTH);
                 life.draw(canvas);
+
+                ImageGraphics infinity = new ImageGraphics(ResourcePath.getSprite("superpacman/infinitySymbol"),
+                                                           LIFE_SIZE, LIFE_SIZE);
+                infinity.setDepth(DEPTH);
+                infinity.setAlpha(1);
+                infinity.setAnchor(anchor.add(new Vector(xPos + (HP_SPACING), yPos)));
+
+                infinity.draw(canvas);
             }
 
             // High Score text
@@ -169,6 +200,16 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                 setFontAndDepth(historyTimer);
                 historyTimer.draw(canvas);
             }
+
+            // Difficulty Multiplier
+            String difficulty = SuperPacmanAreaBehavior.getInitDifficulty().name();
+            double multiplier = SuperPacmanAreaBehavior.getInitDifficulty().multiplicationFactor;
+            String difficultyText = String.format("%s x%s", difficulty, multiplier);
+            difficultyMultiplier.setText(difficultyText);
+            difficultyMultiplier.setAnchor(
+                    anchor.add(width + RIGHT_EDGE_PADDING - (difficultyText.length() * (FONT_SIZE - 0.4f)) + 2.75f,
+                               BOTTOM_EDGE_PADDING - 0.75f));
+            difficultyMultiplier.draw(canvas);
 
 
         }
