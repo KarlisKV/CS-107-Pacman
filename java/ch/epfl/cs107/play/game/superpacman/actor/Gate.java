@@ -13,7 +13,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -21,25 +20,24 @@ public class Gate extends AreaEntity {
     private static final String GATE_PATHNAME = "superpacman/gateGlow";
     private static final int DEPTH_GATE = -3500;
     private Sprite sprite;
-    // TODO: Give descriptif name to keys (ex: key -> singleLogicKey, Key[] doubleLogicKey = new Key[2])
-    private Key key;
-    private Key key1;
-    private Key key2;
+    private Key singleLogicKey;
+    private Key [] doubleLogicKey = new Key[2];
+
     private boolean checkIfTwoKeys;
     private Logic signal;
 
     /**
-     * +
-     * @param area        area
-     * @param orientation of the gate
-     * @param position    of the gate
-     * @param signal      stating whether the gate is on or off
-     * @param key         key which is attached to the concrete gate
+     * Constructor for gate that changes signals when the key has been picked up
+     * @param area (Area): Owner area. Not null
+     * @param orientation (Orientation) the desired orientation of the gate
+     * @param position (Coordinate): Initial position of the entity. Not null
+     * @param signal (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
+     * @param singleLogicKey (Key) Key that is linked to the gate.
      */
-    public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal, Key key) {
+    public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal, Key singleLogicKey) {
         super(area, orientation, position);
         this.signal = signal;
-        this.key = key;
+        this.singleLogicKey = singleLogicKey;
 
         createGateSprite(orientation);
     }
@@ -59,7 +57,13 @@ public class Gate extends AreaEntity {
 
     }
 
-    //constructor for the gate, i have no clue if this is how we should do it tbh
+    /**
+     * Constructor for gate that changes signals when all pellets have been eaten
+     * @param area (Area): Owner area. Not null
+     * @param orientation (Orientation) the desired orientation of the gate
+     * @param position (Coordinate): Initial position of the entity. Not null
+     * @param signal (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
+     */
     public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal) {
         super(area, orientation, position);
         this.signal = signal;
@@ -67,22 +71,31 @@ public class Gate extends AreaEntity {
         createGateSprite(orientation);
     }
 
-    //constructor for case with 2 keys
+    /**
+     * Constructor for gate that changes signals when both keys have been picked up
+     * @param area (Area): Owner area. Not null
+     * @param orientation (Orientation) the desired orientation of the gate
+     * @param position (Coordinate): Initial position of the entity. Not null
+     * @param signal (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
+     * @param key1 (Key) First key that is linked to the gate.
+     * @param key2 (Key) Second key that is linked to the gate.
+     */
     public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal, Key key1, Key key2) {
         super(area, orientation, position);
         this.signal = signal;
-        this.key1 = key1;
-        this.key2 = key2;
+        this.doubleLogicKey[0] = key1;
+        this.doubleLogicKey[1] = key2;
         this.checkIfTwoKeys = true;
-
         createGateSprite(orientation);
     }
 
     /**
-     * +
      * update method changing the signal of the gate
-     * whenever the key has been collected
-     * @param deltaTime time
+     * whenever the corresponding condition has been satisfied
+     * 1. key has been picked up
+     * 2. both keys have been picked up
+     * 3. all pellets in the level have been eaten
+     * @param deltaTime elapsed time since last update, in seconds, non-negative
      */
     @Override
     public void update(float deltaTime) {
@@ -91,11 +104,11 @@ public class Gate extends AreaEntity {
             signal = Logic.TRUE;
         } else {
             if (checkIfTwoKeys) {
-                if (key1.getSignal().isOn() && key2.getSignal().isOn()) {
+                if (doubleLogicKey[0].getSignal().isOn() && doubleLogicKey[1].getSignal().isOn()) {
                     signal = Logic.TRUE;
                 }
             } else {
-                if (key != null && key.getSignal().isOn()) {
+                if (singleLogicKey != null && singleLogicKey.getSignal().isOn()) {
                     signal = Logic.TRUE;
                 }
             }
@@ -128,7 +141,10 @@ public class Gate extends AreaEntity {
         //No interaction
     }
 
-    // draw it only when the key is not picked up
+    /**+
+     * Draws the gate in the case when the signal is Logic.FALSE
+     * @param canvas target, not null
+     */
     @Override
     public void draw(Canvas canvas) {
         if (signal.isOff()) {

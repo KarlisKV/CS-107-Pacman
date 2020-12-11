@@ -407,7 +407,7 @@ public class SuperPacmanPlayer extends Player {
             }
         }
 
-        //added 12/04 Karlis
+
         @Override
         public void interactWith(Key key) {
             playerSoundUtility.play(COLLECT_KEY_SOUND);
