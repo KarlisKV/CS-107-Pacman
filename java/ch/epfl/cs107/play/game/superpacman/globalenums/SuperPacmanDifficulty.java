@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.superpacman;
+package ch.epfl.cs107.play.game.superpacman.globalenums;
 
 import ch.epfl.cs107.play.game.superpacman.menus.SubOption;
 

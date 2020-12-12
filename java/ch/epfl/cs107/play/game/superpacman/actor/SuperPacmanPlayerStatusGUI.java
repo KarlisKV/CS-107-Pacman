@@ -14,6 +14,7 @@ import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -25,7 +26,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class SuperPacmanPlayerStatusGUI implements Graphics {
-    private static final float DEPTH = 5000.0f;
     private static final float HP_SPACING = 1.25f;
     private static final float TOP_EDGE_PADDING = 9.0f;
     private static final float BOTTOM_EDGE_PADDING = TOP_EDGE_PADDING;
@@ -88,7 +88,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
 
     private void setFontAndDepth(TextGraphics textGraphics) {
         textGraphics.setFontName(FONT);
-        textGraphics.setDepth(DEPTH);
+        textGraphics.setDepth(SuperPacmanDepth.PAYER_GUI.value);
     }
 
     /**
@@ -127,7 +127,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                                                            LIFE_SIZE, LIFE_SIZE,
                                                            new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE,
                                                                                 LIFE_SPRITE_SIZE),
-                                                           anchor.add(new Vector(xPos, yPos)), 1, DEPTH);
+                                                           anchor.add(new Vector(xPos, yPos)), 1, SuperPacmanDepth.PAYER_GUI.value);
                     life.draw(canvas);
                 }
             } else {
@@ -139,12 +139,12 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                                                        LIFE_SIZE, LIFE_SIZE,
                                                        new RegionOfInterest(LIFE, 0, LIFE_SPRITE_SIZE,
                                                                             LIFE_SPRITE_SIZE),
-                                                       anchor.add(new Vector(xPos, yPos)), 1, DEPTH);
+                                                       anchor.add(new Vector(xPos, yPos)), 1, SuperPacmanDepth.PAYER_GUI.value);
                 life.draw(canvas);
 
                 ImageGraphics infinity = new ImageGraphics(ResourcePath.getSprite("superpacman/infinitySymbol"),
                                                            LIFE_SIZE, LIFE_SIZE);
-                infinity.setDepth(DEPTH);
+                infinity.setDepth(SuperPacmanDepth.PAYER_GUI.value);
                 infinity.setAlpha(1);
                 infinity.setAnchor(anchor.add(new Vector(xPos + (HP_SPACING), yPos)));
 

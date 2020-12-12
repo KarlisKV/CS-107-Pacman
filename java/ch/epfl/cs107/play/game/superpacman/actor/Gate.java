@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Key;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
@@ -19,7 +20,6 @@ import java.util.List;
 
 public class Gate extends AreaEntity {
     private static final String GATE_PATHNAME = "superpacman/gateGlow";
-    private static final int DEPTH_GATE = -3500;
     private Sprite sprite;
     private Key singleLogicKey;
     private final Key[] doubleLogicKey = new Key[2];
@@ -54,7 +54,7 @@ public class Gate extends AreaEntity {
             yPixelOffset = 64;
         }
         sprite = new RPGSprite(GATE_PATHNAME, 1, 1, this, new RegionOfInterest(0, yPixelOffset, 64, 64));
-        sprite.setDepth(DEPTH_GATE);
+        sprite.setDepth(SuperPacmanDepth.GATE.value);
 
     }
 

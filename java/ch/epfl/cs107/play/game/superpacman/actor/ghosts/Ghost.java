@@ -14,9 +14,10 @@ import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.SoundUtility;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
@@ -42,8 +43,6 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     private static final String[] SCORE_COMBOS_PATHNAMES =
             {"superpacman/score200", "superpacman/score400", "superpacman/score800", "superpacman/score1600"};
     private static final SoundAcoustics RETREATING_SOUND = SuperPacmanSound.RETREATING.sound;
-    private static final float GHOST_DEPTH = 200;
-    private static final float SCORE_DEPTH = 800;
     private static SoundUtility ghostSoundUtility;
     private final int fieldOfView;
     // Visuals & Sound
@@ -109,7 +108,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         for (int i = 0; i < scores.length; ++i) {
             scores[i] = new Sprite(SCORE_COMBOS_PATHNAMES[i], 1.5f, 1.5f, this);
             scores[i].setAnchor(new Vector(0, 1.0f));
-            scores[i].setDepth(SCORE_DEPTH);
+            scores[i].setDepth(SuperPacmanDepth.COMBO_TEXT.value);
         }
 
         // Frighted Animation
@@ -147,7 +146,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         Sprite[] sprites =
                 RPGSprite.extractSprites(pathname, 2, 1, 1, this, 16, 16);
         for (Sprite sprite : sprites) {
-            sprite.setDepth(GHOST_DEPTH);
+            sprite.setDepth(SuperPacmanDepth.GHOSTS.value);
         }
         return sprites;
     }
@@ -164,7 +163,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
                                                            Orientation.DOWN, Orientation.LEFT});
         for (Sprite[] spriteFrames : sprites) {
             for (Sprite sprite : spriteFrames) {
-                sprite.setDepth(GHOST_DEPTH);
+                sprite.setDepth(SuperPacmanDepth.GHOSTS.value);
             }
         }
         return sprites;
@@ -594,7 +593,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
         // Path
         if (MenuStateManager.isDebugMode() && path != null) {
             Path graphicPath = new Path(this.getPosition(), new LinkedList<>(path));
-            graphicPath.setDepth(2000);
+            graphicPath.setDepth(SuperPacmanDepth.GHOST_PATHING.value);
             graphicPath.draw(canvas);
         }
         if (isFrightened) {

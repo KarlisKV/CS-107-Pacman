@@ -10,7 +10,8 @@ package ch.epfl.cs107.play.game.superpacman.menus;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.*;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanSound;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Audio;
@@ -25,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Menu implements Graphics, Acoustics {
-    public static final float DEPTH = 10250;
     protected static final float HEADER_FONT_SIZE = 5;
     protected static final float BODY_FONT_SIZE = 2;
     protected static final String FONT = "emulogic";
@@ -157,7 +157,7 @@ public abstract class Menu implements Graphics, Acoustics {
                                                                   centerXOffset,
                                                           (height / 2) + centerYOffset));
         option.setFontName(FONT);
-        option.setDepth(DEPTH);
+        option.setDepth(SuperPacmanDepth.MENU.value);
         option.setAlpha(alpha);
         return option;
     }
@@ -165,7 +165,7 @@ public abstract class Menu implements Graphics, Acoustics {
     protected TextGraphics createText(float fontSize) {
         TextGraphics option = new TextGraphics("", fontSize, Color.WHITE, Color.WHITE, 0.0f, false, false, null);
         option.setFontName(FONT);
-        option.setDepth(DEPTH);
+        option.setDepth(SuperPacmanDepth.MENU.value);
         option.setAlpha(alpha);
         return option;
     }
@@ -201,7 +201,7 @@ public abstract class Menu implements Graphics, Acoustics {
      */
     protected ImageGraphics createImage(String path) {
         return new ImageGraphics(ResourcePath.getBackgrounds(path), scaledWidth, scaledHeight,
-                                 new RegionOfInterest(0, 0, 1100, 1100), null, alpha, DEPTH + 250);
+                                 new RegionOfInterest(0, 0, 1100, 1100), null, alpha, SuperPacmanDepth.MENU.value + 250);
     }
 
     protected void updateImage(ImageGraphics image) {

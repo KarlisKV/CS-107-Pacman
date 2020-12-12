@@ -14,19 +14,4 @@
                 INFO
 -------------------------------------
 Depths:
-    - Glow: -5'000
-    - Gate: -3'500
-    - Wall: -2'000
-    - Collectables: -1'000
-    - PlayerDeath: 50
-    - Ghosts: 200
-    - Player: 600
-    - Combos: 800
-    - Foreground: 1'000
-    - ScreenFade doors: 4'000
-    - PlayerGUI: 5'000
-    - Arcade: 10'000
-    - Arcade Joystick: 10'050
-    - Menu Title: 10'250
-    - StatusGUI: 15'000
     - ScreenFade Menu: 25'500

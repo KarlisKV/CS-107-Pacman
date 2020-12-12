@@ -8,8 +8,8 @@
 package ch.epfl.cs107.play.game.superpacman.actor.ghosts;
 
 import ch.epfl.cs107.play.game.Updatable;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDifficulty;
 
 import java.util.ArrayList;
 import java.util.List;

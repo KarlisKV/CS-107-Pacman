@@ -10,6 +10,7 @@ package ch.epfl.cs107.play.game.superpacman;
 import ch.epfl.cs107.play.Play;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
@@ -17,7 +18,6 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.awt.*;
 
 public class SuperPacmanStatusGUI implements Graphics {
-    private static final float DEPTH = 15000;
     private static final float TEXT_PADDING = 1.5f;
     private static final String FONT = "emulogic";
     private static final float FONT_SIZE = 1.5f;
@@ -27,11 +27,11 @@ public class SuperPacmanStatusGUI implements Graphics {
     public SuperPacmanStatusGUI() {
         fpsCounter = new TextGraphics("", 0, Color.WHITE, Color.WHITE, 0.0f, false, false, null);
         fpsCounter.setFontName(FONT);
-        fpsCounter.setDepth(DEPTH);
+        fpsCounter.setDepth(SuperPacmanDepth.STATUS_GUI.value);
 
         debugMode = new TextGraphics("", 0, Color.ORANGE, Color.ORANGE, 0.0f, false, false, null);
         debugMode.setFontName(FONT);
-        debugMode.setDepth(DEPTH);
+        debugMode.setDepth(SuperPacmanDepth.STATUS_GUI.value);
     }
 
     @Override

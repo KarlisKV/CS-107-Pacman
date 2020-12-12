@@ -18,11 +18,12 @@ import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.SoundUtility;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.*;
 import ch.epfl.cs107.play.game.superpacman.actor.ghosts.Ghost;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
@@ -94,7 +95,7 @@ public class SuperPacmanPlayer extends Player {
                                                            Orientation.RIGHT});
         for (Sprite[] spriteFrames : sprites) {
             for (Sprite sprite : spriteFrames) {
-                sprite.setDepth(600);
+                sprite.setDepth(SuperPacmanDepth.PLAYER.value);
             }
         }
         animation = Animation.createAnimations(ANIMATION_DURATION / 2, sprites);
@@ -102,7 +103,7 @@ public class SuperPacmanPlayer extends Player {
         Sprite[] deadSprites =
                 RPGSprite.extractSprites("superpacman/deadPacman", 12, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE);
         for (Sprite sprite : deadSprites) {
-            sprite.setDepth(50);
+            sprite.setDepth(SuperPacmanDepth.PLAYER_DEATH.value);
         }
 
         deathAnimation = new Animation(ANIMATION_DURATION - 1, deadSprites, false);

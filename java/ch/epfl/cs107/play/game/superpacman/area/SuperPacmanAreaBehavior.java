@@ -12,12 +12,12 @@ import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.AreaGraph;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.actor.Wall;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Cake;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
 import ch.epfl.cs107.play.game.superpacman.actor.collectables.PowerPellet;
 import ch.epfl.cs107.play.game.superpacman.actor.ghosts.*;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 

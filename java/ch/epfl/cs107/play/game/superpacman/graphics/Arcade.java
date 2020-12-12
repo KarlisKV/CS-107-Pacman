@@ -13,7 +13,8 @@ import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
-import ch.epfl.cs107.play.game.superpacman.SuperPacmanSound;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanSound;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -23,7 +24,6 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 public class Arcade implements Graphics, Acoustics {
-    private static final float DEPTH = 10000;
     private static final SoundAcoustics GAME_START_SOUND = SuperPacmanSound.ARCADE_ON.sound;
     private static final SoundAcoustics TURN_OFF_SOUND = SuperPacmanSound.ARCADE_OFF.sound;
     private final Window window;
@@ -89,7 +89,7 @@ public class Arcade implements Graphics, Acoustics {
         // DRAW ARCADE
         ImageGraphics arcade = new ImageGraphics(ResourcePath.getBackgrounds(arcadePathName), xScaledInit, yScaledInit,
                                                  new RegionOfInterest(0, 0, 1100, 1100), anchor.add(
-                new Vector((width / 2) - (xScaledInit / 2), (height / 2) - (yScaledInit / 2))), alpha, DEPTH);
+                new Vector((width / 2) - (xScaledInit / 2), (height / 2) - (yScaledInit / 2))), alpha, SuperPacmanDepth.ARCADE.value);
         arcade.draw(canvas);
 
 
@@ -102,14 +102,14 @@ public class Arcade implements Graphics, Acoustics {
                 joystick[i] = new ImageGraphics(ResourcePath.getSprite("superpacman/joystickArcade"), 3, 3,
                                                 new RegionOfInterest(0, 28 * i, 28, 28), anchor.add(
                         new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), alpha,
-                                                DEPTH + 50);
+                                                SuperPacmanDepth.ARCADE_JOYSTICK.value);
             }
 
             ImageGraphics joystickDefault =
                     new ImageGraphics(ResourcePath.getSprite("superpacman/joystickArcadeDefault"), 3, 3,
                                       new RegionOfInterest(0, 0, 28, 28), anchor.add(
                             new Vector((width / 2) - xDisplacement, (height / 2) - yDisplacement)), alpha,
-                                      DEPTH + 50);
+                                      SuperPacmanDepth.ARCADE_JOYSTICK.value);
 
             // Set joystick orientation
             if (window.getKeyboard() != null) {

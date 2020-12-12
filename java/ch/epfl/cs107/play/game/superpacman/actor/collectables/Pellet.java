@@ -15,6 +15,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.graphics.Glow;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -48,7 +49,7 @@ public class Pellet extends CollectableAreaEntity implements Interactor {
     public Pellet(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/pellet", 1, 1, this);
-        sprite.setDepth(DEPTH_COLLECTABLES);
+        sprite.setDepth(SuperPacmanDepth.COLLECTABLES.value);
         glow = new Glow(this, sprite, Glow.GlowColors.LIGHT_PINK, 1.5f, 0.2f);
         ++totalPellets;
     }

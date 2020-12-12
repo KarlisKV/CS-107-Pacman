@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.game.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
@@ -36,7 +37,7 @@ public class Bonus extends CollectableAreaEntity {
         Sprite[] sprites =
                 RPGSprite.extractSprites("superpacman/coin", SPRITE_FRAMES, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE);
         for (Sprite sprite : sprites) {
-            sprite.setDepth(DEPTH_COLLECTABLES);
+            sprite.setDepth(SuperPacmanDepth.COLLECTABLES.value);
         }
         animation = new Animation(ANIMATION_DURATION, sprites);
     }

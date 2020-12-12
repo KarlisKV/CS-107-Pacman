@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
@@ -30,7 +31,7 @@ public class Cake extends CollectableAreaEntity {
     public Cake(Area area, DiscreteCoordinates position) {
         super(area, position);
         sprite = new Sprite("superpacman/cake", 1, 1, this);
-        sprite.setDepth(DEPTH_COLLECTABLES);
+        sprite.setDepth(SuperPacmanDepth.COLLECTABLES.value);
     }
 
     @Override

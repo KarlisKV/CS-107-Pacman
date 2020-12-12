@@ -10,6 +10,7 @@ package ch.epfl.cs107.play.game.superpacman.graphics;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.math.Positionable;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -67,7 +68,7 @@ public class Glow implements Graphics {
                                                new RegionOfInterest(0, 0, 195, 195),
                                                new Vector(-size / 2 + sprite.getWidth() / 2,
                                                           -size / 2 + sprite.getHeight() / 2),
-                                               currentAlpha, -5000);
+                                               currentAlpha, SuperPacmanDepth.GLOW.value);
         glow.setParent(parent);
         glow.draw(canvas);
     }

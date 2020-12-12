@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.actor.Entity;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -22,7 +23,7 @@ public class Foreground extends Entity {
      */
     public Foreground(Area area) {
         super(DiscreteCoordinates.ORIGIN.toVector());
-        sprite = new ImageGraphics(ResourcePath.getForegrounds(area.getTitle()), area.getWidth(), area.getHeight(), null, Vector.ZERO, 1.0f, 1000);
+        sprite = new ImageGraphics(ResourcePath.getForegrounds(area.getTitle()), area.getWidth(), area.getHeight(), null, Vector.ZERO, 1.0f, SuperPacmanDepth.FOREGROUND.value);
         sprite.setParent(this);
     }
 
@@ -34,7 +35,7 @@ public class Foreground extends Entity {
      */
     public Foreground(Area area, RegionOfInterest region) {
         super(DiscreteCoordinates.ORIGIN.toVector());
-        sprite = new ImageGraphics(ResourcePath.getForegrounds(area.getTitle()), area.getWidth(), area.getHeight(), region, Vector.ZERO, 1.0f, 1000);
+        sprite = new ImageGraphics(ResourcePath.getForegrounds(area.getTitle()), area.getWidth(), area.getHeight(), region, Vector.ZERO, 1.0f, SuperPacmanDepth.FOREGROUND.value);
         sprite.setParent(this);
     }
 
@@ -46,7 +47,8 @@ public class Foreground extends Entity {
      */
     public Foreground(Area area, RegionOfInterest region, String name) {
         super(DiscreteCoordinates.ORIGIN.toVector());
-        sprite = new ImageGraphics(ResourcePath.getForegrounds(name), area.getWidth(), area.getHeight(), region, Vector.ZERO, 1.0f, 1000);
+        sprite = new ImageGraphics(ResourcePath.getForegrounds(name), area.getWidth(), area.getHeight(), region, Vector.ZERO, 1.0f,
+                                   SuperPacmanDepth.FOREGROUND.value);
         sprite.setParent(this);
     }
 
@@ -60,7 +62,7 @@ public class Foreground extends Entity {
      */
     public Foreground(String name, int width, int height, RegionOfInterest region) {
         super(DiscreteCoordinates.ORIGIN.toVector());
-        sprite = new ImageGraphics(ResourcePath.getForegrounds(name), width, height, region, Vector.ZERO, 1.0f, 1000);
+        sprite = new ImageGraphics(ResourcePath.getForegrounds(name), width, height, region, Vector.ZERO, 1.0f, SuperPacmanDepth.FOREGROUND.value);
         sprite.setParent(this);
     }
 

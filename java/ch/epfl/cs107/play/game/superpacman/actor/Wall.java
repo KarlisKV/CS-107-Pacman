@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
@@ -16,8 +17,6 @@ import java.util.List;
 
 public class Wall extends AreaEntity {
 	private String WALL_NAME;
-
-	private static final int DEPTH_WALL = -2000;
 
 	Sprite sprite;
 
@@ -167,7 +166,7 @@ public class Wall extends AreaEntity {
 				sprite = new RPGSprite(WALL_NAME, 1, 1, this, new RegionOfInterest(0, 14*64, 64, 64));
 			}
 		}
-		sprite.setDepth(DEPTH_WALL);
+		sprite.setDepth(SuperPacmanDepth.WALL.value);
 	}
 
 	@Override

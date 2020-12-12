@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.rpg.handler.RPGInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
 import ch.epfl.cs107.play.game.superpacman.handler.SuperPacmanInteractionVisitor;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
@@ -41,7 +42,7 @@ public class Door extends AreaEntity implements Interactor {
     private Logic signal;
 
     private final SuperPacmanDoorHandler doorHandler = new SuperPacmanDoorHandler();
-    private final ScreenFade screenFade = new ScreenFade(4000, 0.05f);
+    private final ScreenFade screenFade = new ScreenFade(SuperPacmanDepth.SCREEN_FADE_DOORS.value, 0.05f);
 
 
     /**
