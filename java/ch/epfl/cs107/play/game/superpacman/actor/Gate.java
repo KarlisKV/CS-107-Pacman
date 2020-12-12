@@ -99,9 +99,10 @@ public class Gate extends AreaEntity {
      */
     @Override
     public void update(float deltaTime) {
-
+        //@TODO: this is how it checks if all pellets are eaten for the gates it changes the signal to TRUE
         if (Pellet.getNbrOfPelletsEaten() == Pellet.getTotalPellets()) {
             signal = Logic.TRUE;
+
         } else {
             if (checkIfTwoKeys) {
                 if (doubleLogicKey[0].getSignal().isOn() && doubleLogicKey[1].getSignal().isOn()) {
@@ -146,6 +147,7 @@ public class Gate extends AreaEntity {
      * @param canvas target, not null
      */
     @Override
+    //@TODO and here it checks, if the signal is On then you don't draw the sprite
     public void draw(Canvas canvas) {
         if (signal.isOff()) {
             sprite.draw(canvas);
