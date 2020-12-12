@@ -147,7 +147,6 @@ public class Gate extends AreaEntity {
      * @param canvas target, not null
      */
     @Override
-    //@TODO and here it checks, if the signal is On then you don't draw the sprite
     public void draw(Canvas canvas) {
         if (signal.isOff()) {
             sprite.draw(canvas);

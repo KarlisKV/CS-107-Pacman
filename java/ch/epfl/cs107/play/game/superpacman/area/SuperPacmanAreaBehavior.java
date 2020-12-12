@@ -120,7 +120,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                         PowerPellet powerPellet = new PowerPellet(area, new DiscreteCoordinates(x, y));
                         area.registerActor(powerPellet);
                         break;
-                    case FREE_WITH_CHERRY:
+                    case FREE_WITH_CAKE:
                         Cake cake = new Cake(area, new DiscreteCoordinates(x, y));
                         area.registerActor(cake);
                         break;
@@ -186,8 +186,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         FREE_WITH_PINKY(-157237), //pink
         FREE_WITH_INKY(-16724737), //cyan
         FREE_WITH_CLYDE(-24526), //orange
-        // TODO: change from cherry to cake
-        FREE_WITH_CHERRY(-36752), //light red
+        FREE_WITH_CAKE(-36752), //light red
         FREE_WITH_BONUS(-16478723), //light blue
         FREE_EMPTY(-6118750); // sort of gray
 
