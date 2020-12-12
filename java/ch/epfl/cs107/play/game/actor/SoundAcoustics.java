@@ -53,7 +53,7 @@ public class SoundAcoustics implements Acoustics {
     public void bip(Audio audio) {
         if (shouldBeStarted && audio.isSoundSupported()) {
             Sound sound = audio.getSound(name);
-            audio.playSound(sound, randomFirstStart, volume, fadeIn, loop, stopOthersOnStart);
+           // audio.playSound(sound, randomFirstStart, volume, fadeIn, loop, stopOthersOnStart);
             shouldBeStarted = false;
         }
     }
