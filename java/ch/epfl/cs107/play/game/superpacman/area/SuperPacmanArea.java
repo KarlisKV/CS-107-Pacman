@@ -17,6 +17,8 @@ import ch.epfl.cs107.play.window.Window;
 public abstract class SuperPacmanArea extends Area {
     private SuperPacmanAreaBehavior behavior;
 
+    public abstract boolean isEndingLevel();
+
     public abstract DiscreteCoordinates getPlayerSpawnPosition();
 
     public GhostsBehavior getGhostsManagement() {

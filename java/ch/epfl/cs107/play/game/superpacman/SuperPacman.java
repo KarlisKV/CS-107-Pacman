@@ -11,6 +11,8 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.rpg.RPG;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.area.levels.*;
 import ch.epfl.cs107.play.game.superpacman.graphics.Arcade;
 import ch.epfl.cs107.play.game.superpacman.graphics.ScreenFade;
@@ -26,18 +28,18 @@ import ch.epfl.cs107.play.window.Window;
 public class SuperPacman extends RPG {
     public static final float INIT_CAMERA_SCALE_FACTOR = 120.0f;
     public static final float FIN_CAMERA_SCALE_FACTOR = 37.0f;
-    private static LeaderboardGameScores leaderboardGameScores;
     public static float currentCameraScaleFactor = INIT_CAMERA_SCALE_FACTOR;
+    private static LeaderboardGameScores leaderboardGameScores;
     private final String[] areas =
             {"superpacman/level0", "superpacman/level1", "superpacman/level2"};
     private final Transition transition = new EaseInOutCubic(0.01f);
     private final SuperPacmanStatusGUI superPacmanStatusGUI = new SuperPacmanStatusGUI();
+    private final ScreenFade screenFade = new ScreenFade(4000, 0.02f);
     private Arcade arcade;
     private int areaIndex;
     private float timer = 0;
     private boolean pauseTimer = false;
     private SuperPacmanPlayer player;
-    private final ScreenFade screenFade = new ScreenFade(4000, 0.02f);
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
@@ -113,7 +115,8 @@ public class SuperPacman extends RPG {
             timer += deltaTime;
         }
         // START GAME
-        if (!player.isGameOver() && !MenuStateManager.isEndGame()) {
+        boolean gameWon = Pellet.areAllPelletsCleared() && ((SuperPacmanArea) getCurrentArea()).isEndingLevel();
+        if (!player.isGameOver() && !MenuStateManager.isEndGame() && !gameWon) {
             // Turn on arcade
             if (timer > 2) {
                 if (!arcade.isArcadeTurnedOn()) {
@@ -154,6 +157,9 @@ public class SuperPacman extends RPG {
                     player.reset();
                     MenuStateManager.setEndGame(false);
                 } else {
+                    if (gameWon) {
+                        player.reset();
+                    }
                     // Save leaderboard to file
                     leaderboardGameScores
                             .add(new GameScore(SuperPacmanPlayer.getMaxHp(), player.getAreaTimerHistory(),

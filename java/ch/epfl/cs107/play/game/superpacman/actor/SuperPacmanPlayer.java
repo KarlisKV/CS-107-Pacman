@@ -272,10 +272,13 @@ public class SuperPacmanPlayer extends Player {
         }
         getOwnerArea().enterAreaCells(this, Collections.singletonList(intiPos));
         setCurrentPosition(intiPos.toVector());
-        if (currentHp == 0 || MenuStateManager.isEndGame()) {
+
+        boolean gameWon = Pellet.areAllPelletsCleared() && ((SuperPacmanArea) getOwnerArea()).isEndingLevel();
+        if (currentHp == 0 || MenuStateManager.isEndGame() || gameWon) {
             areaTimerHistory.put(getOwnerArea().getTitle(), areaTimer);
             gameOver = true;
             canUserMove = false;
+
         } else {
             canUserMove = true;
         }

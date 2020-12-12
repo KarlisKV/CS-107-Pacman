@@ -24,6 +24,11 @@ public class Level3 extends SuperPacmanArea {
 
 
     @Override
+    public boolean isEndingLevel() {
+        return true;
+    }
+
+    @Override
     public DiscreteCoordinates getPlayerSpawnPosition() {
         return PLAYER_SPAWN_POSITION;
     }

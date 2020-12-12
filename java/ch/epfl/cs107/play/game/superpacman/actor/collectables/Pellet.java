@@ -28,6 +28,13 @@ public class Pellet extends CollectableAreaEntity implements Interactor {
     private static final int POINTS = 10;
     private static int nbrOfPelletsEaten = 0;
     private static int totalPellets = 0;
+
+    private static boolean allPelletsCleared = false;
+
+    public static boolean areAllPelletsCleared() {
+        return getNbrOfPelletsEaten() >= getTotalPellets();
+    }
+
     private final Glow glow;
     private final Sprite sprite;
     private final SuperPacmanPelletHandler pelletHandler = new SuperPacmanPelletHandler();
@@ -84,7 +91,7 @@ public class Pellet extends CollectableAreaEntity implements Interactor {
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
         List<DiscreteCoordinates> cellsInView = new ArrayList<>();
-        final int RANGE = 1;
+        final int RANGE = 2;
         for (DiscreteCoordinates currentCell : getCurrentCells()) {
             for (int x = -RANGE; x <= RANGE; ++x) {
                 for (int y = -RANGE; y <= RANGE; ++y) {

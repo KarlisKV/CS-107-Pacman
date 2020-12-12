@@ -55,8 +55,6 @@ public abstract class Camera implements Updatable {
         }
     }
 
-    /* ----------------------------------- ACCESSORS ----------------------------------- */
-
     /**
      * Method to set minX, maxX, minY, maxY for the camera if doEdgeControl.
      * @param areaSize the area size (width or height)
@@ -70,6 +68,8 @@ public abstract class Camera implements Updatable {
 
         return minMaxCameraPos;
     }
+
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
 
     public void setMinMaxPosX(float[] minMaxPosX) {
         this.minMaxPosX = minMaxPosX;

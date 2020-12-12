@@ -22,6 +22,11 @@ public class Level2 extends SuperPacmanArea {
     public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15, 29);
 
     @Override
+    public boolean isEndingLevel() {
+        return false;
+    }
+
+    @Override
     public DiscreteCoordinates getPlayerSpawnPosition() {
         return PLAYER_SPAWN_POSITION;
     }

@@ -100,10 +100,8 @@ public class Gate extends AreaEntity {
      */
     @Override
     public void update(float deltaTime) {
-        if (Pellet.getNbrOfPelletsEaten() == Pellet.getTotalPellets()) {
-            // TODO: this is how it checks if all pellets are eaten for the gates it changes the signal to TRUE
+        if (Pellet.areAllPelletsCleared()) {
             signal = Logic.TRUE;
-
         } else {
             if (checkIfTwoKeys) {
                 if (doubleLogicKey[0].getSignal().isOn() && doubleLogicKey[1].getSignal().isOn()) {
