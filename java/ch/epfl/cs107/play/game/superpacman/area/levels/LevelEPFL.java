@@ -31,7 +31,7 @@ public class LevelEPFL extends SuperPacmanArea {
     protected void createArea() {
 
         //Registers the door for the level
-        registerActor(new Door(Level2.LEVEL_PATHNAME, Level2.PLAYER_SPAWN_POSITION, Logic.TRUE,
+        registerActor(new Door(Level3.LEVEL_PATHNAME, Level3.PLAYER_SPAWN_POSITION, Logic.TRUE,
          this, Orientation.DOWN, new DiscreteCoordinates(14, 10), new DiscreteCoordinates(15, 10)));
 
         //Create HashMap with the list of keys

@@ -32,12 +32,19 @@ public class Level3 extends SuperPacmanArea {
     protected void createArea() {
         registerActor(new Foreground(this));
         // Doors
+
         createDoorTunnel(DOOR_TOP_RIGHT.left(), Orientation.RIGHT, DOOR_TOP_LEFT);
         createDoorTunnel(DOOR_TOP_LEFT.right(), Orientation.LEFT, DOOR_TOP_RIGHT);
         createDoorTunnel(DOOR_BOTTOM_RIGHT.left(), Orientation.RIGHT, DOOR_BOTTOM_LEFT);
         createDoorTunnel(DOOR_BOTTOM_LEFT.right(), Orientation.LEFT, DOOR_BOTTOM_RIGHT);
     }
 
+    /**
+     * Create tunnel for the pacman to go through
+     * @param otherSideCoordinates (DiscreteCoordinates) coordinate where the pacman will exit the tunnel
+     * @param orientation (Orientation) of the pacman
+     * @param position (DiscreteCoordinates) coordinate of the tunnel
+     */
     private void createDoorTunnel(DiscreteCoordinates otherSideCoordinates, Orientation orientation,
                                   DiscreteCoordinates position) {
         registerActor(new Door(LEVEL_PATHNAME, otherSideCoordinates, Logic.TRUE, this, orientation, position));
