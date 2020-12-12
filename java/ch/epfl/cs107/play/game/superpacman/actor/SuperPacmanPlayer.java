@@ -48,7 +48,7 @@ public class SuperPacmanPlayer extends Player {
     private static final SoundAcoustics COLLECT_KEY_SOUND = SuperPacmanSound.COLLECT_KEY.sound;
     // Default attributes
     private static final int ANIMATION_DURATION = 10;  // base 10
-    private static final int DEBUG_ANIMATION_DURATION = 4;
+    private static final int DEBUG_SPEED_MODE_ANIMATION_DURATION = 4;
     private static final Orientation DEFAULT_ORIENTATION = Orientation.RIGHT;
     private static final int SPRITE_SIZE = 14;
     private static final int MAX_HP = 5;
@@ -229,10 +229,10 @@ public class SuperPacmanPlayer extends Player {
 
             // Move the player
             if (!isDisplacementOccurs()) {
-                if (!MenuStateManager.isDebugMode()) {
+                if (!MenuStateManager.isSpeedMode()) {
                     move(ANIMATION_DURATION);
                 } else {
-                    move(DEBUG_ANIMATION_DURATION);
+                    move(DEBUG_SPEED_MODE_ANIMATION_DURATION);
                 }
             }
         }

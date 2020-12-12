@@ -37,6 +37,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private static boolean gameOver = false;
     private static boolean debugMode = false;
     private static boolean godMode = false;
+    private static boolean speedMode = false;
     private static boolean quit = false;
     private static boolean paused = false;
     private static boolean soundDeactivated = false;
@@ -45,8 +46,8 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private final ScreenFade screenFade = new ScreenFade(25000, 0.005f);
     private final Deque<Menu> menuStack = new ArrayDeque<>();
     private final Keyboard keyboard;
-    private Window window;
     private final Map<MenuState, Menu> menuStates = new EnumMap<>(MenuState.class);
+    private final Window window;
 
     /**
      * Constructor for MenuItems class
@@ -119,6 +120,10 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
 
     public static boolean isGodMode() {
         return godMode;
+    }
+
+    public static boolean isSpeedMode() {
+        return speedMode;
     }
 
     public static boolean isShowFps() {
@@ -284,9 +289,24 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
             debugMode = true;
         }
 
-        if (!godMode && debugMode && keyboard.get(Keyboard.G).isDown()) {
-            System.out.println("God mode enabled");
-            godMode = true;
+        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.G).isPressed()) {
+            godMode = !godMode;
+            System.out.print("God mode ");
+            if (godMode) {
+                System.out.println("enabled");
+            } else {
+                System.out.println("disabled");
+            }
+        }
+
+        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.S).isPressed()) {
+            speedMode = !speedMode;
+            System.out.print("Speed mode ");
+            if (speedMode) {
+                System.out.println("enabled");
+            } else {
+                System.out.println("disabled");
+            }
         }
         if (gameOver) {
             menuStack.push(menuStates.get(MenuState.GAME_OVER));

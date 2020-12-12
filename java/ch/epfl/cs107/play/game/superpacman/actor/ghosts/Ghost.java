@@ -520,7 +520,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      * - no moving into walls
      * @return a List with all valid orientations
      */
-    private List<Orientation> getValidOrientations() {
+    public List<Orientation> getValidOrientations() {
         List<Orientation> possibleOrientations = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
             // Check if ghost can move in any directions

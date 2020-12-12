@@ -15,8 +15,8 @@ public class Clyde extends Ghost {
     private static final String SPRITE_NAME = "superpacman/ghost.clyde";
     private static final int SPRITE_SIZE = 16;
     private static final int FIELD_OF_VIEW = 35;
-    private static final int FORWARD_VISION = 5;
-    private static final int MIN_AFRAID_DISTANCE = 5;
+    private static final int FORWARD_VISION = 6;
+    private static final int MIN_AFRAID_DISTANCE = 10;
     private static final int FORWARD_RANGE = 3;
 
     public Clyde(Area area, DiscreteCoordinates homePosition) {
@@ -26,28 +26,34 @@ public class Clyde extends Ghost {
     @Override
     protected DiscreteCoordinates getTargetWhileFrightened() {
         // Returning null on purpose, Orientation will be chose randomly
-        return null;
+        return getRandomValidPosition(
+                getCellsFromRange(getCurrentMainCellCoordinates(), MIN_AFRAID_DISTANCE, true));
     }
 
     @Override
     protected DiscreteCoordinates getTargetWhilePlayerInVew() {
-        if (isFrightened()) {
-            // Get away from player
-            return getRandomValidPosition(
-                    getCellsFromRange(getCurrentMainCellCoordinates(), MIN_AFRAID_DISTANCE, true));
-        }
         if (getLastPlayerPosition() != null && getLastPlayerOrientation() != null) {
-            DiscreteCoordinates target =
-                    getRandomValidPosition(getCellsFromRange(
-                            getLastPlayerPosition().jump(getLastPlayerOrientation().toVector().resized(FORWARD_VISION)),
-                            FORWARD_RANGE, false));
-            if (!invalidPath(target)) {
-                return target;
+
+            float xA = getCurrentMainCellCoordinates().toVector().getX();
+            float yA = getCurrentMainCellCoordinates().toVector().getY();
+            float xB = getLastPlayerPosition().toVector().getX();
+            float yB = getLastPlayerPosition().toVector().getY();
+            float distance = (float) Math.sqrt(Math.pow(xB - xA, 2) + Math.pow(yB - yA, 2));
+            if (distance >= 4) {
+                DiscreteCoordinates target =
+                        getRandomValidPosition(getCellsFromRange(
+                                getLastPlayerPosition()
+                                        .jump(getLastPlayerOrientation().toVector().resized(FORWARD_VISION)),
+                                FORWARD_RANGE, false));
+                if (!invalidPath(target)) {
+                    return target;
+                }
             }
             return getLastPlayerPosition();
         } else {
             return null;
         }
+
     }
 
     @Override

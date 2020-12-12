@@ -60,7 +60,9 @@ public class Arcade implements Graphics, Acoustics {
             }
             arcadePathName = "superpacman/pacmanArcadeOn";
         } else {
-            TURN_OFF_SOUND.shouldBeStarted();
+            if (!MenuStateManager.isSoundDeactivated()) {
+                TURN_OFF_SOUND.shouldBeStarted();
+            }
             arcadePathName = "superpacman/pacmanArcadeOff";
         }
     }
