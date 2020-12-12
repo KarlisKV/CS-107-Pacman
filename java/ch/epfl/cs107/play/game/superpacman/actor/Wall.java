@@ -26,21 +26,22 @@ public class Wall extends AreaEntity {
 	 * The neighborhood allows to select the sprite, it is a 3x3 matrix
 	 * that indicate if a wall is present in the neighborhood,
 	 * the center corresponds to the current wall position
-	 * @param area (Area): Owner area. Not null 
-	 * @param position (DiscreteCoordinates): The wall position. Not null
+	 * @param area         (Area): Owner area. Not null
+	 * @param position     (DiscreteCoordinates): The wall position. Not null
 	 * @param neighborhood (boolean[][]):. The 3x3 matrix. Not null
 	 */
 	public Wall(Area area, DiscreteCoordinates position, boolean[][] neighborhood) {
 		super(area, Orientation.DOWN, position);
-		if(area.getTitle() == "superpacman/levelEPFL") {
+
+		// Set wall color
+		if (area.getTitle().equals("superpacman/levelEPFL")) {
 			this.WALL_NAME = "superpacman/wallDarkRedRounded";
-		}
-		else {
+		} else {
 			this.WALL_NAME = "superpacman/wallBlueRoundDarkFilled";
 		}
 
 
-		if(neighborhood[0][1] && neighborhood[2][1] && !neighborhood[1][0] && !neighborhood[1][2]) {
+		if (neighborhood[0][1] && neighborhood[2][1] && !neighborhood[1][0] && !neighborhood[1][2]) {
 			//horizontal
 			sprite = new RPGSprite(WALL_NAME, 1, 1, this, new RegionOfInterest(0, 0*64, 64, 64));
 		}else if(!neighborhood[0][1] && !neighborhood[2][1] && neighborhood[1][0] && neighborhood[1][2]) {

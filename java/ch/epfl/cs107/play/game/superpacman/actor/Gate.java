@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -21,17 +22,17 @@ public class Gate extends AreaEntity {
     private static final int DEPTH_GATE = -3500;
     private Sprite sprite;
     private Key singleLogicKey;
-    private Key [] doubleLogicKey = new Key[2];
+    private final Key[] doubleLogicKey = new Key[2];
 
     private boolean checkIfTwoKeys;
     private Logic signal;
 
     /**
      * Constructor for gate that changes signals when the key has been picked up
-     * @param area (Area): Owner area. Not null
-     * @param orientation (Orientation) the desired orientation of the gate
-     * @param position (Coordinate): Initial position of the entity. Not null
-     * @param signal (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
+     * @param area           (Area): Owner area. Not null
+     * @param orientation    (Orientation) the desired orientation of the gate
+     * @param position       (Coordinate): Initial position of the entity. Not null
+     * @param signal         (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
      * @param singleLogicKey (Key) Key that is linked to the gate.
      */
     public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal, Key singleLogicKey) {
@@ -59,10 +60,10 @@ public class Gate extends AreaEntity {
 
     /**
      * Constructor for gate that changes signals when all pellets have been eaten
-     * @param area (Area): Owner area. Not null
+     * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation) the desired orientation of the gate
-     * @param position (Coordinate): Initial position of the entity. Not null
-     * @param signal (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
+     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param signal      (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
      */
     public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal) {
         super(area, orientation, position);
@@ -73,12 +74,12 @@ public class Gate extends AreaEntity {
 
     /**
      * Constructor for gate that changes signals when both keys have been picked up
-     * @param area (Area): Owner area. Not null
+     * @param area        (Area): Owner area. Not null
      * @param orientation (Orientation) the desired orientation of the gate
-     * @param position (Coordinate): Initial position of the entity. Not null
-     * @param signal (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
-     * @param key1 (Key) First key that is linked to the gate.
-     * @param key2 (Key) Second key that is linked to the gate.
+     * @param position    (Coordinate): Initial position of the entity. Not null
+     * @param signal      (Logic) Signal of the gate, On/Off, By default is Logic.FALSE
+     * @param key1        (Key) First key that is linked to the gate.
+     * @param key2        (Key) Second key that is linked to the gate.
      */
     public Gate(Area area, Orientation orientation, DiscreteCoordinates position, Logic signal, Key key1, Key key2) {
         super(area, orientation, position);
@@ -99,8 +100,8 @@ public class Gate extends AreaEntity {
      */
     @Override
     public void update(float deltaTime) {
-        //@TODO: this is how it checks if all pellets are eaten for the gates it changes the signal to TRUE
         if (Pellet.getNbrOfPelletsEaten() == Pellet.getTotalPellets()) {
+            // TODO: this is how it checks if all pellets are eaten for the gates it changes the signal to TRUE
             signal = Logic.TRUE;
 
         } else {
@@ -142,7 +143,8 @@ public class Gate extends AreaEntity {
         //No interaction
     }
 
-    /**+
+    /**
+     * +
      * Draws the gate in the case when the signal is Logic.FALSE
      * @param canvas target, not null
      */

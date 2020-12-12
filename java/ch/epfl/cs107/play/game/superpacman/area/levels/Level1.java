@@ -27,7 +27,7 @@ public class Level1 extends SuperPacmanArea {
     @Override
     protected void createArea() {
         // Door
-       registerActor(new Door(Level2.LEVEL_PATHNAME, Level2.PLAYER_SPAWN_POSITION, Logic.TRUE,
+        registerActor(new Door(Level2.LEVEL_PATHNAME, Level2.PLAYER_SPAWN_POSITION, Logic.TRUE,
                                this, Orientation.DOWN, new DiscreteCoordinates(14, 0), new DiscreteCoordinates(15, 0)));
         // Gates
         registerActor(new Gate(this, Orientation.RIGHT, new DiscreteCoordinates(14, 3), Logic.FALSE));

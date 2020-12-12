@@ -15,7 +15,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 public class Level3 extends SuperPacmanArea {
-    public static final String LEVEL_PATHNAME = "superpacman/level3_var";
+    public static final String LEVEL_PATHNAME = "superpacman/level3";
     public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(19, 33);
     private static final DiscreteCoordinates DOOR_TOP_LEFT = new DiscreteCoordinates(2, 25);
     private static final DiscreteCoordinates DOOR_TOP_RIGHT = new DiscreteCoordinates(35, 25);
@@ -45,8 +45,8 @@ public class Level3 extends SuperPacmanArea {
     /**
      * Create tunnel for the pacman to go through
      * @param otherSideCoordinates (DiscreteCoordinates) coordinate where the pacman will exit the tunnel
-     * @param orientation (Orientation) of the pacman
-     * @param position (DiscreteCoordinates) coordinate of the tunnel
+     * @param orientation          (Orientation) of the pacman
+     * @param position             (DiscreteCoordinates) coordinate of the tunnel
      */
     private void createDoorTunnel(DiscreteCoordinates otherSideCoordinates, Orientation orientation,
                                   DiscreteCoordinates position) {

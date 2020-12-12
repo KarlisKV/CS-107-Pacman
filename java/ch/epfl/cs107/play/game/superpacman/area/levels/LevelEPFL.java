@@ -32,7 +32,8 @@ public class LevelEPFL extends SuperPacmanArea {
 
         //Registers the door for the level
         registerActor(new Door(Level3.LEVEL_PATHNAME, Level3.PLAYER_SPAWN_POSITION, Logic.TRUE,
-         this, Orientation.DOWN, new DiscreteCoordinates(14, 10), new DiscreteCoordinates(15, 10)));
+                               this, Orientation.DOWN, new DiscreteCoordinates(14, 10),
+                               new DiscreteCoordinates(15, 10)));
 
         //Create HashMap with the list of keys
         HashMap<String, Key> keyList = new HashMap<>();
@@ -47,13 +48,13 @@ public class LevelEPFL extends SuperPacmanArea {
             registerActor(key);
         }
 
-        //Gates for passage to next level
+        // Gates for passage to next level
         createRightOrientatedGate(new DiscreteCoordinates(14, 9), keyList.get("keyTopLeft"),
-                keyList.get("keyBottomRight"));
+                                  keyList.get("keyBottomRight"));
         createRightOrientatedGate(new DiscreteCoordinates(15, 9), keyList.get("keyBottomLeft"),
-                keyList.get("keyBottomRight"));
+                                  keyList.get("keyBottomRight"));
 
-        //Gates for unlocking keys
+        // Gates for unlocking keys
         createGate(Orientation.LEFT, new DiscreteCoordinates(1, 2), keyList.get("keyTopRight"));
         createGate(Orientation.LEFT, new DiscreteCoordinates(28, 2), keyList.get("keyTopLeft"));
 
@@ -69,24 +70,24 @@ public class LevelEPFL extends SuperPacmanArea {
     }
 
     /**
-     * Method for creating gate with one key
-     * @param orientation (Orientation) of the gate
-     * @param position (DiscreteCoordinates) coordinates of the gate
-     * @param key (Key) that is linked to the corresponding gate
-     */
-    private void createGate(Orientation orientation, DiscreteCoordinates position, Key key) {
-        registerActor(new Gate(this, orientation, position, Logic.FALSE, key));
-    }
-
-    /**
      * Method for creating gate with two keys
      * @param position (DiscreteCoordinates) coordinates of the gate
-     * @param key1 (Key) that is linked to the corresponding gate
-     * @param key2 (Key) that is linked to the corresponding gate
+     * @param key1     (Key) that is linked to the corresponding gate
+     * @param key2     (Key) that is linked to the corresponding gate
      */
     private void createRightOrientatedGate(DiscreteCoordinates position, Key key1, Key key2) {
         registerActor(new Gate(this, Orientation.RIGHT, position, Logic.FALSE, key1, key2));
 
+    }
+
+    /**
+     * Method for creating gate with one key
+     * @param orientation (Orientation) of the gate
+     * @param position    (DiscreteCoordinates) coordinates of the gate
+     * @param key         (Key) that is linked to the corresponding gate
+     */
+    private void createGate(Orientation orientation, DiscreteCoordinates position, Key key) {
+        registerActor(new Gate(this, orientation, position, Logic.FALSE, key));
     }
 
     @Override
