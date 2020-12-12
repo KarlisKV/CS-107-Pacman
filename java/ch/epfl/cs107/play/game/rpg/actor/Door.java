@@ -171,10 +171,10 @@ public class Door extends AreaEntity implements Interactor {
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
         List<DiscreteCoordinates> cellsInView = new ArrayList<>();
-        final int range = 1;
+        final int RANGE = 3;
         for (DiscreteCoordinates currentCell : getCurrentCells()) {
-            for (int x = -range; x <= range; ++x) {
-                for (int y = -range; y <= range; ++y) {
+            for (int x = -RANGE; x <= RANGE; ++x) {
+                for (int y = -RANGE; y <= RANGE; ++y) {
                     if (!cellsInView.contains(currentCell.jump(x, y))) {
                         cellsInView.add(currentCell.jump(x, y));
                     }
