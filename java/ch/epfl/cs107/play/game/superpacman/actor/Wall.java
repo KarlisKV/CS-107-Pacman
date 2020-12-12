@@ -15,7 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Wall extends AreaEntity {
-	private static final String WALL_NAME = "superpacman/wallBlueRoundDarkFilled";
+	private String WALL_NAME;
+
 	private static final int DEPTH_WALL = -2000;
 
 	Sprite sprite;
@@ -31,6 +32,13 @@ public class Wall extends AreaEntity {
 	 */
 	public Wall(Area area, DiscreteCoordinates position, boolean[][] neighborhood) {
 		super(area, Orientation.DOWN, position);
+		if(area.getTitle() == "superpacman/levelEPFL") {
+			this.WALL_NAME = "superpacman/wallDarkRedRounded";
+		}
+		else {
+			this.WALL_NAME = "superpacman/wallBlueRoundDarkFilled";
+		}
+
 
 		if(neighborhood[0][1] && neighborhood[2][1] && !neighborhood[1][0] && !neighborhood[1][2]) {
 			//horizontal
