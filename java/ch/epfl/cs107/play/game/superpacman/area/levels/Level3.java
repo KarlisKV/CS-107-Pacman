@@ -42,9 +42,7 @@ public class Level3 extends SuperPacmanArea {
         createDoorTunnel(DOOR_BOTTOM_RIGHT.left(), Orientation.RIGHT, DOOR_BOTTOM_LEFT);
         createDoorTunnel(DOOR_BOTTOM_LEFT.right(), Orientation.LEFT, DOOR_BOTTOM_RIGHT);
 
-        // Door
-//        registerActor(new Door(LevelEPFL.LEVEL_PATHNAME, LevelEPFL.PLAYER_SPAWN_POSITION, Logic.TRUE,
-//                               this, Orientation.UP, new DiscreteCoordinates(18, 4), new DiscreteCoordinates(19, 4)));
+
     }
 
     /**

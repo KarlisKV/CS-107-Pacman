@@ -14,6 +14,8 @@ import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
+import java.awt.*;
+
 public class Help extends Menu {
     private static final String HELP_PATH = "superpacman/help";
     private final TextGraphics title;
@@ -31,7 +33,9 @@ public class Help extends Menu {
         title = createText(HEADER_FONT_SIZE);
         helpImage = createImage(HELP_PATH);
         moreGhosts = createText(BODY_FONT_SIZE);
+        moreGhosts.setFillColor(Color.red);
         morePoints = createText(BODY_FONT_SIZE);
+        morePoints.setFillColor(Color.red);
         back = createText(BODY_FONT_SIZE);
     }
 
