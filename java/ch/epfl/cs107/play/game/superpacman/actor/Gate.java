@@ -100,7 +100,7 @@ public class Gate extends AreaEntity {
      */
     @Override
     public void update(float deltaTime) {
-        if (Pellet.areAllPelletsCleared()) {
+        if (Pellet.areaAllPelletsCleared()) {
             signal = Logic.TRUE;
         } else {
             if (checkIfTwoKeys) {

@@ -116,7 +116,7 @@ public class SuperPacman extends RPG {
             timer += deltaTime;
         }
         // START GAME
-        boolean gameWon = Pellet.areAllPelletsCleared() && ((SuperPacmanArea) getCurrentArea()).isEndingLevel();
+        boolean gameWon = Pellet.areaAllPelletsCleared() && ((SuperPacmanArea) getCurrentArea()).isEndingLevel();
         if (!player.isGameOver() && !MenuStateManager.isEndGame() && !gameWon) {
             // Turn on arcade
             if (timer > 2) {
