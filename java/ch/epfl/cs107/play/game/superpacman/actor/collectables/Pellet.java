@@ -30,8 +30,6 @@ public class Pellet extends CollectableAreaEntity implements Interactor {
     private static int nbrOfPelletsEaten = 0;
     private static int totalPellets = 0;
 
-    private static boolean allPelletsCleared = false;
-
     public static boolean areAllPelletsCleared() {
         return getNbrOfPelletsEaten() >= getTotalPellets();
     }

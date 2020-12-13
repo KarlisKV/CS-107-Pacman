@@ -8,7 +8,7 @@ public enum SuperPacmanDifficulty {
     NORMAL(SubOption.DIFFICULTY_NORMAL, true, 16, 12, 10, 10, 3,
            2.5f, 1),
     HARD(SubOption.DIFFICULTY_HARD, true, 14, 10, 8, 6, 2.5f,
-         1.5f, 2),
+         1.5f, 1.5),
     IMPOSSIBLE(SubOption.DIFFICULTY_IMPOSSIBLE, true, 12, 8, 6, 4, 1f,
                0.5f, 3);
 

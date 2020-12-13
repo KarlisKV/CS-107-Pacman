@@ -106,14 +106,14 @@ public class GameOver extends Menu {
         updateText(enterName, getUserInputOptionText(Option.NAME, gameScore.getPlayerName()), 0,
                    Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
         enterName.draw(canvas);
-        paddingCount += 2;
+
 
         // Restart option
-        updateText(restart, getOptionText(Option.RESTART), 0, Y_TEXT_OFFSET + TEXT_PADDING * paddingCount);
+        updateText(restart, getOptionText(Option.RESTART), 0, getBottomPadding() - TEXT_PADDING);
         restart.draw(canvas);
 
         // Back to main menu option
-        updateText(backToMainMenu, getOptionText(Option.BACK_TO_MAIN_MENU), 0, -50);
+        updateText(backToMainMenu, getOptionText(Option.BACK_TO_MAIN_MENU), 0, getBottomPadding());
         backToMainMenu.draw(canvas);
     }
 }

@@ -94,11 +94,11 @@ public class MainMenu extends Menu {
         quit.draw(canvas);
 
         // Leaderboard option text
-        updateText(leaderboard, getOptionText(Option.LEADERBOARD), 0, -50 - TEXT_PADDING);
+        updateText(leaderboard, getOptionText(Option.LEADERBOARD), 0, getBottomPadding() - TEXT_PADDING);
         leaderboard.draw(canvas);
 
         // Credits option text
-        updateText(credits, getOptionText(Option.CREDITS), 0, -50);
+        updateText(credits, getOptionText(Option.CREDITS), 0, getBottomPadding());
         credits.draw(canvas);
 
     }

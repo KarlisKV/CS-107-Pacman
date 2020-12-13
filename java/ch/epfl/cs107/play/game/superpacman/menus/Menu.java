@@ -10,6 +10,7 @@ package ch.epfl.cs107.play.game.superpacman.menus;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.*;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.game.superpacman.SoundUtility;
 import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanSound;
 import ch.epfl.cs107.play.math.RegionOfInterest;
@@ -32,6 +33,7 @@ public abstract class Menu implements Graphics, Acoustics {
     private static final SoundAcoustics SELECT_SOUND = SuperPacmanSound.MENU_SELECT.sound;
     private static final SoundAcoustics KEY_CLICK_SOUND = SuperPacmanSound.MENU_KEY_CLICK.sound;
     private static final SoundAcoustics ERROR_SOUND = SuperPacmanSound.MENU_ERROR.sound;
+    private final SoundUtility menuSoundUtility;
     private final Keyboard keyboard;
     private final float alpha = 1.0f;
     private final EnumMap<Option, List<SubOption>> subOptionList = new EnumMap<>(Option.class);
@@ -39,6 +41,9 @@ public abstract class Menu implements Graphics, Acoustics {
     private final List<Option> optionList = new ArrayList<>();
     private float scaledWidth;
     private float scaledHeight;
+    private float initScaledWidth;
+    private float initScaledHeight;
+    private boolean savedInitScales;
     private Vector scaledAnchor;
     private Vector anchor;
     private float width;
@@ -48,6 +53,9 @@ public abstract class Menu implements Graphics, Acoustics {
     private Option currentSelection;
     private SubOption currentSubSelection;
     private boolean toggleLogic = true;
+    private float topPadding;
+    private float bottomPadding;
+
     /**
      * Constructor for Menu class
      * @param window (Window): the current window
@@ -58,6 +66,8 @@ public abstract class Menu implements Graphics, Acoustics {
         setupOptionList();
         setupSubOptionList();
         setupSubOptionSelectionList();
+        menuSoundUtility = new SoundUtility(new SoundAcoustics[]{SELECT_SOUND, KEY_CLICK_SOUND, ERROR_SOUND}, false);
+
     }
 
     /**
@@ -90,6 +100,14 @@ public abstract class Menu implements Graphics, Acoustics {
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
+    public float getTopPadding() {
+        return topPadding;
+    }
+
+    public float getBottomPadding() {
+        return bottomPadding;
+    }
+
     public Vector getScaledAnchor() {
         return scaledAnchor;
     }
@@ -116,10 +134,6 @@ public abstract class Menu implements Graphics, Acoustics {
 
     protected float getScaledWidth() {
         return scaledWidth;
-    }
-
-    protected float getScaledHeight() {
-        return scaledHeight;
     }
 
     protected float getAlpha() {
@@ -170,7 +184,6 @@ public abstract class Menu implements Graphics, Acoustics {
         return option;
     }
 
-
     protected void updateText(TextGraphics option, String text, float centerXOffset, float centerYOffset) {
         option.setText(text);
         option.setAnchor(anchor.add(((width / 2) - text.length() * option.getFontSize() / 2) + centerXOffset,
@@ -200,15 +213,16 @@ public abstract class Menu implements Graphics, Acoustics {
      * @return a new ImageGraphics
      */
     protected ImageGraphics createImage(String path) {
-        return new ImageGraphics(ResourcePath.getBackgrounds(path), scaledWidth, scaledHeight,
-                                 new RegionOfInterest(0, 0, 1100, 1100), null, alpha, SuperPacmanDepth.MENU.value + 250);
+        return new ImageGraphics(ResourcePath.getBackgrounds(path), initScaledWidth, initScaledHeight,
+                                 new RegionOfInterest(0, 0, 1100, 1100), null, alpha,
+                                 SuperPacmanDepth.MENU.value + 250);
     }
 
     protected void updateImage(ImageGraphics image) {
-        image.setWidth(scaledWidth);
-        image.setHeight(scaledHeight);
+        image.setWidth(initScaledWidth);
+        image.setHeight(initScaledHeight);
         image.setAlpha(alpha);
-        image.setAnchor(anchor.add(new Vector((width / 2) - (scaledWidth / 2), (height / 2) - (scaledHeight / 2))));
+        image.setAnchor(anchor.add(new Vector((width / 2) - (initScaledWidth / 2), (height / 2) - (initScaledHeight / 2))));
     }
 
     /**
@@ -249,7 +263,7 @@ public abstract class Menu implements Graphics, Acoustics {
         // Check for the letters of the alphabet
         for (int key = 65; key <= 90; ++key) {
             if (keyboard.get(key).isPressed()) {
-                if (userInput.length() < 8) {
+                if (userInput.length() < 10) {
                     keyInput = (char) key;
                     KEY_CLICK_SOUND.shouldBeStarted();
                 } else {
@@ -310,21 +324,33 @@ public abstract class Menu implements Graphics, Acoustics {
 
     @Override
     public void bip(Audio audio) {
-        SELECT_SOUND.bip(audio);
-        KEY_CLICK_SOUND.bip(audio);
-        ERROR_SOUND.bip(audio);
+        menuSoundUtility.bip(audio);
     }
 
     @Override
     public void draw(Canvas canvas) {
         scaledWidth = canvas.getScaledWidth();
         scaledHeight = canvas.getScaledHeight();
+
+        if (!savedInitScales) {
+            initScaledWidth = scaledWidth;
+            initScaledHeight = scaledHeight;
+            savedInitScales = true;
+        }
+
         width = canvas.getWidth();
         height = canvas.getHeight();
+
+        topPadding = getScaledHeight() / 2.7f;
+        bottomPadding = -getScaledHeight() / 2.3f;
 
         scaledAnchor = canvas.getTransform().getOrigin().sub(new Vector(scaledWidth / 2, scaledHeight / 2));
         anchor = canvas.getTransform().getOrigin().sub(new Vector(width / 2, height / 2));
         updateCurrentSelection();
+    }
+
+    protected float getScaledHeight() {
+        return scaledHeight;
     }
 
     /**
@@ -332,13 +358,13 @@ public abstract class Menu implements Graphics, Acoustics {
      */
     protected void updateCurrentSelection() {
         if (downKeyIsPressed() && selectionCount < optionList.size() - 1) {
-            requestPlaySound(SELECT_SOUND);
+            menuSoundUtility.play(SELECT_SOUND);
             ++selectionCount;
             currentSelection = optionList.get(selectionCount);
             resetSubCount();
 
         } else if (upKeyIsPressed() && selectionCount > 0) {
-            requestPlaySound(SELECT_SOUND);
+            menuSoundUtility.play(SELECT_SOUND);
             --selectionCount;
             currentSelection = optionList.get(selectionCount);
             resetSubCount();
@@ -351,16 +377,6 @@ public abstract class Menu implements Graphics, Acoustics {
      */
     protected boolean downKeyIsPressed() {
         return keyboard.get(Keyboard.DOWN).isPressed();
-    }
-
-    /**
-     * Method to start sounds
-     * @param sound the desired sound to be started
-     */
-    private void requestPlaySound(SoundAcoustics sound) {
-        if (!MenuStateManager.isSoundDeactivated()) {
-            sound.shouldBeStarted();
-        }
     }
 
     /**

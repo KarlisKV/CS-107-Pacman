@@ -11,7 +11,9 @@ import ch.epfl.cs107.play.game.Updatable;
 import ch.epfl.cs107.play.game.actor.Acoustics;
 import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
+import ch.epfl.cs107.play.game.superpacman.SoundUtility;
 import ch.epfl.cs107.play.game.superpacman.SuperPacman;
+import ch.epfl.cs107.play.game.superpacman.actor.SuperPacmanPlayer;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
 import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDifficulty;
@@ -32,6 +34,7 @@ import java.util.Map;
 public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private static final SoundAcoustics ENTER_SOUND = SuperPacmanSound.MENU_ENTER.sound;
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
+    private final SoundUtility menuStateSoundUtility;
     private static final String LEADERBOARD_TMP_FILENAME = "leaderboard.ser";
     private static boolean startGame = false;
     private static boolean endGame = false;
@@ -68,6 +71,12 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         Menu help = new Help(window);
         menuStates.put(MenuState.HELP, help);
 
+        Menu helpGhosts = new HelpGhosts(window);
+        menuStates.put(MenuState.HELP_GHOSTS, helpGhosts);
+
+        Menu helpScore = new HelpScore(window);
+        menuStates.put(MenuState.HELP_SCORE, helpScore);
+
         Menu leaderboard = new Leaderboard(window);
         menuStates.put(MenuState.LEADERBOARD, leaderboard);
 
@@ -87,6 +96,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         menuStates.put(MenuState.PAUSE, pause);
 
         screenFade.setFadeIn();
+        menuStateSoundUtility = new SoundUtility(new SoundAcoustics[]{ENTER_SOUND, EXIT_SOUND}, false);
     }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
@@ -153,8 +163,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
 
     @Override
     public void bip(Audio audio) {
-        ENTER_SOUND.bip(audio);
-        EXIT_SOUND.bip(audio);
+        menuStateSoundUtility.bip(audio);
         menuStack.peek().bip(audio);
     }
 
@@ -173,7 +182,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
      */
     private void selectOption(Menu menu) {
         if (enterKeyIsPressed() && menu.getCurrentSelection() != null) {
-            ENTER_SOUND.shouldBeStarted();
+            menuStateSoundUtility.play(ENTER_SOUND);
             switch (menu.getCurrentSelection()) {
                 case PLAY:
                     menuStack.push(menuStates.get(MenuState.PLAY));
@@ -202,6 +211,12 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                     menuStack.clear();
                     menuStack.push(menuStates.get(MenuState.MAIN_MENU));
                     break;
+                case MORE_GHOSTS:
+                    menuStack.push(menuStates.get(MenuState.HELP_GHOSTS));
+                    break;
+                case MORE_POINTS:
+                    menuStack.push(menuStates.get(MenuState.HELP_SCORE));
+                    break;
                 case BACK:
                     menuStack.removeFirst();
                     menu.reset();
@@ -220,7 +235,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                     break;
                 case QUIT:
                     menuStack.push(menuStates.get(MenuState.QUIT));
-                    EXIT_SOUND.shouldBeStarted();
+                    menuStateSoundUtility.play(EXIT_SOUND);
                     soundDeactivated = false;
                     quit = true;
                     break;
@@ -252,7 +267,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
             }
         }
         // pause menu
-        if (escKeyIsPressed()) {
+        if (escKeyIsPressed() && SuperPacmanPlayer.isCanUserMove()) {
             assert menuStack.peek() != null;
             if (menuStack.peek().equals(menuStates.get(MenuState.PLAY))) {
                 SoundAcoustics.stopAllSounds(window);
@@ -324,6 +339,8 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         PLAY(),
         OPTIONS(),
         HELP(),
+        HELP_GHOSTS(),
+        HELP_SCORE(),
         LEADERBOARD(),
         CREDITS(),
         GAME_OVER(),

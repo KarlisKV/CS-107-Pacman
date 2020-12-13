@@ -9,6 +9,7 @@ package ch.epfl.cs107.play.game.superpacman;
 
 import ch.epfl.cs107.play.game.actor.Acoustics;
 import ch.epfl.cs107.play.game.actor.SoundAcoustics;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.window.Audio;
 
 import java.util.*;
@@ -74,11 +75,13 @@ public class SoundUtility implements Acoustics {
      * @param stopOthers if the other sounds should be stopped when playing the sound
      */
     public void play(SoundAcoustics sound, boolean stopOthers) {
-        if (stopOthers) {
-            stopAll();
+        if (!MenuStateManager.isSoundDeactivated()) {
+            if (stopOthers) {
+                stopAll();
+            }
+            soundQueue.add(sound);
+            soundMap.replace(sound, true);
         }
-        soundQueue.add(sound);
-        soundMap.replace(sound, true);
 
     }
 

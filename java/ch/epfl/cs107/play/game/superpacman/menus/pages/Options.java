@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Options extends Menu {
-    private static final float CENTER_Y_OFFSET = 35;
+    private float centerYOffset;
     private static final float TEXT_PADDING = -5;
     private static final float HEADER_PADDING = -7;
     private final TextGraphics title;
@@ -74,43 +74,43 @@ public class Options extends Menu {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        float yTextOffSet = (super.getScaledHeight() / 2) - 15;
+        centerYOffset = getScaledHeight() / 3.3f;
 
         // Title text
-        updateText(title, Option.OPTIONS.text, 0, yTextOffSet);
+        updateText(title, Option.OPTIONS.text, 0, getTopPadding());
         title.draw(canvas);
 
         // Sound options text
         updateText(sound, Option.SOUND.text + ": " + getSubOptionText(Option.SOUND), 0,
-                   CENTER_Y_OFFSET + HEADER_PADDING);
+                   centerYOffset + HEADER_PADDING);
         sound.draw(canvas);
 
         int paddingCount = 1;
         // Camera shake options text
         updateText(cameraShake, Option.CAMERA_SHAKE.text + ": " + getSubOptionText(Option.CAMERA_SHAKE), 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+                   centerYOffset + TEXT_PADDING * paddingCount + HEADER_PADDING);
         cameraShake.draw(canvas);
         ++paddingCount;
 
         // Fps options text
         updateText(fps, Option.FPS.text + ": " + getSubOptionText(Option.FPS), 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+                   centerYOffset + TEXT_PADDING * paddingCount + HEADER_PADDING);
         fps.draw(canvas);
         ++paddingCount;
 
         // Difficulty options text
         updateText(difficulty, Option.DIFFICULTY.text + ": " + getSubOptionText(Option.DIFFICULTY), 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+                   centerYOffset + TEXT_PADDING * paddingCount + HEADER_PADDING);
         difficulty.draw(canvas);
         ++paddingCount;
 
         // Clear leaderboard option text
         updateText(clearLeaderboard, getOptionText(Option.CLEAR_LEADERBOARD), 0,
-                   CENTER_Y_OFFSET + TEXT_PADDING * paddingCount + HEADER_PADDING);
+                   centerYOffset + TEXT_PADDING * paddingCount + HEADER_PADDING);
         clearLeaderboard.draw(canvas);
 
         // Back option text
-        updateText(back, getOptionText(Option.BACK), 0, -50);
+        updateText(back, getOptionText(Option.BACK), 0, getBottomPadding());
         back.draw(canvas);
     }
 }

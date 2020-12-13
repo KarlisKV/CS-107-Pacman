@@ -16,6 +16,8 @@ public enum Option {
     FPS("Show fps"),
     DIFFICULTY("Difficulty"),
     BACK("Back"),
+    MORE_GHOSTS("More"),
+    MORE_POINTS("More"),
     NAME("Enter name"),
     RESTART("Restart"),
     BACK_TO_MAIN_MENU("Back to main menu");

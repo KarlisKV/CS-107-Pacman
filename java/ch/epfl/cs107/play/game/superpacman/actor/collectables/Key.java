@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Key extends CollectableAreaEntity {
-    private static final int POINTS = 200;
     private final Sprite sprite;
     private final Glow glow;
     private Logic signal = Logic.FALSE;
@@ -63,11 +62,6 @@ public class Key extends CollectableAreaEntity {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v) {
         ((SuperPacmanInteractionVisitor) v).interactWith(this);
-    }
-
-    @Override
-    public int getPoints() {
-        return POINTS;
     }
 
     @Override

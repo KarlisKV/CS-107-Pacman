@@ -58,6 +58,7 @@ public class SuperPacmanPlayer extends Player {
     private static int comboCount = 0;
     // Player state
     private static boolean dead = false;
+    private static boolean canUserMove = false;
     private final DiscreteCoordinates playerSpawnPosition;
     // Visuals & Sound
     private final Animation[] animation;
@@ -75,9 +76,7 @@ public class SuperPacmanPlayer extends Player {
     private Orientation desiredOrientation = null;
     private Orientation currentOrientation = DEFAULT_ORIENTATION;
     private boolean gameOver = false;
-    private boolean canUserMove = false;
     private boolean collision = false;
-
     /**
      * Constructor for SuperPacmanPlayer
      * @param owner       (Area): Owner Area, not null
@@ -121,6 +120,10 @@ public class SuperPacmanPlayer extends Player {
     }
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    public static boolean isCanUserMove() {
+        return canUserMove;
+    }
 
     public static SoundUtility getPlayerSoundUtility() {
         return playerSoundUtility;
@@ -175,7 +178,7 @@ public class SuperPacmanPlayer extends Player {
     }
 
     public void setCanUserMove(boolean canUserMove) {
-        this.canUserMove = canUserMove;
+        SuperPacmanPlayer.canUserMove = canUserMove;
     }
 
     public void updateScore(int score) {

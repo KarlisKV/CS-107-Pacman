@@ -2,7 +2,7 @@
 -------------------------------------
                 BUGS
 -------------------------------------
-- Fix sound when eaten all frightened ghosts no EAT_GHOST sound
+- Fix sound when eaten all frightened ghosts no EAT_GHOST sound (not super important)
 - Fix scoreCombo to not update when new combo (not super important)
 
 -------------------------------------
@@ -10,8 +10,3 @@
 -------------------------------------
 - Arrange code + add javaDoc
 - Add [more] page in help for ghost description...
--------------------------------------
-                INFO
--------------------------------------
-Depths:
-    - ScreenFade Menu: 25'500

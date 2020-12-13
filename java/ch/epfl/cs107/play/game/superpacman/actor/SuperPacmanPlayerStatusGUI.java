@@ -160,7 +160,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
             // Score
             String scoreText = String.valueOf(playerScore);
             if (playerComboCount != 0) {
-                scoreText += " x" + (playerComboCount + 1);
+                scoreText += " *" + (playerComboCount + 1);
             }
             score.setText(scoreText);
             score.setAnchor(anchor.add(new Vector(width / 2 - (scoreText.length() * FONT_SIZE / 2),
@@ -204,7 +204,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
             // Difficulty Multiplier
             String difficulty = SuperPacmanAreaBehavior.getInitDifficulty().name();
             double multiplier = SuperPacmanAreaBehavior.getInitDifficulty().multiplicationFactor;
-            String difficultyText = String.format("%s x%s", difficulty, multiplier);
+            String difficultyText = String.format("%s *%s", difficulty, multiplier);
             difficultyMultiplier.setText(difficultyText);
             difficultyMultiplier.setAnchor(
                     anchor.add(width + RIGHT_EDGE_PADDING - (difficultyText.length() * (FONT_SIZE - 0.4f)) + 2.75f,

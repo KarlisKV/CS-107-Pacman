@@ -54,14 +54,13 @@ public class Leaderboard extends Menu {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        float yTextOffSet = (super.getScaledHeight() / 2) - 15;
 
         // Title
-        updateText(title, Option.LEADERBOARD.text, 0, yTextOffSet);
+        updateText(title, Option.LEADERBOARD.text, 0, getTopPadding());
         title.draw(canvas);
 
         // Subtitle
-        updateText(subTitle, "Top 10 games", 0, yTextOffSet - 5.5f);
+        updateText(subTitle, "Top 10 games", 0, getTopPadding() - 5.5f);
         subTitle.draw(canvas);
 
         // LeaderBoard table
@@ -102,7 +101,7 @@ public class Leaderboard extends Menu {
         }
 
         // Back option
-        updateText(back, getOptionText(Option.BACK), 0, -50);
+        updateText(back, getOptionText(Option.BACK), 0, getBottomPadding());
         back.draw(canvas);
     }
 
