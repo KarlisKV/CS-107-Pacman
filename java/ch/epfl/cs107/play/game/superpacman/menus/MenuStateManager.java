@@ -36,6 +36,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
     private static final String LEADERBOARD_TMP_FILENAME = "leaderboard.ser";
     private static final String OPTIONS_TMP_FILENAME = "options.ser";
+    private static boolean isMenuIntractable = true;
     private static boolean startGame = false;
     private static boolean endGame = false;
     private static boolean gameOver = false;
@@ -90,6 +91,12 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         menuStateSoundUtility = new SoundUtility(new SoundAcoustics[]{ENTER_SOUND, EXIT_SOUND}, false);
     }
 
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    public static void setIsMenuIntractable(boolean isMenuIntractable) {
+        MenuStateManager.isMenuIntractable = isMenuIntractable;
+    }
+
     public static Window getWindow() {
         return window;
     }
@@ -113,8 +120,6 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     public static boolean isGlowDeactivated() {
         return glowDeactivated;
     }
-
-    /* ----------------------------------- ACCESSORS ----------------------------------- */
 
     public static void setGlowDeactivated(boolean glowDeactivated) {
         MenuStateManager.glowDeactivated = glowDeactivated;
@@ -212,7 +217,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
      * @param menu the selected menu option
      */
     private void selectOption(Menu menu) {
-        if (enterKeyIsPressed() && menu.getCurrentSelection() != null) {
+        if (enterKeyIsPressed() && menu.getCurrentSelection() != null && isMenuIntractable) {
             menuStateSoundUtility.play(ENTER_SOUND);
             switch (menu.getCurrentSelection()) {
                 case PLAY:
@@ -323,7 +328,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
             }
         }
         // pause menu
-        if (escKeyIsPressed() && SuperPacmanPlayer.canUserMove()) {
+        if (escKeyIsPressed() && SuperPacmanPlayer.canUserMove() && isMenuIntractable) {
             assert menuStack.peek() != null;
             if (menuStack.peek().equals(menuStates.get(MenuState.PLAY))) {
                 SoundAcoustics.stopAllSounds(window);
@@ -356,12 +361,12 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         // Press shift, ctrl and alt to enter debug mode
         if (!debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.CTRL).isDown() &&
                 keyboard.get(Keyboard.ALT).isDown() && menuStack.peek() != menuStates.get(MenuState.PLAY) &&
-                menuStack.peek() != menuStates.get(MenuState.GAME_OVER)) {
+                menuStack.peek() != menuStates.get(MenuState.GAME_OVER) && isMenuIntractable) {
             System.out.println("Debug mode enabled");
             debugMode = true;
         }
 
-        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.G).isPressed()) {
+        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.G).isPressed() && isMenuIntractable) {
             godMode = !godMode;
             System.out.print("God mode ");
             if (godMode) {
@@ -371,7 +376,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
             }
         }
 
-        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.S).isPressed()) {
+        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.S).isPressed() && isMenuIntractable) {
             speedMode = !speedMode;
             System.out.print("Speed mode ");
             if (speedMode) {

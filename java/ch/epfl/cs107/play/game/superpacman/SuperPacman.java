@@ -141,6 +141,7 @@ public class SuperPacman extends RPG {
             // GAME OVER
             // Fade out
             screenFade.setFadeOut();
+            MenuStateManager.setIsMenuIntractable(false);
             // Zoom out
             if (currentCameraScaleFactor < INIT_CAMERA_SCALE_FACTOR && !transition.isFinished()) {
                 float newProgress = transition.getProgress();
@@ -174,6 +175,7 @@ public class SuperPacman extends RPG {
                 player.enterArea(area, Level0.PLAYER_SPAWN_POSITION);
 
                 pauseTimer = false;
+                MenuStateManager.setIsMenuIntractable(true);
             }
 
         }
