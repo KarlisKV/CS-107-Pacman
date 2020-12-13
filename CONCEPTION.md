@@ -162,22 +162,17 @@
 
 #### Required content
 
-<details>
-<script>
-function openTarget() {
-  var hash = location.hash.substring(1);
-  if(hash) var details = document.getElementById(hash);
-  details.open = true;
-}
-window.addEventListener('hashchange', openTarget);
-openTarget();
-</script>
-<summary>Show all</summary>
-<p>
+
 
 <a id="CollectableAreaEntity"></a>
 > **(Abstract Class) CollectableAreaEntity.java**  
+<details>
+<summary>Description</summary>
+<p>
+
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
+</p>
+</details>
 
 <a id="SuperPacman"></a>
 > **(Class) SuperPacman.java**  
@@ -255,8 +250,7 @@ openTarget();
 > **(Interface) SuperPacmanInteractionVisitor.java**  
 > 
 
-</p>
-</details>
+
 
 #### Extensions
 
