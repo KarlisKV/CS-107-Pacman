@@ -156,12 +156,22 @@
                         ├── (Class) <a href="#Linear">Linear.java</a> ........................................... [extension]
                         └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
+
+<script>
+function openTarget() {
+  var hash = location.hash.substring(1);
+  if(hash) var details = document.getElementById(hash);
+  details.open = true;
+}
+window.addEventListener('hashchange', openTarget);
+openTarget();
+</script>
+
+
 #### Required content
 
 <details>
-<summary>
-<i>Like this? </i>
-</summary>
+<summary>Show all</summary>
 <p>
 
 <a id="CollectableAreaEntity"></a>
@@ -248,6 +258,11 @@
 </details>
 
 #### Extensions
+
+<details>
+<summary>Show all</summary>
+<p>
+
 <a id="SoundUtility"></a>
 > **(Class) SoundUtility.java**  
 > This class processes and receives multiple sound requests. It adds them to a List ("Queue"), and plays them once. The methods provide more control to other class who use this class.
@@ -412,6 +427,8 @@
 > **(Abstract Class) Transition.java**  
 > 
 
+</p>
+</details>
 
 <a id="deviations"></a>
 ## 3. DEVIATIONS FROM THE PROJECT DESCRIPTION
