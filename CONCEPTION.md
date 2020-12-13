@@ -157,6 +157,13 @@
                         └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
 #### Required content
+
+<details>
+<summary>
+<i>Like this? </i>
+</summary>
+<p>
+
 <a id="CollectableAreaEntity"></a>
 > **(Abstract Class) CollectableAreaEntity.java**  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
@@ -236,6 +243,9 @@
 <a id="SuperPacmanInteractionVisitor"></a>
 > **(Interface) SuperPacmanInteractionVisitor.java**  
 > 
+
+</p>
+</details>
 
 #### Extensions
 <a id="SoundUtility"></a>
