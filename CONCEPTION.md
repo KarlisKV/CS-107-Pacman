@@ -36,6 +36,7 @@
                 │   │           └> Modified depth to SuperPacmanDepth enum
                 │   └── rpg
                 │       ├── RPG.java
+                │       │   └> Modified forceBegin to true in update() method for creating new areas
                 │       └── actor
                 │           └── Door.java
                 │               └> Set to implement Interactor (allows to fade screen when play is in range)
@@ -51,68 +52,21 @@
                             └> Added in constructor .setLocationRelativeTo(null) to frame
 ```
 
-----
-----
-----
-----
+  
+  
+## 2. ADDED CLASSED AND INTERFACES
+
 ```
 .
 └── ch
     └── epfl
         └── cs107
             └── play
-                ├── Play.java
-                │   Added new thread to compute the actual FPS
                 ├── game
-                │   ├── Game.java
-                │   ├── Playable.java
-                │   ├── Updatable.java
-                │   ├── actor
-                │   │   ├── Acoustics.java
-                │   │   ├── Actor.java
-                │   │   ├── Entity.java
-                │   │   ├── Graphics.java
-                │   │   ├── GraphicsEntity.java
-                │   │   ├── ImageGraphics.java
-                │   │   ├── ShapeGraphics.java
-                │   │   ├── SoundAcoustics.java
-                │   │   └── TextGraphics.java
                 │   ├── areagame
-                │   │   ├── Area.java
-                │   │   ├── AreaBehavior.java
-                │   │   ├── AreaGame.java
-                │   │   ├── AreaGraph.java
-                │   │   ├── actor
-                │   │   │   ├── Animation.java
-                │   │   │   ├── AreaEntity.java
-                │   │   │   ├── Background.java
-                │   │   │   ├── CellMouseIndicator.java
-                │   │   │   ├── CollectableAreaEntity.java
-                │   │   │   ├── Foreground.java
-                │   │   │   ├── Grid.java
-                │   │   │   ├── Interactable.java
-                │   │   │   ├── Interactor.java
-                │   │   │   ├── MovableAreaEntity.java
-                │   │   │   ├── Orientation.java
-                │   │   │   ├── Path.java
-                │   │   │   ├── Sprite.java
-                │   │   │   └── Text.java
-                │   │   ├── handler
-                │   │   │   └── AreaInteractionVisitor.java
-                │   │   └── io
-                │   │       └── ResourcePath.java
-                │   ├── rpg
-                │   │   ├── RPG.java
-                │   │   ├── actor
-                │   │   │   ├── Dialog.java
-                │   │   │   ├── Door.java
-                │   │   │   ├── LightHalo.java
-                │   │   │   ├── Player.java
-                │   │   │   ├── RPGSprite.java
-                │   │   │   └── Sign.java
-                │   │   └── handler
-                │   │       └── RPGInteractionVisitor.java
-                │   ├── superpacman
+                │   │   └── actor
+                │   │       └── CollectableAreaEntity.java
+                │   └── superpacman
                 │       ├── SoundUtility.java
                 │       ├── SuperPacman.java
                 │       ├── SuperPacmanStatusGUI.java
@@ -182,64 +136,10 @@
                 │               ├── Play.java
                 │               └── Quit.java
                 ├── io
-                │   ├── DefaultFileSystem.java
-                │   ├── FileSystem.java
-                │   ├── FolderFileSystem.java
-                │   ├── ResourceFileSystem.java
-                │   ├── Serialization.java
-                │   ├── XMLTexts.java
-                │   └── ZipFileSystem.java
-                ├── math
-                │   └── transitions
-                │       ├── EaseInOutCubic.java
-                │       ├── Linear.java
-                │       └── Transition.java
-                ├── recorder
-                │   ├── Record.java
-                │   ├── RecordReplayer.java
-                │   ├── Recorder.java
-                │   └── recordEntry
-                │       ├── KeyboardPressedRecordEntry.java
-                │       ├── KeyboardReleasedRecordEntry.java
-                │       ├── MouseButtonPressedRecordEntry.java
-                │       ├── MouseButtonReleasedRecordEntry.java
-                │       ├── MouseMoveRecordEntry.java
-                │       └── RecordEntry.java
-                ├── signal
-                │   ├── Numeric.java
-                │   ├── Signal.java
-                │   ├── logic
-                │   │   ├── And.java
-                │   │   ├── Logic.java
-                │   │   ├── LogicGate.java
-                │   │   ├── LogicNumber.java
-                │   │   ├── MultipleAnd.java
-                │   │   ├── Nand.java
-                │   │   ├── Not.java
-                │   │   ├── Or.java
-                │   │   └── Xor.java
-                │   └── wave
-                │       ├── Sawtooth.java
-                │       ├── Sine.java
-                │       ├── Square.java
-                │       ├── Triangle.java
-                │       └── Waveform.java
-                └── window
-                    ├── Audio.java
-                    ├── Button.java
-                    ├── Canvas.java
-                    ├── Image.java
-                    ├── Keyboard.java
-                    ├── Mouse.java
-                    ├── Sound.java
-                    ├── Window.java
-                    └── swing
-                        ├── ImageItem.java
-                        ├── Item.java
-                        ├── ShapeItem.java
-                        ├── SoundItem.java
-                        ├── SwingImage.java
-                        ├── SwingSound.java
-                        ├── SwingWindow.java
-                        └── TextItem.java
+                │   └── Serialization.java
+                └── math
+                    └── transitions
+                        ├── EaseInOutCubic.java
+                        ├── Linear.java
+                        └── Transition.java
 ```
