@@ -157,6 +157,12 @@
                         └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
 
+
+
+
+#### Required content
+
+<details>
 <script>
 function openTarget() {
   var hash = location.hash.substring(1);
@@ -166,11 +172,6 @@ function openTarget() {
 window.addEventListener('hashchange', openTarget);
 openTarget();
 </script>
-
-
-#### Required content
-
-<details>
 <summary>Show all</summary>
 <p>
 
