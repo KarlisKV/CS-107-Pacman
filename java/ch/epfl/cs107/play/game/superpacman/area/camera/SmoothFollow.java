@@ -17,7 +17,7 @@ public class SmoothFollow extends Camera {
     // Trigger for edge detection
     private static final float EDGE_CONTROL_TRIGGER = 0.01f;
     // Speed of smooth camera
-    private static final float CAMERA_CATCHUP_SPEED = 0.08f;
+    private float cameraCatchupSpeed = 0.08f;
     private final boolean smoothStop;
     private boolean checkBounds = false;
 
@@ -28,8 +28,9 @@ public class SmoothFollow extends Camera {
      * @param doEdgeControl if true, the camera will stop moving in the axis where there is the area edge
      * @param smoothStop    smooth acceleration/deceleration
      */
-    public SmoothFollow(Area area, boolean tpCamera, boolean doEdgeControl, boolean smoothStop) {
+    public SmoothFollow(Area area, boolean tpCamera, boolean doEdgeControl, float cameraSpeed, boolean smoothStop) {
         super(area, tpCamera, doEdgeControl);
+        cameraCatchupSpeed = cameraSpeed;
         this.smoothStop = smoothStop;
     }
 
@@ -71,9 +72,9 @@ public class SmoothFollow extends Camera {
         // adjust the coordinate
         if (cameraPos != playerPos && difference > SPOT_PRECISION) {
             if (playerPos < cameraPos) {
-                modifier = -(CAMERA_CATCHUP_SPEED * difference);
+                modifier = -(cameraCatchupSpeed * difference);
             } else {
-                modifier = CAMERA_CATCHUP_SPEED * difference;
+                modifier = cameraCatchupSpeed * difference;
             }
         }
 

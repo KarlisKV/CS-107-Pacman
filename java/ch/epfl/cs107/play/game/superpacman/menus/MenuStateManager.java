@@ -34,8 +34,8 @@ import java.util.Map;
 public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private static final SoundAcoustics ENTER_SOUND = SuperPacmanSound.MENU_ENTER.sound;
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
-    private final SoundUtility menuStateSoundUtility;
     private static final String LEADERBOARD_TMP_FILENAME = "leaderboard.ser";
+    private static final String OPTIONS_TMP_FILENAME = "options.ser";
     private static boolean startGame = false;
     private static boolean endGame = false;
     private static boolean gameOver = false;
@@ -45,13 +45,17 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
     private static boolean quit = false;
     private static boolean paused = false;
     private static boolean soundDeactivated = false;
+    private static boolean glowDeactivated = false;
+    private static SubOption cameraSmoothingOption = SubOption.CAMERA_SMOOTH;
+    private static boolean cameraChangeRequest = false;
     private static boolean cameraShakeDeactivated = false;
     private static boolean showFps = false;
+    private static Window window;
+    private final SoundUtility menuStateSoundUtility;
     private final ScreenFade screenFade = new ScreenFade(SuperPacmanDepth.MENU_SCREEN_FADE.value, 0.005f);
     private final Deque<Menu> menuStack = new ArrayDeque<>();
     private final Keyboard keyboard;
     private final Map<MenuState, Menu> menuStates = new EnumMap<>(MenuState.class);
-    private final Window window;
 
     /**
      * Constructor for MenuItems class
@@ -59,47 +63,62 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
      */
     public MenuStateManager(Window window) {
         keyboard = window.getKeyboard();
-        this.window = window;
+        MenuStateManager.window = window;
 
         Menu mainMenu = new MainMenu(window);
         menuStates.put(MenuState.MAIN_MENU, mainMenu);
         menuStack.push(mainMenu);
 
-        Menu options = new Options(window);
-        menuStates.put(MenuState.OPTIONS, options);
+        Object optionsMenu = Serialization.deserialize(OPTIONS_TMP_FILENAME);
+        if (optionsMenu == null) {
+            menuStates.put(MenuState.OPTIONS, new Options(window));
+        } else {
+            menuStates.put(MenuState.OPTIONS, (Menu) optionsMenu);
+        }
 
-        Menu help = new Help(window);
-        menuStates.put(MenuState.HELP, help);
-
-        Menu helpGhosts = new HelpGhosts(window);
-        menuStates.put(MenuState.HELP_GHOSTS, helpGhosts);
-
-        Menu helpScore = new HelpScore(window);
-        menuStates.put(MenuState.HELP_SCORE, helpScore);
-
-        Menu leaderboard = new Leaderboard(window);
-        menuStates.put(MenuState.LEADERBOARD, leaderboard);
-
-        Menu credits = new Credits(window);
-        menuStates.put(MenuState.CREDITS, credits);
-
-        Menu death = new GameOver(window);
-        menuStates.put(MenuState.GAME_OVER, death);
-
-        Menu play = new Play(window);
-        menuStates.put(MenuState.PLAY, play);
-
-        Menu quit = new Quit(window);
-        menuStates.put(MenuState.QUIT, quit);
-
-        Menu pause = new Pause(window);
-        menuStates.put(MenuState.PAUSE, pause);
+        menuStates.put(MenuState.HELP, new Help(window));
+        menuStates.put(MenuState.HELP_GHOSTS, new HelpGhosts(window));
+        menuStates.put(MenuState.HELP_SCORE, new HelpScore(window));
+        menuStates.put(MenuState.LEADERBOARD, new Leaderboard(window));
+        menuStates.put(MenuState.CREDITS, new Credits(window));
+        menuStates.put(MenuState.GAME_OVER, new GameOver(window));
+        menuStates.put(MenuState.PLAY, new Play(window));
+        menuStates.put(MenuState.QUIT, new Quit(window));
+        menuStates.put(MenuState.PAUSE, new Pause(window));
 
         screenFade.setFadeIn();
         menuStateSoundUtility = new SoundUtility(new SoundAcoustics[]{ENTER_SOUND, EXIT_SOUND}, false);
     }
 
+    public static Window getWindow() {
+        return window;
+    }
+
+    public static boolean isCameraChangeRequest() {
+        return cameraChangeRequest;
+    }
+
+    public static void setCameraChangeRequest(boolean cameraChangeRequest) {
+        MenuStateManager.cameraChangeRequest = cameraChangeRequest;
+    }
+
+    public static SubOption getCameraSmoothingOption() {
+        return cameraSmoothingOption;
+    }
+
+    public static void setCameraSmoothingOption(SubOption cameraSmoothingOption) {
+        MenuStateManager.cameraSmoothingOption = cameraSmoothingOption;
+    }
+
+    public static boolean isGlowDeactivated() {
+        return glowDeactivated;
+    }
+
     /* ----------------------------------- ACCESSORS ----------------------------------- */
+
+    public static void setGlowDeactivated(boolean glowDeactivated) {
+        MenuStateManager.glowDeactivated = glowDeactivated;
+    }
 
     public static boolean isPaused() {
         return paused;
@@ -125,6 +144,10 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         return cameraShakeDeactivated;
     }
 
+    public static void setCameraShakeDeactivated(boolean cameraShakeDeactivated) {
+        MenuStateManager.cameraShakeDeactivated = cameraShakeDeactivated;
+    }
+
     public static boolean isDebugMode() {
         return debugMode;
     }
@@ -141,8 +164,16 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         return showFps;
     }
 
+    public static void setShowFps(boolean showFps) {
+        MenuStateManager.showFps = showFps;
+    }
+
     public static boolean isSoundDeactivated() {
         return soundDeactivated;
+    }
+
+    public static void setSoundDeactivated(boolean soundDeactivated) {
+        MenuStateManager.soundDeactivated = soundDeactivated;
     }
 
     public static boolean isStartGame() {
@@ -218,6 +249,10 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                     menuStack.push(menuStates.get(MenuState.HELP_SCORE));
                     break;
                 case BACK:
+                    assert menuStack.peek() != null;
+                    if (menuStack.peek().equals(menuStates.get(MenuState.OPTIONS))) {
+                        Serialization.serialize(menuStack.peek(), OPTIONS_TMP_FILENAME);
+                    }
                     menuStack.removeFirst();
                     menu.reset();
                     break;
@@ -236,13 +271,21 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                 case QUIT:
                     menuStack.push(menuStates.get(MenuState.QUIT));
                     menuStateSoundUtility.play(EXIT_SOUND);
-                    soundDeactivated = false;
                     quit = true;
                     break;
                 // Options within a page
                 case SOUND:
                     menu.updateSubSelection();
                     soundDeactivated = !menu.isToggleLogic();
+                    break;
+                case GLOW:
+                    menu.updateSubSelection();
+                    glowDeactivated = !menu.isToggleLogic();
+                    break;
+                case CAMERA_SMOOTHING:
+                    menu.updateSubSelection();
+                    cameraSmoothingOption = menu.getCurrentSubSelection();
+                    cameraChangeRequest = true;
                     break;
                 case CAMERA_SHAKE:
                     menu.updateSubSelection();
@@ -262,12 +305,25 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                     SuperPacman.getLeaderboardScores().clear();
                     Serialization.delete(LEADERBOARD_TMP_FILENAME);
                     break;
+                case RESTORE_DEFAULT:
+                    Serialization.delete(OPTIONS_TMP_FILENAME);
+                    menuStack.removeFirst();
+                    Menu newOption = new Options(window);
+                    // Set same selection
+                    newOption.setSelectionCount(menu.getSelectionCount());
+                    newOption.setSubSelectionCount(menu.getSubSelectionCount());
+                    newOption.setCurrentSelection(menu.getCurrentSelection());
+                    newOption.setCurrentSubSelection(menu.getCurrentSubSelection());
+                    menuStack.push(newOption);
+                    menuStates.replace(MenuState.OPTIONS, newOption);
+
+                    break;
                 default:
                     // empty on purpose, do noting
             }
         }
         // pause menu
-        if (escKeyIsPressed() && SuperPacmanPlayer.isCanUserMove()) {
+        if (escKeyIsPressed() && SuperPacmanPlayer.canUserMove()) {
             assert menuStack.peek() != null;
             if (menuStack.peek().equals(menuStates.get(MenuState.PLAY))) {
                 SoundAcoustics.stopAllSounds(window);

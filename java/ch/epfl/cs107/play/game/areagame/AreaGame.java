@@ -110,7 +110,6 @@ abstract public class AreaGame implements Game {
 			}
 		} else {
 			currentArea.update(deltaTime);
-
 		}
 		menuStateManager.update(deltaTime);
 		menuStateManager.draw(window);

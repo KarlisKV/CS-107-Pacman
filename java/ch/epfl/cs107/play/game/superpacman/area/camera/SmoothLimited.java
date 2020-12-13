@@ -18,8 +18,8 @@ public class SmoothLimited extends SmoothFollow {
      * @param maxDisplacement the max displacement of the camera from the center
      * @param smoothStop      smooth acceleration/deceleration
      */
-    public SmoothLimited(Area area, boolean tpCamera, boolean smoothStop, float maxDisplacement) {
-        super(area, tpCamera, false, smoothStop);
+    public SmoothLimited(Area area, boolean tpCamera, float cameraSpeed, boolean smoothStop, float maxDisplacement) {
+        super(area, tpCamera, false, cameraSpeed, smoothStop);
 
         setCameraPosXY(CENTER_COORDINATES);
         setMinMaxPosX(

@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.superpacman.area.camera.Camera;
+import ch.epfl.cs107.play.game.superpacman.area.camera.Follow;
 import ch.epfl.cs107.play.game.superpacman.area.camera.SmoothLimited;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.io.FileSystem;
@@ -304,11 +305,22 @@ public abstract class Area implements Playable {
 			}
 		}
 		// Update camera location
-		if (camera == null) {
-			camera = new SmoothLimited(this, false, true, 8);
-		}
-		camera.updatePos(viewCandidate.getPosition());
-		camera.update(deltaTime);
+			if (camera == null || MenuStateManager.isCameraChangeRequest()) {
+				switch (MenuStateManager.getCameraSmoothingOption()) {
+					case CAMERA_VERY_SMOOTH:
+						camera = new SmoothLimited(this, false, 0.04f, true, 8);
+						break;
+					case CAMERA_NO_SMOOTH:
+						camera = new Follow(this, false, false);
+						break;
+					default:
+						camera = new SmoothLimited(this, false, 0.08f, true, 8);
+						break;
+				}
+				MenuStateManager.setCameraChangeRequest(false);
+			}
+			camera.updatePos(viewCandidate.getPosition());
+			camera.update(deltaTime);
 
 		if (!MenuStateManager.isPaused() && !MenuStateManager.isEndGame()) {
 			// Draw actors and play sounds

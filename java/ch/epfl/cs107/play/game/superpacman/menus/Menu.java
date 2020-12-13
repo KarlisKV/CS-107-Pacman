@@ -11,7 +11,9 @@ import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.*;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.superpacman.SoundUtility;
+import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
 import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
+import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDifficulty;
 import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanSound;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
@@ -21,24 +23,28 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Menu implements Graphics, Acoustics {
+public abstract class Menu implements Graphics, Acoustics, Serializable {
     protected static final float HEADER_FONT_SIZE = 5;
+    protected static final float SUB_HEADER_FONT_SIZE = 3;
     protected static final float BODY_FONT_SIZE = 2;
     protected static final String FONT = "emulogic";
-    private static final SoundAcoustics SELECT_SOUND = SuperPacmanSound.MENU_SELECT.sound;
-    private static final SoundAcoustics KEY_CLICK_SOUND = SuperPacmanSound.MENU_KEY_CLICK.sound;
-    private static final SoundAcoustics ERROR_SOUND = SuperPacmanSound.MENU_ERROR.sound;
-    private final SoundUtility menuSoundUtility;
-    private final Keyboard keyboard;
     private final float alpha = 1.0f;
     private final EnumMap<Option, List<SubOption>> subOptionList = new EnumMap<>(Option.class);
     private final EnumMap<Option, SubOption> subOptionSectionList = new EnumMap<>(Option.class);
     private final List<Option> optionList = new ArrayList<>();
+    private transient SoundAcoustics SELECT_SOUND = SuperPacmanSound.MENU_SELECT.sound;
+    private transient SoundAcoustics KEY_CLICK_SOUND = SuperPacmanSound.MENU_KEY_CLICK.sound;
+    private transient SoundAcoustics ERROR_SOUND = SuperPacmanSound.MENU_ERROR.sound;
+    private transient SoundUtility menuSoundUtility;
+    private transient Keyboard keyboard;
     private float scaledWidth;
     private float scaledHeight;
     private float initScaledWidth;
@@ -60,14 +66,13 @@ public abstract class Menu implements Graphics, Acoustics {
      * Constructor for Menu class
      * @param window (Window): the current window
      */
-    public Menu(Window window) {
+    protected Menu(Window window) {
         keyboard = window.getKeyboard();
         currentSelection = getDefaultSelection();
         setupOptionList();
         setupSubOptionList();
         setupSubOptionSelectionList();
         menuSoundUtility = new SoundUtility(new SoundAcoustics[]{SELECT_SOUND, KEY_CLICK_SOUND, ERROR_SOUND}, false);
-
     }
 
     /**
@@ -100,6 +105,73 @@ public abstract class Menu implements Graphics, Acoustics {
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
+    protected int getSelectionCount() {
+        return selectionCount;
+    }
+
+    protected void setSelectionCount(int selectionCount) {
+        this.selectionCount = selectionCount;
+    }
+
+    protected int getSubSelectionCount() {
+        return subSelectionCount;
+    }
+
+    protected void setSubSelectionCount(int subSelectionCount) {
+        this.subSelectionCount = subSelectionCount;
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        keyboard = MenuStateManager.getWindow().getKeyboard();
+        SELECT_SOUND = SuperPacmanSound.MENU_SELECT.sound;
+        KEY_CLICK_SOUND = SuperPacmanSound.MENU_KEY_CLICK.sound;
+        ERROR_SOUND = SuperPacmanSound.MENU_ERROR.sound;
+        menuSoundUtility = new SoundUtility(new SoundAcoustics[]{SELECT_SOUND, KEY_CLICK_SOUND, ERROR_SOUND}, false);
+        // Reset all options
+        SuperPacmanDifficulty defaultDifficulty =
+                SuperPacmanDifficulty.getDifficulty(getOptionSubSelection(Option.DIFFICULTY));
+        SuperPacmanAreaBehavior.setInitDifficulty(defaultDifficulty);
+        MenuStateManager.setSoundDeactivated(!getOptionLogic(Option.SOUND));
+        MenuStateManager.setGlowDeactivated(!getOptionLogic(Option.GLOW));
+        MenuStateManager.setCameraSmoothingOption(getOptionSubSelection(Option.CAMERA_SMOOTHING));
+        MenuStateManager.setCameraShakeDeactivated(!getOptionLogic(Option.CAMERA_SHAKE));
+        MenuStateManager.setShowFps(getOptionLogic(Option.FPS));
+
+        reset();
+
+    }
+
+    protected SubOption getOptionSubSelection(Option option) {
+        return subOptionSectionList.get(option);
+    }
+
+    protected boolean getOptionLogic(Option option) {
+        return subOptionSectionList.get(option).equals(SubOption.TOGGLE_ON);
+    }
+
+    /**
+     * Method to rest selections for a Menu
+     */
+    protected void reset() {
+        currentSelection = getDefaultSelection();
+        selectionCount = 0;
+        subSelectionCount = 0;
+    }
+
+    protected SubOption getCurrentSubSelection() {
+        return currentSubSelection;
+    }
+
+    public void setCurrentSubSelection(SubOption currentSubSelection) {
+        this.currentSubSelection = currentSubSelection;
+    }
+
+    protected boolean isToggleLogic() {
+        return toggleLogic;
+    }
+
     public float getTopPadding() {
         return topPadding;
     }
@@ -114,14 +186,6 @@ public abstract class Menu implements Graphics, Acoustics {
 
     protected Vector getAnchor() {
         return anchor;
-    }
-
-    protected SubOption getCurrentSubSelection() {
-        return currentSubSelection;
-    }
-
-    protected boolean isToggleLogic() {
-        return toggleLogic;
     }
 
     protected Map<Option, List<SubOption>> getSubOptionList() {
@@ -146,15 +210,6 @@ public abstract class Menu implements Graphics, Acoustics {
 
     protected float getHeight() {
         return height;
-    }
-
-    /**
-     * Method to rest selections for a Menu
-     */
-    protected void reset() {
-        currentSelection = getDefaultSelection();
-        selectionCount = 0;
-        subSelectionCount = 0;
     }
 
     /**
@@ -222,7 +277,8 @@ public abstract class Menu implements Graphics, Acoustics {
         image.setWidth(initScaledWidth);
         image.setHeight(initScaledHeight);
         image.setAlpha(alpha);
-        image.setAnchor(anchor.add(new Vector((width / 2) - (initScaledWidth / 2), (height / 2) - (initScaledHeight / 2))));
+        image.setAnchor(
+                anchor.add(new Vector((width / 2) - (initScaledWidth / 2), (height / 2) - (initScaledHeight / 2))));
     }
 
     /**
@@ -289,6 +345,10 @@ public abstract class Menu implements Graphics, Acoustics {
 
     protected Option getCurrentSelection() {
         return currentSelection;
+    }
+
+    public void setCurrentSelection(Option currentSelection) {
+        this.currentSelection = currentSelection;
     }
 
     protected String getSubOptionText(Option option) {

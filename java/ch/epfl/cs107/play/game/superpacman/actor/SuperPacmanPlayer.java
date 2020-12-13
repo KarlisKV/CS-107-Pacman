@@ -121,10 +121,6 @@ public class SuperPacmanPlayer extends Player {
 
     /* ----------------------------------- ACCESSORS ----------------------------------- */
 
-    public static boolean isCanUserMove() {
-        return canUserMove;
-    }
-
     public static SoundUtility getPlayerSoundUtility() {
         return playerSoundUtility;
     }
@@ -173,11 +169,11 @@ public class SuperPacmanPlayer extends Player {
         return gameOver;
     }
 
-    public boolean canUserMove() {
+    public static boolean canUserMove() {
         return canUserMove;
     }
 
-    public void setCanUserMove(boolean canUserMove) {
+    public static void setCanUserMove(boolean canUserMove) {
         SuperPacmanPlayer.canUserMove = canUserMove;
     }
 

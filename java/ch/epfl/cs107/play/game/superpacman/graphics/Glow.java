@@ -11,16 +11,14 @@ import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
+import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.Positionable;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class Glow implements Graphics {
-    private final Positionable parent;
-    private final ImageGraphics sprite;
-    private final GlowColors color;
-    private final float size;
+    private final ImageGraphics glow;
     private final float alpha;
     private float currentAlpha;
 
@@ -33,12 +31,17 @@ public class Glow implements Graphics {
      * @param alpha  (float): transparency, between 0 (invisible) and 1 (opaque)
      */
     public Glow(Positionable parent, ImageGraphics sprite, GlowColors color, float size, float alpha) {
-        this.parent = parent;
-        this.sprite = sprite;
-        this.color = color;
-        this.size = size;
         this.alpha = alpha;
         currentAlpha = alpha;
+
+        glow = new ImageGraphics(ResourcePath.getSprite(color.pathToColor),
+                                 size,
+                                 size,
+                                 new RegionOfInterest(0, 0, 195, 195),
+                                 new Vector(-size / 2 + sprite.getWidth() / 2,
+                                            -size / 2 + sprite.getHeight() / 2),
+                                 currentAlpha, SuperPacmanDepth.GLOW.value);
+        glow.setParent(parent);
     }
 
     /**
@@ -61,16 +64,10 @@ public class Glow implements Graphics {
 
     @Override
     public void draw(Canvas canvas) {
-
-        ImageGraphics glow = new ImageGraphics(ResourcePath.getSprite(color.pathToColor),
-                                               size,
-                                               size,
-                                               new RegionOfInterest(0, 0, 195, 195),
-                                               new Vector(-size / 2 + sprite.getWidth() / 2,
-                                                          -size / 2 + sprite.getHeight() / 2),
-                                               currentAlpha, SuperPacmanDepth.GLOW.value);
-        glow.setParent(parent);
-        glow.draw(canvas);
+        if (!MenuStateManager.isGlowDeactivated()) {
+            glow.setAlpha(currentAlpha);
+            glow.draw(canvas);
+        }
     }
 
     /**
