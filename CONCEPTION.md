@@ -1,8 +1,8 @@
 ## CONTENTS OF THIS FILE
-1. Modifications to the provided code
-2. Added classes and interfaces (includes extension descriptions)
-3. Deviations from the project description
-4. List of all extensions
+1. [Modifications to the provided code]()
+2. [Added classes and interfaces (includes extension descriptions)]()
+3. [Deviations from the project description]()
+4. [List of all extensions]()
 
 
 ## 1. MODIFICATIONS TO THE PROVIDED CONTENT
@@ -154,7 +154,7 @@
                     └── 📦 transitions
                         ├── (Class) <a href="#EaseInOutCubic">EaseInOutCubic.java</a> ................................... [extension]
                         ├── (Class) <a href="#Linear">Linear.java</a> ........................................... [extension]
-                        └── (Abstract Class) T<a href="#Transition">Transition.java</a> .............................. [extension]
+                        └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
 #### Required content
 <a id="CollectableAreaEntity"></a>
@@ -402,3 +402,8 @@
 > **(Abstract Class) Transition.java**  
 > 
 
+
+
+## 3. DEVIATIONS FROM THE PROJECT DESCRIPTION
+
+## 4. LIST OF ALL EXTENSIONS
