@@ -166,13 +166,17 @@
 
 <a id="CollectableAreaEntity"></a>
 > **(Abstract Class) CollectableAreaEntity.java**  
-<details>
-<summary>Description</summary>
-<p>
-
+> <details>
+>
+> <summary>Description</summary>
+>
+> <p>
+>
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
-</p>
-</details>
+>
+> </p>
+>
+> </details>
 
 <a id="SuperPacman"></a>
 > **(Class) SuperPacman.java**  
