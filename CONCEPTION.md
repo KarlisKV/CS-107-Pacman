@@ -7,7 +7,7 @@
 
 ## 1. MODIFICATIONS TO THE PROVIDED CONTENT
 
-```
+<pre>
 .
 └── 📦 ch
     └── 📦 epfl
@@ -63,13 +63,13 @@
                         └── SwingWindow.java ═════════════════════════════════════════════════════════╗
                             ║ └> Added in constructor .setLocationRelativeTo(null) to frame           ║
                             ╚═════════════════════════════════════════════════════════════════════════╝
-```
+</pre>
 
   
   
 ## 2. ADDED CLASSED AND INTERFACES
 
-```
+<pre>
 .
 └── 📦 ch
     └── 📦 epfl
@@ -78,18 +78,11 @@
                 ├── 📦 game
                 │   ├── 📦 areagame
                 │   │   └── 📦 actor
-                │   │       └── (Abstract Class) CollectableAreaEntity.java ══════════════════════════╗
-                │   │           ║ This abstract class defines a Collectable Entity in an Area. Points ║
-                │   │           ║ have been integrated and can be overriden by its sub-classes.       ║
-                │   │           ╚═════════════════════════════════════════════════════════════════════╝
+                │   │       └── (Abstract Class) <a href="#CollectableAreaEntity">CollectableAreaEntity.java</a>
                 │   └── 📦 superpacman
-                │       ├── (Class) SoundUtility.java ═══════════════════════════════════ [extention] ╗
-                │       │   ║ This class is used to process and recieve mutliple sound requests. It   ║
-                │       │   ║ adds them to a List ("Queue"), and plays them once. The methods provide ║
-                │       │   ║ more control to other class who use this class.                         ║
-                │       │   ╚═════════════════════════════════════════════════════════════════════════╝
+                │       ├── (Class) <a href="#SoundUtility">SoundUtility.java</a> ..................................... [extension]
                 │       ├── (Class) SuperPacman.java
-                │       ├── (Class) SuperPacmanStatusGUI.java ............................. [extention]
+                │       ├── (Class) SuperPacmanStatusGUI.java ............................. [extension]
                 │       ├── 📦 actor
                 │       │   ├── (Class) Gate.java
                 │       │   ├── (Class) SuperPacmanPlayer.java
@@ -97,69 +90,78 @@
                 │       │   ├── (Class) Wall.java
                 │       │   ├── 📦 collectables
                 │       │   │   ├── (Class) Bonus.java
-                │       │   │   ├── (Class) Cake.java ..................................... [extention]
+                │       │   │   ├── (Class) Cake.java ..................................... [extension]
                 │       │   │   ├── (Class) Cherry.java
                 │       │   │   ├── (Class) Diamond.java
                 │       │   │   ├── (Class) Key.java
-                │       │   │   ├── (Class) Pellet.java ................................... [extention]
-                │       │   │   └── (Class) PowerPellet.java .............................. [extention]
+                │       │   │   ├── (Class) Pellet.java ................................... [extension]
+                │       │   │   └── (Class) PowerPellet.java .............................. [extension]
                 │       │   └── 📦 ghosts
                 │       │       ├── (Class) Blinky.java
-                │       │       ├── (Class) Clyde.java .................................... [extention]
+                │       │       ├── (Class) Clyde.java .................................... [extension]
                 │       │       ├── (Abstract Class) Ghost.java
-                │       │       ├── (Class) GhostsBehavior.java ........................... [extention]
+                │       │       ├── (Class) GhostsBehavior.java ........................... [extension]
                 │       │       ├── (Class) Inky.java
                 │       │       └── (Class) Pinky.java
                 │       ├── 📦 area
                 │       │   ├── (Abstract Class) SuperPacmanArea.java
                 │       │   ├── (Class) SuperPacmanAreaBehavior.java
                 │       │   ├── 📦 camera
-                │       │   │   ├── (Abstract Class) Camera.java .......................... [extention]
-                │       │   │   ├── (Class) Fixed.java .................................... [extention]
-                │       │   │   ├── (Class) Follow.java ................................... [extention]
-                │       │   │   ├── (Class) SmoothFollow.java ............................. [extention]
-                │       │   │   └── (Class) SmoothLimited.java ............................ [extention]
+                │       │   │   ├── (Abstract Class) Camera.java .......................... [extension]
+                │       │   │   ├── (Class) Fixed.java .................................... [extension]
+                │       │   │   ├── (Class) Follow.java ................................... [extension]
+                │       │   │   ├── (Class) SmoothFollow.java ............................. [extension]
+                │       │   │   └── (Class) SmoothLimited.java ............................ [extension]
                 │       │   └── 📦 levels
                 │       │       ├── (Class) Level0.java
                 │       │       ├── (Class) Level1.java
                 │       │       ├── (Class) Level2.java
-                │       │       ├── (Class) Level3.java ................................... [extention]
-                │       │       └── (Class) LevelEPFL.java ................................ [extention]
+                │       │       ├── (Class) Level3.java ................................... [extension]
+                │       │       └── (Class) LevelEPFL.java ................................ [extension]
                 │       ├── 📦 globalenums
-                │       │   ├── (Enum) SuperPacmanDepth.java .............................. [extention]
-                │       │   ├── (Enum) SuperPacmanDifficulty.java ......................... [extention]
-                │       │   └── (Enum) SuperPacmanSound.java .............................. [extention]
+                │       │   ├── (Enum) SuperPacmanDepth.java .............................. [extension]
+                │       │   ├── (Enum) SuperPacmanDifficulty.java ......................... [extension]
+                │       │   └── (Enum) SuperPacmanSound.java .............................. [extension]
                 │       ├── 📦 graphics
-                │       │   ├── (Class) Arcade.java ....................................... [extention]
-                │       │   ├── (Class) Glow.java ......................................... [extention]
-                │       │   └── (Class) ScreenFade.java ................................... [extention]
+                │       │   ├── (Class) Arcade.java ....................................... [extension]
+                │       │   ├── (Class) Glow.java ......................................... [extension]
+                │       │   └── (Class) ScreenFade.java ................................... [extension]
                 │       ├── 📦 handler
                 │       │   └── (Interface) SuperPacmanInteractionVisitor.java
                 │       ├── 📦 leaderboard
-                │       │   ├── (Class) GameScore.java .................................... [extention]
-                │       │   └── (Class) LeaderboardGameScores.java ........................ [extention]
+                │       │   ├── (Class) GameScore.java .................................... [extension]
+                │       │   └── (Class) LeaderboardGameScores.java ........................ [extension]
                 │       └── 📦 menus
-                │           ├── (Abstract Class) Menu.java ................................ [extention]
-                │           ├── (Final Class) MenuStateManager.java ....................... [extention]
-                │           ├── (Enum) Option.java ........................................ [extention]
-                │           ├── (Enum) SubOption.java ..................................... [extention]
+                │           ├── (Abstract Class) Menu.java ................................ [extension]
+                │           ├── (Final Class) MenuStateManager.java ....................... [extension]
+                │           ├── (Enum) Option.java ........................................ [extension]
+                │           ├── (Enum) SubOption.java ..................................... [extension]
                 │           └── 📦 pages
-                │               ├── (Class) Credits.java .................................. [extention]
-                │               ├── (Class) GameOver.java ................................. [extention]
-                │               ├── (Class) Help.java ..................................... [extention]
-                │               ├── (Class) HelpGhosts.java ............................... [extention]
-                │               ├── (Class) HelpScore.java ................................ [extention]
-                │               ├── (Class) Leaderboard.java .............................. [extention]
-                │               ├── (Class) MainMenu.java ................................. [extention]
-                │               ├── (Class) Options.java .................................. [extention]
-                │               ├── (Class) Pause.java .................................... [extention]
-                │               ├── (Class) Play.java ..................................... [extention]
-                │               └── (Class) Quit.java ..................................... [extention]
+                │               ├── (Class) Credits.java .................................. [extension]
+                │               ├── (Class) GameOver.java ................................. [extension]
+                │               ├── (Class) Help.java ..................................... [extension]
+                │               ├── (Class) HelpGhosts.java ............................... [extension]
+                │               ├── (Class) HelpScore.java ................................ [extension]
+                │               ├── (Class) Leaderboard.java .............................. [extension]
+                │               ├── (Class) MainMenu.java ................................. [extension]
+                │               ├── (Class) Options.java .................................. [extension]
+                │               ├── (Class) Pause.java .................................... [extension]
+                │               ├── (Class) Play.java ..................................... [extension]
+                │               └── (Class) Quit.java ..................................... [extension]
                 ├── 📦 io
-                │   └── (Class) Serialization.java ........................................ [extention]
+                │   └── (Class) Serialization.java ........................................ [extension]
                 └── 📦 math
                     └── 📦 transitions
-                        ├── (Class) EaseInOutCubic.java ................................... [extention]
-                        ├── (Class) Linear.java ........................................... [extention]
-                        └── (Abstract Class) Transition.java .............................. [extention]
-```
+                        ├── (Class) EaseInOutCubic.java ................................... [extension]
+                        ├── (Class) Linear.java ........................................... [extension]
+                        └── (Abstract Class) Transition.java .............................. [extension]
+</pre>
+#### Required content
+<a name="CollectableAreaEntity"></a>
+> **(Abstract Class) CollectableAreaEntity.java**  
+> This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
+
+#### Extensions
+<a name="SoundUtility"></a>
+> **(Class) SoundUtility.java**  
+> This class processes and receives multiple sound requests. It adds them to a List ("Queue"), and plays them once. The methods provide more control to other class who use this class.
