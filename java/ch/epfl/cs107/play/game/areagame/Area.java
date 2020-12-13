@@ -264,6 +264,7 @@ public abstract class Area implements Playable {
 		unregisteredActors = new LinkedList<>();
 		interactablesToEnter = new HashMap<>();
 		interactablesToLeave = new HashMap<>();
+		camera = null;
 //		viewCenter = Vector.ZERO;
 		started = true;
 		return true;

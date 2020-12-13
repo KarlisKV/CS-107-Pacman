@@ -77,10 +77,12 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     private boolean playerInView = false;
     private boolean isEaten = false;
     private boolean stateUpdate = true;
-    private float stateCount = 0;
+    private float stateCount;
     private boolean hasReset = false;
     private boolean blink = false;
-    private float blinkCount = 0;
+    private float blinkCount;
+    private boolean comboOccurring;
+    private int comboIndex;
     // Orientation pathing
     private Queue<Orientation> path = null;
     private DiscreteCoordinates targetPos = null;
@@ -608,8 +610,12 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
             }
         } else if (isEaten) {
             // Combo text
-            if (paused && SuperPacmanPlayer.getComboCount() - 1 >= 0) {
-                scores[SuperPacmanPlayer.getComboCount() - 1].draw(canvas);
+            if (paused) {
+                if (!comboOccurring && SuperPacmanPlayer.getComboCount() - 1 >= 0) {
+                    comboIndex = SuperPacmanPlayer.getComboCount() - 1;
+                    comboOccurring = true;
+                }
+                scores[comboIndex].draw(canvas);
             }
             // Eye animation
             backToHomeAnimation[currentOrientation.ordinal()].draw(canvas);
@@ -617,6 +623,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
             // Normal Animation
             normalAnimation[currentOrientation.ordinal()].draw(canvas);
             glows[NORMAL_GLOW].draw(canvas);
+            comboOccurring = false;
         }
     }
 
