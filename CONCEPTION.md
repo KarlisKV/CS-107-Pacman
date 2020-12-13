@@ -84,62 +84,62 @@
                 │       │   │   ├── (Class) Pellet.java
                 │       │   │   └── (Class) PowerPellet.java
                 │       │   └── 📦 ghosts
-                │       │       ├── Blinky.java
-                │       │       ├── Clyde.java
-                │       │       ├── Ghost.java
-                │       │       ├── GhostsBehavior.java
-                │       │       ├── Inky.java
-                │       │       └── Pinky.java
+                │       │       ├── (Class) Blinky.java
+                │       │       ├── (Class) Clyde.java
+                │       │       ├── (Abstract Class) Ghost.java
+                │       │       ├── (Class) GhostsBehavior.java
+                │       │       ├── (Class) Inky.java
+                │       │       └── (Class) Pinky.java
                 │       ├── 📦 area
-                │       │   ├── SuperPacmanArea.java
-                │       │   ├── SuperPacmanAreaBehavior.java
+                │       │   ├── (Abstract Class) SuperPacmanArea.java
+                │       │   ├── (Class) SuperPacmanAreaBehavior.java
                 │       │   ├── 📦 camera
-                │       │   │   ├── Camera.java
-                │       │   │   ├── Fixed.java
-                │       │   │   ├── Follow.java
-                │       │   │   ├── SmoothFollow.java
-                │       │   │   └── SmoothLimited.java
+                │       │   │   ├── (Abstract Class) Camera.java
+                │       │   │   ├── (Class) Fixed.java
+                │       │   │   ├── (Class) Follow.java
+                │       │   │   ├── (Class) SmoothFollow.java
+                │       │   │   └── (Class) SmoothLimited.java
                 │       │   └── 📦 levels
-                │       │       ├── Level0.java
-                │       │       ├── Level1.java
-                │       │       ├── Level2.java
-                │       │       ├── Level3.java
-                │       │       └── LevelEPFL.java
+                │       │       ├── (Class) Level0.java
+                │       │       ├── (Class) Level1.java
+                │       │       ├── (Class) Level2.java
+                │       │       ├── (Class) Level3.java
+                │       │       └── (Class) LevelEPFL.java
                 │       ├── 📦 globalenums
-                │       │   ├── SuperPacmanDepth.java
-                │       │   ├── SuperPacmanDifficulty.java
-                │       │   └── SuperPacmanSound.java
+                │       │   ├── (Enum) SuperPacmanDepth.java
+                │       │   ├── (Enum) SuperPacmanDifficulty.java
+                │       │   └── (Enum) SuperPacmanSound.java
                 │       ├── 📦 graphics
-                │       │   ├── Arcade.java
-                │       │   ├── Glow.java
-                │       │   └── ScreenFade.java
+                │       │   ├── (Class) Arcade.java
+                │       │   ├── (Class) Glow.java
+                │       │   └── (Class) ScreenFade.java
                 │       ├── 📦 handler
-                │       │   └── SuperPacmanInteractionVisitor.java
+                │       │   └── (Interface) SuperPacmanInteractionVisitor.java
                 │       ├── 📦 leaderboard
-                │       │   ├── GameScore.java
-                │       │   └── LeaderboardGameScores.java
+                │       │   ├── (Class) GameScore.java
+                │       │   └── (Class) LeaderboardGameScores.java
                 │       └── 📦 menus
-                │           ├── Menu.java
-                │           ├── MenuStateManager.java
-                │           ├── Option.java
-                │           ├── SubOption.java
+                │           ├── (Abstract Class) Menu.java
+                │           ├── (Final Class) MenuStateManager.java
+                │           ├── (Enum) Option.java
+                │           ├── (Enum) SubOption.java
                 │           └── 📦 pages
-                │               ├── Credits.java
-                │               ├── GameOver.java
-                │               ├── Help.java
-                │               ├── HelpGhosts.java
-                │               ├── HelpScore.java
-                │               ├── Leaderboard.java
-                │               ├── MainMenu.java
-                │               ├── Options.java
-                │               ├── Pause.java
-                │               ├── Play.java
-                │               └── Quit.java
+                │               ├── (Class) Credits.java
+                │               ├── (Class) GameOver.java
+                │               ├── (Class) Help.java
+                │               ├── (Class) HelpGhosts.java
+                │               ├── (Class) HelpScore.java
+                │               ├── (Class) Leaderboard.java
+                │               ├── (Class) MainMenu.java
+                │               ├── (Class) Options.java
+                │               ├── (Class) Pause.java
+                │               ├── (Class) Play.java
+                │               └── (Class) Quit.java
                 ├── 📦 io
-                │   └── Serialization.java
+                │   └── (Class) Serialization.java
                 └── 📦 math
                     └── 📦 transitions
-                        ├── EaseInOutCubic.java
-                        ├── Linear.java
-                        └── Transition.java
+                        ├── (Class) EaseInOutCubic.java
+                        ├── (Class) Linear.java
+                        └── (Abstract Class) Transition.java
 ```
