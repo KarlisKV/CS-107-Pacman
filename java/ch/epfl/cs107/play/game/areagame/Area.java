@@ -32,7 +32,6 @@ public abstract class Area implements Playable {
     // Camera Parameter
     private Actor viewCandidate;
     private Camera camera;
-    private int count = 0;
     /// List of Actors inside the area
     private List<Actor> actors;
     /// List of Actors we want to register/unregistered from the area for next update iteration
