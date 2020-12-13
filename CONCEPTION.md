@@ -7,7 +7,7 @@
 
 ## 1. MODIFICATIONS TO THE PROVIDED CONTENT
 
-```shell scriptx
+```
 .
 └── ch
     └── epfl
@@ -45,10 +45,8 @@
                     │   └> Added more key codes (ENTER, SHIFT, CTRL, ALT, ESC)
                     └── swing
                         ├── SoundItem.java
-                        │   └> Added .loop() methode in start() for audio clips
+                        │   └> Added .loop() method in start() for audio clips
                         │   └> Removed loop condition in update()
-                        ├── SwingImage.java
-                        ├── SwingSound.java
                         └── SwingWindow.java
                             └> Added in constructor .setLocationRelativeTo(null) to frame
 ```
@@ -57,7 +55,7 @@
 ----
 ----
 ----
-```shell scriptx
+```
 .
 └── ch
     └── epfl
