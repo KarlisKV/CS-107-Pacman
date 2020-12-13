@@ -81,28 +81,28 @@
                 │   │       └── (Abstract Class) <a href="#CollectableAreaEntity">CollectableAreaEntity.java</a>
                 │   └── 📦 superpacman
                 │       ├── (Class) <a href="#SoundUtility">SoundUtility.java</a> ..................................... [extension]
-                │       ├── (Class) SuperPacman.java
+                │       ├── (Class) <a href="#SuperPacman">SuperPacman.java</a>
                 │       ├── (Class) SuperPacmanStatusGUI.java ............................. [extension]
                 │       ├── 📦 actor
-                │       │   ├── (Class) Gate.java
-                │       │   ├── (Class) SuperPacmanPlayer.java
-                │       │   ├── (Class) SuperPacmanPlayerStatusGUI.java
-                │       │   ├── (Class) Wall.java
+                │       │   ├── (Class) <a href="#Gate">Gate.java</a>
+                │       │   ├── (Class) <a href="#SuperPacmanPlayer">SuperPacmanPlayer.java</a>
+                │       │   ├── (Class) <a href="#SuperPacmanPlayerStatusGUI">SuperPacmanPlayerStatusGUI.java</a>
+                │       │   ├── (Class) <a href="#Wall">Wall.java</a>
                 │       │   ├── 📦 collectables
-                │       │   │   ├── (Class) Bonus.java
+                │       │   │   ├── (Class) <a href="#Bonus">Bonus.java</a>
                 │       │   │   ├── (Class) Cake.java ..................................... [extension]
-                │       │   │   ├── (Class) Cherry.java
-                │       │   │   ├── (Class) Diamond.java
-                │       │   │   ├── (Class) Key.java
+                │       │   │   ├── (Class) <a href="#Cherry">Cherry.java</a>
+                │       │   │   ├── (Class) <a href="#Diamond">Diamond.java</a>
+                │       │   │   ├── (Class) <a href="#Key">Key.java</a>
                 │       │   │   ├── (Class) Pellet.java ................................... [extension]
                 │       │   │   └── (Class) PowerPellet.java .............................. [extension]
                 │       │   └── 📦 ghosts
-                │       │       ├── (Class) Blinky.java
+                │       │       ├── (Class) <a href="#Blinky">Blinky.java</a>
                 │       │       ├── (Class) Clyde.java .................................... [extension]
-                │       │       ├── (Abstract Class) Ghost.java
+                │       │       ├── (Abstract Class) <a href="#Ghost">Ghost.java</a>
                 │       │       ├── (Class) GhostsBehavior.java ........................... [extension]
-                │       │       ├── (Class) Inky.java
-                │       │       └── (Class) Pinky.java
+                │       │       ├── (Class) <a href="#Inky">Inky.java</a>
+                │       │       └── (Class) <a href="#Pinky">Pinky.java</a>
                 │       ├── 📦 area
                 │       │   ├── (Abstract Class) SuperPacmanArea.java
                 │       │   ├── (Class) SuperPacmanAreaBehavior.java
@@ -160,6 +160,58 @@
 <a name="CollectableAreaEntity"></a>
 > **(Abstract Class) CollectableAreaEntity.java**  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
+
+<a name="SuperPacman"></a>
+> **(Class) SuperPacman.java**  
+> 
+
+<a name="Gate"></a>
+> **(Class) Gate.java**  
+> 
+
+<a name="SuperPacmanPlayer"></a>
+> **(Class) SuperPacmanPlayer.java**  
+> 
+
+<a name="SuperPacmanPlayerStatusGUI"></a>
+> **(Class) SuperPacmanPlayerStatusGUI.java**  
+> 
+
+<a name="Wall"></a>
+> **(Class) Wall.java**  
+> 
+
+<a name="Bonus"></a>
+> **(Class) Bonus.java**  
+> 
+
+<a name="Cherry"></a>
+> **(Class) Cherry.java**  
+> 
+
+<a name="Diamond"></a>
+> **(Class) Diamond.java**  
+> 
+
+<a name="Key"></a>
+> **(Class) Key.java**  
+> 
+
+<a name="Blinky"></a>
+> **(Class) Blinky.java**  
+> 
+
+<a name="Ghost"></a>
+> **(Abstract Class) Ghost.java**  
+> 
+
+<a name="Inky"></a>
+> **(Class) Inky.java**  
+> 
+
+<a name="Pinky"></a>
+> **(Class) Pinky.java**  
+> 
 
 #### Extensions
 <a name="SoundUtility"></a>
