@@ -22,7 +22,7 @@ abstract public class AreaGame implements Game {
     /// The current area the game is in
     private Area currentArea;
 
-	// Menu for the game
+	// [modification] - Menu for the game
 	private MenuStateManager menuStateManager;
 	private static final float EXIT_TIMER = 1;
     private float timer = EXIT_TIMER;
@@ -102,6 +102,7 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void update(float deltaTime) {
+		// [modification] - Added state contions
 		if (MenuStateManager.isQuit()) {
 			// Dispose the window
 			timer -= deltaTime;

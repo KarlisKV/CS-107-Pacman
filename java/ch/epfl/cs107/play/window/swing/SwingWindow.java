@@ -188,7 +188,8 @@ public final class SwingWindow extends Node implements Window {
         frame.setSize(width, height);
         frame.setResizable(false);
         frame.setVisible(true);
-        frame.setLocationRelativeTo(null); // Added to center window on screen
+		// [modification] - Added to center window on screen
+        frame.setLocationRelativeTo(null);
     }
 
 	@Override

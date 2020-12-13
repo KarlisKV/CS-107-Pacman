@@ -18,7 +18,7 @@
                 │   ╚═════════════════════════════════════════════════════════════════════╝
                 ├── 📦 game
                 │   ├── Game.java ════════════════════════════════════════════════════════════╗
-                │   │   ║ └> Set the FPS limit to 60                                          ║
+                │   │   ║ └> Set the FPS to 60                                                ║
                 │   │   ╚═════════════════════════════════════════════════════════════════════╝  
                 │   ├── 📦 actor
                 │   │   └── TextGraphics.java ════════════════════════════════════════════════════╗
@@ -78,14 +78,14 @@
                 ├── 📦 game
                 │   ├── 📦 areagame
                 │   │   └── 📦 actor
-                │   │       └── (Abstract Class) CollectableAreaEntity.java
-                │   │           │ Allows the user to devvelop and decide more
-                │   │           │ content
-                │   │           └──────────────────────────────────────────
+                │   │       └── (Abstract Class) CollectableAreaEntity.java ══════════════════════════╗
+                │   │           ║ Allows the user to devvelop and decide more
+                │   │           ║ content
+                │   │           ╚═════════════════════════════════════════════════════════════════════╝
                 │   └── 📦 superpacman
-                │       ├── (Class) SoundUtility.java
+                │       ├── (Class) SoundUtility.java ..................................... [extention]
                 │       ├── (Class) SuperPacman.java
-                │       ├── (Class) SuperPacmanStatusGUI.java
+                │       ├── (Class) SuperPacmanStatusGUI.java ............................. [extention]
                 │       ├── 📦 actor
                 │       │   ├── (Class) Gate.java
                 │       │   ├── (Class) SuperPacmanPlayer.java
@@ -101,61 +101,61 @@
                 │       │   │   └── (Class) PowerPellet.java
                 │       │   └── 📦 ghosts
                 │       │       ├── (Class) Blinky.java
-                │       │       ├── (Class) Clyde.java
+                │       │       ├── (Class) Clyde.java .................................... [extention]
                 │       │       ├── (Abstract Class) Ghost.java
-                │       │       ├── (Class) GhostsBehavior.java
+                │       │       ├── (Class) GhostsBehavior.java ........................... [extention]
                 │       │       ├── (Class) Inky.java
                 │       │       └── (Class) Pinky.java
                 │       ├── 📦 area
                 │       │   ├── (Abstract Class) SuperPacmanArea.java
                 │       │   ├── (Class) SuperPacmanAreaBehavior.java
                 │       │   ├── 📦 camera
-                │       │   │   ├── (Abstract Class) Camera.java
-                │       │   │   ├── (Class) Fixed.java
-                │       │   │   ├── (Class) Follow.java
-                │       │   │   ├── (Class) SmoothFollow.java
-                │       │   │   └── (Class) SmoothLimited.java
+                │       │   │   ├── (Abstract Class) Camera.java .......................... [extention]
+                │       │   │   ├── (Class) Fixed.java .................................... [extention]
+                │       │   │   ├── (Class) Follow.java ................................... [extention]
+                │       │   │   ├── (Class) SmoothFollow.java ............................. [extention]
+                │       │   │   └── (Class) SmoothLimited.java ............................ [extention]
                 │       │   └── 📦 levels
                 │       │       ├── (Class) Level0.java
                 │       │       ├── (Class) Level1.java
                 │       │       ├── (Class) Level2.java
-                │       │       ├── (Class) Level3.java
-                │       │       └── (Class) LevelEPFL.java
+                │       │       ├── (Class) Level3.java ................................... [extention]
+                │       │       └── (Class) LevelEPFL.java ................................ [extention]
                 │       ├── 📦 globalenums
-                │       │   ├── (Enum) SuperPacmanDepth.java
-                │       │   ├── (Enum) SuperPacmanDifficulty.java
-                │       │   └── (Enum) SuperPacmanSound.java
+                │       │   ├── (Enum) SuperPacmanDepth.java .............................. [extention]
+                │       │   ├── (Enum) SuperPacmanDifficulty.java ......................... [extention]
+                │       │   └── (Enum) SuperPacmanSound.java .............................. [extention]
                 │       ├── 📦 graphics
-                │       │   ├── (Class) Arcade.java
-                │       │   ├── (Class) Glow.java
-                │       │   └── (Class) ScreenFade.java
+                │       │   ├── (Class) Arcade.java ....................................... [extention]
+                │       │   ├── (Class) Glow.java ......................................... [extention]
+                │       │   └── (Class) ScreenFade.java ................................... [extention]
                 │       ├── 📦 handler
                 │       │   └── (Interface) SuperPacmanInteractionVisitor.java
                 │       ├── 📦 leaderboard
-                │       │   ├── (Class) GameScore.java
-                │       │   └── (Class) LeaderboardGameScores.java
+                │       │   ├── (Class) GameScore.java .................................... [extention]
+                │       │   └── (Class) LeaderboardGameScores.java ........................ [extention]
                 │       └── 📦 menus
-                │           ├── (Abstract Class) Menu.java
-                │           ├── (Final Class) MenuStateManager.java
-                │           ├── (Enum) Option.java
-                │           ├── (Enum) SubOption.java
+                │           ├── (Abstract Class) Menu.java ................................ [extention]
+                │           ├── (Final Class) MenuStateManager.java ....................... [extention]
+                │           ├── (Enum) Option.java ........................................ [extention]
+                │           ├── (Enum) SubOption.java ..................................... [extention]
                 │           └── 📦 pages
-                │               ├── (Class) Credits.java
-                │               ├── (Class) GameOver.java
-                │               ├── (Class) Help.java
-                │               ├── (Class) HelpGhosts.java
-                │               ├── (Class) HelpScore.java
-                │               ├── (Class) Leaderboard.java
-                │               ├── (Class) MainMenu.java
-                │               ├── (Class) Options.java
-                │               ├── (Class) Pause.java
-                │               ├── (Class) Play.java
-                │               └── (Class) Quit.java
+                │               ├── (Class) Credits.java .................................. [extention]
+                │               ├── (Class) GameOver.java ................................. [extention]
+                │               ├── (Class) Help.java ..................................... [extention]
+                │               ├── (Class) HelpGhosts.java ............................... [extention]
+                │               ├── (Class) HelpScore.java ................................ [extention]
+                │               ├── (Class) Leaderboard.java .............................. [extention]
+                │               ├── (Class) MainMenu.java ................................. [extention]
+                │               ├── (Class) Options.java .................................. [extention]
+                │               ├── (Class) Pause.java .................................... [extention]
+                │               ├── (Class) Play.java ..................................... [extention]
+                │               └── (Class) Quit.java ..................................... [extention]
                 ├── 📦 io
-                │   └── (Class) Serialization.java
+                │   └── (Class) Serialization.java ........................................ [extention]
                 └── 📦 math
                     └── 📦 transitions
-                        ├── (Class) EaseInOutCubic.java
-                        ├── (Class) Linear.java
-                        └── (Abstract Class) Transition.java
+                        ├── (Class) EaseInOutCubic.java ................................... [extention]
+                        ├── (Class) Linear.java ........................................... [extention]
+                        └── (Abstract Class) Transition.java .............................. [extention]
 ```

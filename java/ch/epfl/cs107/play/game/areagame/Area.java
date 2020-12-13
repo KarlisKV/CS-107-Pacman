@@ -29,7 +29,7 @@ public abstract class Area implements Playable {
     // Context objects
     private Window window;
     private FileSystem fileSystem;
-    // Camera Parameter
+    // [modification] - Camera Parameter
     private Actor viewCandidate;
     private Camera camera;
     /// List of Actors inside the area
@@ -264,6 +264,7 @@ public abstract class Area implements Playable {
 		interactablesToEnter = new HashMap<>();
 		interactablesToLeave = new HashMap<>();
 		camera = null;
+		// [modification] -  removed, not used for camera
 //		viewCenter = Vector.ZERO;
 		started = true;
 		return true;
@@ -304,24 +305,25 @@ public abstract class Area implements Playable {
 				}
 			}
 		}
-		// Update camera location
-			if (camera == null || MenuStateManager.isCameraChangeRequest()) {
-				switch (MenuStateManager.getCameraSmoothingOption()) {
-					case CAMERA_VERY_SMOOTH:
-						camera = new SmoothLimited(this, false, 0.04f, true, 8);
-						break;
-					case CAMERA_NO_SMOOTH:
-						camera = new Follow(this, false, false);
-						break;
-					default:
-						camera = new SmoothLimited(this, false, 0.08f, true, 8);
-						break;
-				}
-				MenuStateManager.setCameraChangeRequest(false);
+		// [modification] - Update camera location
+		if (camera == null || MenuStateManager.isCameraChangeRequest()) {
+			switch (MenuStateManager.getCameraSmoothingOption()) {
+				case CAMERA_VERY_SMOOTH:
+					camera = new SmoothLimited(this, false, 0.04f, true, 8);
+					break;
+				case CAMERA_NO_SMOOTH:
+					camera = new Follow(this, false, false);
+					break;
+				default:
+					camera = new SmoothLimited(this, false, 0.08f, true, 8);
+					break;
 			}
-			camera.updatePos(viewCandidate.getPosition());
-			camera.update(deltaTime);
+			MenuStateManager.setCameraChangeRequest(false);
+		}
+		camera.updatePos(viewCandidate.getPosition());
+		camera.update(deltaTime);
 
+		// [modification] - adapted to states and settings
 		if (!MenuStateManager.isPaused() && !MenuStateManager.isEndGame()) {
 			// Draw actors and play sounds
 			for (Actor actor : actors) {

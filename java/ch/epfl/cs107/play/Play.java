@@ -20,6 +20,8 @@ public class Play {
      * One second in nano second
      */
     private static final float ONE_SEC = 1E9f;
+
+    // [modification] - fps attributes
     private static int currentFps = 0;
     private static final float FPS_REFRESH_TIME = 1;
     private static float fpsRefreshCount = 0;
@@ -79,7 +81,7 @@ public class Play {
                     currentTime = System.nanoTime();
                     deltaTime = (currentTime - lastTime) / ONE_SEC;
 
-                    // update current fps
+                    // [modification] - update current fps
                     float finalDeltaTime = deltaTime;
                     long finalLastTime = lastTime;
                     (new Thread(() -> {

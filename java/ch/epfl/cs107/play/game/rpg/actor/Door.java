@@ -113,6 +113,7 @@ public class Door extends AreaEntity implements Interactor {
     public void draw(Canvas canvas) {
         screenFade.draw(canvas);
 
+        // [modification] - Adapted to menu debug mode
         if (DEBUG_DOOR || MenuStateManager.isDebugMode()) {
 
             if (debugSquare == null) {
@@ -171,6 +172,7 @@ public class Door extends AreaEntity implements Interactor {
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
+        // [modification] - Added range
         List<DiscreteCoordinates> cellsInView = new ArrayList<>();
         final int RANGE = 1;
         for (DiscreteCoordinates currentCell : getCurrentCells()) {
@@ -205,6 +207,7 @@ public class Door extends AreaEntity implements Interactor {
      */
     private class SuperPacmanDoorHandler implements SuperPacmanInteractionVisitor {
 
+        // [modification] - Added interaction
         @Override
         public void interactWith(SuperPacmanPlayer player) {
             screenFade.setFadeOut();

@@ -51,6 +51,7 @@ public abstract class RPG extends AreaGame {
         if(player.isPassingADoor()){
             Door door = player.passedDoor();
             player.leaveArea();
+            // [modification] - forceBegin = true
             Area area = setCurrentArea(door.getDestination(), true);
             player.enterArea(area, door.getOtherSideCoordinates());
         }
