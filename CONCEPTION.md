@@ -82,7 +82,7 @@
                 │   └── 📦 superpacman
                 │       ├── (Class) <a href="#SoundUtility">SoundUtility.java</a> ..................................... [extension]
                 │       ├── (Class) <a href="#SuperPacman">SuperPacman.java</a>
-                │       ├── (Class) SuperPacmanStatusGUI.java ............................. [extension]
+                │       ├── (Class) <a href="#SuperPacmanStatusGUI">SuperPacmanStatusGUI.java</a> ............................. [extension]
                 │       ├── 📦 actor
                 │       │   ├── (Class) <a href="#Gate">Gate.java</a>
                 │       │   ├── (Class) <a href="#SuperPacmanPlayer">SuperPacmanPlayer.java</a>
@@ -90,130 +90,315 @@
                 │       │   ├── (Class) <a href="#Wall">Wall.java</a>
                 │       │   ├── 📦 collectables
                 │       │   │   ├── (Class) <a href="#Bonus">Bonus.java</a>
-                │       │   │   ├── (Class) Cake.java ..................................... [extension]
+                │       │   │   ├── (Class) <a href="#Cake">Cake.java</a> ..................................... [extension]
                 │       │   │   ├── (Class) <a href="#Cherry">Cherry.java</a>
                 │       │   │   ├── (Class) <a href="#Diamond">Diamond.java</a>
                 │       │   │   ├── (Class) <a href="#Key">Key.java</a>
-                │       │   │   ├── (Class) Pellet.java ................................... [extension]
-                │       │   │   └── (Class) PowerPellet.java .............................. [extension]
+                │       │   │   ├── (Class) <a href="#Pellet">Pellet.java</a> ................................... [extension]
+                │       │   │   └── (Class) <a href="#PowerPellet">PowerPellet.java</a> .............................. [extension]
                 │       │   └── 📦 ghosts
                 │       │       ├── (Class) <a href="#Blinky">Blinky.java</a>
-                │       │       ├── (Class) Clyde.java .................................... [extension]
+                │       │       ├── (Class) <a href="#Clyde">Clyde.java</a> .................................... [extension]
                 │       │       ├── (Abstract Class) <a href="#Ghost">Ghost.java</a>
-                │       │       ├── (Class) GhostsBehavior.java ........................... [extension]
+                │       │       ├── (Class) <a href="#GhostsBehavior">GhostsBehavior.java</a> ........................... [extension]
                 │       │       ├── (Class) <a href="#Inky">Inky.java</a>
                 │       │       └── (Class) <a href="#Pinky">Pinky.java</a>
                 │       ├── 📦 area
-                │       │   ├── (Abstract Class) SuperPacmanArea.java
-                │       │   ├── (Class) SuperPacmanAreaBehavior.java
+                │       │   ├── (Abstract Class) <a href="#SuperPacmanArea">SuperPacmanArea.java</a>
+                │       │   ├── (Class) <a href="#SuperPacmanAreaBehavior">SuperPacmanAreaBehavior.java</a>
                 │       │   ├── 📦 camera
-                │       │   │   ├── (Abstract Class) Camera.java .......................... [extension]
-                │       │   │   ├── (Class) Fixed.java .................................... [extension]
-                │       │   │   ├── (Class) Follow.java ................................... [extension]
-                │       │   │   ├── (Class) SmoothFollow.java ............................. [extension]
-                │       │   │   └── (Class) SmoothLimited.java ............................ [extension]
+                │       │   │   ├── (Abstract Class) <a href="#Camera">Camera.java</a> .......................... [extension]
+                │       │   │   ├── (Class) <a href="#Fixed">Fixed.java</a> .................................... [extension]
+                │       │   │   ├── (Class) <a href="#Follow">Follow.java</a> ................................... [extension]
+                │       │   │   ├── (Class) <a href="#SmoothFollow">SmoothFollow.java</a> ............................. [extension]
+                │       │   │   └── (Class) <a href="#SmoothLimited">SmoothLimited.java</a> ............................ [extension]
                 │       │   └── 📦 levels
-                │       │       ├── (Class) Level0.java
-                │       │       ├── (Class) Level1.java
-                │       │       ├── (Class) Level2.java
-                │       │       ├── (Class) Level3.java ................................... [extension]
-                │       │       └── (Class) LevelEPFL.java ................................ [extension]
+                │       │       ├── (Class) <a href="#Level0">Level0.java</a>
+                │       │       ├── (Class) <a href="#Level1">Level1.java</a>
+                │       │       ├── (Class) <a href="#Level2">Level2.java</a>
+                │       │       ├── (Class) <a href="#Level3">Level3.java</a> ................................... [extension]
+                │       │       └── (Class) <a href="#LevelEPFL">LevelEPFL.java</a> ................................ [extension]
                 │       ├── 📦 globalenums
-                │       │   ├── (Enum) SuperPacmanDepth.java .............................. [extension]
-                │       │   ├── (Enum) SuperPacmanDifficulty.java ......................... [extension]
-                │       │   └── (Enum) SuperPacmanSound.java .............................. [extension]
+                │       │   ├── (Enum) <a href="#SuperPacmanDepth">SuperPacmanDepth.java</a> .............................. [extension]
+                │       │   ├── (Enum) <a href="#SuperPacmanDifficulty">SuperPacmanDifficulty.java</a> ......................... [extension]
+                │       │   └── (Enum) <a href="#SuperPacmanSound">SuperPacmanSound.java</a> .............................. [extension]
                 │       ├── 📦 graphics
-                │       │   ├── (Class) Arcade.java ....................................... [extension]
-                │       │   ├── (Class) Glow.java ......................................... [extension]
-                │       │   └── (Class) ScreenFade.java ................................... [extension]
+                │       │   ├── (Class) <a href="#Arcade">Arcade.java</a> ....................................... [extension]
+                │       │   ├── (Class) <a href="#Glow">Glow.java</a> ......................................... [extension]
+                │       │   └── (Class) <a href="#ScreenFade">ScreenFade.java</a> ................................... [extension]
                 │       ├── 📦 handler
-                │       │   └── (Interface) SuperPacmanInteractionVisitor.java
+                │       │   └── (Interface) <a href="#SuperPacmanInteractionVisitor">SuperPacmanInteractionVisitor.java</a>
                 │       ├── 📦 leaderboard
-                │       │   ├── (Class) GameScore.java .................................... [extension]
-                │       │   └── (Class) LeaderboardGameScores.java ........................ [extension]
+                │       │   ├── (Class) <a href="#GameScore">GameScore.java</a> .................................... [extension]
+                │       │   └── (Class) <a href="#LeaderboardGameScores">LeaderboardGameScores.java</a> ........................ [extension]
                 │       └── 📦 menus
-                │           ├── (Abstract Class) Menu.java ................................ [extension]
-                │           ├── (Final Class) MenuStateManager.java ....................... [extension]
-                │           ├── (Enum) Option.java ........................................ [extension]
-                │           ├── (Enum) SubOption.java ..................................... [extension]
+                │           ├── (Abstract Class) <a href="#Menu">Menu.java</a> ................................ [extension]
+                │           ├── (Final Class) <a href="#MenuStateManager">MenuStateManager.java</a> ....................... [extension]
+                │           ├── (Enum) <a href="#Option">Option.java</a> ........................................ [extension]
+                │           ├── (Enum) <a href="#SubOption">SubOption.java</a> ..................................... [extension]
                 │           └── 📦 pages
-                │               ├── (Class) Credits.java .................................. [extension]
-                │               ├── (Class) GameOver.java ................................. [extension]
-                │               ├── (Class) Help.java ..................................... [extension]
-                │               ├── (Class) HelpGhosts.java ............................... [extension]
-                │               ├── (Class) HelpScore.java ................................ [extension]
-                │               ├── (Class) Leaderboard.java .............................. [extension]
-                │               ├── (Class) MainMenu.java ................................. [extension]
-                │               ├── (Class) Options.java .................................. [extension]
-                │               ├── (Class) Pause.java .................................... [extension]
-                │               ├── (Class) Play.java ..................................... [extension]
-                │               └── (Class) Quit.java ..................................... [extension]
+                │               ├── (Class) <a href="#Credits">Credits.java</a> .................................. [extension]
+                │               ├── (Class) <a href="#GameOver">GameOver.java</a> ................................. [extension]
+                │               ├── (Class) <a href="#Help">Help.java</a> ..................................... [extension]
+                │               ├── (Class) <a href="#HelpGhosts">HelpGhosts.java</a> ............................... [extension]
+                │               ├── (Class) <a href="#HelpScore">HelpScore.java</a> ................................ [extension]
+                │               ├── (Class) <a href="#Leaderboard">Leaderboard.java</a> .............................. [extension]
+                │               ├── (Class) <a href="#MainMenu">MainMenu.java</a> ................................. [extension]
+                │               ├── (Class) <a href="#Options">Options.java</a> .................................. [extension]
+                │               ├── (Class) <a href="#Pause">Pause.java</a> .................................... [extension]
+                │               ├── (Class) <a href="#Play">Play.java</a> ..................................... [extension]
+                │               └── (Class) <a href="#Quit">Quit.java</a> ..................................... [extension]
                 ├── 📦 io
-                │   └── (Class) Serialization.java ........................................ [extension]
+                │   └── (Class) <a href="#Serialization">Serialization.java</a> ........................................ [extension]
                 └── 📦 math
                     └── 📦 transitions
-                        ├── (Class) EaseInOutCubic.java ................................... [extension]
-                        ├── (Class) Linear.java ........................................... [extension]
-                        └── (Abstract Class) Transition.java .............................. [extension]
+                        ├── (Class) <a href="#EaseInOutCubic">EaseInOutCubic.java</a> ................................... [extension]
+                        ├── (Class) <a href="#Linear">Linear.java</a> ........................................... [extension]
+                        └── (Abstract Class) T<a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
 #### Required content
-<a name="CollectableAreaEntity"></a>
+<a id="CollectableAreaEntity"></a>
 > **(Abstract Class) CollectableAreaEntity.java**  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
 
-<a name="SuperPacman"></a>
+<a id="SuperPacman"></a>
 > **(Class) SuperPacman.java**  
 > 
 
-<a name="Gate"></a>
+<a id="Gate"></a>
 > **(Class) Gate.java**  
 > 
 
-<a name="SuperPacmanPlayer"></a>
+<a id="SuperPacmanPlayer"></a>
 > **(Class) SuperPacmanPlayer.java**  
 > 
 
-<a name="SuperPacmanPlayerStatusGUI"></a>
+<a id="SuperPacmanPlayerStatusGUI"></a>
 > **(Class) SuperPacmanPlayerStatusGUI.java**  
 > 
 
-<a name="Wall"></a>
+<a id="Wall"></a>
 > **(Class) Wall.java**  
 > 
 
-<a name="Bonus"></a>
+<a id="Bonus"></a>
 > **(Class) Bonus.java**  
 > 
 
-<a name="Cherry"></a>
+<a id="Cherry"></a>
 > **(Class) Cherry.java**  
 > 
 
-<a name="Diamond"></a>
+<a id="Diamond"></a>
 > **(Class) Diamond.java**  
 > 
 
-<a name="Key"></a>
+<a id="Key"></a>
 > **(Class) Key.java**  
 > 
 
-<a name="Blinky"></a>
+<a id="Blinky"></a>
 > **(Class) Blinky.java**  
 > 
 
-<a name="Ghost"></a>
+<a id="Ghost"></a>
 > **(Abstract Class) Ghost.java**  
 > 
 
-<a name="Inky"></a>
+<a id="Inky"></a>
 > **(Class) Inky.java**  
 > 
 
-<a name="Pinky"></a>
+<a id="Pinky"></a>
 > **(Class) Pinky.java**  
 > 
 
+<a id="SuperPacmanArea"></a>
+> **(Abstract Class) SuperPacmanArea.java**  
+> 
+
+<a id="SuperPacmanAreaBehavior"></a>
+> **(Class) SuperPacmanAreaBehavior.java**  
+> 
+
+<a id="Level0"></a>
+> **(Class) Level0.java**  
+> 
+
+<a id="Level1"></a>
+> **(Class) Level1.java**  
+> 
+
+<a id="Level2"></a>
+> **(Class) Level2.java**  
+> 
+
+<a id="SuperPacmanInteractionVisitor"></a>
+> **(Interface) SuperPacmanInteractionVisitor.java**  
+> 
+
 #### Extensions
-<a name="SoundUtility"></a>
+<a id="SoundUtility"></a>
 > **(Class) SoundUtility.java**  
 > This class processes and receives multiple sound requests. It adds them to a List ("Queue"), and plays them once. The methods provide more control to other class who use this class.
+
+<a id="SuperPacmanStatusGUI"></a>
+> **(Class) SuperPacmanStatusGUI.java**  
+> 
+
+<a id="Cake"></a>
+> **(Class) Cake.java**  
+> 
+
+<a id="Pellet"></a>
+> **(Class) Pellet.java**  
+> 
+
+<a id="PowerPellet"></a>
+> **(Class) PowerPellet.java**  
+> 
+
+<a id="Clyde"></a>
+> **(Class) Clyde.java**  
+> 
+
+<a id="GhostsBehavior"></a>
+> **(Class) GhostsBehavior.java**  
+> 
+
+<a id="Camera"></a>
+> **(Abstract Class) Camera.java**  
+> 
+
+<a id="Fixed"></a>
+> **(Class) Fixed.java**  
+> 
+
+<a id="Follow"></a>
+> **(Class) Follow.java**  
+> 
+
+<a id="SmoothFollow"></a>
+> **(Class) SmoothFollow.java**  
+> 
+
+<a id="SmoothLimited"></a>
+> **(Class) SmoothLimited.java**  
+> 
+
+<a id="Level3"></a>
+> **(Class) Level3.java**  
+> 
+
+<a id="LevelEPFL"></a>
+> **(Class) LevelEPFL.java**  
+> 
+
+<a id="SuperPacmanDepth"></a>
+> **(Enum) SuperPacmanDepth.java**  
+> 
+
+<a id="SuperPacmanDifficulty"></a>
+> **(Enum) SuperPacmanDifficulty.java**  
+> 
+
+<a id="SuperPacmanSound"></a>
+> **(Enum) SuperPacmanSound.java**  
+> 
+
+<a id="Arcade"></a>
+> **(Class) Arcade.java**  
+> 
+
+<a id="Glow"></a>
+> **(Class) Glow.java**  
+> 
+
+<a id="ScreenFade"></a>
+> **(Class) ScreenFade.java**  
+> 
+
+<a id="GameScore"></a>
+> **(Class) GameScore.java**  
+> 
+
+<a id="LeaderboardGameScores"></a>
+> **(Class) LeaderboardGameScores.java**  
+> 
+
+<a id="Menu"></a>
+> **(Abstract Class) Menu.java**  
+> 
+
+<a id="MenuStateManager"></a>
+> **(Final Class) MenuStateManager.java**  
+> 
+
+<a id="Option"></a>
+> **(Enum) Option.java**  
+> 
+
+<a id="SubOption"></a>
+> **(Enum) SubOption.java**  
+> 
+
+<a id="Credits"></a>
+> **(Class) Credits.java**  
+> 
+
+<a id="GameOver"></a>
+> **(Class) GameOver.java**  
+> 
+
+<a id="Help"></a>
+> **(Class) Help.java**  
+> 
+
+<a id="HelpGhosts"></a>
+> **(Class) HelpGhosts.java**  
+> 
+
+<a id="HelpScore"></a>
+> **(Class) HelpScore.java**  
+> 
+
+<a id="Leaderboard"></a>
+> **(Class) Leaderboard.java**  
+> 
+
+<a id="MainMenu"></a>
+> **(Class) MainMenu.java**  
+> 
+
+<a id="Options"></a>
+> **(Class) Options.java**  
+> 
+
+<a id="Pause"></a>
+> **(Class) Pause.java**  
+> 
+
+<a id="Play"></a>
+> **(Class) Play.java**  
+> 
+
+<a id="Quit"></a>
+> **(Class) Quit.java**  
+> 
+
+<a id="Serialization"></a>
+> **(Class) Serialization.java**  
+> 
+
+<a id="EaseInOutCubic"></a>
+> **(Class) EaseInOutCubic.java**  
+> 
+
+<a id="Linear"></a>
+> **(Class) Linear.java**  
+> 
+
+<a id="Transition"></a>
+> **(Abstract Class) Transition.java**  
+> 
+
