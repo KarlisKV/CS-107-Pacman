@@ -9,19 +9,19 @@
 
 ```
 .
-└── ch
-    └── epfl
-        └── cs107
-            └── play
+└── 📦 ch
+    └── 📦 epfl
+        └── 📦 cs107
+            └── 📦 play
                 ├── Play.java
                 │   └> Added new thread to compute the actual FPS
-                ├── game
+                ├── 📦 game
                 │   ├── Game.java
                 │   │   └> Set the FPS limit to 60   
-                │   ├── actor
+                │   ├── 📦 actor
                 │   │   └── TextGraphics.java
                 │   │       └> Implemented Serializable interface
-                │   ├── areagame
+                │   ├── 📦 areagame
                 │   │   ├── Area.java
                 │   │   │   └> Removed viewCenter attribute
                 │   │   │   └> Added Camera instance
@@ -31,20 +31,20 @@
                 │   │   ├── AreaGame.java
                 │   │   │   └> Added MenuStateManager instance
                 │   │   │   └> Modified update() method to work with menu states
-                │   │   └── actor
+                │   │   └── 📦 actor
                 │   │       └── Foreground.java
                 │   │           └> Modified depth to SuperPacmanDepth enum
-                │   └── rpg
+                │   └── 📦 rpg
                 │       ├── RPG.java
                 │       │   └> Modified forceBegin to true in update() method for creating new areas
-                │       └── actor
+                │       └── 📦 actor
                 │           └── Door.java
                 │               └> Set to implement Interactor (allows to fade screen when play is in range)
                 │               └> Activates debug drawing when debutMode is set from the menu
-                └── window
+                └── 📦 window
                     ├── Keyboard.java
                     │   └> Added more key codes (ENTER, SHIFT, CTRL, ALT, ESC)
-                    └── swing
+                    └── 📦 swing
                         ├── SoundItem.java
                         │   └> Added .loop() method in start() for audio clips
                         │   └> Removed loop condition in update()
@@ -58,72 +58,72 @@
 
 ```
 .
-└── ch
-    └── epfl
-        └── cs107
-            └── play
-                ├── game
-                │   ├── areagame
-                │   │   └── actor
-                │   │       └── CollectableAreaEntity.java
-                │   └── superpacman
-                │       ├── SoundUtility.java
-                │       ├── SuperPacman.java
-                │       ├── SuperPacmanStatusGUI.java
-                │       ├── actor
-                │       │   ├── Gate.java
-                │       │   ├── SuperPacmanPlayer.java
-                │       │   ├── SuperPacmanPlayerStatusGUI.java
-                │       │   ├── Wall.java
-                │       │   ├── collectables
-                │       │   │   ├── Bonus.java
-                │       │   │   ├── Cake.java
-                │       │   │   ├── Cherry.java
-                │       │   │   ├── Diamond.java
-                │       │   │   ├── Key.java
-                │       │   │   ├── Pellet.java
-                │       │   │   └── PowerPellet.java
-                │       │   └── ghosts
+└── 📦 ch
+    └── 📦 epfl
+        └── 📦 cs107
+            └── 📦 play
+                ├── 📦 game
+                │   ├── 📦 areagame
+                │   │   └── 📦 actor
+                │   │       └── (Abstract Class) CollectableAreaEntity.java
+                │   └── 📦 superpacman
+                │       ├── (Class) SoundUtility.java
+                │       ├── (Class) SuperPacman.java
+                │       ├── (Class) SuperPacmanStatusGUI.java
+                │       ├── 📦 actor
+                │       │   ├── (Class) Gate.java
+                │       │   ├── (Class) SuperPacmanPlayer.java
+                │       │   ├── (Class) SuperPacmanPlayerStatusGUI.java
+                │       │   ├── (Class) Wall.java
+                │       │   ├── 📦 collectables
+                │       │   │   ├── (Class) Bonus.java
+                │       │   │   ├── (Class) Cake.java
+                │       │   │   ├── (Class) Cherry.java
+                │       │   │   ├── (Class) Diamond.java
+                │       │   │   ├── (Class) Key.java
+                │       │   │   ├── (Class) Pellet.java
+                │       │   │   └── (Class) PowerPellet.java
+                │       │   └── 📦 ghosts
                 │       │       ├── Blinky.java
                 │       │       ├── Clyde.java
                 │       │       ├── Ghost.java
                 │       │       ├── GhostsBehavior.java
                 │       │       ├── Inky.java
                 │       │       └── Pinky.java
-                │       ├── area
+                │       ├── 📦 area
                 │       │   ├── SuperPacmanArea.java
                 │       │   ├── SuperPacmanAreaBehavior.java
-                │       │   ├── camera
+                │       │   ├── 📦 camera
                 │       │   │   ├── Camera.java
                 │       │   │   ├── Fixed.java
                 │       │   │   ├── Follow.java
                 │       │   │   ├── SmoothFollow.java
                 │       │   │   └── SmoothLimited.java
-                │       │   └── levels
+                │       │   └── 📦 levels
                 │       │       ├── Level0.java
                 │       │       ├── Level1.java
                 │       │       ├── Level2.java
                 │       │       ├── Level3.java
                 │       │       └── LevelEPFL.java
-                │       ├── globalenums
+                │       ├── 📦 globalenums
                 │       │   ├── SuperPacmanDepth.java
                 │       │   ├── SuperPacmanDifficulty.java
                 │       │   └── SuperPacmanSound.java
-                │       ├── graphics
+                │       ├── 📦 graphics
                 │       │   ├── Arcade.java
                 │       │   ├── Glow.java
                 │       │   └── ScreenFade.java
-                │       ├── handler
+                │       ├── 📦 handler
                 │       │   └── SuperPacmanInteractionVisitor.java
-                │       ├── leaderboard
+                │       ├── 📦 leaderboard
                 │       │   ├── GameScore.java
                 │       │   └── LeaderboardGameScores.java
-                │       └── menus
+                │       └── 📦 menus
                 │           ├── Menu.java
                 │           ├── MenuStateManager.java
                 │           ├── Option.java
                 │           ├── SubOption.java
-                │           └── pages
+                │           └── 📦 pages
                 │               ├── Credits.java
                 │               ├── GameOver.java
                 │               ├── Help.java
@@ -135,10 +135,10 @@
                 │               ├── Pause.java
                 │               ├── Play.java
                 │               └── Quit.java
-                ├── io
+                ├── 📦 io
                 │   └── Serialization.java
-                └── math
-                    └── transitions
+                └── 📦 math
+                    └── 📦 transitions
                         ├── EaseInOutCubic.java
                         ├── Linear.java
                         └── Transition.java
