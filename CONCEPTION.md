@@ -173,27 +173,27 @@
 ### Required content
 
 <a id="CollectableAreaEntity"></a>
-> **(Abstract Class) [CollectableAreaEntity.java](java/ch/epfl/cs107/play/game/areagame/actor/CollectableAreaEntity.java)** - extends MovableAreaEntity  
+> **(Abstract Class) [CollectableAreaEntity.java](java/ch/epfl/cs107/play/game/areagame/actor/CollectableAreaEntity.java)** - extends MovableAreaEntity.java  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
 ---
 <a id="SuperPacman"></a>
-> **(Class) [SuperPacman.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)** - extends RPG  
+> **(Class) [SuperPacman.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)** - extends RPG.java  
 > The class manages the SuperPacmanPlayer and creates the areas.  
 >> Extensions:  
 >> Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores), deserializing it in begin() method and adding new [GameScore.java](#GameScore) to it. It also manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
 ---
 <a id="Gate"></a>
-> **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)** - extends AreaEntity  
+> **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)** - extends AreaEntity.java  
 > 
 ---
 <a id="SuperPacmanPlayer"></a>
-> **(Class) [SuperPacmanPlayer.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayer.java)** - extends Player  
+> **(Class) [SuperPacmanPlayer.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayer.java)** - extends Player.java  
 > Class for the main player. Contains its GUI [SuperPacmanPlayerStatusGUI.java](#SuperPacmanPlayerStatusGUI). Contains sub-class for the interactions with a Door, Ghost, Key, Cake, Pellet, PowerPellet.
 >> Extensions:  
 >> Includes a death animation, glow, added collision ranged interaction with Walls and camera shake in Ghost interactions
 ---
 <a id="SuperPacmanPlayerStatusGUI"></a>
-> **(Class) [SuperPacmanPlayerStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayerStatusGUI.java)** - implements Graphics  
+> **(Class) [SuperPacmanPlayerStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayerStatusGUI.java)** - implements Graphics.java  
 > Indicates the score and lives of the player
 >> Extensions:
 >> - Used new Sprites(.png)
@@ -218,6 +218,8 @@
 <a id="Key"></a>
 > **(Class) [Key.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Key.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
 > 
+>> Extensions:
+>> Used a new Sprite(.png)
 ---
 <a id="Blinky"></a>
 > **(Class) [Blinky.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Blinky.java)** - extends [Ghost.java](#Ghost)  
@@ -227,6 +229,7 @@
 > **(Abstract Class) [Ghost.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Ghost.java)**  
 > More abstract in order to define a ghost. Computes the paths, moves/orientates the ghost, sets him as frightened and eaten. Also, includes interaction with the player.
 >> Extensions:
+>> - Used new Sprites(.png)
 >> - Added interaction with doors
 >> - Added movement rules (see getValidOrientations())
 >> - Added glow
@@ -244,7 +247,7 @@
 > 
 
 <a id="SuperPacmanArea"></a>
-> **(Abstract Class) [SuperPacmanArea.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanArea.java)**  
+> **(Abstract Class) [SuperPacmanArea.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanArea.java)** - extends Area.java
 > 
 
 <a id="SuperPacmanAreaBehavior"></a>
