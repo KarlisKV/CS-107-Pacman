@@ -173,27 +173,27 @@
 ### Required content
 
 <a id="CollectableAreaEntity"></a>
-> **(Abstract Class) [CollectableAreaEntity.java](java/ch/epfl/cs107/play/game/areagame/actor/CollectableAreaEntity.java)**  
+> **(Abstract Class) [CollectableAreaEntity.java](java/ch/epfl/cs107/play/game/areagame/actor/CollectableAreaEntity.java)** - extends MovableAreaEntity  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
 ---
 <a id="SuperPacman"></a>
-> **(Class) [SuperPacman.java](https://github.com/leonardcser/CS107-MP2-2020-V2/blob/main/java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)**  
+> **(Class) [SuperPacman.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)** - extends RPG  
 > The class manages the SuperPacmanPlayer and creates the areas.  
 >> Extensions:  
 >> Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores), deserializing it in begin() method and adding new [GameScore.java](#GameScore) to it. It also manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
 ---
 <a id="Gate"></a>
-> **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)**  
+> **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)** - extends AreaEntity  
 > 
 ---
 <a id="SuperPacmanPlayer"></a>
-> **(Class) [SuperPacmanPlayer.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayer.java)**  
+> **(Class) [SuperPacmanPlayer.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayer.java)** - extends Player  
 > Class for the main player. Contains its GUI [SuperPacmanPlayerStatusGUI.java](#SuperPacmanPlayerStatusGUI). Contains sub-class for the interactions with a Door, Ghost, Key, Cake, Pellet, PowerPellet.
 >> Extensions:  
 >> Includes a death animation, glow, added collision ranged interaction with Walls and camera shake in Ghost interactions
 ---
 <a id="SuperPacmanPlayerStatusGUI"></a>
-> **(Class) [SuperPacmanPlayerStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayerStatusGUI.java)**  
+> **(Class) [SuperPacmanPlayerStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayerStatusGUI.java)** - implements Graphics  
 > Indicates the score and lives of the player
 >> Extensions:
 >> - Used new Sprites(.png)
@@ -204,19 +204,19 @@
 >> - Added difficulty indicator and multiplier
 ---
 <a id="Bonus"></a>
-> **(Class) [Bonus.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Bonus.java)**  
+> **(Class) [Bonus.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Bonus.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
 > Class representing "PowerPellet" - not used in project
 ---
 <a id="Cherry"></a>
-> **(Class) [Cherry.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cherry.java)**  
+> **(Class) [Cherry.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cherry.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
 > Class representing "Cake" - not used in project
 ---
 <a id="Diamond"></a>
-> **(Class) [Diamond.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Diamond.java)**  
+> **(Class) [Diamond.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Diamond.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
 > Class representing "Pellet" - not used in project
 ---
 <a id="Key"></a>
-> **(Class) [Key.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Key.java)**  
+> **(Class) [Key.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Key.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
 > 
 ---
 <a id="Blinky"></a>
