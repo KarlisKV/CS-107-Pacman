@@ -95,6 +95,11 @@ public class Door extends AreaEntity implements Interactor {
         return otherSideCoordinates;
     }
 
+    /**
+     * Method to determine if a door connects 2 areas or two parts of 1 area
+     * @return (true) if the door leads to the same area
+     */
+    // [modification] - Added method
     public boolean isDestinationSameArea() {
         return getOwnerArea().getTitle().equals(destination);
     }

@@ -41,16 +41,27 @@
                 │   │           ║ └> Modified depth to SuperPacmanDepth enum                          ║
                 │   │           ╚═════════════════════════════════════════════════════════════════════╝
                 │   └── 📦 rpg
-                │       ├── RPG.java ═════════════════════════════════════════════════════════════════╗
-                │       │   ║ └> Modified forceBegin to true in update() method for creating          ║
-                │       │   ║    new areas                                                            ║
-                │       │   ╚═════════════════════════════════════════════════════════════════════════╝
-                │       └── 📦 actor
-                │           └── Door.java ════════════════════════════════════════════════════════════╗
-                │               ║ └> Set to implement Interactor (allows to fade screen when player   ║
-                │               ║    is in range)                                                     ║
-                │               ║ └> Activates debug drawing when debutMode is set from the menu      ║
-                │               ╚═════════════════════════════════════════════════════════════════════╝
+                │   │   ├── RPG.java ═════════════════════════════════════════════════════════════════╗
+                │   │   │   ║ └> Modified forceBegin to true in update() method for creating          ║
+                │   │   │   ║    new areas                                                            ║
+                │   │   │   ╚═════════════════════════════════════════════════════════════════════════╝
+                │   │   └── 📦 actor
+                │   │       └── Door.java ════════════════════════════════════════════════════════════╗
+                │   │           ║ └> Set to implement Interactor (allows to fade screen when player   ║
+                │   │           ║    is in range)                                                     ║
+                │   │           ║ └> Activates debug drawing when debutMode is set from the menu      ║
+                │   │           ║ └> Added method isDestinationSameArea() to determine if door leads  ║
+                │   │           ║    to the same area                                                 ║
+                │   │           ╚═════════════════════════════════════════════════════════════════════╝
+                │   └── 📦 superpacman
+                │        └── 📦 actor
+                │             └── Wall.java ══════════════════════════════════════════════════════════╗
+                │                 ║ └> Changed default Wall pathname to new .png                      ║
+                │                 ║ └> Added condition to set the wall pathname to red wall for EPFL  ║
+                │                 ║    level                                                          ║
+                │                 ║ └> Added setDepth() to the constructor                            ║
+                │                 ║ └> Added isViewInteractable = true                                ║
+                │                 ╚═══════════════════════════════════════════════════════════════════╝
                 └── 📦 window
                     ├── Keyboard.java ════════════════════════════════════════════════════════════════╗
                     │   ║ └> Added more key codes (ENTER, SHIFT, CTRL, ALT, ESC)                      ║
@@ -87,7 +98,6 @@
                 │       │   ├── (Class) <a href="#Gate">Gate.java</a>
                 │       │   ├── (Class) <a href="#SuperPacmanPlayer">SuperPacmanPlayer.java</a>
                 │       │   ├── (Class) <a href="#SuperPacmanPlayerStatusGUI">SuperPacmanPlayerStatusGUI.java</a>
-                │       │   ├── (Class) <a href="#Wall">Wall.java</a>
                 │       │   ├── 📦 collectables
                 │       │   │   ├── (Class) <a href="#Bonus">Bonus.java</a>
                 │       │   │   ├── (Class) <a href="#Cake">Cake.java</a> ..................................... [extension]
@@ -165,57 +175,72 @@
 <a id="CollectableAreaEntity"></a>
 > **(Abstract Class) CollectableAreaEntity.java**  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
-
+---
 <a id="SuperPacman"></a>
 > **(Class) SuperPacman.java**  
-> 
-
+> The class manages the SuperPacmanPlayer and creates the areas.  
+>> Extensions:  
+>> Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores), deserializing it in begin() method and adding new [GameScores.java](#GameScores) to it. It also manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
+---
 <a id="Gate"></a>
 > **(Class) Gate.java**  
 > 
-
+---
 <a id="SuperPacmanPlayer"></a>
 > **(Class) SuperPacmanPlayer.java**  
-> 
-
+> Class for the main player. Contains its GUI [SuperPacmanPlayerStatusGUI.java](#SuperPacmanPlayerStatusGUI). Contains sub-class for the interactions with a Door, Ghost, Key, Cake, Pellet, PowerPellet.
+>> Extensions:  
+>> Includes a death animation, glow, added collision ranged interaction with Walls and camera shake in Ghost interactions
+---
 <a id="SuperPacmanPlayerStatusGUI"></a>
 > **(Class) SuperPacmanPlayerStatusGUI.java**  
-> 
-
-<a id="Wall"></a>
-> **(Class) Wall.java**  
-> 
-
+> Indicates the score and lives of the player
+>> Extensions:
+>> - Used new Sprites(.png)
+>> - Repositioned GUI
+>> - Added a pellet counter
+>> - Added combos for score
+>> - Added timer for current area and past areas
+>> - Added difficulty indicator and multiplier
+---
 <a id="Bonus"></a>
 > **(Class) Bonus.java**  
-> 
-
+> Class representing "PowerPellet" - not used in project
+---
 <a id="Cherry"></a>
 > **(Class) Cherry.java**  
-> 
-
+> Class representing "Cake" - not used in project
+---
 <a id="Diamond"></a>
 > **(Class) Diamond.java**  
-> 
-
+> Class representing "Pellet" - not used in project
+---
 <a id="Key"></a>
 > **(Class) Key.java**  
 > 
-
+---
 <a id="Blinky"></a>
-> **(Class) Blinky.java**  
-> 
-
+> **(Class) Blinky.java** - extends [Ghost.java](#Ghost)  
+> All override methods return null, making Blinky choose a random Orientation at any given moment
+---
 <a id="Ghost"></a>
 > **(Abstract Class) Ghost.java**  
-> 
-
+> More abstract in order to define a ghost. Computes the paths, moves/orientates the ghost, sets him as frightened and eaten. Also, includes interaction with the player.
+>> Extensions:
+>> - Added interaction with doors
+>> - Added movement rules (see getValidOrientations())
+>> - Added glow
+>> - Added eyes animations when eaten
+>> - Added back to home path
+>> - Added frightened blinking animation (blue & white)
+>> - Added a pause and combo text when Ghost is eaten
+---
 <a id="Inky"></a>
-> **(Class) Inky.java**  
+> **(Class) Inky.java** - extends [Ghost.java](#Ghost)  
 > 
-
+---
 <a id="Pinky"></a>
-> **(Class) Pinky.java**  
+> **(Class) Pinky.java** - extends [Ghost.java](#Ghost)  
 > 
 
 <a id="SuperPacmanArea"></a>

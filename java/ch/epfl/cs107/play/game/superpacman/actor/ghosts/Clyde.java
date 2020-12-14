@@ -13,14 +13,13 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Clyde extends Ghost {
     private static final String SPRITE_NAME = "superpacman/ghost.clyde";
-    private static final int SPRITE_SIZE = 16;
     private static final int FIELD_OF_VIEW = 35;
     private static final int FORWARD_VISION = 6;
     private static final int MIN_AFRAID_DISTANCE = 10;
     private static final int FORWARD_RANGE = 3;
 
     public Clyde(Area area, DiscreteCoordinates homePosition) {
-        super(area, homePosition, homePosition, SPRITE_NAME, SPRITE_SIZE, Glow.GlowColors.ORANGE, FIELD_OF_VIEW);
+        super(area, homePosition, homePosition, SPRITE_NAME, Glow.GlowColors.ORANGE, FIELD_OF_VIEW);
     }
 
     @Override

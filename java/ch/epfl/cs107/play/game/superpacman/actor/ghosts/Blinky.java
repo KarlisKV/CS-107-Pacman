@@ -17,7 +17,7 @@ public class Blinky extends Ghost {
     private static final int FIELD_OF_VIEW = 5;
 
     public Blinky(Area area, DiscreteCoordinates homePosition) {
-        super(area, homePosition, homePosition, SPRITE_NAME, SPRITE_SIZE, Glow.GlowColors.RED, FIELD_OF_VIEW);
+        super(area, homePosition, homePosition, SPRITE_NAME, Glow.GlowColors.RED, FIELD_OF_VIEW);
     }
 
     @Override

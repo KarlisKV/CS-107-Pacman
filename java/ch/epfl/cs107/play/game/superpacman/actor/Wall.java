@@ -32,7 +32,7 @@ public class Wall extends AreaEntity {
 	public Wall(Area area, DiscreteCoordinates position, boolean[][] neighborhood) {
 		super(area, Orientation.DOWN, position);
 
-		// Set wall color
+		// [modification] - Set wall color
 		if (area.getTitle().equals("superpacman/levelEPFL")) {
 			this.wallName = "superpacman/wallRedRoundDarkFilled";
 		} else {
@@ -166,6 +166,7 @@ public class Wall extends AreaEntity {
 				sprite = new RPGSprite(wallName, 1, 1, this, new RegionOfInterest(0, 14*64, 64, 64));
 			}
 		}
+		// [modification] - added depth
 		sprite.setDepth(SuperPacmanDepth.WALL.value);
 	}
 
@@ -186,11 +187,13 @@ public class Wall extends AreaEntity {
 
 	@Override
 	public boolean isViewInteractable() {
+		// [modification] - added view
 		return true;
 	}
 
 	@Override
 	public void acceptInteraction(AreaInteractionVisitor v) {
+		// [modification] - added interaction
 		((SuperPacmanInteractionVisitor) v).interactWith(this);
 	}
 

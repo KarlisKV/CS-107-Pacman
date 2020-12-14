@@ -42,6 +42,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
     private static final float TRANSITION_BLINK_SPEED = 0.25f;
     private static final String[] SCORE_COMBOS_PATHNAMES =
             {"superpacman/score200", "superpacman/score400", "superpacman/score800", "superpacman/score1600"};
+    private static final int SPRITE_SIZE = 16;
     private static final SoundAcoustics RETREATING_SOUND = SuperPacmanSound.RETREATING.sound;
     private static SoundUtility ghostSoundUtility;
     private final int fieldOfView;
@@ -95,11 +96,10 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      * @param homePosition    (Coordinate): Initial position of the entity. Not null
      * @param scatterPosition (Coorinate): The target position while in scatter mode
      * @param spriteName      (String): The name of the Ghost sprite
-     * @param spriteSize      (int): The size of the Ghost sprite
      * @param glowColor       (Glow.GlowColors): The glow color for the Ghost sprite
      */
-    public Ghost(Area area, DiscreteCoordinates homePosition, DiscreteCoordinates scatterPosition, String spriteName,
-                 int spriteSize, Glow.GlowColors glowColor, int fieldOfView) {
+    protected Ghost(Area area, DiscreteCoordinates homePosition, DiscreteCoordinates scatterPosition, String spriteName,
+                    Glow.GlowColors glowColor, int fieldOfView) {
         super(area, DEFAULT_ORIENTATION, homePosition);
         ghostHandler = new GhostInteractionHandler();
         this.homePosition = homePosition;
@@ -146,7 +146,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      */
     public Sprite[] createGhostSprites(String pathname) {
         Sprite[] sprites =
-                RPGSprite.extractSprites(pathname, 2, 1, 1, this, 16, 16);
+                RPGSprite.extractSprites(pathname, 2, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE);
         for (Sprite sprite : sprites) {
             sprite.setDepth(SuperPacmanDepth.GHOSTS.value);
         }
@@ -160,7 +160,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
      */
     public Sprite[][] createOrientableGhostSprites(String pathname) {
         Sprite[][] sprites =
-                RPGSprite.extractSprites(pathname, 2, 1, 1, this, 16, 16,
+                RPGSprite.extractSprites(pathname, 2, 1, 1, this, SPRITE_SIZE, SPRITE_SIZE,
                                          new Orientation[]{Orientation.UP, Orientation.RIGHT,
                                                            Orientation.DOWN, Orientation.LEFT});
         for (Sprite[] spriteFrames : sprites) {
@@ -694,7 +694,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean wantsCellInteraction() {
-        return false;
+        return true;
     }
 
     @Override

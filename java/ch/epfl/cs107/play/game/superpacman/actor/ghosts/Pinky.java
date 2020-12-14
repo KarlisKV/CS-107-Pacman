@@ -13,7 +13,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Pinky extends Ghost {
     private static final String SPRITE_NAME = "superpacman/ghost.pinky";
-    private static final int SPRITE_SIZE = 16;
     private static final int MIN_AFRAID_DISTANCE = 5;
     private static final int RANDOM_POS_RANGE = 20;
     private static final int MAX_RANDOM_ATTEMPT = 2000000000;
@@ -21,7 +20,7 @@ public class Pinky extends Ghost {
     private int count;
 
     public Pinky(Area area, DiscreteCoordinates homePosition) {
-        super(area, homePosition, homePosition, SPRITE_NAME, SPRITE_SIZE, Glow.GlowColors.PINK, FIELD_OF_VIEW);
+        super(area, homePosition, homePosition, SPRITE_NAME, Glow.GlowColors.PINK, FIELD_OF_VIEW);
     }
 
     @Override

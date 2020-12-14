@@ -84,10 +84,10 @@ public class SuperPacman extends RPG {
      */
     private void createAreas() {
         addArea(new Level0());
+        addArea(new LevelEPFL());
         addArea(new Level1());
         addArea(new Level2());
         addArea(new Level3());
-        addArea(new LevelEPFL());
     }
 
     @Override
