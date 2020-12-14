@@ -108,6 +108,7 @@ fabric.properties
 .gitignore
 bin/
 .idea
+.class
 java/ch/epfl/cs107/play/game/tutos/area/Camera.java
 /java/ch/epfl/cs107/play/game/tutos/
 /java/ch/epfl/cs107/play/game/tutosSolution/

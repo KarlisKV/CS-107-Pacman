@@ -369,8 +369,10 @@ public final class SwingWindow extends Node implements Window {
 			String path = new URI(url.toString()).getPath();
 			File directory = new File(path);
 			for(File fontFile : directory.listFiles()) {
-				if(fontFile.isDirectory())
-					registerFonts(fontFile.getName());
+				if (fontFile.isDirectory()) {
+					System.out.println(fontFile.getName());
+//					registerFonts(fontFile.getName());
+				}
 				else {
 					Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 					GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);

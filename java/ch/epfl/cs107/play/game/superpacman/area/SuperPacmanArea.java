@@ -15,7 +15,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public abstract class SuperPacmanArea extends Area {
-    private SuperPacmanAreaBehavior behavior;
+    private ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior behavior;
 
     public abstract boolean isEndingLevel();
 
@@ -34,7 +34,7 @@ public abstract class SuperPacmanArea extends Area {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
             // Set the behavior map
-            behavior = new SuperPacmanAreaBehavior(window, getTitle());
+            behavior = new ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior(window, getTitle());
             setBehavior(behavior);
             behavior.registerActors(this);
             createArea();

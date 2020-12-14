@@ -549,11 +549,7 @@ public abstract class Ghost extends MovableAreaEntity implements Interactor {
 
         if (targetPos != null) {
             for (Orientation validOrientation : getValidOrientations()) {
-                float xA = getCurrentMainCellCoordinates().toVector().add(validOrientation.toVector()).getX();
-                float yA = getCurrentMainCellCoordinates().toVector().add(validOrientation.toVector()).getY();
-                float xB = targetPos.toVector().getX();
-                float yB = targetPos.toVector().getY();
-                float distance = (float) Math.sqrt(Math.pow(xB - xA, 2) + Math.pow(yB - yA, 2));
+                float distance = getCurrentMainCellCoordinates().toVector().add(validOrientation.toVector()).dist(targetPos.toVector());
                 if (distance < minDistance) {
                     minDistance = distance;
                     closestOrientation = validOrientation;

@@ -159,15 +159,15 @@ public class SuperPacman extends RPG {
                     player.reset();
                     MenuStateManager.setEndGame(false);
                 } else {
+                    if (gameWon) {
+                        player.reset();
+                    }
                     // Save leaderboard to file
                     leaderboardGameScores
                             .add(new GameScore(SuperPacmanPlayer.getMaxHp(), player.getAreaTimerHistory(),
                                                player.getScore(),
                                                player.getCurrentHp()));
                     MenuStateManager.setGameOver(true);
-                    if (gameWon) {
-                        player.reset();
-                    }
                 }
                 player.restart();
                 player.leaveArea();

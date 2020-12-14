@@ -241,6 +241,15 @@ public final class Vector implements Serializable {
         return new Vector(x * (1.0f - factor) + other.x * factor, y * (1.0f - factor) + other.y * factor);
     }
 
+    // TODO: add javadoc
+    public float dist(Vector other) {
+//        System.out.println("************************************");
+//        System.out.println(other.x + " - " + other.y);
+//        System.out.println(x + " - " + y);
+//        System.out.println("************************************");
+        return (float) Math.sqrt(Math.pow(other.x - x, 2) + Math.pow(other.y - y, 2));
+    }
+
 
     /// Vector implements Serializable
 

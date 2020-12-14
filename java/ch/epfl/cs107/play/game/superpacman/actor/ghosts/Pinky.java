@@ -15,7 +15,7 @@ public class Pinky extends Ghost {
     private static final String SPRITE_NAME = "superpacman/ghost.pinky";
     private static final int MIN_AFRAID_DISTANCE = 5;
     private static final int RANDOM_POS_RANGE = 20;
-    private static final int MAX_RANDOM_ATTEMPT = 2000000000;
+    private static final int MAX_RANDOM_ATTEMPT = 200;
     private static final int FIELD_OF_VIEW = 5;
     private int count;
 

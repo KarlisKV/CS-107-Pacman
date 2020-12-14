@@ -6,32 +6,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/records" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/records/zelda" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/fonts" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/backgrounds" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/backgrounds/mine" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/backgrounds/pipegame" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/backgrounds/superpacman" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/backgrounds/zelda" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/behaviors" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/behaviors/mine" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/behaviors/pipegame" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/behaviors/superpacman" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/behaviors/zelda" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/foregrounds" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/foregrounds/mine" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/foregrounds/superpacman" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/foregrounds/zelda" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/sprites" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/sprites/pipegame" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/sprites/superpacman" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/images/sprites/zelda" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/sounds" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/sounds/superpacman" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/sounds/superpacman/menu" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/res/strings" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/tmp" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
