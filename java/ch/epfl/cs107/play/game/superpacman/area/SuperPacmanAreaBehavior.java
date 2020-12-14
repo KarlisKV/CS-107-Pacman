@@ -87,11 +87,11 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                 !cellEqualsToType(x, y - 1, SuperPacmanCellType.NONE);
     }
 
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
+
     public static SuperPacmanDifficulty getInitDifficulty() {
         return initDifficulty;
     }
-
-    /* ----------------------------------- ACCESSORS ----------------------------------- */
 
     public static void setInitDifficulty(SuperPacmanDifficulty initDifficulty) {
         SuperPacmanAreaBehavior.initDifficulty = initDifficulty;
@@ -120,7 +120,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                         Wall wallRed = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y), Wall.Color.RED);
                         area.registerActor(wallRed);
                         break;
-                    case FREE_WITH_BONUS:
+                    case FREE_WITH_POWER_PELLET:
                         PowerPellet powerPellet = new PowerPellet(area, new DiscreteCoordinates(x, y));
                         area.registerActor(powerPellet);
                         break;
@@ -128,7 +128,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                         Cake cake = new Cake(area, new DiscreteCoordinates(x, y));
                         area.registerActor(cake);
                         break;
-                    case FREE_WITH_DIAMOND:
+                    case FREE_WITH_PELLET:
                         Pellet pellet = new Pellet(area, new DiscreteCoordinates(x, y));
                         area.registerActor(pellet);
                         break;
@@ -187,13 +187,13 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
         NONE(0), // never used as real content
         WALL(-16777216), //black
         WALL_RED(-11927552), //dark red
-        FREE_WITH_DIAMOND(-1), //white
+        FREE_WITH_PELLET(-1), //white
         FREE_WITH_BLINKY(-65536), //red
         FREE_WITH_PINKY(-157237), //pink
         FREE_WITH_INKY(-16724737), //cyan
         FREE_WITH_CLYDE(-24526), //orange
         FREE_WITH_CAKE(-36752), //light red
-        FREE_WITH_BONUS(-16478723), //light blue
+        FREE_WITH_POWER_PELLET(-16478723), //light blue
         FREE_EMPTY(-6118750); // sort of gray
 
         final int type;

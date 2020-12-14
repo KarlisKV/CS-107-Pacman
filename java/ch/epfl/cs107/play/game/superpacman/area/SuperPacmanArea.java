@@ -17,13 +17,18 @@ import ch.epfl.cs107.play.window.Window;
 public abstract class SuperPacmanArea extends Area {
     private ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior behavior;
 
-    public abstract boolean isEndingLevel();
-
+    /* ----------------------------------- ACCESSORS ----------------------------------- */
     public abstract DiscreteCoordinates getPlayerSpawnPosition();
 
     public GhostsBehavior getGhostsManagement() {
         return behavior.getGhostsManagement();
     }
+
+    /**
+     * Method to define if level is last one in the game
+     * @return (true) if the level should end then game if all pellets are collected
+     */
+    public abstract boolean isEndingLevel();
 
     @Override
     public float getCameraScaleFactor() {

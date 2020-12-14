@@ -62,6 +62,10 @@
                 │                 ║ └> Added setDepth() to the constructor                            ║
                 │                 ║ └> Added isViewInteractable = true                                ║
                 │                 ╚═══════════════════════════════════════════════════════════════════╝
+                ├── 📦 math
+                │   └── Vector.java ══════════════════════════════════════════════════════════════════╗
+                │       ║ └> Added method dist() to compute distance between two Vector points        ║
+                │       ╚═════════════════════════════════════════════════════════════════════════════╝
                 └── 📦 window
                     ├── Keyboard.java ════════════════════════════════════════════════════════════════╗
                     │   ║ └> Added more key codes (ENTER, SHIFT, CTRL, ALT, ESC)                      ║
@@ -179,22 +183,30 @@
 <a id="SuperPacman"></a>
 > **(Class) [SuperPacman.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)** - extends RPG.java  
 > The class manages the SuperPacmanPlayer and creates the areas.  
->> Extensions:  
->> Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores), deserializing it in begin() method and adding new [GameScore.java](#GameScore) to it. It also manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
+>> Extensions: 
+>> - Used new Sprites(.png) 
+>> - Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores)
+>> - Deserializing it in begin() method and adding new [GameScore.java](#GameScore) to it
+>> - Manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
 ---
 <a id="Gate"></a>
 > **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)** - extends AreaEntity.java  
 > 
+>> Extensions:
+>> - Used new Sprites(.png)
 ---
 <a id="SuperPacmanPlayer"></a>
 > **(Class) [SuperPacmanPlayer.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayer.java)** - extends Player.java  
 > Class for the main player. Contains its GUI [SuperPacmanPlayerStatusGUI.java](#SuperPacmanPlayerStatusGUI). Contains sub-class for the interactions with a Door, Ghost, Key, Cake, Pellet, PowerPellet.
->> Extensions:  
->> Includes a death animation, glow, added collision ranged interaction with Walls and camera shake in Ghost interactions
+>> Extensions: 
+>> - Used new Sprites(.png) 
+>> - Includes a death animation
+>> - Glow effect
+>> - Added collision ranged interaction with Walls and camera shake in Ghost interactions
 ---
 <a id="SuperPacmanPlayerStatusGUI"></a>
 > **(Class) [SuperPacmanPlayerStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayerStatusGUI.java)** - implements Graphics.java  
-> Indicates the score and lives of the player
+> Indicates the score and lives of the player.
 >> Extensions:
 >> - Used new Sprites(.png)
 >> - Repositioned GUI
@@ -219,11 +231,11 @@
 > **(Class) [Key.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Key.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
 > 
 >> Extensions:
->> Used a new Sprite(.png)
+>> - Used a new Sprite(.png)
 ---
 <a id="Blinky"></a>
 > **(Class) [Blinky.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Blinky.java)** - extends [Ghost.java](#Ghost)  
-> All override methods return null, making Blinky choose a random Orientation at any given moment
+> Class defining Blinky's movement algorithm. All override methods return null, making Blinky choose a random Orientation at any given moment.
 ---
 <a id="Ghost"></a>
 > **(Abstract Class) [Ghost.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Ghost.java)**  
@@ -240,35 +252,45 @@
 ---
 <a id="Inky"></a>
 > **(Class) [Inky.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Inky.java)** - extends [Ghost.java](#Ghost)  
-> 
+> Class defining Inky's movement algorithm. He follows the player when in range and tries to escape him while frightened. By default, he targets a random in his range.
 ---
 <a id="Pinky"></a>
 > **(Class) [Pinky.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Pinky.java)** - extends [Ghost.java](#Ghost)  
-> 
+> Class defining Pinky's movement algorithm. Also follows the player when in range and tries to escape him while frightened. By default, he targets a random in his range.
 
 <a id="SuperPacmanArea"></a>
 > **(Abstract Class) [SuperPacmanArea.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanArea.java)** - extends Area.java
-> 
+> Defines the area for the SuperPacman game
+>> Extensions:
+>> - Added abstract method isEndingLevel() defining if a level can end the game
 
 <a id="SuperPacmanAreaBehavior"></a>
-> **(Class) [SuperPacmanAreaBehavior.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanAreaBehavior.java)**  
-> 
+> **(Class) [SuperPacmanAreaBehavior.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanAreaBehavior.java)** - extends AreaBehavior.java  
+> Class to create grids with all the cells from behavior images. Contains also private enum of all the cell types.
+>> Extensions:
+>> - Added new cell types to enum (WALL_RED, FREE_WITH_CLYDE)
+>> - Adapted registerActors() to new cell types
+>> - Added [SuperPacmanDifficulty.java](#SuperPacmanDifficulty) attribute
+>> - Added [GhostsBehavior.java](#GhostsBehavior) attribute with difficulty integration
 
 <a id="Level0"></a>
 > **(Class) Level0.java**  
-> 
+> Represents Level 0 of the game.
+>> Extensions:
+>> - Modified behavior .png to add red wall effect
+>> - Added secret door to EPFL level
 
 <a id="Level1"></a>
 > **(Class) Level1.java**  
-> 
+> Represents Level 1 of the game.
 
 <a id="Level2"></a>
 > **(Class) Level2.java**  
-> 
+> Represents Level 2 of the game.
 
 <a id="SuperPacmanInteractionVisitor"></a>
 > **(Interface) SuperPacmanInteractionVisitor.java**  
-> 
+> Defines the interactions between actors.
 
 
 ### Extensions
