@@ -173,27 +173,27 @@
 #### Required content
 
 <a id="CollectableAreaEntity"></a>
-> **(Abstract Class) CollectableAreaEntity.java**  
+> **(Abstract Class) [CollectableAreaEntity.java](java/ch/epfl/cs107/play/game/areagame/actor/CollectableAreaEntity.java)**  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
 ---
 <a id="SuperPacman"></a>
-> **(Class) SuperPacman.java**  
+> **(Class) [SuperPacman.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)**  
 > The class manages the SuperPacmanPlayer and creates the areas.  
 >> Extensions:  
 >> Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores), deserializing it in begin() method and adding new [GameScores.java](#GameScores) to it. It also manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
 ---
 <a id="Gate"></a>
-> **(Class) Gate.java**  
+> **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)**  
 > 
 ---
 <a id="SuperPacmanPlayer"></a>
-> **(Class) SuperPacmanPlayer.java**  
+> **(Class) [SuperPacmanPlayer.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayer.java)**  
 > Class for the main player. Contains its GUI [SuperPacmanPlayerStatusGUI.java](#SuperPacmanPlayerStatusGUI). Contains sub-class for the interactions with a Door, Ghost, Key, Cake, Pellet, PowerPellet.
 >> Extensions:  
 >> Includes a death animation, glow, added collision ranged interaction with Walls and camera shake in Ghost interactions
 ---
 <a id="SuperPacmanPlayerStatusGUI"></a>
-> **(Class) SuperPacmanPlayerStatusGUI.java**  
+> **(Class) [SuperPacmanPlayerStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/actor/SuperPacmanPlayerStatusGUI.java)**  
 > Indicates the score and lives of the player
 >> Extensions:
 >> - Used new Sprites(.png)
@@ -204,19 +204,19 @@
 >> - Added difficulty indicator and multiplier
 ---
 <a id="Bonus"></a>
-> **(Class) Bonus.java**  
+> **(Class) [Bonus.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Bonus.java)**  
 > Class representing "PowerPellet" - not used in project
 ---
 <a id="Cherry"></a>
-> **(Class) Cherry.java**  
+> **(Class) [Cherry.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cherry.java)**  
 > Class representing "Cake" - not used in project
 ---
 <a id="Diamond"></a>
-> **(Class) Diamond.java**  
+> **(Class) [Diamond.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Diamond.java)**  
 > Class representing "Pellet" - not used in project
 ---
 <a id="Key"></a>
-> **(Class) Key.java**  
+> **(Class) [Key.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Key.java)**  
 > 
 ---
 <a id="Blinky"></a>
@@ -224,7 +224,7 @@
 > All override methods return null, making Blinky choose a random Orientation at any given moment
 ---
 <a id="Ghost"></a>
-> **(Abstract Class) Ghost.java**  
+> **(Abstract Class) [Ghost.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Ghost.java)**  
 > More abstract in order to define a ghost. Computes the paths, moves/orientates the ghost, sets him as frightened and eaten. Also, includes interaction with the player.
 >> Extensions:
 >> - Added interaction with doors
@@ -236,19 +236,19 @@
 >> - Added a pause and combo text when Ghost is eaten
 ---
 <a id="Inky"></a>
-> **(Class) Inky.java** - extends [Ghost.java](#Ghost)  
+> **(Class) [Inky.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Inky.java)** - extends [Ghost.java](#Ghost)  
 > 
 ---
 <a id="Pinky"></a>
-> **(Class) Pinky.java** - extends [Ghost.java](#Ghost)  
+> **(Class) [Pinky.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Pinky.java)** - extends [Ghost.java](#Ghost)  
 > 
 
 <a id="SuperPacmanArea"></a>
-> **(Abstract Class) SuperPacmanArea.java**  
+> **(Abstract Class) [SuperPacmanArea.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanArea.java)**  
 > 
 
 <a id="SuperPacmanAreaBehavior"></a>
-> **(Class) SuperPacmanAreaBehavior.java**  
+> **(Class) [SuperPacmanAreaBehavior.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanAreaBehavior.java)**  
 > 
 
 <a id="Level0"></a>
