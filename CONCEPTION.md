@@ -220,7 +220,7 @@
 > 
 ---
 <a id="Blinky"></a>
-> **(Class) Blinky.java** - extends [Ghost.java](#Ghost)  
+> **(Class) [Blinky.java](Blinky.java)** - extends [Ghost.java](#Ghost)  
 > All override methods return null, making Blinky choose a random Orientation at any given moment
 ---
 <a id="Ghost"></a>
