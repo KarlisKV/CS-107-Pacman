@@ -170,17 +170,17 @@
 
 
 
-#### Required content
+### Required content
 
 <a id="CollectableAreaEntity"></a>
 > **(Abstract Class) [CollectableAreaEntity.java](java/ch/epfl/cs107/play/game/areagame/actor/CollectableAreaEntity.java)**  
 > This abstract class defines a Collectable Entity in an Area. Points have been integrated and can be overridden by its sub-classes.
 ---
 <a id="SuperPacman"></a>
-> **(Class) [SuperPacman.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)**  
+> **(Class) [SuperPacman.java](https://github.com/leonardcser/CS107-MP2-2020-V2/blob/main/java/ch/epfl/cs107/play/game/superpacman/SuperPacman.java)**  
 > The class manages the SuperPacmanPlayer and creates the areas.  
 >> Extensions:  
->> Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores), deserializing it in begin() method and adding new [GameScores.java](#GameScores) to it. It also manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
+>> Includes the player's [LeaderboardGameScores.java](#LeaderboardGameScores), deserializing it in begin() method and adding new [GameScore.java](#GameScore) to it. It also manages the state of the arcade (on/off) and an animation for the cameraScaleFactor.
 ---
 <a id="Gate"></a>
 > **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)**  
@@ -268,7 +268,7 @@
 > 
 
 
-#### Extensions
+### Extensions
 
 <a id="SoundUtility"></a>
 > **(Class) SoundUtility.java**  
