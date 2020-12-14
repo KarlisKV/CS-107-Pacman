@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class LevelEPFL extends SuperPacmanArea {
     public static final String LEVEL_PATHNAME = "superpacman/levelEPFL";
-    public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15, 2);
+    public static final DiscreteCoordinates PLAYER_SPAWN_POSITION = new DiscreteCoordinates(15, 0);
 
     @Override
     public boolean isEndingLevel() {

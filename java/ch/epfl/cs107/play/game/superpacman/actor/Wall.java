@@ -17,7 +17,6 @@ import java.util.List;
 
 public class Wall extends AreaEntity {
 	private String wallName;
-
 	Sprite sprite;
 
 	/**
@@ -29,16 +28,9 @@ public class Wall extends AreaEntity {
 	 * @param position     (DiscreteCoordinates): The wall position. Not null
 	 * @param neighborhood (boolean[][]):. The 3x3 matrix. Not null
 	 */
-	public Wall(Area area, DiscreteCoordinates position, boolean[][] neighborhood) {
+	public Wall(Area area, DiscreteCoordinates position, boolean[][] neighborhood, Color color) {
 		super(area, Orientation.DOWN, position);
-
-		// [modification] - Set wall color
-		if (area.getTitle().equals("superpacman/levelEPFL")) {
-			this.wallName = "superpacman/wallRedRoundDarkFilled";
-		} else {
-			this.wallName = "superpacman/wallBlueRoundDarkFilled";
-		}
-
+		wallName = color.path;
 
 		if (neighborhood[0][1] && neighborhood[2][1] && !neighborhood[1][0] && !neighborhood[1][2]) {
 			//horizontal
@@ -167,7 +159,9 @@ public class Wall extends AreaEntity {
 			}
 		}
 		// [modification] - added depth
-		sprite.setDepth(SuperPacmanDepth.WALL.value);
+		if (sprite != null) {
+			sprite.setDepth(SuperPacmanDepth.WALL.value);
+		}
 	}
 
 	@Override
@@ -201,5 +195,18 @@ public class Wall extends AreaEntity {
 	public void draw(Canvas canvas) {
 		if(sprite != null)
 			sprite.draw(canvas);
+	}
+
+	// [modification] - Set wall color
+	public enum Color {
+		BLUE("superpacman/wallBlueRoundDarkFilled"),
+		RED("superpacman/wallRedRoundDarkFilled");
+
+		public final String path;
+
+		Color(String path) {
+			this.path = path;
+		}
+
 	}
 }

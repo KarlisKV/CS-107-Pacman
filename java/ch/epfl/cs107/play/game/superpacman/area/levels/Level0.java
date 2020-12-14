@@ -37,7 +37,7 @@ public class Level0 extends SuperPacmanArea {
 
         //Secret Door
         registerActor(new Door(LevelEPFL.LEVEL_PATHNAME, LevelEPFL.PLAYER_SPAWN_POSITION, Logic.TRUE,
-                this, Orientation.UP, new DiscreteCoordinates(10, 8)));
+                this, Orientation.DOWN, new DiscreteCoordinates(10, 9)));
         // Key
         Key key = new Key(this, new DiscreteCoordinates(3, 4));
         registerActor(key);
