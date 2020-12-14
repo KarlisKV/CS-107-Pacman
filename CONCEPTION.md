@@ -257,13 +257,13 @@
 <a id="Pinky"></a>
 > **(Class) [Pinky.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Pinky.java)** - extends [Ghost.java](#Ghost)  
 > Class defining Pinky's movement algorithm. Also follows the player when in range and tries to escape him while frightened. By default, he targets a random in his range.
-
+---
 <a id="SuperPacmanArea"></a>
 > **(Abstract Class) [SuperPacmanArea.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanArea.java)** - extends Area.java
 > Defines the area for the SuperPacman game
 >> Extensions:
 >> - Added abstract method isEndingLevel() defining if a level can end the game
-
+---
 <a id="SuperPacmanAreaBehavior"></a>
 > **(Class) [SuperPacmanAreaBehavior.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanAreaBehavior.java)** - extends AreaBehavior.java  
 > Class to create grids with all the cells from behavior images. Contains also private enum of all the cell types.
@@ -272,24 +272,24 @@
 >> - Adapted registerActors() to new cell types
 >> - Added [SuperPacmanDifficulty.java](#SuperPacmanDifficulty) attribute
 >> - Added [GhostsBehavior.java](#GhostsBehavior) attribute with difficulty integration
-
+---
 <a id="Level0"></a>
-> **(Class) Level0.java**  
+> **(Class) [Level0.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level0.java)**  
 > Represents Level 0 of the game.
 >> Extensions:
 >> - Modified behavior .png to add red wall effect
 >> - Added secret door to EPFL level
-
+---
 <a id="Level1"></a>
-> **(Class) Level1.java**  
+> **(Class) [Level1.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level1.java)**  
 > Represents Level 1 of the game.
-
+---
 <a id="Level2"></a>
-> **(Class) Level2.java**  
+> **(Class) [Level2.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level2.java)**  
 > Represents Level 2 of the game.
-
+---
 <a id="SuperPacmanInteractionVisitor"></a>
-> **(Interface) SuperPacmanInteractionVisitor.java**  
+> **(Interface) [SuperPacmanInteractionVisitor.java](java/ch/epfl/cs107/play/game/superpacman/handler/SuperPacmanInteractionVisitor.java)**  
 > Defines the interactions between actors.
 
 
