@@ -33,7 +33,7 @@
 
 <a id="configuration"></a>
 ## 2. CONFIGURATION
-
+![](res/images/behaviors/superpacman/level0.png) <!-- .element height="200" width="200" -->
 
 1. Open terminal and set directory to project root
   
