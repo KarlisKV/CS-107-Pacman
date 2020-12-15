@@ -18,7 +18,10 @@ import ch.epfl.cs107.play.game.rpg.actor.Door;
 import ch.epfl.cs107.play.game.rpg.actor.Player;
 import ch.epfl.cs107.play.game.rpg.actor.RPGSprite;
 import ch.epfl.cs107.play.game.superpacman.SoundUtility;
-import ch.epfl.cs107.play.game.superpacman.actor.collectables.*;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Cake;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Key;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.Pellet;
+import ch.epfl.cs107.play.game.superpacman.actor.collectables.PowerPellet;
 import ch.epfl.cs107.play.game.superpacman.actor.ghosts.Ghost;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanArea;
 import ch.epfl.cs107.play.game.superpacman.area.SuperPacmanAreaBehavior;
@@ -422,13 +425,6 @@ public class SuperPacmanPlayer extends Player {
             key.collect();
             key.setSignalOn();
             updateScore(key.getPoints());
-        }
-
-        @Override
-        public void interactWith(Cherry cherry) {
-            playerSoundUtility.play(EAT_FRUIT_SOUND);
-            cherry.collect();
-            updateScore(cherry.getPoints());
         }
 
         @Override

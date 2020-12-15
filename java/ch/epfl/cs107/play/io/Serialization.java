@@ -10,6 +10,7 @@ package ch.epfl.cs107.play.io;
 import java.io.*;
 
 public class Serialization implements Serializable {
+    private static final String WORKING_DIR = "tmp";
 
     /**
      * Method to serialize Object into /tmp
@@ -18,7 +19,7 @@ public class Serialization implements Serializable {
      */
     public static void serialize(Object serializableObject, String fileOutName) {
         try {
-            File directory = new File("tmp");
+            File directory = new File(WORKING_DIR);
             File file = new File(directory, fileOutName);
             file.getParentFile().mkdirs();
             file.createNewFile();
@@ -26,7 +27,8 @@ public class Serialization implements Serializable {
             fileOut.writeObject(serializableObject);
             fileOut.close();
         } catch (IOException i) {
-            // Empty on purpose, do noting
+            System.out.println("An ERROR occurred while serializing " + fileOutName + "...");
+            i.printStackTrace();
         }
     }
 
@@ -38,13 +40,16 @@ public class Serialization implements Serializable {
     public static Object deserialize(String fileName) {
         Object object = null;
         try {
-            File directory = new File("tmp");
+            File directory = new File(WORKING_DIR);
             File file = new File(directory, fileName);
             ObjectInputStream fileIn = new ObjectInputStream(new FileInputStream(file));
             object = fileIn.readObject();
             fileIn.close();
+        } catch (FileNotFoundException f) {
+            System.out.println(f.getLocalizedMessage() + " -> file is not yet saved in /" + WORKING_DIR + ", so created new object");
         } catch (IOException | ClassNotFoundException i) {
-            // Empty on purpose, do noting
+            System.out.println("An ERROR occurred while deserializing \"" + fileName + "\"...");
+            i.printStackTrace();
         }
         return object;
     }
@@ -54,7 +59,7 @@ public class Serialization implements Serializable {
      * @param fileName the name of the file to be deleted
      */
     public static void delete(String fileName) {
-        File directory = new File("tmp");
+        File directory = new File(WORKING_DIR);
         File file = new File(directory, fileName);
         file.delete();
     }

@@ -38,6 +38,17 @@ public abstract class AreaBehavior
         cells = new Cell[width][height];
     }
 
+    /**
+     * Default AreaBehavior Constructor
+     */
+    public AreaBehavior(int height, int width){
+        this.behaviorMap = null;
+        this.height = height;
+        this.width = width;
+        // Get the corresponding dimension and init the array
+        cells = new Cell[width][height];
+    }
+
 
     protected void cellInteractionOf(Interactor interactor){
         for(DiscreteCoordinates dc : interactor.getCurrentCells()){

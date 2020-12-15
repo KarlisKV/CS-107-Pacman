@@ -172,8 +172,6 @@
 </pre>
 
 
-
-
 ### Required content
 
 <a id="CollectableAreaEntity"></a>
@@ -238,7 +236,7 @@
 > Class defining Blinky's movement algorithm. All override methods return null, making Blinky choose a random Orientation at any given moment.
 ---
 <a id="Ghost"></a>
-> **(Abstract Class) [Ghost.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Ghost.java)**  
+> **(Abstract Class) [Ghost.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Ghost.java)** - extends MovableAreaEntity.java, implements Interactor.java  
 > More abstract in order to define a ghost. Computes the paths, moves/orientates the ghost, sets him as frightened and eaten. Also, includes interaction with the player.
 >> Extensions:
 >> - Used new Sprites(.png)
@@ -274,18 +272,18 @@
 >> - Added [GhostsBehavior.java](#GhostsBehavior) attribute with difficulty integration
 ---
 <a id="Level0"></a>
-> **(Class) [Level0.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level0.java)**  
+> **(Class) [Level0.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level0.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
 > Represents Level 0 of the game.
 >> Extensions:
 >> - Modified behavior .png to add red wall effect
 >> - Added secret door to EPFL level
 ---
 <a id="Level1"></a>
-> **(Class) [Level1.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level1.java)**  
+> **(Class) [Level1.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level1.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
 > Represents Level 1 of the game.
 ---
 <a id="Level2"></a>
-> **(Class) [Level2.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level2.java)**  
+> **(Class) [Level2.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level2.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
 > Represents Level 2 of the game.
 ---
 <a id="SuperPacmanInteractionVisitor"></a>
@@ -296,170 +294,167 @@
 ### Extensions
 
 <a id="SoundUtility"></a>
-> **(Class) SoundUtility.java**  
+> **(Class) [SoundUtility.java](java/ch/epfl/cs107/play/game/superpacman/SoundUtility.java)** - implements Acoustics.java  
 > This class processes and receives multiple sound requests. It adds them to a List ("Queue"), and plays them once. The methods provide more control to other class who use this class.
-
+---
 <a id="SuperPacmanStatusGUI"></a>
-> **(Class) SuperPacmanStatusGUI.java**  
-> Added timer for how long it takes to complete each level.
-> Added Pellet counter. Added Difficulty multiplier. Added so FPS is displayed.
-
+> **(Class) [SuperPacmanStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacmanStatusGUI.java)** - implements Graphics.java  
+> Allows to display the FPS and Debug Mode text
+---
 <a id="Cake"></a>
-> **(Class) Cake.java**  
->Collectable object that is found in the maps. Increases score by 200 when picked up.
-
+> **(Class) [Cake.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cake.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
+> Acts the same as a "cherry". Can be collected by the player for extra points.
+---
 <a id="Pellet"></a>
-> **(Class) Pellet.java**  
->
-> 
-
+> **(Class) [Pellet.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Pellet.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
+> Acts the same as a "diamond". Can be collected by the player for points and to open gates. Added pellet counter for each area, glow effect, as well as interaction with the player for magnet effect.
+---
 <a id="PowerPellet"></a>
-> **(Class) PowerPellet.java**  
-> 
-
+> **(Class) [PowerPellet.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/PowerPellet.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
+> Acts the same as a "Bonus". Can be collected by the player to set ghosts frightened. Added glow effect.
+---
 <a id="Clyde"></a>
-> **(Class) Clyde.java**  
-> 
-
+> **(Class) [Clyde.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Clyde.java)** - extends [Ghost.java](#Ghost)  
+> Class defining Clyde's movement algorithm. He chases the player wherever he is in the level. While frightened, he finds the path the furthest away from the player.
+---
 <a id="GhostsBehavior"></a>
-> **(Class) GhostsBehavior.java**  
-> 
-
+> **(Class) [GhostsBehavior.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/GhostsBehavior.java)** - implements Updatable.java  
+> This class contains all the ghosts present in a level. It can update all their states at the same time. Also, it allows to control the difficulty of the ghosts.
+---
 <a id="Camera"></a>
-> **(Abstract Class) Camera.java**  
-> 
-
+> **(Abstract Class) [Camera.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/Camera.java)** - implements Updatable.java  
+> Conception of a camera for each Area. Gets updated by the current Area, and it's defined concretely in its sub-classes.
+---
 <a id="Fixed"></a>
-> **(Class) Fixed.java**  
-> 
-
+> **(Class) [Fixed.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/Fixed.java)** - extends [Camera.java](#Camera)  
+> Defines a camera positioned in the center of the Area. It does not follow the player.
+---
 <a id="Follow"></a>
-> **(Class) Follow.java**  
-> 
-
+> **(Class) [Follow.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/Follow.java)** - extends [Camera.java](#Camera)  
+> Defines a camera always centered on the player.
+---
 <a id="SmoothFollow"></a>
-> **(Class) SmoothFollow.java**  
-> 
-
+> **(Class) [SmoothFollow.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/SmoothFollow.java)** - extends [Camera.java](#Camera)  
+> Defines a camera centered on the player but with a smooth catch-up speed.
+---
 <a id="SmoothLimited"></a>
-> **(Class) SmoothLimited.java**  
-> 
-
+> **(Class) [SmoothLimited.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/SmoothLimited.java)** - extends [Camera.java](#Camera)  
+> Defines a [SmoothFollow.java](#SmoothFollow) camera but with edge boundaries given in constructor.
+---
 <a id="Level3"></a>
-> **(Class) Level3.java**  
->Added a new level with a new behavior and tunnels at the sides of the map
-
+> **(Class) [Level3.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level3.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
+> Added a new level with a new behavior and tunnels at the sides of the map
+---
 <a id="LevelEPFL"></a>
-> **(Class) LevelEPFL.java**  
->Added an easter egg: an EPFL themed level. Available through level0 and after completing it,
->the player moves to Level1.
-
+> **(Class) [LevelEPFL.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/LevelEPFL.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
+> Added an easter egg: an EPFL themed level. Available through level0 and after completing it, the player moves to Level1.
+---
 <a id="SuperPacmanDepth"></a>
-> **(Enum) SuperPacmanDepth.java**  
-> 
-
+> **(Enum) [SuperPacmanDepth.java](java/ch/epfl/cs107/play/game/superpacman/globalenums/SuperPacmanDepth.java)**  
+> Defines all the different depths for organising drawing order.
+---
 <a id="SuperPacmanDifficulty"></a>
-> **(Enum) SuperPacmanDifficulty.java**  
-> 
-
+> **(Enum) [SuperPacmanDifficulty.java](java/ch/epfl/cs107/play/game/superpacman/globalenums/SuperPacmanDifficulty.java)**  
+> Defines the difficulties for the SuperPacman game with all the specific parameters.
+---
 <a id="SuperPacmanSound"></a>
-> **(Enum) SuperPacmanSound.java**  
-> 
-
+> **(Enum) [SuperPacmanSound.java](java/ch/epfl/cs107/play/game/superpacman/globalenums/SuperPacmanSound.java)**  
+> Represents the sound for the SuperPacman game.
+---
 <a id="Arcade"></a>
-> **(Class) Arcade.java**  
-> 
-
+> **(Class) [Arcade.java](java/ch/epfl/cs107/play/game/superpacman/graphics/Arcade.java)** - implements Graphics.java, Acoustics.java  
+> Acts as Menu background and game screen overlay.
+---
 <a id="Glow"></a>
-> **(Class) Glow.java**  
-> 
-
+> **(Class) [Glow.java](java/ch/epfl/cs107/play/game/superpacman/graphics/Glow.java)** - implements Graphics.java  
+> Allows to easily create a glow effect parented to a sprite.
+---
 <a id="ScreenFade"></a>
-> **(Class) ScreenFade.java**  
-> 
-
+> **(Class) [ScreenFade.java](java/ch/epfl/cs107/play/game/superpacman/graphics/ScreenFade.java)** - implements Graphics.java  
+> Allows to draw a black overlay covering the whole screen. It has been eased-in and out with [Transition.java](#Transition).
+---
 <a id="GameScore"></a>
-> **(Class) GameScore.java**  
-> 
-
+> **(Class) [GameScore.java](java/ch/epfl/cs107/play/game/superpacman/leaderboard/GameScore.java)** - implements Serializable.java  
+> Represents all the statistic from a finished game.
+---
 <a id="LeaderboardGameScores"></a>
-> **(Class) LeaderboardGameScores.java**  
+> **(Class) [LeaderboardGameScores.java](java/ch/epfl/cs107/play/game/superpacman/leaderboard/LeaderboardGameScores.java)** - implements Serializable.java  
 > 
-
+---
 <a id="Menu"></a>
-> **(Abstract Class) Menu.java**  
+> **(Abstract Class) [Menu.java]**  
 > 
-
+---
 <a id="MenuStateManager"></a>
-> **(Final Class) MenuStateManager.java**  
+> **(Final Class) [MenuStateManager.java]**  
 > 
-
+---
 <a id="Option"></a>
-> **(Enum) Option.java**  
+> **(Enum) [Option.java]**  
 > 
-
+---
 <a id="SubOption"></a>
-> **(Enum) SubOption.java**  
+> **(Enum) [SubOption.java]**  
 > 
-
+---
 <a id="Credits"></a>
-> **(Class) Credits.java**  
+> **(Class) [Credits.java]**  
 > 
-
+---
 <a id="GameOver"></a>
-> **(Class) GameOver.java**  
+> **(Class) [GameOver.java]**  
 > 
-
+---
 <a id="Help"></a>
-> **(Class) Help.java**  
+> **(Class) [Help.java]**  
 > 
-
+---
 <a id="HelpGhosts"></a>
-> **(Class) HelpGhosts.java**  
+> **(Class) [HelpGhosts.java]**  
 > 
-
+---
 <a id="HelpScore"></a>
-> **(Class) HelpScore.java**  
+> **(Class) [HelpScore.java]**  
 > 
-
+---
 <a id="Leaderboard"></a>
-> **(Class) Leaderboard.java**  
+> **(Class) [Leaderboard.java]**  
 > 
-
+---
 <a id="MainMenu"></a>
-> **(Class) MainMenu.java**  
+> **(Class) [MainMenu.java]**  
 > 
-
+---
 <a id="Options"></a>
-> **(Class) Options.java**  
+> **(Class) [Options.java]**  
 > 
-
+---
 <a id="Pause"></a>
-> **(Class) Pause.java**  
+> **(Class) [Pause.java]**  
 > 
-
+---
 <a id="Play"></a>
-> **(Class) Play.java**  
+> **(Class) [Play.java]**  
 > 
-
+---
 <a id="Quit"></a>
-> **(Class) Quit.java**  
+> **(Class) [Quit.java]**  
 > 
-
+---
 <a id="Serialization"></a>
-> **(Class) Serialization.java**  
+> **(Class) [Serialization.java]**  
 > 
-
+---
 <a id="EaseInOutCubic"></a>
-> **(Class) EaseInOutCubic.java**  
+> **(Class) [EaseInOutCubic.java]**  
 > 
-
+---
 <a id="Linear"></a>
-> **(Class) Linear.java**  
+> **(Class) [Linear.java]**  
 > 
-
+---
 <a id="Transition"></a>
-> **(Abstract Class) Transition.java**  
+> **(Abstract Class) [Transition.java]**  
 > 
 
 <a id="deviations"></a>

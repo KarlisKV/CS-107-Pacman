@@ -33,7 +33,6 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      */
     public SuperPacmanAreaBehavior(Window window, String name) {
         super(window, name);
-        areaGraph = new AreaGraph();
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
                 SuperPacmanAreaBehavior.SuperPacmanCellType color =
@@ -41,9 +40,12 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
                 setCell(x, y, new SuperPacmanAreaBehavior.SuperPacmanCell(x, y, color));
             }
         }
+
+        areaGraph = new AreaGraph();
         for (int y = 0; y < getHeight(); ++y) {
             for (int x = 0; x < getWidth(); ++x) {
-                if (!cellEqualsToType(x, y, SuperPacmanCellType.WALL) && !cellEqualsToType(x, y, SuperPacmanCellType.WALL_RED) &&
+                if (!cellEqualsToType(x, y, SuperPacmanCellType.WALL) &&
+                        !cellEqualsToType(x, y, SuperPacmanCellType.WALL_RED) &&
                         !cellEqualsToType(x, y, SuperPacmanCellType.NONE)) {
                     areaGraph.addNode(new DiscreteCoordinates(x, y), hasLeftEdge(x, y), hasUpEdge(x, y),
                                       hasRightEdge(x, y), hasDownEdge(x, y));
@@ -68,22 +70,26 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      * Return (boolean)
      */
     private boolean hasLeftEdge(int x, int y) {
-        return x > 0 && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL) && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL_RED) &&
+        return x > 0 && !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x - 1, y, SuperPacmanCellType.WALL_RED) &&
                 !cellEqualsToType(x - 1, y, SuperPacmanCellType.NONE);
     }
 
     private boolean hasUpEdge(int x, int y) {
-        return y < getHeight() - 1 && !cellEqualsToType(x, y + 1, SuperPacmanCellType.WALL) && !cellEqualsToType(x, y + 1, SuperPacmanCellType.WALL_RED) &&
+        return y < getHeight() - 1 && !cellEqualsToType(x, y + 1, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x, y + 1, SuperPacmanCellType.WALL_RED) &&
                 !cellEqualsToType(x, y + 1, SuperPacmanCellType.NONE);
     }
 
     private boolean hasRightEdge(int x, int y) {
-        return x < getWidth() - 1 && !cellEqualsToType(x + 1, y, SuperPacmanCellType.WALL) && !cellEqualsToType(x + 1, y, SuperPacmanCellType.WALL_RED) &&
+        return x < getWidth() - 1 && !cellEqualsToType(x + 1, y, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x + 1, y, SuperPacmanCellType.WALL_RED) &&
                 !cellEqualsToType(x + 1, y, SuperPacmanCellType.NONE);
     }
 
     private boolean hasDownEdge(int x, int y) {
-        return y > 0 && !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL) && !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL_RED) &&
+        return y > 0 && !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL) &&
+                !cellEqualsToType(x, y - 1, SuperPacmanCellType.WALL_RED) &&
                 !cellEqualsToType(x, y - 1, SuperPacmanCellType.NONE);
     }
 
@@ -105,7 +111,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      * Method to register all of the cell related actors.
      * @param area the area to register the actors
      */
-    protected void registerActors(Area area) {
+    public void registerActors(Area area) {
         // Reset the amount of pellets eaten
         Pellet.resetPelletCount();
 
@@ -113,11 +119,13 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
             for (int x = 0; x < getWidth(); ++x) {
                 switch (((SuperPacmanCell) getCell(x, y)).type) {
                     case WALL:
-                        Wall wallBlue = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y), Wall.Color.BLUE);
+                        Wall wallBlue =
+                                new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y), Wall.Color.BLUE);
                         area.registerActor(wallBlue);
                         break;
                     case WALL_RED:
-                        Wall wallRed = new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y), Wall.Color.RED);
+                        Wall wallRed =
+                                new Wall(area, new DiscreteCoordinates(x, y), neighborhood(x, y), Wall.Color.RED);
                         area.registerActor(wallRed);
                         break;
                     case FREE_WITH_POWER_PELLET:
@@ -165,14 +173,14 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
      * @param y coordinate of the cell
      * @return 3x3 array with the true for surrounding walls
      */
-    private boolean[][] neighborhood(int x, int y) {
+    public boolean[][] neighborhood(int x, int y) {
         boolean[][] neighbors = new boolean[3][3];
 
         for (int tabY = -1; tabY < 2; ++tabY) {
             for (int tabX = -1; tabX < 2; ++tabX) {
                 if (((x + tabX) >= 0) && ((x + tabX) < getWidth()) && ((y + tabY) >= 0) && ((y + tabY) < getHeight()) &&
                         (cellEqualsToType(x + tabX, y + tabY, SuperPacmanCellType.WALL) ||
-                        cellEqualsToType(x + tabX, y + tabY, SuperPacmanCellType.WALL_RED))) {
+                                cellEqualsToType(x + tabX, y + tabY, SuperPacmanCellType.WALL_RED))) {
                     neighbors[tabX + 1][-tabY + 1] = true;
                 }
             }
@@ -183,7 +191,7 @@ public class SuperPacmanAreaBehavior extends AreaBehavior {
     /**
      * Private enum for all of the different cell types
      */
-    private enum SuperPacmanCellType {
+    public enum SuperPacmanCellType {
         NONE(0), // never used as real content
         WALL(-16777216), //black
         WALL_RED(-11927552), //dark red
