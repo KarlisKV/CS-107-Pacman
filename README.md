@@ -33,7 +33,7 @@
 <a id="configuration"></a>
 ## 2. CONFIGURATION
 
-<img src="/res/images/behaviors/superpacman/level0.png" alt="drawing" width="200"/>
+<img alt="drawing" src="/images/behaviors/superpacman/level0.png" width="200"/>
 
 1. Open terminal and set directory to project root
   
