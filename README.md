@@ -139,14 +139,20 @@ Time is being tracked so be fast! And most importantly...HAVE FUN!!! :)
 
 <a id="additional-notes"></a>
 ## 7. ADDITIONAL NOTES
-
+#### Issues with sound
+You may experience issues with the audio of the game. The audio might make the game slow due to slow loading of audio files. 
+For some computers the audio might not work. We asked how to solve this on Piazza. https://piazza.com/class/ketlp0hratwg5?cid=1983
 
 
 
 <a id="final-words"></a>
 ## 8. FINAL WORDS
+Thank you for taking the time to go through our project.
+We rest at your disposal to answer any questions. Our e-mails:
+leonard.cseres@epfl.ch, karlis.velins@epfl.ch
 
-
+#### We hope you enjoy the game, 
+Leonard and Karlis
 
 
 <a id="references"></a>

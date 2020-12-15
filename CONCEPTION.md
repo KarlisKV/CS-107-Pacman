@@ -1,6 +1,6 @@
 ## CONTENTS OF THIS FILE
 1. [Modifications to the provided code](#modifications)
-2. [Added classes and interfaces (includes extension descriptions)](#added-classed-interfaces)
+2. [Added classes and interfaces (includes extension descriptions)](#added-classes-interfaces)
 3. [Deviations from the project description](#deviations)
 4. [List of all extensions](#list-extensions)
 
@@ -81,8 +81,8 @@
 </pre>
 
   
-<a id="added-classed-interfaces"></a>
-## 2. ADDED CLASSED AND INTERFACES
+<a id="added-classes-interfaces"></a>
+## 2. ADDED CLASSES AND INTERFACES
 
 <pre>
 .
@@ -301,14 +301,16 @@
 
 <a id="SuperPacmanStatusGUI"></a>
 > **(Class) SuperPacmanStatusGUI.java**  
-> 
+> Added timer for how long it takes to complete each level.
+> Added Pellet counter. Added Difficulty multiplier. Added so FPS is displayed.
 
 <a id="Cake"></a>
 > **(Class) Cake.java**  
-> 
+>Collectable object that is found in the maps. Increases score by 200 when picked up.
 
 <a id="Pellet"></a>
 > **(Class) Pellet.java**  
+>
 > 
 
 <a id="PowerPellet"></a>
@@ -345,11 +347,12 @@
 
 <a id="Level3"></a>
 > **(Class) Level3.java**  
-> 
+>Added a new level with a new behavior and tunnels at the sides of the map
 
 <a id="LevelEPFL"></a>
 > **(Class) LevelEPFL.java**  
-> 
+>Added an easter egg: an EPFL themed level. Available through level0 and after completing it,
+>the player moves to Level1.
 
 <a id="SuperPacmanDepth"></a>
 > **(Enum) SuperPacmanDepth.java**  
