@@ -1,4 +1,4 @@
-## CONTENTS OF THIS FILE
+## 0. CONTENTS OF THIS FILE
 1. [Modifications to the provided code](#modifications)
 2. [Added classes and interfaces (includes extension descriptions)](#added-classes-interfaces)
 3. [Deviations from the project description](#deviations)

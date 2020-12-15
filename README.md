@@ -32,20 +32,25 @@
 <a id="configuration"></a>
 ## 2. CONFIGURATION
 
-1. Open terminal
+1. Open terminal and set directory to project root
   
-2. Compile the java files
-    ````shell script
-    javac -cp . java/.../*.java   // to check
-    ````
-
-3. Run the game
-    ````shell script
-    java -cp java: ch.epfl.cs107.Play   // to check
-    ````
-   
-   
-   
+2. Compile and run the game
+    - For MAC
+        ````shell script
+        sh start.sh
+        ````
+    - For LINUX
+        ````shell script
+        chmod +x start.sh
+        ````
+        ````shell script
+        ./start.sh
+        ````
+    - For WINDOWS
+        ````shell script
+        bash start.sh
+        ````
+      
 <a id="controls"></a>
 ## 3. CONTROLS
 <a id="menu-navigation"></a>
