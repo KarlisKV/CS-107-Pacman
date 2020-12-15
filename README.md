@@ -27,12 +27,13 @@
 <a id="introduction"></a>
 ## 1. INTRODUCTION
 
+<img src="res/images/behaviors/superpacman/level0.png" width="200" alt="">
 
 
 
 <a id="configuration"></a>
 ## 2. CONFIGURATION
-![](res/images/behaviors/superpacman/level0.png =100x20)
+
 
 1. Open terminal and set directory to project root
   
