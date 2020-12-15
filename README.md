@@ -7,7 +7,8 @@
 4. [Menus](#menus)  
     4.1 [Main Menu](#main-menu)  
     4.2 [Options](#options)  
-    4.3 [Paused](#paused)  
+    4.3 [Help](#help)  
+    4.4 [Pause](#pause)  
 5. [Gameplay Features](#gameplay-features)  
     5.1 [Difficulties](#difficulties)  
 6. [How to Play](#how-to-play)
@@ -32,25 +33,26 @@
 <a id="configuration"></a>
 ## 2. CONFIGURATION
 
+<img src="/res/images/behaviors/superpacman/level0.png" alt="drawing" width="200"/>
+
 1. Open terminal and set directory to project root
   
 2. Compile and run the game
-    - For MAC
+    - Solution 1:
         ````shell script
         sh start.sh
         ````
-    - For LINUX
+    - Solution 2:
         ````shell script
         chmod +x start.sh
-        ````
-        ````shell script
         ./start.sh
         ````
-    - For WINDOWS
+    - Solution 3: (for Windows)
         ````shell script
         bash start.sh
         ````
-      
+    - Solution 4: Run script on IDE
+    
 <a id="controls"></a>
 ## 3. CONTROLS
 <a id="menu-navigation"></a>
@@ -58,11 +60,17 @@
 - Press UP and DOWN arrow keys to move up and down the selection of options
 - Press ENTER to execute the current selection or to choose sub options
 - Press ESC to pause the game
-- Pressing SHIFT, CTRL, OPTION together activates Debug mode (can be activated only in menus), to turn it off, the game must be quit and reopened
+
+<a id="debug-mode"></a>
+##### Debug Mode
+- Pressing SHIFT + CTRL + OPTION together activates Debug Mode (can be activated only in menus), to turn it off, the game must be quit and reopened
 
 <a id="game-navigation"></a>
 #### 3.2 Game navigation
 - Use UP, DOWN, LEFT and RIGHT arrow keys to move pacman
+- While in [Debug Mode](#debug-mode),
+    - Pressing SHIFT + S to activate Speed mode (player movement is boosted). Speed mode can be turned off the same way it was turned on.
+    - Pressing SHIFT + G to activate God mode (player becomes invincible). God mode can be turned off the same way it was turned on.
 
 
 <a id="menus"></a>
@@ -80,17 +88,27 @@
 
 <a id="options"></a>
 #### 4.2 Options
+| Option            	| Description                                                     	        |
+|-------------------	|-----------------------------------------------------------------	        |
+| Difficulty        	| Choose a game difficulty from Easy, Normal, Hard and Impossible 	        |
+| Show FPS          	| Toggles the fps counter on and off                              	        |
+| Sound             	| Toggles the sound on and off                                          	|
+| Glow effect         	| Toggles the glow of sprites on and off                                	|
+| Camera smoothing     	| Choose how the camera movement is smoothed (None, Smooth, Very Smooth)   	|
+| Camera Shake      	| Toggles camera shake on and off                                        	|
+| Clear Leaderboard 	| Clears the leaderboard and deletes tmp files linked to it                	|
+| Restore to Default 	| Resets the game options and deletes tmp files linked to it               	|
+| Back              	| Returns to main menu                                                  	|
+
+
+<a id="help"></a>
+#### 4.3 Help
 | Option            	| Description                                                     	|
 |-------------------	|-----------------------------------------------------------------	|
-| Sound             	| Toggles the sound on and off                                     	|
-| Camera Shake      	| Toggles camera shake on and off                                 	|
-| Show FPS          	| Toggles the fps counter on and off                              	|
-| Difficulty        	| Choose a game difficulty from Easy, Normal, Hard and Impossible 	|
-| Clear Leaderboard 	| Clears the leaderboard and tmp files linked to it               	|
-| Back              	| Returns to main menu                                            	|
+| More              	| Provides a more detailed description                           	|
 
-<a id="paused"></a>
-#### 4.3 Paused
+<a id="pause"></a>
+#### 4.4 Pause
 | Option            	| Description                                                     	|
 |-------------------	|-----------------------------------------------------------------	|
 | Resume            	| Resumes the game                                                	|
@@ -99,6 +117,7 @@
 
 <a id="gameplay-features"></a>
 ## 5. GAMEPLAY FEATURES
+
 <a id="difficulties"></a>
 #### 5.1 Difficulties
 - EASY
@@ -152,9 +171,10 @@ For some computers the audio might not work. We asked how to solve this on Piazz
 
 <a id="final-words"></a>
 ## 8. FINAL WORDS
-Thank you for taking the time to go through our project.
+We feel fulfilled as this project comes to an end. There is of course a lot of room for improvement, but completing this games allowed us to better understand so many concepts.
+We would like to Thank you for taking the time to go through our project.
 We rest at your disposal to answer any questions. Our e-mails:
-leonard.cseres@epfl.ch, karlis.velins@epfl.ch
+[leonard.cseres@epfl.ch](mailto:leonard.cseres@epfl.ch), [karlis.velins@epfl.ch](mailto:karlis.velins@epfl.ch)
 
 #### We hope you enjoy the game, 
 Leonard and Karlis
