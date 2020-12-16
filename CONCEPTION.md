@@ -466,6 +466,7 @@
 - Changed the design of how the score and lives are displayed.
 - Replaced Cherry, Diamond and Bonus with Cake Pellet and PowerPellet.
 - Modified the sprites, the design of the walls and added glow.
+
 <a id="list-extensions"></a>
 ## 4. LIST OF ALL EXTENSIONS
  - Glow
