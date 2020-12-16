@@ -36,21 +36,23 @@
 2. Compile and run the game
     - Solution 1:
         ````shell script
-        sh start.sh
+        sh play.sh
         ````
     - Solution 2:
         ````shell script
-        chmod +x start.sh
-        ./start.sh
+        chmod +x play.sh
+        ./play.sh
         ````
     - Solution 3: (for Windows)
         ````shell script
-        bash start.sh
+        bash play.sh
         ````
     - Solution 4: Run script on IDE
     
+    
 <a id="controls"></a>
 ## 3. CONTROLS
+
 <a id="menu-navigation"></a>
 #### 3.1 Menu navigation
 - Press UP and DOWN arrow keys to move up and down the selection of options
@@ -71,6 +73,7 @@
 
 <a id="menus"></a>
 ## 4. MENUS
+
 <a id="main-menu"></a>
 #### 4.1 Main Menu
 | Option      	| Description                                                  	|
@@ -111,6 +114,7 @@
 | End Game          	| Ends the game without saving it                                 	|
 
 
+
 <a id="gameplay-features"></a>
 ## 5. GAMEPLAY FEATURES
 
@@ -139,6 +143,9 @@
 
 *(it increases the longer you stay in the same level and resets each time you go to another level)
 
+#### 5.2 Player GUI
+
+![](res/gameplayLevel1.png)
 
 <a id="how-to-play"></a>
 ## 6. HOW TO PLAY
