@@ -16,6 +16,8 @@ import ch.epfl.cs107.play.game.superpacman.menus.Option;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
+import java.awt.*;
+
 public class Leaderboard extends Menu {
     private static final float CENTER_X_OFFSET = -45;
     private static final float CENTER_Y_OFFSET = 28;
@@ -23,6 +25,7 @@ public class Leaderboard extends Menu {
     private static final float TAB_LINE_PADDING = -4f;
     private final TextGraphics title;
     private final TextGraphics subTitle;
+    private final TextGraphics emptyText;
     private final TextGraphics back;
 
     /**
@@ -33,6 +36,8 @@ public class Leaderboard extends Menu {
         super(window);
         title = createText(HEADER_FONT_SIZE);
         subTitle = createText(BODY_FONT_SIZE + 1);
+        emptyText = createText(BODY_FONT_SIZE - 0.3f);
+        emptyText.setFillColor(Color.GRAY);
         back = createText(BODY_FONT_SIZE);
     }
 
@@ -71,13 +76,20 @@ public class Leaderboard extends Menu {
         leaderboardTable[0][2] = "Score";
         leaderboardTable[0][3] = "Deaths";
         leaderboardTable[0][4] = "Time";
+        boolean isTableEmpty = true;
         for (int i = 1; i < leaderboardTable.length && i < 11; ++i) {
+            isTableEmpty = false;
             GameScore gameScore = leaderboardGameScores.getSortedGameScores().get(i - 1);
             leaderboardTable[i][0] = String.valueOf(i);
             leaderboardTable[i][1] = gameScore.getPlayerName();
             leaderboardTable[i][2] = String.valueOf(gameScore.getScore());
             leaderboardTable[i][3] = gameScore.getDeaths() + "/" + gameScore.getMaxDeaths();
             leaderboardTable[i][4] = String.format("%.3f", gameScore.getTotalTime());
+        }
+
+        if (isTableEmpty) {
+            updateText(emptyText, "Play games to fill the table", 0, CENTER_Y_OFFSET - 5);
+            emptyText.draw(canvas);
         }
 
         // draw all game scores

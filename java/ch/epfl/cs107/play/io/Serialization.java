@@ -9,8 +9,12 @@ package ch.epfl.cs107.play.io;
 
 import java.io.*;
 
-public class Serialization implements Serializable {
+public final class Serialization {
     private static final String WORKING_DIR = "tmp";
+
+    private Serialization() {
+        throw new IllegalStateException("Serialization class");
+    }
 
     /**
      * Method to serialize Object into /tmp
@@ -26,6 +30,7 @@ public class Serialization implements Serializable {
             ObjectOutputStream fileOut = new ObjectOutputStream(new FileOutputStream(file));
             fileOut.writeObject(serializableObject);
             fileOut.close();
+            System.out.println("Successfully saved " + fileOutName + " in /" + WORKING_DIR);
         } catch (IOException i) {
             System.out.println("An ERROR occurred while serializing " + fileOutName + "...");
             i.printStackTrace();
@@ -46,7 +51,9 @@ public class Serialization implements Serializable {
             object = fileIn.readObject();
             fileIn.close();
         } catch (FileNotFoundException f) {
-            System.out.println(f.getLocalizedMessage() + " -> file is not yet saved in /" + WORKING_DIR + ", so created new object");
+            System.out.println(
+                    f.getLocalizedMessage() + " -> file is not yet saved in /" + WORKING_DIR + ", so created new object for \"" +
+                            fileName.substring(0, fileName.length() - 4) + "\"");
         } catch (IOException | ClassNotFoundException i) {
             System.out.println("An ERROR occurred while deserializing \"" + fileName + "\"...");
             i.printStackTrace();

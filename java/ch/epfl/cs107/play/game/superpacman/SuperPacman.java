@@ -183,6 +183,6 @@ public class SuperPacman extends RPG {
 
     @Override
     public void end() {
+        super.end();
     }
-
 }

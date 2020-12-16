@@ -61,5 +61,6 @@ public abstract class RPG extends AreaGame {
 
     @Override
     public void end() {
+        super.end();
     }
 }

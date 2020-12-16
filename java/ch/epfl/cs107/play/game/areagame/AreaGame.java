@@ -107,7 +107,7 @@ abstract public class AreaGame implements Game {
 			// Dispose the window
 			timer -= deltaTime;
 			if (timer <= 0) {
-				System.exit(0);
+				end();
 			}
 		} else {
 			currentArea.update(deltaTime);
@@ -121,7 +121,6 @@ abstract public class AreaGame implements Game {
 
 	@Override
 	public void end() {
-		// by default does nothing
-		// can save the game states if wanted
+		System.exit(0);
 	}
 }

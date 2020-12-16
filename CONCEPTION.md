@@ -1,11 +1,15 @@
 ## 0. CONTENTS OF THIS FILE
-1. [Modifications to the provided code](#modifications)
-2. [Added classes and interfaces (includes extension descriptions)](#added-classes-interfaces)
-3. [Deviations from the project description](#deviations)
-4. [List of all extensions](#list-extensions)
+1. [Modifications to the provided code](#modifications)  
+2. [Added classes and interfaces (includes extension descriptions)](#added-classes-interfaces)  
+    2.1 [Required content](#required-content)  
+    2.2 [Extensions](#extensions)  
+3. [Deviations from the project description](#deviations)  
+4. [List of all extensions](#list-extensions)  
 
 <a id="modifications"></a>
 ## 1. MODIFICATIONS TO THE PROVIDED CONTENT
+
+**Note:** In each modified class, a comment containing "[mofification]" has been left. This allow to quick search and find where exacty the code has been altered.
 
 <pre>
 .
@@ -172,7 +176,8 @@
 </pre>
 
 
-### Required content
+<a id="required-content"></a>
+### 2.1 Required content
 
 <a id="CollectableAreaEntity"></a>
 > **(Abstract Class) [CollectableAreaEntity.java](java/ch/epfl/cs107/play/game/areagame/actor/CollectableAreaEntity.java)** - extends MovableAreaEntity.java  
@@ -189,7 +194,7 @@
 ---
 <a id="Gate"></a>
 > **(Class) [Gate.java](java/ch/epfl/cs107/play/game/superpacman/actor/Gate.java)** - extends AreaEntity.java  
-> 
+> Allows to block parts of the level. Can be unlocked with a key ([Key.java](#Key)).
 >> Extensions:
 >> - Used new Sprites(.png)
 ---
@@ -215,19 +220,19 @@
 ---
 <a id="Bonus"></a>
 > **(Class) [Bonus.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Bonus.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
-> Class representing "PowerPellet" - not used in project
+> Class representing "PowerPellet" - not used in project, required.
 ---
 <a id="Cherry"></a>
 > **(Class) [Cherry.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cherry.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
-> Class representing "Cake" - not used in project
+> Class representing "Cake" - not used in project, required.
 ---
 <a id="Diamond"></a>
 > **(Class) [Diamond.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Diamond.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
-> Class representing "Pellet" - not used in project
+> Class representing "Pellet" - not used in project, required.
 ---
 <a id="Key"></a>
 > **(Class) [Key.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Key.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)    
-> 
+> Can be collected by the player to unlock gates ([Gate.java](#Gate)).
 >> Extensions:
 >> - Used a new Sprite(.png)
 ---
@@ -257,8 +262,8 @@
 > Class defining Pinky's movement algorithm. Also follows the player when in range and tries to escape him while frightened. By default, he targets a random in his range.
 ---
 <a id="SuperPacmanArea"></a>
-> **(Abstract Class) [SuperPacmanArea.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanArea.java)** - extends Area.java
-> Defines the area for the SuperPacman game
+> **(Abstract Class) [SuperPacmanArea.java](java/ch/epfl/cs107/play/game/superpacman/area/SuperPacmanArea.java)** - extends Area.java  
+> Defines the area for the SuperPacman game.
 >> Extensions:
 >> - Added abstract method isEndingLevel() defining if a level can end the game
 ---
@@ -290,8 +295,8 @@
 > **(Interface) [SuperPacmanInteractionVisitor.java](java/ch/epfl/cs107/play/game/superpacman/handler/SuperPacmanInteractionVisitor.java)**  
 > Defines the interactions between actors.
 
-
-### Extensions
+<a id="extensions"></a>
+### 2.2 Extensions
 
 <a id="SoundUtility"></a>
 > **(Class) [SoundUtility.java](java/ch/epfl/cs107/play/game/superpacman/SoundUtility.java)** - implements Acoustics.java  
@@ -299,7 +304,7 @@
 ---
 <a id="SuperPacmanStatusGUI"></a>
 > **(Class) [SuperPacmanStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacmanStatusGUI.java)** - implements Graphics.java  
-> Allows to display the FPS and Debug Mode text
+> Allows to display the FPS and Debug Mode text.
 ---
 <a id="Cake"></a>
 > **(Class) [Cake.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cake.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
@@ -339,11 +344,11 @@
 ---
 <a id="SmoothLimited"></a>
 > **(Class) [SmoothLimited.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/SmoothLimited.java)** - extends [Camera.java](#Camera)  
-> Defines a [SmoothFollow.java](#SmoothFollow) camera but with edge boundaries given in constructor.
+> Defines a [SmoothFollow.java](#SmoothFollow) camera but with edge boundaries given in the constructor.
 ---
 <a id="Level3"></a>
 > **(Class) [Level3.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level3.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
-> Added a new level with a new behavior and tunnels at the sides of the map
+> Added a new level with a new behavior and tunnels at the sides of the map.
 ---
 <a id="LevelEPFL"></a>
 > **(Class) [LevelEPFL.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/LevelEPFL.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
@@ -379,83 +384,83 @@
 ---
 <a id="LeaderboardGameScores"></a>
 > **(Class) [LeaderboardGameScores.java](java/ch/epfl/cs107/play/game/superpacman/leaderboard/LeaderboardGameScores.java)** - implements Serializable.java  
-> 
+> Contains a List with all of the [GameScore.java](#GameScore). Is used to display it's content on the leaderboard.
 ---
 <a id="Menu"></a>
-> **(Abstract Class) [Menu.java](java/ch/epfl/cs107/play/game/superpacman/menus/Menu.java)**  
-> 
+> **(Abstract Class) [Menu.java](java/ch/epfl/cs107/play/game/superpacman/menus/Menu.java)** - implements Graphics.java, Acoustics.java, Serializable.java  
+> Defines a menu page that can be drawn on the screen. Controls up and down user input.
 ---
 <a id="MenuStateManager"></a>
-> **(Final Class) [MenuStateManager.java](java/ch/epfl/cs107/play/game/superpacman/menus/MenuStateManager.java)**  
-> 
+> **(Final Class) [MenuStateManager.java](java/ch/epfl/cs107/play/game/superpacman/menus/MenuStateManager.java)** - implements Updatable.java, Graphics.java, Acoustics.java  
+> Contains all the menu states and updates only the current state menu page. A Deque is used for all the states.
 ---
 <a id="Option"></a>
 > **(Enum) [Option.java](java/ch/epfl/cs107/play/game/superpacman/menus/Option.java)**  
-> 
+> In here are contained all the options that a menu page can contain.
 ---
 <a id="SubOption"></a>
 > **(Enum) [SubOption.java](java/ch/epfl/cs107/play/game/superpacman/menus/SubOption.java)**  
-> 
+> Contains all the sub-options that an [Option.java](#Option) can contain.
 ---
 <a id="Credits"></a>
-> **(Class) [Credits.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Credits.java)**  
-> 
+> **(Class) [Credits.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Credits.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the credits page.
 ---
 <a id="GameOver"></a>
-> **(Class) [GameOver.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/GameOver.java)**  
-> 
+> **(Class) [GameOver.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/GameOver.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the game over page.
 ---
 <a id="Help"></a>
-> **(Class) [Help.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Help.java)**  
-> 
+> **(Class) [Help.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Help.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the help page.
 ---
 <a id="HelpGhosts"></a>
-> **(Class) [HelpGhosts.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/HelpGhosts.java)**  
-> 
+> **(Class) [HelpGhosts.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/HelpGhosts.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the ghost more help page from [Help.java](#Help).
 ---
 <a id="HelpScore"></a>
-> **(Class) [HelpScore.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/HelpScore.java)**  
-> 
+> **(Class) [HelpScore.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/HelpScore.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the score more help page from [Help.java](#Help).
 ---
 <a id="Leaderboard"></a>
-> **(Class) [Leaderboard.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Leaderboard.java)**  
-> 
+> **(Class) [Leaderboard.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Leaderboard.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the leaderboard page.
 ---
 <a id="MainMenu"></a>
-> **(Class) [MainMenu.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/MainMenu.java)**  
-> 
+> **(Class) [MainMenu.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/MainMenu.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the main menu page.
 ---
 <a id="Options"></a>
-> **(Class) [Options.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Options.java)**  
-> 
+> **(Class) [Options.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Options.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the options page.
 ---
 <a id="Pause"></a>
-> **(Class) [Pause.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Pause.java)**  
-> 
+> **(Class) [Pause.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Pause.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the pause page.
 ---
 <a id="Play"></a>
-> **(Class) [Play.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Play.java)**  
-> 
+> **(Class) [Play.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Play.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the play page. In this case, the play page draws nothing and contains no options. It simply represents the state of the game.
 ---
 <a id="Quit"></a>
-> **(Class) [Quit.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Quit.java)**  
-> 
+> **(Class) [Quit.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Quit.java)** - extends [Menu.java](#Menu)  
+> Defines and draws the play page. In this case, the quit page also draws nothing and contains no options. It also represents the state of the game.
 ---
 <a id="Serialization"></a>
-> **(Class) [Serialization.java](java/ch/epfl/cs107/play/io/Serialization.java)**  
-> 
+> **(Class) [Serialization.java](java/ch/epfl/cs107/play/io/Serialization.java)** - extends [Transition.java](#Transition)  
+> Containing static methods, this utility class allows to serialize and deserialize objects.
 ---
 <a id="EaseInOutCubic"></a>
-> **(Class) [EaseInOutCubic.java](java/ch/epfl/cs107/play/math/transitions/EaseInOutCubic.java)**  
-> 
+> **(Class) [EaseInOutCubic.java](java/ch/epfl/cs107/play/math/transitions/EaseInOutCubic.java)** - extends [Transition.java](#Transition)  
+> Allows the transition to behave through ease in and out using cubic formula.
 ---
 <a id="Linear"></a>
-> **(Class) [Linear.java](java/ch/epfl/cs107/play/math/transitions/Linear.java)**  
-> 
+> **(Class) [Linear.java](java/ch/epfl/cs107/play/math/transitions/Linear.java)** - extends [Transition.java](#Transition)  
+> Allows the transition to behave in a linear fashion.
 ---
 <a id="Transition"></a>
 > **(Abstract Class) [Transition.java](java/ch/epfl/cs107/play/math/transitions/Transition.java)**  
-> 
+> Defines the behavior of a transition with its methods.
 
 <a id="deviations"></a>
 ## 3. DEVIATIONS FROM THE PROJECT DESCRIPTION
@@ -466,6 +471,7 @@
 - Changed the design of how the score and lives are displayed.
 - Replaced Cherry, Diamond and Bonus with Cake Pellet and PowerPellet.
 - Modified the sprites, the design of the walls and added glow.
+
 <a id="list-extensions"></a>
 ## 4. LIST OF ALL EXTENSIONS
  - Glow

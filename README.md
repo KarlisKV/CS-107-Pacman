@@ -16,7 +16,9 @@
     5.4 [Ghost Algorithms](#ghost-algorithms)  
     5.5 [Score/Points System](#scorepoints-system)  
 6. [Walk Through](#walk-through)
-7. [Additional Notes](#additional-notes)
+7. [Additional Notes](#additional-notes)  
+    7.1 [Issues with sound](#issues-sound)  
+    7.2 [Issues with AreaBehaviour and actors](#issues-areabehavior-actors)  
 8. [Final Words](#final-words)
 9. [References](#references)  
   9.1 [Art](#art)  
@@ -27,7 +29,10 @@
 
 <a id="introduction"></a>
 ## 1. INTRODUCTION
- - Welcome to SuperPacman. We hope you enjoy!
+We are glad to present to you our project, SuperPacman. We added our own twist to the game, including menus, gameplay tactics
+and so much more. This document explains everything related to the game and the [CONCEPTION.md](CONCEPTION.md) explains to code aspect of the game.
+
+
 <a id="configuration"></a>
 ## 2. CONFIGURATION
 
@@ -36,16 +41,16 @@
 2. Compile and run the game
     - Solution 1:
         ````shell script
-        sh play.sh
+        bash play.sh
         ````
     - Solution 2:
         ````shell script
+        /bin/bash play.sh
+        ````
+    - Solution 3:
+        ````shell script
         chmod +x play.sh
         ./play.sh
-        ````
-    - Solution 3: (for Windows)
-        ````shell script
-        bash play.sh
         ````
     - Solution 4: Run script on IDE
     
@@ -114,7 +119,6 @@
 | End Game          	| Ends the game without saving it                                 	|
 
 
-
 <a id="gameplay-features"></a>
 ## 5. GAMEPLAY FEATURES
 
@@ -165,16 +169,16 @@
 
 <a id="walk-through"></a>
 ## 6. WALK THROUGH
-To complete the game you must finish level3, by going through level 0, 1 and 2. You have 5 lives, and you must avoid the ghosts
+To complete the game you must finish level 3, by going through level 0, 1 and 2. You have 5 lives, and you must avoid the ghosts
 Each level has a certain task you must complete before you can advance to the next level: 
 
 | Level           	    | How to complete                                                     	|
 |-------------------	|------------------------------------|
-| Level0             	| Pick up the key                    |
-| LevelEPFL (bonus)   	| Pick up all 4 keys                 |
-| Level1            	| Pick up all pellets                |
-| Level2            	| Pick up all pellets and 4 keys     |
-| Level3            	| Pick up all the pellets            |
+| level0             	| Pick up the key                    |
+| levelEPFL (bonus)   	| Pick up all 4 keys                 |
+| level1            	| Pick up all pellets                |
+| level2            	| Pick up all pellets and 4 keys     |
+| level3            	| Pick up all the pellets            |
 
 **Bonus Level:** In level 0, you have the choice to go immediately to level 1 or to pass by the EPFL level.
 By passing though the bonus level, you can obtain more points, therefore a higher score. However, be prepared for this EPFL level or you will get caught off guard.
@@ -185,11 +189,16 @@ Time is being tracked so be fast! And most importantly... HAVE FUN!!! :)
 
 <a id="additional-notes"></a>
 ## 7. ADDITIONAL NOTES
-### Issues with sound
+
+<a id="issues-sound"></a>
+### 7.1 Issues with sound
 You may experience issues with the audio of the game. The audio might make the game slow due to slow loading of audio files. 
 For some computers the audio might not work. We asked how to solve this on Piazza. https://piazza.com/class/ketlp0hratwg5?cid=1983
 
+<a id="issues-areabehavior-actors"></a>
+### 7.2 Issues with AreaBehaviour and actors
 
+Here is a better description of the problem on Piazza: https://piazza.com/class/ketlp0hratwg5?cid=2240
 
 <a id="final-words"></a>
 ## 8. FINAL WORDS
@@ -198,7 +207,7 @@ We would like to Thank you for taking the time to go through our project.
 We rest at your disposal to answer any questions. Our e-mails:
 [leonard.cseres@epfl.ch](mailto:leonard.cseres@epfl.ch), [karlis.velins@epfl.ch](mailto:karlis.velins@epfl.ch)
 
-### We hope you enjoy the game, 
+#### We hope you enjoy the game, 
 Leonard and Karlis
 
 

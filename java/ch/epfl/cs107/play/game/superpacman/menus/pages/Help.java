@@ -33,9 +33,9 @@ public class Help extends Menu {
         title = createText(HEADER_FONT_SIZE);
         helpImage = createImage(HELP_PATH);
         moreGhosts = createText(BODY_FONT_SIZE);
-        moreGhosts.setFillColor(Color.red);
+        moreGhosts.setFillColor(Color.GRAY);
         morePoints = createText(BODY_FONT_SIZE);
-        morePoints.setFillColor(Color.red);
+        morePoints.setFillColor(Color.GRAY);
         back = createText(BODY_FONT_SIZE);
     }
 

@@ -32,6 +32,13 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public final class MenuStateManager implements Updatable, Graphics, Acoustics {
+    private static final String RESET = "\033[0m";  // Text Reset
+    private static final String GREEN_BOLD_BRIGHT = "\033[1;92m"; // GREEN
+    private static final String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
+    private static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";// YELLOW
+    private static final String ITALIC = "\033[3m";// italic
+    private static final String BOLD = "\033[0;1m";// bold
+
     private static final SoundAcoustics ENTER_SOUND = SuperPacmanSound.MENU_ENTER.sound;
     private static final SoundAcoustics EXIT_SOUND = SuperPacmanSound.MENU_EXIT.sound;
     private static final String LEADERBOARD_TMP_FILENAME = "leaderboard.ser";
@@ -324,7 +331,6 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                     newOption.setCurrentSubSelection(menu.getCurrentSubSelection());
                     menuStack.push(newOption);
                     menuStates.replace(MenuState.OPTIONS, newOption);
-
                     break;
                 default:
                     // empty on purpose, do noting
@@ -365,27 +371,31 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         if (!debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.CTRL).isDown() &&
                 keyboard.get(Keyboard.ALT).isDown() && menuStack.peek() != menuStates.get(MenuState.PLAY) &&
                 menuStack.peek() != menuStates.get(MenuState.GAME_OVER) && isMenuIntractable) {
-            System.out.println("Debug mode enabled");
+            System.out.println(
+                    YELLOW_BOLD_BRIGHT + "SuperPacmanDebug - " + RESET + BOLD + "DEGUB MODE" + RESET + GREEN_BOLD_BRIGHT +
+                            " enabled" + RESET + " - relaunch game to disable");
             debugMode = true;
         }
 
-        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.G).isPressed() && isMenuIntractable) {
+        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.G).isPressed() &&
+                isMenuIntractable) {
             godMode = !godMode;
-            System.out.print("God mode ");
+            System.out.print(YELLOW_BOLD_BRIGHT + "SuperPacmanDebug - " + RESET + BOLD + ITALIC + "God mode " + RESET);
             if (godMode) {
-                System.out.println("enabled");
+                System.out.println(GREEN_BOLD_BRIGHT + "enabled" + RESET);
             } else {
-                System.out.println("disabled");
+                System.out.println(RED_BOLD_BRIGHT + "disabled" + RESET);
             }
         }
 
-        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.S).isPressed() && isMenuIntractable) {
+        if (debugMode && keyboard.get(Keyboard.SHIFT).isDown() && keyboard.get(Keyboard.S).isPressed() &&
+                isMenuIntractable) {
             speedMode = !speedMode;
-            System.out.print("Speed mode ");
+            System.out.print(YELLOW_BOLD_BRIGHT + "SuperPacmanDebug - " + RESET + BOLD + ITALIC + "Speed mode " + RESET);
             if (speedMode) {
-                System.out.println("enabled");
+                System.out.println(GREEN_BOLD_BRIGHT + "enabled" + RESET);
             } else {
-                System.out.println("disabled");
+                System.out.println(RED_BOLD_BRIGHT + "disabled" + RESET);
             }
         }
         if (gameOver) {
