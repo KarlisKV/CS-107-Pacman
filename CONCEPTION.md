@@ -462,3 +462,29 @@
 
 <a id="list-extensions"></a>
 ## 4. LIST OF ALL EXTENSIONS
+>> Extensions:
+>> - Glow
+>> - Wall design
+>> - Arcade
+>> - Easter Egg
+>> - Bonus map
+>> - New Ghost (Clyde)
+>> - Magnet effect for PowerPellet
+>> - Tunnels
+>> - Improved graphics 
+>> - Intro music
+>> - Sound effects
+>> - Pellet counter
+>> - Time tracker
+>> - FPS display
+>> - Menu
+>> - Difficulty options
+>> - Performance options
+>> - Camera options
+>> - Camera shake
+>> - Leaderboard
+>> - Help menu
+>> - Quit game
+>> - Pause game
+>> - End game
+---
