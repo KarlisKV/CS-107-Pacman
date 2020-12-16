@@ -27,13 +27,17 @@
 <a id="introduction"></a>
 ## 1. INTRODUCTION
 
-<img src="res/images/behaviors/superpacman/level0.png" width="200" alt="">
-
-
 
 <a id="configuration"></a>
 ## 2. CONFIGURATION
-![](res/images/behaviors/superpacman/level0.png) <!-- .element height="200" width="200" -->
+
+![](res/images/behaviors/superpacman/level0.png)
+
+<img src="res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
+<img src="../res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
+<img src="./res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
+<img src="~/res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
+
 
 1. Open terminal and set directory to project root
   
