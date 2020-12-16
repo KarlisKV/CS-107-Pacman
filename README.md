@@ -31,14 +31,6 @@
 <a id="configuration"></a>
 ## 2. CONFIGURATION
 
-![](res/images/behaviors/superpacman/level0.png)
-
-<img src="res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
-<img src="../res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
-<img src="./res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
-<img src="~/res/images/behaviors/superpacman/level0.png" alt="Image" width="150" height="100" />
-
-
 1. Open terminal and set directory to project root
   
 2. Compile and run the game
