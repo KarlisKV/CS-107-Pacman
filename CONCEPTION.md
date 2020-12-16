@@ -363,7 +363,7 @@
 ---
 <a id="Arcade"></a>
 > **(Class) [Arcade.java](java/ch/epfl/cs107/play/game/superpacman/graphics/Arcade.java)** - implements Graphics.java, Acoustics.java  
-> Acts as Menu background and game screen overlay.
+> Acts as Menu background and game screen overlay. Gets also access to window keyboard to move joystick depending on user input.
 ---
 <a id="Glow"></a>
 > **(Class) [Glow.java](java/ch/epfl/cs107/play/game/superpacman/graphics/Glow.java)** - implements Graphics.java  
@@ -382,79 +382,79 @@
 > 
 ---
 <a id="Menu"></a>
-> **(Abstract Class) [Menu.java]**  
+> **(Abstract Class) [Menu.java](java/ch/epfl/cs107/play/game/superpacman/menus/Menu.java)**  
 > 
 ---
 <a id="MenuStateManager"></a>
-> **(Final Class) [MenuStateManager.java]**  
+> **(Final Class) [MenuStateManager.java](java/ch/epfl/cs107/play/game/superpacman/menus/MenuStateManager.java)**  
 > 
 ---
 <a id="Option"></a>
-> **(Enum) [Option.java]**  
+> **(Enum) [Option.java](java/ch/epfl/cs107/play/game/superpacman/menus/Option.java)**  
 > 
 ---
 <a id="SubOption"></a>
-> **(Enum) [SubOption.java]**  
+> **(Enum) [SubOption.java](java/ch/epfl/cs107/play/game/superpacman/menus/SubOption.java)**  
 > 
 ---
 <a id="Credits"></a>
-> **(Class) [Credits.java]**  
+> **(Class) [Credits.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Credits.java)**  
 > 
 ---
 <a id="GameOver"></a>
-> **(Class) [GameOver.java]**  
+> **(Class) [GameOver.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/GameOver.java)**  
 > 
 ---
 <a id="Help"></a>
-> **(Class) [Help.java]**  
+> **(Class) [Help.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Help.java)**  
 > 
 ---
 <a id="HelpGhosts"></a>
-> **(Class) [HelpGhosts.java]**  
+> **(Class) [HelpGhosts.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/HelpGhosts.java)**  
 > 
 ---
 <a id="HelpScore"></a>
-> **(Class) [HelpScore.java]**  
+> **(Class) [HelpScore.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/HelpScore.java)**  
 > 
 ---
 <a id="Leaderboard"></a>
-> **(Class) [Leaderboard.java]**  
+> **(Class) [Leaderboard.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Leaderboard.java)**  
 > 
 ---
 <a id="MainMenu"></a>
-> **(Class) [MainMenu.java]**  
+> **(Class) [MainMenu.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/MainMenu.java)**  
 > 
 ---
 <a id="Options"></a>
-> **(Class) [Options.java]**  
+> **(Class) [Options.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Options.java)**  
 > 
 ---
 <a id="Pause"></a>
-> **(Class) [Pause.java]**  
+> **(Class) [Pause.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Pause.java)**  
 > 
 ---
 <a id="Play"></a>
-> **(Class) [Play.java]**  
+> **(Class) [Play.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Play.java)**  
 > 
 ---
 <a id="Quit"></a>
-> **(Class) [Quit.java]**  
+> **(Class) [Quit.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Quit.java)**  
 > 
 ---
 <a id="Serialization"></a>
-> **(Class) [Serialization.java]**  
+> **(Class) [Serialization.java](java/ch/epfl/cs107/play/io/Serialization.java)**  
 > 
 ---
 <a id="EaseInOutCubic"></a>
-> **(Class) [EaseInOutCubic.java]**  
+> **(Class) [EaseInOutCubic.java](java/ch/epfl/cs107/play/math/transitions/EaseInOutCubic.java)**  
 > 
 ---
 <a id="Linear"></a>
-> **(Class) [Linear.java]**  
+> **(Class) [Linear.java](java/ch/epfl/cs107/play/math/transitions/Linear.java)**  
 > 
 ---
 <a id="Transition"></a>
-> **(Abstract Class) [Transition.java]**  
+> **(Abstract Class) [Transition.java](java/ch/epfl/cs107/play/math/transitions/Transition.java)**  
 > 
 
 <a id="deviations"></a>
@@ -468,29 +468,28 @@
 >> - Modified the sprites, the design of the walls and added glow.
 <a id="list-extensions"></a>
 ## 4. LIST OF ALL EXTENSIONS
->> Extensions:
->> - Glow
->> - Wall design
->> - Arcade
->> - Easter Egg
->> - Bonus map
->> - New Ghost (Clyde)
->> - Magnet effect for PowerPellet
->> - Tunnels
->> - Improved graphics 
->> - Intro music
->> - Sound effects
->> - Pellet counter
->> - Time tracker
->> - FPS display
->> - Menu
->> - Difficulty options
->> - Performance options
->> - Camera options
->> - Camera shake
->> - Leaderboard
->> - Help menu
->> - Quit game
->> - Pause game
->> - End game
----
+ - Glow
+ - Wall design
+ - Arcade
+ - Arcade joystick movement
+ - Easter Egg
+ - Bonus map
+ - New Ghost (Clyde)
+ - Magnet effect for PowerPellet
+ - Tunnels
+ - Improved graphics 
+ - Intro music
+ - Sound effects
+ - Pellet counter
+ - Time tracker
+ - FPS display
+ - Menu
+ - Difficulty options
+ - Performance options
+ - Camera options
+ - Camera shake
+ - Leaderboard
+ - Help menu
+ - Quit game
+ - Pause game
+ - End game

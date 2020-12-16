@@ -23,14 +23,11 @@
   9.2 [Sound](#sound)  
   9.3 [Animations](#animations)  
   9.4 [Inspiration](#inspiration)  
-  9.4 [Links](#links)  
-    
-
 
 
 <a id="introduction"></a>
 ## 1. INTRODUCTION
-> - Welcome to SuperPacman. We hope you enjoy!
+ - Welcome to SuperPacman. We hope you enjoy!
 <a id="configuration"></a>
 ## 2. CONFIGURATION
 
@@ -228,13 +225,3 @@ Leonard and Karlis
 - Hyago Oliveira - Pacman in Unity with post processing: [https://connect.unity.com/p/pac-man-g](https://connect.unity.com/p/pac-man-g)
 - Retro Game Mechanics Explained - Pac-Man Ghost AI Explained: [https://www.youtube.com/watch?v=ataGotQ7ir8](https://www.youtube.com/watch?v=ataGotQ7ir8)
 - Retro Game Mechanics Explained - Pac-Man Kill Screen Explained: [https://www.youtube.com/watch?v=NKKfW8X9uYk](https://www.youtube.com/watch?v=NKKfW8X9uYk)
-
-<a id="links"></a>
-### LINKS
-- Google Docs Project Setup/Ideas [[open]](https://docs.google.com/document/d/1qb4lyvMLUWU2ZAJjJG8gABQYsB7a3YBG-m40DlPxCrY/edit?usp=sharing)
-
-
-
-
-
-
