@@ -30,8 +30,7 @@
 
 <a id="introduction"></a>
 ## 1. INTRODUCTION
-
-
+> - Welcome to SuperPacman. We hope you enjoy!
 <a id="configuration"></a>
 ## 2. CONFIGURATION
 
