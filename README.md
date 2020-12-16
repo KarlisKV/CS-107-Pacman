@@ -11,6 +11,10 @@
     4.4 [Pause](#pause)  
 5. [Gameplay Features](#gameplay-features)  
     5.1 [Difficulties](#difficulties)  
+    5.2 [Player GUI](#player-gui)  
+    5.3 [Leaderboard](#leaderboard)  
+    5.4 [Ghost Algorithms](#ghost-algorithms)  
+    5.5 [Score/Points System](#scorepoints-system)  
 6. [How to Play](#how-to-play)
 7. [Additional Notes](#additional-notes)
 8. [Final Words](#final-words)
@@ -143,18 +147,24 @@
 
 *(it increases the longer you stay in the same level and resets each time you go to another level)
 
+<a id="player-gui"></a>
 ### 5.2 Player GUI
 ---
 ![](res/images/gameplay/superpacman/gameplayLevel1.png)
 
+<a id="leaderboard"></a>
 ### 5.3 Leaderboard
 ---
 ![](res/images/gameplay/superpacman/leaderboard.png)
 
-### 5.4 Descriptive help pages
+<a id="ghost-algorithms"></a>
+### 5.4 Ghost Algorithms
 ---
 ![](res/images/gameplay/superpacman/helpGhosts.png)  
 
+<a id="scorepoints-system"></a>
+### 5.5 Score/Points System
+---
 ![](res/images/gameplay/superpacman/helpPoints.png)
 
 <a id="how-to-play"></a>
