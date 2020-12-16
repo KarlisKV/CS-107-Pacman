@@ -15,7 +15,7 @@
     5.3 [Leaderboard](#leaderboard)  
     5.4 [Ghost Algorithms](#ghost-algorithms)  
     5.5 [Score/Points System](#scorepoints-system)  
-6. [Walk Though](#walk-through)
+6. [Walk Through](#walk-through)
 7. [Additional Notes](#additional-notes)
 8. [Final Words](#final-words)
 9. [References](#references)  
@@ -167,21 +167,24 @@
 ---
 ![](res/images/gameplay/superpacman/helpPoints.png)
 
-<a id="walk-though"></a>
-## 6. WALK THOUGH
-To complete the game you must finish all 5 levels. You have 5 lives and you must avoid the ghosts
+<a id="walk-through"></a>
+## 6. WALK THROUGH
+To complete the game you must finish level3, by going through level 0, 1 and 2. You have 5 lives, and you must avoid the ghosts
 Each level has a certain task you must complete before you can advance to the next level: 
 
 | Level           	    | How to complete                                                     	|
 |-------------------	|------------------------------------|
 | Level0             	| Pick up the key                    |
+| LevelEPFL (bonus)   	| Pick up all 4 keys                 |
 | Level1            	| Pick up all pellets                |
 | Level2            	| Pick up all pellets and 4 keys     |
-| LevelEPFL           	| Pick up all 4 keys                 |
 | Level3            	| Pick up all the pellets            |
+
+**Bonus Level:** In level 0, you have the choice to go immediately to level 1 or to pass by the EPFL level.
+By passing though the bonus level, you can obtain more points, therefore a higher score. However, be prepared for this EPFL level or you will get caught off guard.
    
-Pick up all pellets in each level and all the bonuses to get the highest score.
-Time is being tracked so be fast! And most importantly...HAVE FUN!!! :)
+**Objective:** Pick up all pellets in each level and all the cakes to get the highest score.
+Time is being tracked so be fast! And most importantly... HAVE FUN!!! :)
 
 
 <a id="additional-notes"></a>
