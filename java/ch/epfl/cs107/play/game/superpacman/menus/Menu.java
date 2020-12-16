@@ -442,7 +442,7 @@ public abstract class Menu implements Graphics, Acoustics, Serializable {
     /**
      * Method to reset subSelectionCount when exiting an Option
      */
-    private void resetSubCount() {
+    protected void resetSubCount() {
         if (!subOptionSectionList.isEmpty() && !subOptionList.isEmpty() && currentSelection != null &&
                 subOptionSectionList.containsKey(currentSelection) && subOptionList.containsKey(currentSelection)) {
 

@@ -263,7 +263,7 @@ public class SuperPacmanPlayer extends Player {
      * Restart SuperPacmanPlayer, resetting all attributes to initial values, and loosing 1 life
      */
     public void reset() {
-        if (currentHp > 0) {
+        if (currentHp > 0 && !MenuStateManager.isGodMode()) {
             --currentHp;
         }
         desiredOrientation = null;

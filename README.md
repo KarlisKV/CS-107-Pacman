@@ -54,7 +54,7 @@
 ## 3. CONTROLS
 
 <a id="menu-navigation"></a>
-#### 3.1 Menu navigation
+### 3.1 Menu navigation
 - Press UP and DOWN arrow keys to move up and down the selection of options
 - Press ENTER to execute the current selection or to choose sub options
 - Press ESC to pause the game
@@ -64,7 +64,7 @@
 - Pressing SHIFT + CTRL + OPTION together activates Debug Mode (can be activated only in menus), to turn it off, the game must be quit and reopened
 
 <a id="game-navigation"></a>
-#### 3.2 Game navigation
+### 3.2 Game navigation
 - Use UP, DOWN, LEFT and RIGHT arrow keys to move pacman
 - While in [Debug Mode](#debug-mode),
     - Pressing SHIFT + S to activate Speed mode (player movement is boosted). Speed mode can be turned off the same way it was turned on.
@@ -75,7 +75,7 @@
 ## 4. MENUS
 
 <a id="main-menu"></a>
-#### 4.1 Main Menu
+### 4.1 Main Menu
 | Option      	| Description                                                  	|
 |-------------	|--------------------------------------------------------------	|
 | Play        	| Starts the game                                              	|
@@ -86,7 +86,7 @@
 | Credits     	| Show the credits page                                        	|
 
 <a id="options"></a>
-#### 4.2 Options
+### 4.2 Options
 | Option            	| Description                                                     	        |
 |-------------------	|-----------------------------------------------------------------	        |
 | Difficulty        	| Choose a game difficulty from Easy, Normal, Hard and Impossible 	        |
@@ -101,13 +101,13 @@
 
 
 <a id="help"></a>
-#### 4.3 Help
+### 4.3 Help
 | Option            	| Description                                                     	|
 |-------------------	|-----------------------------------------------------------------	|
 | More              	| Provides a more detailed description                           	|
 
 <a id="pause"></a>
-#### 4.4 Pause
+### 4.4 Pause
 | Option            	| Description                                                     	|
 |-------------------	|-----------------------------------------------------------------	|
 | Resume            	| Resumes the game                                                	|
@@ -119,7 +119,7 @@
 ## 5. GAMEPLAY FEATURES
 
 <a id="difficulties"></a>
-#### 5.1 Difficulties
+### 5.1 Difficulties
 - EASY
     - difficulty does not increase over time
     - ghosts move slowly
@@ -143,9 +143,19 @@
 
 *(it increases the longer you stay in the same level and resets each time you go to another level)
 
-#### 5.2 Player GUI
+### 5.2 Player GUI
+---
+![](res/images/gameplay/superpacman/gameplayLevel1.png)
 
-![](res/gameplayLevel1.png)
+### 5.3 Leaderboard
+---
+![](res/images/gameplay/superpacman/leaderboard.png)
+
+### 5.4 Descriptive help pages
+---
+![](res/images/gameplay/superpacman/helpGhosts.png)  
+
+![](res/images/gameplay/superpacman/helpPoints.png)
 
 <a id="how-to-play"></a>
 ## 6. HOW TO PLAY
@@ -166,7 +176,7 @@ Time is being tracked so be fast! And most importantly...HAVE FUN!!! :)
 
 <a id="additional-notes"></a>
 ## 7. ADDITIONAL NOTES
-#### Issues with sound
+### Issues with sound
 You may experience issues with the audio of the game. The audio might make the game slow due to slow loading of audio files. 
 For some computers the audio might not work. We asked how to solve this on Piazza. https://piazza.com/class/ketlp0hratwg5?cid=1983
 
@@ -179,36 +189,36 @@ We would like to Thank you for taking the time to go through our project.
 We rest at your disposal to answer any questions. Our e-mails:
 [leonard.cseres@epfl.ch](mailto:leonard.cseres@epfl.ch), [karlis.velins@epfl.ch](mailto:karlis.velins@epfl.ch)
 
-#### We hope you enjoy the game, 
+### We hope you enjoy the game, 
 Leonard and Karlis
 
 
 <a id="references"></a>
 ## 9. REFERENCES
 <a id="art"></a>
-#### 9.1 Art
+### 9.1 Art
 - jdaster64 - SuperPacman sprites: [https://www.spriters-resource.com/game_boy_gbc/mspacman/sheet/25056/](https://www.spriters-resource.com/game_boy_gbc/mspacman/sheet/25056/)
 - Arcade pixel art: [https://www.wallpaperflare.com/ahoy-arcade-arcade-machine-space-invaders-pac-man-artwork-wallpaper-udovr](https://www.wallpaperflare.com/ahoy-arcade-arcade-machine-space-invaders-pac-man-artwork-wallpaper-udovr)
 - "Emulogic" font: [https://www.classicgaming.cc/classics/pac-man/fonts](https://www.classicgaming.cc/classics/pac-man/fonts)
 - Arrow keys pixel art: [http://pixelartmaker.com/art/7efa119103ffc71](http://pixelartmaker.com/art/7efa119103ffc71)
 
 <a id="sound"></a>
-#### 9.2 Sound
+### 9.2 Sound
 - Inthegrave & NamelessSpriter - Pacman sounds: [https://www.sounds-resource.com/arcade/pacman/sound/10603/](https://www.sounds-resource.com/arcade/pacman/sound/10603/)
 - Menu sounds: [https://kenney.nl/assets/interface-sounds](https://kenney.nl/assets/interface-sounds)
 
 <a id="animations"></a>
-#### 9.3 Animations
+### 9.3 Animations
 - Mathematical easing functions: [https://easings.net](https://easings.net)
 
 <a id="inspiration"></a>
-#### 9.4 Inspiration
+### 9.4 Inspiration
 - Hyago Oliveira - Pacman in Unity with post processing: [https://connect.unity.com/p/pac-man-g](https://connect.unity.com/p/pac-man-g)
 - Retro Game Mechanics Explained - Pac-Man Ghost AI Explained: [https://www.youtube.com/watch?v=ataGotQ7ir8](https://www.youtube.com/watch?v=ataGotQ7ir8)
 - Retro Game Mechanics Explained - Pac-Man Kill Screen Explained: [https://www.youtube.com/watch?v=NKKfW8X9uYk](https://www.youtube.com/watch?v=NKKfW8X9uYk)
 
 <a id="links"></a>
-#### LINKS
+### LINKS
 - Google Docs Project Setup/Ideas [[open]](https://docs.google.com/document/d/1qb4lyvMLUWU2ZAJjJG8gABQYsB7a3YBG-m40DlPxCrY/edit?usp=sharing)
 
 

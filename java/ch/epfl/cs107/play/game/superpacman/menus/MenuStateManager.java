@@ -210,6 +210,7 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
         assert menuStack.peek() != null;
         menuStack.peek().draw(canvas);
         selectOption(menuStack.peek());
+
     }
 
     /**
@@ -231,6 +232,8 @@ public final class MenuStateManager implements Updatable, Graphics, Acoustics {
                     break;
                 case OPTIONS:
                     menuStack.push(menuStates.get(MenuState.OPTIONS));
+                    assert menuStack.peek() != null;
+                    menuStack.peek().resetSubCount();
                     break;
                 case HELP:
                     menuStack.push(menuStates.get(MenuState.HELP));
