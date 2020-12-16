@@ -1,26 +1,26 @@
 ## 0. CONTENTS OF THIS FILE
-1. [Introduction](#introduction)
-2. [Configuration](#configuration)
-3. [Controls](#controls)  
+1. [INTRODUCTION](#introduction)
+2. [CONFIGURATION](#configuration)
+3. [CONTROLS](#controls)  
     3.1 [Menu Navigation](#menu-navigation)  
     3.2 [Game Navigation](#game-navigation)  
-4. [Menus](#menus)  
+4. [MENUS](#menus)  
     4.1 [Main Menu](#main-menu)  
     4.2 [Options](#options)  
     4.3 [Help](#help)  
     4.4 [Pause](#pause)  
-5. [Gameplay Features](#gameplay-features)  
+5. [GAMEPLAY FEATURES](#gameplay-features)  
     5.1 [Difficulties](#difficulties)  
     5.2 [Player GUI](#player-gui)  
     5.3 [Leaderboard](#leaderboard)  
     5.4 [Ghost Algorithms](#ghost-algorithms)  
     5.5 [Score/Points System](#scorepoints-system)  
-6. [Walk Through](#walk-through)
-7. [Additional Notes](#additional-notes)  
+6. [WALK THROUGH](#walk-through)
+7. [ADDITIONAL NOTES](#additional-notes)  
     7.1 [Issues with sound](#issues-sound)  
     7.2 [Issues with AreaBehaviour and actors](#issues-areabehavior-actors)  
-8. [Final Words](#final-words)
-9. [References](#references)  
+8. [FINAL WORDS](#final-words)
+9. [REFERENCES](#references)  
   9.1 [Art](#art)  
   9.2 [Sound](#sound)  
   9.3 [Animations](#animations)  
@@ -30,7 +30,8 @@
 <a id="introduction"></a>
 ## 1. INTRODUCTION
 We are glad to present to you our project, SuperPacman. We added our own twist to the game, including menus, gameplay tactics
-and so much more. This document explains everything related to the game and the [CONCEPTION.md](CONCEPTION.md) explains to code aspect of the game.
+and so much more.  
+This document explains everything related to the game and the [CONCEPTION.md](CONCEPTION.md) explains to code aspect of the game.
 
 
 <a id="configuration"></a>

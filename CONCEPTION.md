@@ -1,10 +1,10 @@
 ## 0. CONTENTS OF THIS FILE
-1. [Modifications to the provided code](#modifications)  
-2. [Added classes and interfaces (includes extension descriptions)](#added-classes-interfaces)  
+1. [MODIFICATIONS TO THE PROVIDED CODE](#modifications)  
+2. [ADDED CLASSES AND INTERFACES (includes extension descriptions)](#added-classes-interfaces)  
     2.1 [Required content](#required-content)  
     2.2 [Extensions](#extensions)  
-3. [Deviations from the project description](#deviations)  
-4. [List of all extensions](#list-extensions)  
+3. [DEVIATIONS FROM THE PROJECT DESCRIPTION](#deviations)  
+4. [LIST OF ALL EXTENSIONS](#list-extensions)  
 
 <a id="modifications"></a>
 ## 1. MODIFICATIONS TO THE PROVIDED CONTENT
