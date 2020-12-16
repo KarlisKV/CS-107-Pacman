@@ -15,7 +15,7 @@
     5.3 [Leaderboard](#leaderboard)  
     5.4 [Ghost Algorithms](#ghost-algorithms)  
     5.5 [Score/Points System](#scorepoints-system)  
-6. [How to Play](#how-to-play)
+6. [Walk Though](#walk-through)
 7. [Additional Notes](#additional-notes)
 8. [Final Words](#final-words)
 9. [References](#references)  
@@ -167,8 +167,8 @@
 ---
 ![](res/images/gameplay/superpacman/helpPoints.png)
 
-<a id="how-to-play"></a>
-## 6. HOW TO PLAY
+<a id="walk-though"></a>
+## 6. WALK THOUGH
 To complete the game you must finish all 5 levels. You have 5 lives and you must avoid the ghosts
 Each level has a certain task you must complete before you can advance to the next level: 
 
