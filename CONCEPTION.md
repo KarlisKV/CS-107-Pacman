@@ -465,37 +465,37 @@
 <a id="deviations"></a>
 ## 3. DEVIATIONS FROM THE PROJECT DESCRIPTION
 
-- Added path to EPFL map from Level0. Added Level3 at the end such that the game doesn't end at Level2.
-- Modified audio settings. 
-- Modified camera settings.
-- Changed the design of how the score and lives are displayed.
-- Replaced Cherry, Diamond and Bonus with Cake Pellet and PowerPellet.
-- Modified the sprites, the design of the walls and added glow.
+> -  Added path to EPFL map from Level0. Added Level3 at the end such that the game doesn't end at Level2.
+> -  Modified audio settings. 
+> -  Modified camera settings.
+> -  Changed the design of how the score and lives are displayed.
+> -  Replaced Cherry, Diamond and Bonus with Cake Pellet and PowerPellet.
+> -  Modified the sprites, the design of the walls and added glow.
 
 <a id="list-extensions"></a>
 ## 4. LIST OF ALL EXTENSIONS
- - Glow
- - Wall design
- - Arcade
- - Arcade joystick movement
- - Easter Egg
- - Bonus map
- - New Ghost (Clyde)
- - Magnet effect for PowerPellet
- - Tunnels
- - Improved graphics 
- - Intro music
- - Sound effects
- - Pellet counter
- - Time tracker
- - FPS display
- - Menu
- - Difficulty options
- - Performance options
- - Camera options
- - Camera shake
- - Leaderboard
- - Help menu
- - Quit game
- - Pause game
- - End game
+> - Glow
+> - Wall design
+> -  Arcade
+> -  Arcade joystick movement
+> -  Easter Egg
+> -  Bonus map
+> -  New Ghost (Clyde)
+> -  Magnet effect for PowerPellet
+> -  Tunnels
+> -  Improved graphics 
+> -  Intro music
+> -  Sound effects
+> -  Pellet counter
+> -  Time tracker
+> -  FPS display
+> -  Menu
+> -  Difficulty options
+> -  Performance options
+> -  Camera options
+> -  Camera shake
+> -  Leaderboard
+> -  Help menu
+> -  Quit game
+> -  Pause game
+> -  End game
