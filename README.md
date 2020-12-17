@@ -200,7 +200,7 @@ For some computers the audio might not work. We asked how to solve this on Piazz
 ### 7.2 Issues with AreaBehaviour and actors
 
 While playing the game, in some very specific conditions, behavior between actors can be skipped.
-Here is a better description of the problem on Piazza: https://piazza.com/class/ketlp0hratwg5?cid=2240
+Here is a better description of the problem on Piazza: https://piazza.com/class/ketlp0hratwg5?cid=2240  
 
 This can also happen while unregistering actors, making the cell in question contain the old behavior. To illustrate, 
 when pacman dies, it can happen that the ghost who killed him might not leave the cell properly. Therefore, when Pacman 

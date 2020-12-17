@@ -28,6 +28,13 @@ public abstract class Transition {
     }
 
     /**
+     * Setter for currentProgress
+     */
+    public void setCurrentProgress(float progress) {
+        currentProgress = progress;
+    }
+
+    /**
      * Abstract method to update the progress (0 -> 1)
      * @return new progress
      */

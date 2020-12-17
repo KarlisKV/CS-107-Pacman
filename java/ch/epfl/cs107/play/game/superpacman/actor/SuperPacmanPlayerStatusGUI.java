@@ -18,6 +18,9 @@ import ch.epfl.cs107.play.game.superpacman.globalenums.SuperPacmanDepth;
 import ch.epfl.cs107.play.game.superpacman.menus.MenuStateManager;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
+import ch.epfl.cs107.play.math.transitions.EaseInOutCubic;
+import ch.epfl.cs107.play.math.transitions.EaseOutCirc;
+import ch.epfl.cs107.play.math.transitions.Transition;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.awt.*;
@@ -35,6 +38,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private static final float TEXT_PADDING = 1.5f;
     private static final int LIFE_SPRITE_SIZE = 14;
     private static final String FONT = "emulogic";
+    private static final String LIVES_PATHNAME = "superpacman/lifeDisplaySmall";
     private static final float FONT_SIZE = 1.0f;
     private static final int LIFE = 0;
     private static final int NO_LIFE = LIFE_SPRITE_SIZE;
@@ -48,8 +52,12 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
     private final TextGraphics difficultyMultiplier;
     private int playerCurrentHp;
     private int playerScore = 0;
+    private int tmpPlayerScore = 0;
     private int playerComboCount = 0;
     private float areaTimer = 0;
+    private float buffer = 0;
+    private Transition points = new EaseOutCirc(0.015f);
+    private Transition noPoints = new EaseInOutCubic(0.01f);
     private List<Float> areaTimerHistory = new ArrayList<>();
 
     /**
@@ -122,7 +130,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                                             playerMaxHp / 2.f) - 2)));
                     float yPos = (BOTTOM_EDGE_PADDING) - 0.75f;
 
-                    ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
+                    ImageGraphics life = new ImageGraphics(ResourcePath.getSprite(LIVES_PATHNAME),
                                                            LIFE_SIZE, LIFE_SIZE,
                                                            new RegionOfInterest(x, 0, LIFE_SPRITE_SIZE,
                                                                                 LIFE_SPRITE_SIZE),
@@ -136,7 +144,7 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
                         (((LIFE_SIZE * playerMaxHp) / 2.f) + (HP_SPACING * ((playerMaxHp / 2.f) - 2)));
                 float yPos = (BOTTOM_EDGE_PADDING) - 0.75f;
 
-                ImageGraphics life = new ImageGraphics(ResourcePath.getSprite("superpacman/lifeDisplaySmall"),
+                ImageGraphics life = new ImageGraphics(ResourcePath.getSprite(LIVES_PATHNAME),
                                                        LIFE_SIZE, LIFE_SIZE,
                                                        new RegionOfInterest(LIFE, 0, LIFE_SPRITE_SIZE,
                                                                             LIFE_SPRITE_SIZE),
@@ -164,10 +172,19 @@ public class SuperPacmanPlayerStatusGUI implements Graphics {
             if (playerComboCount != 0) {
                 scoreText += " *" + (playerComboCount + 1);
             }
+            if (tmpPlayerScore != playerScore) {
+                buffer = points.getProgress();
+                noPoints.setCurrentProgress(points.getProgress());
+            } else {
+                points.reset();
+                buffer = noPoints.getInverseProgress();
+            }
             score.setText(scoreText);
-            score.setAnchor(anchor.add(new Vector(width / 2 - (scoreText.length() * FONT_SIZE / 2),
+            score.setFontSize(FONT_SIZE - 0.1f + buffer);
+            score.setAnchor(anchor.add(new Vector(width / 2 - (scoreText.length() * score.getFontSize() / 2),
                                                   height - TOP_EDGE_PADDING - TEXT_PADDING + 0.25f)));
             score.draw(canvas);
+            tmpPlayerScore = playerScore;
 
             // Pellets text
             pelletTitle.setAnchor(anchor.add(new Vector(LEFT_EDGE_PADDING, height - TOP_EDGE_PADDING + 0.2f)));

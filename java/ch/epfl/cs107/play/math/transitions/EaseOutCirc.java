@@ -1,31 +1,31 @@
 /*
  *	Author:      Leonard Cseres
- *	Date:        01.12.20
- *	Time:        10:55
+ *	Date:        17.12.20
+ *	Time:        01:01
  */
 
 
 package ch.epfl.cs107.play.math.transitions;
 
-public class Linear extends Transition {
-
+public class EaseOutCirc extends Transition {
     /**
-     * Constructor for Linear class
+     * Constructor for EaseOutCirc class
      * @param velocity (float): the speed of the transition
      */
-    public Linear(float velocity) {
+    public EaseOutCirc(float velocity) {
         super(velocity);
     }
 
     @Override
     public float getProgress() {
         update();
-        return getCurrentProgress();
+        return (float) Math.sqrt(1 - Math.pow(getCurrentProgress() - 1, 2));
     }
 
     @Override
     public float getInverseProgress() {
         inverseUpdate();
-        return getCurrentProgress();
+        return (float) Math.sqrt(1 - Math.pow(getCurrentProgress() - 1, 2));
     }
+
 }
