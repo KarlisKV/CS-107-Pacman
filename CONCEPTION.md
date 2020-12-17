@@ -171,7 +171,7 @@
                 └── 📦 math
                     └── 📦 transitions
                         ├── (Class) <a href="#EaseInOutCubic">EaseInOutCubic.java</a> ................................... [extension]
-                        ├── (Class) <a href="#EaseOutCirc">EaseOutCirc.java</a> ................................... [extension]
+                        ├── (Class) <a href="#EaseOutCirc">EaseOutCirc.java</a> ...................................... [extension]
                         ├── (Class) <a href="#Linear">Linear.java</a> ........................................... [extension]
                         └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
@@ -299,6 +299,7 @@
 <a id="extensions"></a>
 ### 2.2 Extensions
 
+#### 📦 java/ch/epfl/cs107/play/game/superpacman
 <a id="SoundUtility"></a>
 > **(Class) [SoundUtility.java](java/ch/epfl/cs107/play/game/superpacman/SoundUtility.java)** - implements Acoustics.java  
 > This class processes and receives multiple sound requests. It adds them to a List ("Queue"), and plays them once. The methods provide more control to other class who use this class.
@@ -307,6 +308,8 @@
 > **(Class) [SuperPacmanStatusGUI.java](java/ch/epfl/cs107/play/game/superpacman/SuperPacmanStatusGUI.java)** - implements Graphics.java  
 > Allows to display the FPS and Debug Mode text.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/collectables
 <a id="Cake"></a>
 > **(Class) [Cake.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cake.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
 > Acts the same as a "cherry". Can be collected by the player for extra points.
@@ -319,6 +322,8 @@
 > **(Class) [PowerPellet.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/PowerPellet.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
 > Acts the same as a "Bonus". Can be collected by the player to set ghosts frightened. Added glow effect.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/ghosts
 <a id="Clyde"></a>
 > **(Class) [Clyde.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Clyde.java)** - extends [Ghost.java](#Ghost)  
 > Class defining Clyde's movement algorithm. He chases the player wherever he is in the level. While frightened, he finds the path the furthest away from the player.
@@ -327,6 +332,8 @@
 > **(Class) [GhostsBehavior.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/GhostsBehavior.java)** - implements Updatable.java  
 > This class contains all the ghosts present in a level. It can update all their states at the same time. Also, it allows to control the difficulty of the ghosts.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/area/camera
 <a id="Camera"></a>
 > **(Abstract Class) [Camera.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/Camera.java)** - implements Updatable.java  
 > Conception of a camera for each Area. Gets updated by the current Area, and it's defined concretely in its sub-classes.
@@ -347,6 +354,8 @@
 > **(Class) [SmoothLimited.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/SmoothLimited.java)** - extends [Camera.java](#Camera)  
 > Defines a [SmoothFollow.java](#SmoothFollow) camera but with edge boundaries given in the constructor.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/area/levels
 <a id="Level3"></a>
 > **(Class) [Level3.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level3.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
 > Added a new level with a new behavior and tunnels at the sides of the map.
@@ -355,6 +364,8 @@
 > **(Class) [LevelEPFL.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/LevelEPFL.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
 > Added an easter egg: an EPFL themed level. Available through level0 and after completing it, the player moves to Level1.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/globalenums
 <a id="SuperPacmanDepth"></a>
 > **(Enum) [SuperPacmanDepth.java](java/ch/epfl/cs107/play/game/superpacman/globalenums/SuperPacmanDepth.java)**  
 > Defines all the different depths for organising drawing order.
@@ -367,6 +378,8 @@
 > **(Enum) [SuperPacmanSound.java](java/ch/epfl/cs107/play/game/superpacman/globalenums/SuperPacmanSound.java)**  
 > Represents the sound for the SuperPacman game.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/graphics
 <a id="Arcade"></a>
 > **(Class) [Arcade.java](java/ch/epfl/cs107/play/game/superpacman/graphics/Arcade.java)** - implements Graphics.java, Acoustics.java  
 > Acts as Menu background and game screen overlay. Gets also access to window keyboard to move joystick depending on user input.
@@ -379,6 +392,8 @@
 > **(Class) [ScreenFade.java](java/ch/epfl/cs107/play/game/superpacman/graphics/ScreenFade.java)** - implements Graphics.java  
 > Allows to draw a black overlay covering the whole screen. It has been eased-in and out with [Transition.java](#Transition).
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/leaderboard
 <a id="GameScore"></a>
 > **(Class) [GameScore.java](java/ch/epfl/cs107/play/game/superpacman/leaderboard/GameScore.java)** - implements Serializable.java  
 > Represents all the statistic from a finished game.
@@ -387,6 +402,8 @@
 > **(Class) [LeaderboardGameScores.java](java/ch/epfl/cs107/play/game/superpacman/leaderboard/LeaderboardGameScores.java)** - implements Serializable.java  
 > Contains a List with all of the [GameScore.java](#GameScore). Is used to display it's content on the leaderboard.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/menus
 <a id="Menu"></a>
 > **(Abstract Class) [Menu.java](java/ch/epfl/cs107/play/game/superpacman/menus/Menu.java)** - implements Graphics.java, Acoustics.java, Serializable.java  
 > Defines a menu page that can be drawn on the screen. Controls up and down user input.
@@ -403,6 +420,8 @@
 > **(Enum) [SubOption.java](java/ch/epfl/cs107/play/game/superpacman/menus/SubOption.java)**  
 > Contains all the sub-options that an [Option.java](#Option) can contain.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/menus/pages
 <a id="Credits"></a>
 > **(Class) [Credits.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Credits.java)** - extends [Menu.java](#Menu)  
 > Defines and draws the credits page.
@@ -447,10 +466,14 @@
 > **(Class) [Quit.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Quit.java)** - extends [Menu.java](#Menu)  
 > Defines and draws the play page. In this case, the quit page also draws nothing and contains no options. It also represents the state of the game.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/io
 <a id="Serialization"></a>
 > **(Class) [Serialization.java](java/ch/epfl/cs107/play/io/Serialization.java)** - extends [Transition.java](#Transition)  
 > Containing static methods, this utility class allows to serialize and deserialize objects.
 ---
+
+#### 📦 java/ch/epfl/cs107/play/math/transitions
 <a id="EaseInOutCubic"></a>
 > **(Class) [EaseInOutCubic.java](java/ch/epfl/cs107/play/math/transitions/EaseInOutCubic.java)** - extends [Transition.java](#Transition)  
 > Allows the transition to behave through ease in and out using cubic formula.
