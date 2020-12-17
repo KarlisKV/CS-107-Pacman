@@ -300,7 +300,8 @@
 ### 2.2 Extensions
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman
-     These classes below are more general and apply to the whole game. This explains their current location.
+     These classes below are more general and apply to the whole game. This explains their 
+     current location.
 
 <a id="SoundUtility"></a>
 > **(Class) [SoundUtility.java](java/ch/epfl/cs107/play/game/superpacman/SoundUtility.java)** - implements Acoustics.java  
@@ -312,7 +313,7 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/collectables
-     We decided to create this package that would group all actors which are collectables
+     We decided to create this package that would group all actors which are collectables.
      
 <a id="Cake"></a>
 > **(Class) [Cake.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cake.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
@@ -328,7 +329,7 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/ghosts
-     Similarly to collectables, this package groups all actors which are ghosts
+     Similarly to collectables, this package groups all actors which are ghosts.
 
 <a id="Clyde"></a>
 > **(Class) [Clyde.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Clyde.java)** - extends [Ghost.java](#Ghost)  
@@ -340,7 +341,9 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/area/camera
-     Because the camera is specific to every area, it makes sense to add it to a /camera package in /area
+     Because the camera is specific to every area, it makes sense to add it to a /camera 
+     package in /area.
+     
 <a id="Camera"></a>
 > **(Abstract Class) [Camera.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/Camera.java)** - implements Updatable.java  
 > Conception of a camera for each Area. Gets updated by the current Area, and it's defined concretely in its sub-classes.
@@ -391,7 +394,7 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/graphics
-     For graphics specific to the game, nothing existed, so we created this new package
+     For graphics specific to the game, nothing existed, so we created this new package.
 
 <a id="Arcade"></a>
 > **(Class) [Arcade.java](java/ch/epfl/cs107/play/game/superpacman/graphics/Arcade.java)** - implements Graphics.java, Acoustics.java  
@@ -407,7 +410,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/leaderboard
-     Both these classes are linked to a leaderboard, have them together strengthens the structure of the project.
+     Both these classes are linked to a leaderboard, have them together strengthens the 
+     structure of the project.
 
 <a id="GameScore"></a>
 > **(Class) [GameScore.java](java/ch/epfl/cs107/play/game/superpacman/leaderboard/GameScore.java)** - implements Serializable.java  
@@ -419,7 +423,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/menus
-     In order to better organise the menu, general classes and enums related to the menu are placed in /menus and all the menu pages are located in /menus/pages
+     In order to better organise the menu, general classes and enums related to the menu 
+     are placed in /menus and all the menu pages are located in /menus/pages.
 
 <a id="Menu"></a>
 > **(Abstract Class) [Menu.java](java/ch/epfl/cs107/play/game/superpacman/menus/Menu.java)** - implements Graphics.java, Acoustics.java, Serializable.java  
@@ -493,7 +498,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/math/transitions
-     The location of this class makes sense here because of its utility and function. Transitons are mathematical equations.
+     The location of this class makes sense here because of its utility and function.
+     Transitons are mathematical equations.
 <a id="EaseInOutCubic"></a>
 > **(Class) [EaseInOutCubic.java](java/ch/epfl/cs107/play/math/transitions/EaseInOutCubic.java)** - extends [Transition.java](#Transition)  
 > Allows the transition to behave through ease in and out using cubic formula.
