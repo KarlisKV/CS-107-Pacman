@@ -9,7 +9,7 @@
 <a id="modifications"></a>
 ## 1. MODIFICATIONS TO THE PROVIDED CONTENT
 
-**Note:** In each modified class, a comment containing "[mofification]" has been left. This allow to quick search and find where exacty the code has been altered.
+**Note:** In each modified class, a comment containing "[modification]" has been left. This allows to quick search and find where exactly the code has been altered.
 
 <pre>
 .

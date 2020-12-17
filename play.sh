@@ -40,16 +40,16 @@ function wait_for_process() {
 }
 
 # Compile all java files
-echo -ne "Compiling files to /out...\n"
-javac -encoding utf8 $(find . -name "*.java") -d out &
+echo -ne "Compiling files to /bin...\n"
+javac -encoding utf8 $(find . -name "*.java") -d bin &
 BACK_PID=$!
 # wait process to finish
 wait_for_process $BACK_PID 5
 
-if [ -d "./out" -a $progress -ne 0 ]; then
-  echo -ne "Copying ressources to /out...                   \n"
-  # Copy res/ folder contents to out/
-  cp -a res/. out/ &
+if [ -d "./bin" -a $progress -ne 0 ]; then
+  echo -ne "Copying ressources to /bin...                   \n"
+  # Copy res/ folder contents to bin/
+  cp -a res/. bin/ &
   BACK_PID=$!
   # wait process to finish
   wait_for_process $BACK_PID 25
@@ -71,7 +71,7 @@ EOF
   echo -ne "\033[0;1mConsole output:\033[0m\n"
 
   # Launch main Class (Play.class)
-  java -cp out ch.epfl.cs107.play.Play
+  java -cp bin ch.epfl.cs107.play.Play
 
   # End script
   echo -ne "\n\nThank you for playing! :)\n"
