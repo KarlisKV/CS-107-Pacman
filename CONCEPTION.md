@@ -300,7 +300,7 @@
 ### 2.2 Extensions
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman
-These classes below are more general and apply to the whole game. This explains their current location.
+      These classes below are more general and apply to the whole game. This explains their current location.
 
 <a id="SoundUtility"></a>
 > **(Class) [SoundUtility.java](java/ch/epfl/cs107/play/game/superpacman/SoundUtility.java)** - implements Acoustics.java  
@@ -311,7 +311,7 @@ These classes below are more general and apply to the whole game. This explains 
 > Allows to display the FPS and Debug Mode text.
 ---
 
-##### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/collectables
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/collectables
 <a id="Cake"></a>
 > **(Class) [Cake.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cake.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
 > Acts the same as a "cherry". Can be collected by the player for extra points.
