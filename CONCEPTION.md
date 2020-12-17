@@ -171,6 +171,7 @@
                 └── 📦 math
                     └── 📦 transitions
                         ├── (Class) <a href="#EaseInOutCubic">EaseInOutCubic.java</a> ................................... [extension]
+                        ├── (Class) <a href="#EaseOutCirc">EaseOutCirc.java</a> ................................... [extension]
                         ├── (Class) <a href="#Linear">Linear.java</a> ........................................... [extension]
                         └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
@@ -453,6 +454,10 @@
 <a id="EaseInOutCubic"></a>
 > **(Class) [EaseInOutCubic.java](java/ch/epfl/cs107/play/math/transitions/EaseInOutCubic.java)** - extends [Transition.java](#Transition)  
 > Allows the transition to behave through ease in and out using cubic formula.
+---
+<a id="EaseOutCirc"></a>
+> **(Class) [EaseOutCirc.java](java/ch/epfl/cs107/play/math/transitions/EaseOutCirc.java)** - extends [Transition.java](#Transition)  
+> Allows the transition to behave through ease in and out using circ. formula.
 ---
 <a id="Linear"></a>
 > **(Class) [Linear.java](java/ch/epfl/cs107/play/math/transitions/Linear.java)** - extends [Transition.java](#Transition)  
