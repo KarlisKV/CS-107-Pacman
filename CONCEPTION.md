@@ -300,7 +300,7 @@
 ### 2.2 Extensions
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman
-      These classes below are more general and apply to the whole game. This explains their current location.
+     These classes below are more general and apply to the whole game. This explains their current location.
 
 <a id="SoundUtility"></a>
 > **(Class) [SoundUtility.java](java/ch/epfl/cs107/play/game/superpacman/SoundUtility.java)** - implements Acoustics.java  
@@ -312,6 +312,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/collectables
+     We decided to create this package that would group all actors which are collectables
+     
 <a id="Cake"></a>
 > **(Class) [Cake.java](java/ch/epfl/cs107/play/game/superpacman/actor/collectables/Cake.java)** - extends [CollectableAreaEntity.java](#CollectableAreaEntity)  
 > Acts the same as a "cherry". Can be collected by the player for extra points.
@@ -326,6 +328,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/ghosts
+     Similarly to collectables, this package groups all actors which are ghosts
+
 <a id="Clyde"></a>
 > **(Class) [Clyde.java](java/ch/epfl/cs107/play/game/superpacman/actor/ghosts/Clyde.java)** - extends [Ghost.java](#Ghost)  
 > Class defining Clyde's movement algorithm. He chases the player wherever he is in the level. While frightened, he finds the path the furthest away from the player.
@@ -335,7 +339,8 @@
 > This class contains all the ghosts present in a level. It can update all their states at the same time. Also, it allows to control the difficulty of the ghosts.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/area/camera
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/area/camera
+     Because the camera is specific to every area, it makes sense to add it to a /camera package in /area
 <a id="Camera"></a>
 > **(Abstract Class) [Camera.java](java/ch/epfl/cs107/play/game/superpacman/area/camera/Camera.java)** - implements Updatable.java  
 > Conception of a camera for each Area. Gets updated by the current Area, and it's defined concretely in its sub-classes.
@@ -357,7 +362,9 @@
 > Defines a [SmoothFollow.java](#SmoothFollow) camera but with edge boundaries given in the constructor.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/area/levels
+#### 📦 java/ch/epfl/cs107/play/game/superpacman/area/levels
+     Levels define an area, therefore the added levels also define an area.
+
 <a id="Level3"></a>
 > **(Class) [Level3.java](java/ch/epfl/cs107/play/game/superpacman/area/levels/Level3.java)** - extends [SuperPacmanArea.java](#SuperPacmanArea)  
 > Added a new level with a new behavior and tunnels at the sides of the map.
@@ -368,6 +375,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/globalenums
+     These enums are placed in this package to locate gobal parameter more easily.
+
 <a id="SuperPacmanDepth"></a>
 > **(Enum) [SuperPacmanDepth.java](java/ch/epfl/cs107/play/game/superpacman/globalenums/SuperPacmanDepth.java)**  
 > Defines all the different depths for organising drawing order.
@@ -382,6 +391,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/graphics
+     For graphics specific to the game, nothing existed, so we created this new package
+
 <a id="Arcade"></a>
 > **(Class) [Arcade.java](java/ch/epfl/cs107/play/game/superpacman/graphics/Arcade.java)** - implements Graphics.java, Acoustics.java  
 > Acts as Menu background and game screen overlay. Gets also access to window keyboard to move joystick depending on user input.
@@ -396,6 +407,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/leaderboard
+     Both these classes are linked to a leaderboard, have them together strengthens the structure of the project.
+
 <a id="GameScore"></a>
 > **(Class) [GameScore.java](java/ch/epfl/cs107/play/game/superpacman/leaderboard/GameScore.java)** - implements Serializable.java  
 > Represents all the statistic from a finished game.
@@ -406,6 +419,8 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/menus
+     In order to better organise the menu, general classes and enums related to the menu are placed in /menus and all the menu pages are located in /menus/pages
+
 <a id="Menu"></a>
 > **(Abstract Class) [Menu.java](java/ch/epfl/cs107/play/game/superpacman/menus/Menu.java)** - implements Graphics.java, Acoustics.java, Serializable.java  
 > Defines a menu page that can be drawn on the screen. Controls up and down user input.
@@ -424,6 +439,7 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/game/superpacman/menus/pages
+     Here are all the different menu pages
 <a id="Credits"></a>
 > **(Class) [Credits.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Credits.java)** - extends [Menu.java](#Menu)  
 > Defines and draws the credits page.
@@ -470,12 +486,14 @@
 ---
 
 #### 📦 java/ch/epfl/cs107/play/io
+     The location of this class makes sense here because of its utility and function.
 <a id="Serialization"></a>
 > **(Class) [Serialization.java](java/ch/epfl/cs107/play/io/Serialization.java)** - extends [Transition.java](#Transition)  
 > Containing static methods, this utility class allows to serialize and deserialize objects.
 ---
 
 #### 📦 java/ch/epfl/cs107/play/math/transitions
+     The location of this class makes sense here because of its utility and function. Transitons are mathematical equations.
 <a id="EaseInOutCubic"></a>
 > **(Class) [EaseInOutCubic.java](java/ch/epfl/cs107/play/math/transitions/EaseInOutCubic.java)** - extends [Transition.java](#Transition)  
 > Allows the transition to behave through ease in and out using cubic formula.
