@@ -209,7 +209,7 @@ comes in contact with the cell where he died, he dies again...
 <a id="final-words"></a>
 ## 8. FINAL WORDS
 We feel fulfilled as this project comes to an end. There is of course a lot of room for improvement, but completing this 
-games allowed us to better understand so many concepts.  
+game allowed us to better understand so many concepts.  
 We would like to thank you for taking the time to go through our project.
 We rest at your disposal to answer any questions. Our e-mails:
 [leonard.cseres@epfl.ch](mailto:leonard.cseres@epfl.ch), [karlis.velins@epfl.ch](mailto:karlis.velins@epfl.ch)
