@@ -39,42 +39,41 @@ This document explains everything related to the game and the [CONCEPTION.md](CO
 
 1. Open terminal and set directory to project root
   
-2. Compile and run the game
-    - Solution 1:
+2. Execute [play.sh](play.sh)
+    - Option 1:
         ````shell script
         bash play.sh
         ````
-    - Solution 2:
+    - Option 2:
         ````shell script
         /bin/bash play.sh
         ````
-    - Solution 3:
+    - Option 3:
         ````shell script
         chmod +x play.sh
         ./play.sh
         ````
-    - Solution 4: Run script on IDE
-    
+    - Option 4: Run script on IDE
     
 <a id="controls"></a>
 ## 3. CONTROLS
 
 <a id="menu-navigation"></a>
 ### 3.1 Menu navigation
-- Press UP and DOWN arrow keys to move up and down the selection of options
-- Press ENTER to execute the current selection or to choose sub options
-- Press ESC to pause the game
+- Press `UP` and `DOWN` arrow keys to move up and down the selection of options
+- Press `ENTER` to execute the current selection or to choose sub options
+- Press `ESC` to pause the game
 
 <a id="debug-mode"></a>
 ##### Debug Mode
-- Pressing SHIFT + CTRL + OPTION together activates Debug Mode (can be activated only in menus), to turn it off, the game must be quit and reopened
+- Pressing `SHIFT` + `CTRL` + `OPTION` together activates Debug Mode (can be activated only in menus), to turn it off, the game must be quit and reopened
 
 <a id="game-navigation"></a>
 ### 3.2 Game navigation
-- Use UP, DOWN, LEFT and RIGHT arrow keys to move pacman
+- Use `UP`, `DOWN`, `LEFT` and RIGHT arrow keys to move pacman
 - While in [Debug Mode](#debug-mode),
-    - Pressing SHIFT + S to activate Speed mode (player movement is boosted). Speed mode can be turned off the same way it was turned on.
-    - Pressing SHIFT + G to activate God mode (player becomes invincible). God mode can be turned off the same way it was turned on.
+    - Pressing `SHIFT` + `S` to activate Speed mode (player movement is boosted). Speed mode can be turned off the same way it was turned on.
+    - Pressing `SHIFT` + `G` to activate God mode (player becomes invincible). God mode can be turned off the same way it was turned on.
 
 
 <a id="menus"></a>
@@ -195,6 +194,9 @@ Time is being tracked so be fast! And most importantly... HAVE FUN!!! :)
 ### 7.1 Issues with sound
 You may experience issues with the audio of the game. The audio might make the game slow due to slow loading of audio files. 
 For some computers the audio might not work. We asked how to solve this on Piazza. https://piazza.com/class/ketlp0hratwg5?cid=1983
+
+To combat this problem, most of the audio has been compressed to its limits, and some code has been modified (see [CONCEPTION.md](CONCEPTION.md)). 
+However, this was not sufficient, and audio processing is still very slow... Nevertheless, the game is still very enjoyable.
 
 <a id="issues-areabehavior-actors"></a>
 ### 7.2 Issues with AreaBehaviour and actors

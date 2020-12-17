@@ -13,75 +13,76 @@
 
 <pre>
 .
-└── 📦 ch
-    └── 📦 epfl
-        └── 📦 cs107
-            └── 📦 play
-                ├── Play.java ════════════════════════════════════════════════════════════════════════╗
-                │   ║ └> Added new thread to compute the actual FPS                                   ║
-                │   ╚═════════════════════════════════════════════════════════════════════════════════╝
-                ├── 📦 game
-                │   ├── Game.java ════════════════════════════════════════════════════════════════════╗
-                │   │   ║ └> Set the FPS to 60                                                        ║
-                │   │   ╚═════════════════════════════════════════════════════════════════════════════╝  
-                │   ├── 📦 actor
-                │   │   └── TextGraphics.java ════════════════════════════════════════════════════════╗
-                │   │       ║ └> Implemented Serializable interface                                   ║
-                │   │       ╚═════════════════════════════════════════════════════════════════════════╝
-                │   ├── 📦 areagame
-                │   │   ├── Area.java ════════════════════════════════════════════════════════════════╗
-                │   │   │   ║ └> Removed viewCenter attribute                                         ║
-                │   │   │   ║ └> Added Camera instance                                                ║
-                │   │   │   ║ └> Moved methods to update camera to Camera.java                        ║
-                │   │   │   ║ └> Created getter for camera (allows to call shake() method)            ║
-                │   │   │   ║ └> Adapted class to work with Camera                                    ║
-                │   │   │   ╚═════════════════════════════════════════════════════════════════════════╝
-                │   │   ├── AreaGame.java ════════════════════════════════════════════════════════════╗
-                │   │   │   ║ └> Added MenuStateManager instance                                      ║
-                │   │   │   ║ └> Modified update() method to work with menu states                    ║
-                │   │   │   ╚═════════════════════════════════════════════════════════════════════════╝
-                │   │   └── 📦 actor
-                │   │       └── Foreground.java ══════════════════════════════════════════════════════╗
-                │   │           ║ └> Modified depth to SuperPacmanDepth enum                          ║
-                │   │           ╚═════════════════════════════════════════════════════════════════════╝
-                │   └── 📦 rpg
-                │   │   ├── RPG.java ═════════════════════════════════════════════════════════════════╗
-                │   │   │   ║ └> Modified forceBegin to true in update() method for creating          ║
-                │   │   │   ║    new areas                                                            ║
-                │   │   │   ╚═════════════════════════════════════════════════════════════════════════╝
-                │   │   └── 📦 actor
-                │   │       └── Door.java ════════════════════════════════════════════════════════════╗
-                │   │           ║ └> Set to implement Interactor (allows to fade screen when player   ║
-                │   │           ║    is in range)                                                     ║
-                │   │           ║ └> Activates debug drawing when debutMode is set from the menu      ║
-                │   │           ║ └> Added method isDestinationSameArea() to determine if door leads  ║
-                │   │           ║    to the same area                                                 ║
-                │   │           ╚═════════════════════════════════════════════════════════════════════╝
-                │   └── 📦 superpacman
-                │        └── 📦 actor
-                │             └── Wall.java ══════════════════════════════════════════════════════════╗
-                │                 ║ └> Changed default Wall pathname to new .png                      ║
-                │                 ║ └> Added condition to set the wall pathname to red wall for EPFL  ║
-                │                 ║    level                                                          ║
-                │                 ║ └> Added setDepth() to the constructor                            ║
-                │                 ║ └> Added isViewInteractable = true                                ║
-                │                 ╚═══════════════════════════════════════════════════════════════════╝
-                ├── 📦 math
-                │   └── Vector.java ══════════════════════════════════════════════════════════════════╗
-                │       ║ └> Added method dist() to compute distance between two Vector points        ║
-                │       ╚═════════════════════════════════════════════════════════════════════════════╝
-                └── 📦 window
-                    ├── Keyboard.java ════════════════════════════════════════════════════════════════╗
-                    │   ║ └> Added more key codes (ENTER, SHIFT, CTRL, ALT, ESC)                      ║
-                    │   ╚═════════════════════════════════════════════════════════════════════════════╝
-                    └── 📦 swing
-                        ├── SoundItem.java ═══════════════════════════════════════════════════════════╗
-                        │   ║ └> Added .loop() method in start() for audio clips                      ║
-                        │   ║ └> Removed loop condition in update()                                   ║
-                        │   ╚═════════════════════════════════════════════════════════════════════════╝
-                        └── SwingWindow.java ═════════════════════════════════════════════════════════╗
-                            ║ └> Added in constructor .setLocationRelativeTo(null) to frame           ║
-                            ╚═════════════════════════════════════════════════════════════════════════╝
+└── 📦 java
+    └── 📦 ch
+        └── 📦 epfl
+            └── 📦 cs107
+                └── 📦 play
+                    ├── Play.java ════════════════════════════════════════════════════════════════════════╗
+                    │   ║ └> Added new thread to compute the actual FPS                                   ║
+                    │   ╚═════════════════════════════════════════════════════════════════════════════════╝
+                    ├── 📦 game
+                    │   ├── Game.java ════════════════════════════════════════════════════════════════════╗
+                    │   │   ║ └> Set the FPS to 60                                                        ║
+                    │   │   ╚═════════════════════════════════════════════════════════════════════════════╝  
+                    │   ├── 📦 actor
+                    │   │   └── TextGraphics.java ════════════════════════════════════════════════════════╗
+                    │   │       ║ └> Implemented Serializable interface                                   ║
+                    │   │       ╚═════════════════════════════════════════════════════════════════════════╝
+                    │   ├── 📦 areagame
+                    │   │   ├── Area.java ════════════════════════════════════════════════════════════════╗
+                    │   │   │   ║ └> Removed viewCenter attribute                                         ║
+                    │   │   │   ║ └> Added Camera instance                                                ║
+                    │   │   │   ║ └> Moved methods to update camera to Camera.java                        ║
+                    │   │   │   ║ └> Created getter for camera (allows to call shake() method)            ║
+                    │   │   │   ║ └> Adapted class to work with Camera                                    ║
+                    │   │   │   ╚═════════════════════════════════════════════════════════════════════════╝
+                    │   │   ├── AreaGame.java ════════════════════════════════════════════════════════════╗
+                    │   │   │   ║ └> Added MenuStateManager instance                                      ║
+                    │   │   │   ║ └> Modified update() method to work with menu states                    ║
+                    │   │   │   ╚═════════════════════════════════════════════════════════════════════════╝
+                    │   │   └── 📦 actor
+                    │   │       └── Foreground.java ══════════════════════════════════════════════════════╗
+                    │   │           ║ └> Modified depth to SuperPacmanDepth enum                          ║
+                    │   │           ╚═════════════════════════════════════════════════════════════════════╝
+                    │   └── 📦 rpg
+                    │   │   ├── RPG.java ═════════════════════════════════════════════════════════════════╗
+                    │   │   │   ║ └> Modified forceBegin to true in update() method for creating          ║
+                    │   │   │   ║    new areas                                                            ║
+                    │   │   │   ╚═════════════════════════════════════════════════════════════════════════╝
+                    │   │   └── 📦 actor
+                    │   │       └── Door.java ════════════════════════════════════════════════════════════╗
+                    │   │           ║ └> Set to implement Interactor (allows to fade screen when player   ║
+                    │   │           ║    is in range)                                                     ║
+                    │   │           ║ └> Activates debug drawing when debutMode is set from the menu      ║
+                    │   │           ║ └> Added method isDestinationSameArea() to determine if door leads  ║
+                    │   │           ║    to the same area                                                 ║
+                    │   │           ╚═════════════════════════════════════════════════════════════════════╝
+                    │   └── 📦 superpacman
+                    │        └── 📦 actor
+                    │             └── Wall.java ══════════════════════════════════════════════════════════╗
+                    │                 ║ └> Changed default Wall pathname to new .png                      ║
+                    │                 ║ └> Added condition to set the wall pathname to red wall for EPFL  ║
+                    │                 ║    level                                                          ║
+                    │                 ║ └> Added setDepth() to the constructor                            ║
+                    │                 ║ └> Added isViewInteractable = true                                ║
+                    │                 ╚═══════════════════════════════════════════════════════════════════╝
+                    ├── 📦 math
+                    │   └── Vector.java ══════════════════════════════════════════════════════════════════╗
+                    │       ║ └> Added method dist() to compute distance between two Vector points        ║
+                    │       ╚═════════════════════════════════════════════════════════════════════════════╝
+                    └── 📦 window
+                        ├── Keyboard.java ════════════════════════════════════════════════════════════════╗
+                        │   ║ └> Added more key codes (ENTER, SHIFT, CTRL, ALT, ESC)                      ║
+                        │   ╚═════════════════════════════════════════════════════════════════════════════╝
+                        └── 📦 swing
+                            ├── SoundItem.java ═══════════════════════════════════════════════════════════╗
+                            │   ║ └> Added .loop() method in start() for audio clips                      ║
+                            │   ║ └> Removed loop condition in update()                                   ║
+                            │   ╚═════════════════════════════════════════════════════════════════════════╝
+                            └── SwingWindow.java ═════════════════════════════════════════════════════════╗
+                                ║ └> Added in constructor .setLocationRelativeTo(null) to frame           ║
+                                ╚═════════════════════════════════════════════════════════════════════════╝
 </pre>
 
   
@@ -90,90 +91,91 @@
 
 <pre>
 .
-└── 📦 ch
-    └── 📦 epfl
-        └── 📦 cs107
-            └── 📦 play
-                ├── 📦 game
-                │   ├── 📦 areagame
-                │   │   └── 📦 actor
-                │   │       └── (Abstract Class) <a href="#CollectableAreaEntity">CollectableAreaEntity.java</a>
-                │   └── 📦 superpacman
-                │       ├── (Class) <a href="#SoundUtility">SoundUtility.java</a> ..................................... [extension]
-                │       ├── (Class) <a href="#SuperPacman">SuperPacman.java</a>
-                │       ├── (Class) <a href="#SuperPacmanStatusGUI">SuperPacmanStatusGUI.java</a> ............................. [extension]
-                │       ├── 📦 actor
-                │       │   ├── (Class) <a href="#Gate">Gate.java</a>
-                │       │   ├── (Class) <a href="#SuperPacmanPlayer">SuperPacmanPlayer.java</a>
-                │       │   ├── (Class) <a href="#SuperPacmanPlayerStatusGUI">SuperPacmanPlayerStatusGUI.java</a>
-                │       │   ├── 📦 collectables
-                │       │   │   ├── (Class) <a href="#Bonus">Bonus.java</a>
-                │       │   │   ├── (Class) <a href="#Cake">Cake.java</a> ..................................... [extension]
-                │       │   │   ├── (Class) <a href="#Cherry">Cherry.java</a>
-                │       │   │   ├── (Class) <a href="#Diamond">Diamond.java</a>
-                │       │   │   ├── (Class) <a href="#Key">Key.java</a>
-                │       │   │   ├── (Class) <a href="#Pellet">Pellet.java</a> ................................... [extension]
-                │       │   │   └── (Class) <a href="#PowerPellet">PowerPellet.java</a> .............................. [extension]
-                │       │   └── 📦 ghosts
-                │       │       ├── (Class) <a href="#Blinky">Blinky.java</a>
-                │       │       ├── (Class) <a href="#Clyde">Clyde.java</a> .................................... [extension]
-                │       │       ├── (Abstract Class) <a href="#Ghost">Ghost.java</a>
-                │       │       ├── (Class) <a href="#GhostsBehavior">GhostsBehavior.java</a> ........................... [extension]
-                │       │       ├── (Class) <a href="#Inky">Inky.java</a>
-                │       │       └── (Class) <a href="#Pinky">Pinky.java</a>
-                │       ├── 📦 area
-                │       │   ├── (Abstract Class) <a href="#SuperPacmanArea">SuperPacmanArea.java</a>
-                │       │   ├── (Class) <a href="#SuperPacmanAreaBehavior">SuperPacmanAreaBehavior.java</a>
-                │       │   ├── 📦 camera
-                │       │   │   ├── (Abstract Class) <a href="#Camera">Camera.java</a> .......................... [extension]
-                │       │   │   ├── (Class) <a href="#Fixed">Fixed.java</a> .................................... [extension]
-                │       │   │   ├── (Class) <a href="#Follow">Follow.java</a> ................................... [extension]
-                │       │   │   ├── (Class) <a href="#SmoothFollow">SmoothFollow.java</a> ............................. [extension]
-                │       │   │   └── (Class) <a href="#SmoothLimited">SmoothLimited.java</a> ............................ [extension]
-                │       │   └── 📦 levels
-                │       │       ├── (Class) <a href="#Level0">Level0.java</a>
-                │       │       ├── (Class) <a href="#Level1">Level1.java</a>
-                │       │       ├── (Class) <a href="#Level2">Level2.java</a>
-                │       │       ├── (Class) <a href="#Level3">Level3.java</a> ................................... [extension]
-                │       │       └── (Class) <a href="#LevelEPFL">LevelEPFL.java</a> ................................ [extension]
-                │       ├── 📦 globalenums
-                │       │   ├── (Enum) <a href="#SuperPacmanDepth">SuperPacmanDepth.java</a> .............................. [extension]
-                │       │   ├── (Enum) <a href="#SuperPacmanDifficulty">SuperPacmanDifficulty.java</a> ......................... [extension]
-                │       │   └── (Enum) <a href="#SuperPacmanSound">SuperPacmanSound.java</a> .............................. [extension]
-                │       ├── 📦 graphics
-                │       │   ├── (Class) <a href="#Arcade">Arcade.java</a> ....................................... [extension]
-                │       │   ├── (Class) <a href="#Glow">Glow.java</a> ......................................... [extension]
-                │       │   └── (Class) <a href="#ScreenFade">ScreenFade.java</a> ................................... [extension]
-                │       ├── 📦 handler
-                │       │   └── (Interface) <a href="#SuperPacmanInteractionVisitor">SuperPacmanInteractionVisitor.java</a>
-                │       ├── 📦 leaderboard
-                │       │   ├── (Class) <a href="#GameScore">GameScore.java</a> .................................... [extension]
-                │       │   └── (Class) <a href="#LeaderboardGameScores">LeaderboardGameScores.java</a> ........................ [extension]
-                │       └── 📦 menus
-                │           ├── (Abstract Class) <a href="#Menu">Menu.java</a> ................................ [extension]
-                │           ├── (Final Class) <a href="#MenuStateManager">MenuStateManager.java</a> ....................... [extension]
-                │           ├── (Enum) <a href="#Option">Option.java</a> ........................................ [extension]
-                │           ├── (Enum) <a href="#SubOption">SubOption.java</a> ..................................... [extension]
-                │           └── 📦 pages
-                │               ├── (Class) <a href="#Credits">Credits.java</a> .................................. [extension]
-                │               ├── (Class) <a href="#GameOver">GameOver.java</a> ................................. [extension]
-                │               ├── (Class) <a href="#Help">Help.java</a> ..................................... [extension]
-                │               ├── (Class) <a href="#HelpGhosts">HelpGhosts.java</a> ............................... [extension]
-                │               ├── (Class) <a href="#HelpScore">HelpScore.java</a> ................................ [extension]
-                │               ├── (Class) <a href="#Leaderboard">Leaderboard.java</a> .............................. [extension]
-                │               ├── (Class) <a href="#MainMenu">MainMenu.java</a> ................................. [extension]
-                │               ├── (Class) <a href="#Options">Options.java</a> .................................. [extension]
-                │               ├── (Class) <a href="#Pause">Pause.java</a> .................................... [extension]
-                │               ├── (Class) <a href="#Play">Play.java</a> ..................................... [extension]
-                │               └── (Class) <a href="#Quit">Quit.java</a> ..................................... [extension]
-                ├── 📦 io
-                │   └── (Class) <a href="#Serialization">Serialization.java</a> ........................................ [extension]
-                └── 📦 math
-                    └── 📦 transitions
-                        ├── (Class) <a href="#EaseInOutCubic">EaseInOutCubic.java</a> ................................... [extension]
-                        ├── (Class) <a href="#EaseOutCirc">EaseOutCirc.java</a> ...................................... [extension]
-                        ├── (Class) <a href="#Linear">Linear.java</a> ........................................... [extension]
-                        └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
+└── 📦 java
+    └── 📦 ch
+        └── 📦 epfl
+            └── 📦 cs107
+                └── 📦 play
+                    ├── 📦 game
+                    │   ├── 📦 areagame
+                    │   │   └── 📦 actor
+                    │   │       └── (Abstract Class) <a href="#CollectableAreaEntity">CollectableAreaEntity.java</a>
+                    │   └── 📦 superpacman
+                    │       ├── (Class) <a href="#SoundUtility">SoundUtility.java</a> ..................................... [extension]
+                    │       ├── (Class) <a href="#SuperPacman">SuperPacman.java</a>
+                    │       ├── (Class) <a href="#SuperPacmanStatusGUI">SuperPacmanStatusGUI.java</a> ............................. [extension]
+                    │       ├── 📦 actor
+                    │       │   ├── (Class) <a href="#Gate">Gate.java</a>
+                    │       │   ├── (Class) <a href="#SuperPacmanPlayer">SuperPacmanPlayer.java</a>
+                    │       │   ├── (Class) <a href="#SuperPacmanPlayerStatusGUI">SuperPacmanPlayerStatusGUI.java</a>
+                    │       │   ├── 📦 collectables
+                    │       │   │   ├── (Class) <a href="#Bonus">Bonus.java</a>
+                    │       │   │   ├── (Class) <a href="#Cake">Cake.java</a> ..................................... [extension]
+                    │       │   │   ├── (Class) <a href="#Cherry">Cherry.java</a>
+                    │       │   │   ├── (Class) <a href="#Diamond">Diamond.java</a>
+                    │       │   │   ├── (Class) <a href="#Key">Key.java</a>
+                    │       │   │   ├── (Class) <a href="#Pellet">Pellet.java</a> ................................... [extension]
+                    │       │   │   └── (Class) <a href="#PowerPellet">PowerPellet.java</a> .............................. [extension]
+                    │       │   └── 📦 ghosts
+                    │       │       ├── (Class) <a href="#Blinky">Blinky.java</a>
+                    │       │       ├── (Class) <a href="#Clyde">Clyde.java</a> .................................... [extension]
+                    │       │       ├── (Abstract Class) <a href="#Ghost">Ghost.java</a>
+                    │       │       ├── (Class) <a href="#GhostsBehavior">GhostsBehavior.java</a> ........................... [extension]
+                    │       │       ├── (Class) <a href="#Inky">Inky.java</a>
+                    │       │       └── (Class) <a href="#Pinky">Pinky.java</a>
+                    │       ├── 📦 area
+                    │       │   ├── (Abstract Class) <a href="#SuperPacmanArea">SuperPacmanArea.java</a>
+                    │       │   ├── (Class) <a href="#SuperPacmanAreaBehavior">SuperPacmanAreaBehavior.java</a>
+                    │       │   ├── 📦 camera
+                    │       │   │   ├── (Abstract Class) <a href="#Camera">Camera.java</a> .......................... [extension]
+                    │       │   │   ├── (Class) <a href="#Fixed">Fixed.java</a> .................................... [extension]
+                    │       │   │   ├── (Class) <a href="#Follow">Follow.java</a> ................................... [extension]
+                    │       │   │   ├── (Class) <a href="#SmoothFollow">SmoothFollow.java</a> ............................. [extension]
+                    │       │   │   └── (Class) <a href="#SmoothLimited">SmoothLimited.java</a> ............................ [extension]
+                    │       │   └── 📦 levels
+                    │       │       ├── (Class) <a href="#Level0">Level0.java</a>
+                    │       │       ├── (Class) <a href="#Level1">Level1.java</a>
+                    │       │       ├── (Class) <a href="#Level2">Level2.java</a>
+                    │       │       ├── (Class) <a href="#Level3">Level3.java</a> ................................... [extension]
+                    │       │       └── (Class) <a href="#LevelEPFL">LevelEPFL.java</a> ................................ [extension]
+                    │       ├── 📦 globalenums
+                    │       │   ├── (Enum) <a href="#SuperPacmanDepth">SuperPacmanDepth.java</a> .............................. [extension]
+                    │       │   ├── (Enum) <a href="#SuperPacmanDifficulty">SuperPacmanDifficulty.java</a> ......................... [extension]
+                    │       │   └── (Enum) <a href="#SuperPacmanSound">SuperPacmanSound.java</a> .............................. [extension]
+                    │       ├── 📦 graphics
+                    │       │   ├── (Class) <a href="#Arcade">Arcade.java</a> ....................................... [extension]
+                    │       │   ├── (Class) <a href="#Glow">Glow.java</a> ......................................... [extension]
+                    │       │   └── (Class) <a href="#ScreenFade">ScreenFade.java</a> ................................... [extension]
+                    │       ├── 📦 handler
+                    │       │   └── (Interface) <a href="#SuperPacmanInteractionVisitor">SuperPacmanInteractionVisitor.java</a>
+                    │       ├── 📦 leaderboard
+                    │       │   ├── (Class) <a href="#GameScore">GameScore.java</a> .................................... [extension]
+                    │       │   └── (Class) <a href="#LeaderboardGameScores">LeaderboardGameScores.java</a> ........................ [extension]
+                    │       └── 📦 menus
+                    │           ├── (Abstract Class) <a href="#Menu">Menu.java</a> ................................ [extension]
+                    │           ├── (Final Class) <a href="#MenuStateManager">MenuStateManager.java</a> ....................... [extension]
+                    │           ├── (Enum) <a href="#Option">Option.java</a> ........................................ [extension]
+                    │           ├── (Enum) <a href="#SubOption">SubOption.java</a> ..................................... [extension]
+                    │           └── 📦 pages
+                    │               ├── (Class) <a href="#Credits">Credits.java</a> .................................. [extension]
+                    │               ├── (Class) <a href="#GameOver">GameOver.java</a> ................................. [extension]
+                    │               ├── (Class) <a href="#Help">Help.java</a> ..................................... [extension]
+                    │               ├── (Class) <a href="#HelpGhosts">HelpGhosts.java</a> ............................... [extension]
+                    │               ├── (Class) <a href="#HelpScore">HelpScore.java</a> ................................ [extension]
+                    │               ├── (Class) <a href="#Leaderboard">Leaderboard.java</a> .............................. [extension]
+                    │               ├── (Class) <a href="#MainMenu">MainMenu.java</a> ................................. [extension]
+                    │               ├── (Class) <a href="#Options">Options.java</a> .................................. [extension]
+                    │               ├── (Class) <a href="#Pause">Pause.java</a> .................................... [extension]
+                    │               ├── (Class) <a href="#Play">Play.java</a> ..................................... [extension]
+                    │               └── (Class) <a href="#Quit">Quit.java</a> ..................................... [extension]
+                    ├── 📦 io
+                    │   └── (Class) <a href="#Serialization">Serialization.java</a> ........................................ [extension]
+                    └── 📦 math
+                        └── 📦 transitions
+                            ├── (Class) <a href="#EaseInOutCubic">EaseInOutCubic.java</a> ................................... [extension]
+                            ├── (Class) <a href="#EaseOutCirc">EaseOutCirc.java</a> ...................................... [extension]
+                            ├── (Class) <a href="#Linear">Linear.java</a> ........................................... [extension]
+                            └── (Abstract Class) <a href="#Transition">Transition.java</a> .............................. [extension]
 </pre>
 
 
@@ -299,7 +301,7 @@
 <a id="extensions"></a>
 ### 2.2 Extensions
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman
      These classes below are more general and apply to the whole game. This explains their 
      current location.
 
@@ -312,7 +314,7 @@
 > Allows to display the FPS and Debug Mode text.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/collectables
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/actor/collectables
      We decided to create this package that would group all actors which are collectables.
      
 <a id="Cake"></a>
@@ -328,7 +330,7 @@
 > Acts the same as a "Bonus". Can be collected by the player to set ghosts frightened. Added glow effect.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/actor/ghosts
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/actor/ghosts
      Similarly to collectables, this package groups all actors which are ghosts.
 
 <a id="Clyde"></a>
@@ -340,7 +342,7 @@
 > This class contains all the ghosts present in a level. It can update all their states at the same time. Also, it allows to control the difficulty of the ghosts.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/area/camera
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/area/camera
      Because the camera is specific to every area, it makes sense to add it to a /camera 
      package in /area.
      
@@ -365,7 +367,7 @@
 > Defines a [SmoothFollow.java](#SmoothFollow) camera but with edge boundaries given in the constructor.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/area/levels
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/area/levels
      Levels define an area, therefore the added levels also define an area.
 
 <a id="Level3"></a>
@@ -377,7 +379,7 @@
 > Added an easter egg: an EPFL themed level. Available through level0 and after completing it, the player moves to Level1.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/globalenums
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/globalenums
      These enums are placed in this package to locate gobal parameter more easily.
 
 <a id="SuperPacmanDepth"></a>
@@ -393,7 +395,7 @@
 > Represents the sound for the SuperPacman game.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/graphics
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/graphics
      For graphics specific to the game, nothing existed, so we created this new package.
 
 <a id="Arcade"></a>
@@ -409,7 +411,7 @@
 > Allows to draw a black overlay covering the whole screen. It has been eased-in and out with [Transition.java](#Transition).
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/leaderboard
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/leaderboard
      Both these classes are linked to a leaderboard, have them together strengthens the 
      structure of the project.
 
@@ -422,7 +424,7 @@
 > Contains a List with all of the [GameScore.java](#GameScore). Is used to display it's content on the leaderboard.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/menus
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/menus
      In order to better organise the menu, general classes and enums related to the menu 
      are placed in /menus and all the menu pages are located in /menus/pages.
 
@@ -443,7 +445,7 @@
 > Contains all the sub-options that an [Option.java](#Option) can contain.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/game/superpacman/menus/pages
+#### 📦 /java/ch/epfl/cs107/play/game/superpacman/menus/pages
      Here are all the different menu pages
 <a id="Credits"></a>
 > **(Class) [Credits.java](java/ch/epfl/cs107/play/game/superpacman/menus/pages/Credits.java)** - extends [Menu.java](#Menu)  
@@ -490,14 +492,14 @@
 > Defines and draws the play page. In this case, the quit page also draws nothing and contains no options. It also represents the state of the game.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/io
+#### 📦 /java/ch/epfl/cs107/play/io
      The location of this class makes sense here because of its utility and function.
 <a id="Serialization"></a>
 > **(Class) [Serialization.java](java/ch/epfl/cs107/play/io/Serialization.java)** - extends [Transition.java](#Transition)  
 > Containing static methods, this utility class allows to serialize and deserialize objects.
 ---
 
-#### 📦 java/ch/epfl/cs107/play/math/transitions
+#### 📦 /java/ch/epfl/cs107/play/math/transitions
      The location of this class makes sense here because of its utility and function.
      Transitons are mathematical equations.
 <a id="EaseInOutCubic"></a>
