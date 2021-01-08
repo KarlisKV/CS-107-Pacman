@@ -3,56 +3,79 @@
 # credits : https://github.com/fearside/ProgressBar/ - modified
 function update_progress_bar() {
   # compute the parameters
-  let _progress=(${1} * 100 / 100 * 100)/100
-  let _done=(${_progress} * 2)/10
-  let _left=20-$_done
+  let _size=$1
+  let _expected_size=$2
+  let _progress=(${_size} * 100)/${_expected_size}
+  let _done=${_progress}*2
+  let _left=(200-${_done})/4
 
-  _fill=$(printf "%${_done}s")
   _empty=$(printf "%${_left}s")
 
   # printf progress bar
-  printf "Progress: [${_fill// /#}${_empty// /-}] ${_progress}%% \r"
+  bar=""
+
+  let to_fill=_done
+  for ((i = 0 ; i <  to_fill; ++i)); do
+    if [[ $(( i % 4 )) == 0 ]]; then
+      bar+="▎"
+    elif [[ $(( i % 4 )) == 1 ]]; then
+      bar="${bar::-1}▌"
+    elif [[ $(( i % 4 )) == 2 ]]; then
+      bar="${bar::-1}▊"
+    elif [[ $(( i % 4 )) == 3 ]]; then
+      bar="${bar::-1}█"
+    fi
+  done
+
+
+  echo -ne "                                                                      \r"
+  printf "│${bar}${_empty// /░} ${_progress}%% │ ${_size}/${_expected_size}Kb         \r"
 }
 
 declare -i progress=0
 
 function wait_for_process() {
   local _pid=$1
-  local _speed=$2
   progress=0
-  update_progress_bar progress
+  update_progress_bar progress $2
 
   while kill -0 $_pid >/dev/null 2>&1; do
-    if ! ((progress % $_speed)); then
-      # random sleep time
-      sleep $(python -c "import random;print random.uniform(0.0005, 0.005)")
+    if [ -d $3 ]; then
+      SIZE=$(du -d 0 $3 | cut -f1)
+      progress=SIZE
     fi
-    # prevent overflow
-    if [ $progress -lt 100 ]; then
-      progress+=1
-    fi
-    update_progress_bar progress
+    update_progress_bar progress $2
   done
 
   if [ $progress -ne 0 ]; then
-    update_progress_bar 100
+    update_progress_bar $2 $2
   fi
 }
 
+# -------------------------------------------- MAIN --------------------------------------------
+
+# delete bin dir
+if [ -d "./bin" ]; then
+  rm -r ./bin
+fi
+# create bin dir
+mkdir bin
+
 # Compile all java files
+readonly EXPECTED_BIN_SIZE=2320
 echo -ne "Compiling files to /bin...\n"
 javac -encoding utf8 $(find . -name "*.java") -d bin &
 BACK_PID=$!
 # wait process to finish
-wait_for_process $BACK_PID 5
+wait_for_process $BACK_PID $EXPECTED_BIN_SIZE "./bin"
 
 if [ -d "./bin" -a $progress -ne 0 ]; then
-  echo -ne "Copying ressources to /bin...                   \n"
+  echo -ne "Copying ressources to /bin...                                                                       \n"
   # Copy res/ folder contents to bin/
-  cp -a res/. bin/ &
+  cp -a res/. bin/
   BACK_PID=$!
   # wait process to finish
-  wait_for_process $BACK_PID 25
+  wait_for_process $BACK_PID 9300 "./bin"
 
   echo -ne "Done!                                             \n\n"
 
